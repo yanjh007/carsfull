@@ -1,0 +1,1 @@
+{"R":"OK","server_time":"<?= $server_time ?>","session":"<?= $session ?>"}
