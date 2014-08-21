@@ -1,6 +1,5 @@
 <?php
 class Clients extends CI_Controller {
-
   public function __construct()
   {
     parent::__construct();
@@ -9,7 +8,7 @@ class Clients extends CI_Controller {
   }
 
   public function index(){
-	$this->load->helper('form');
+	$this->load->helper(array('form','zmform'));
 	
 	if ($this->input->get("search")) {
 	  $keyword=$this->input->get("search");
@@ -38,7 +37,7 @@ class Clients extends CI_Controller {
 	  	$this->client->remove($cid);
 		redirect('clients'); 		  
 	} else if ($this->input->get("method") === "edit") {
-	  $data['client'] = $this->client->get_client($cid);
+	  $data['client'] = $this->client->get_one($cid);
 	  if (empty($data['client'])) show_404();
 
 	  $this->load->helper('form');
@@ -64,10 +63,10 @@ class Clients extends CI_Controller {
   }
 
   public function edit($cid) {	
-	  $data['client'] = $this->client->get_client($cid);
+	  $data['client'] = $this->client->get_one($cid);
 	  if (empty($data['client'])) show_404();
 
-	  $this->load->helper('form');
+	  $this->load->helper(array('form','zmform'));
 	
 	  $this->load->view('_common/header');
 	  show_nav(11);
@@ -91,6 +90,4 @@ class Clients extends CI_Controller {
 	}
 	
   }  
-
-  
 }

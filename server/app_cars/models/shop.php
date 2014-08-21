@@ -1,6 +1,7 @@
 <?php
 class Shop extends CI_Model {
-  const SQLQUERY = 'SELECT id,scode,name,address,contact FROM shops ';
+  const SQLQUERY  = 'SELECT id,scode,name,address,contact FROM shops ';
+  const TABLENAME = 'shops';
   
   public function __construct() {
     $this->load->database();
@@ -24,39 +25,33 @@ class Shop extends CI_Model {
     return $query->row_array();
   }
   
-  public function save($shop) {
-	$data = array(
-			'scode'   => $shop["scode"],
-			'name'    => $shop["name"],
-			'contact' => $shop["contact"],
-			'address' => $shop["address"],
-			 );
+  public function save($item) {
+    $data = array(
+		  'scode'   => $item["scode"],
+		  'name'    => $item["name"],
+		  'contact' => $item["contact"],
+		  'address' => $item["address"],
+		   );
 
-	if (isset($shop["shop_id"]) ) { // insert
-        $this->db->where('id', $shop["shop_id"]);
-        $this->db->update('shops', $data); 
-	} else {
-        $this->db->insert('shops', $data); 
-	}
+    if (isset($item["item_id"]) ) { // insert
+      $this->db->where('id', $item["item_id"]);
+      $this->db->update(self::TABLENAME, $data); 
+    } else {
+      $this->db->insert(self::TABLENAME, $data); 
+    }
     return TRUE;
   }
   
-  public function edit($shop_id) {
-    $this->db->where('id', $shop_id);
-    $this->db->delete('shops'); 
-    return TRUE;
-  }
-  
-  public function remove($shop_id) {
-    $this->db->where('id', $shop_id);
-    $this->db->delete('shops'); 
+  public function remove($item_id) {
+    $this->db->where('id', $item_id);
+    $this->db->delete(self::TABLENAME); 
     return TRUE;
   }
   
   // 选择用列表
   public function select_list() {
-	$sql="select id,scode,name from shops order by scode";
-	$query = $this->db->query($sql);
+    $sql="select id,scode,name from shops order by scode";
+    $query = $this->db->query($sql);
     return $query->result_array();
   }
   

@@ -13,6 +13,16 @@
  * CDN'ized content.
  */
 
+function zm_form_open($path,$option=array("role"=>"form"))
+{
+   echo form_open($path,$option);
+}
+
+function zm_form_hidden($name,$value)
+{
+   echo form_hidden($name, $value);
+}
+ 
 function zm_form_select($ftype,$title,$name,$list,$select="")
 {
    $CI=&get_instance();
@@ -35,7 +45,18 @@ function zm_form_radio($ftype,$title,$name,$list,$select="")
    $CI->load->view('_form/radio_'.$ftype,$form_data);   
 }
 
-function zm_form_input($ftype,$title,$name,$value)
+function zm_form_check($title,$name,$checked="")
+{
+   $CI=&get_instance();
+   $form_data["title"]    = $title;
+   $form_data["name"]     = $name;
+   $form_data["checked"]   = $checked;
+
+   $CI->load->view('_form/check_0',$form_data);   
+}
+
+
+function zm_form_input($ftype,$title,$name,$value="")
 {  
    $CI=&get_instance();
    $form_data["title"] = $title;
@@ -45,7 +66,7 @@ function zm_form_input($ftype,$title,$name,$value)
    $CI->load->view('_form/input_'.$ftype,$form_data);   
 }
 
-function zm_form_textarea($ftype,$title,$name,$value)
+function zm_form_textarea($ftype,$title,$name,$value="")
 {   
    $CI=&get_instance();
    $form_data["title"] = $title;

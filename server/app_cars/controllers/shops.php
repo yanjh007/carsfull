@@ -9,7 +9,7 @@ class Shops extends CI_Controller {
   }
 
   public function index(){
-	$this->load->helper('form');
+	$this->load->helper(array('form','zmform'));
 	
 	if ($this->input->get("search")) {
 	  $keyword=$this->input->get("search");
@@ -71,7 +71,7 @@ class Shops extends CI_Controller {
 	  $data['shop'] = $this->shop->get_shop($sid);
 	  if (empty($data['shop'])) show_404();
 
-	  $this->load->helper('form');
+	  $this->load->helper(array('form','zmform'));
 	
 	  $this->load->view('_common/header');
 	  show_nav(11);

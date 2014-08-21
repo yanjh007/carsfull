@@ -6,55 +6,20 @@
         <!-- Default panel contents -->
         <div class="panel-heading">编辑店铺</div>
         <div class="panel-body">
-            <?= form_open('shops/save',array('class' => 'form-horizontal', 'role' => 'form')); ?>
-            <?= form_hidden('shop_id', $shop["id"]); ?>
-            <div class="form-group">
-              <label for="inputPassword3" class="col-sm-1 control-label">编 码</label>
-              <div class="col-sm-6">
-                <?= form_input(array('name' => 'scode',
-                                    'id'    => 'scode',
-                                    'class' => 'form-control',
-                                    'value' =>  $shop["scode"],
-                                        )); ?>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="inputEmail3" class="col-sm-1 control-label">名 称</label>
-              <div class="col-sm-6">
-                <?= form_input(array('name' => 'name',
-                                    'id'    => 'username',
-                                    'class' => 'form-control',
-                                    'value' => $shop["name"] ,
-                                        )); ?>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="inputPassword3" class="col-sm-1 control-label">联系方式</label>
-              <div class="col-sm-6">
-                <?= form_input(array('name'=> 'contact',
-                                   'id'    => 'contact',
-                                   'class' => 'form-control',
-                                   'value' =>  $shop["contact"] ,
-                                        )); ?>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="inputPassword3" class="col-sm-1 control-label">地 址</label>
-              <div class="col-sm-6">
-                <?= form_input(array('name'=> 'address',
-                                      'id' => 'address',
-                                   'class' => 'form-control',
-                                   'value' =>  $shop["address"] ,
-                                    'rows' =>  "3",
-                                        )); ?>
-              </div>
-            </div>
+            <?php
+                echo form_open('shops/save',array('class' => 'form-horizontal', 'role' => 'form')); 
+                echo form_hidden('item_id', $shop["id"]);
+                zm_form_input(0,"编 码","login",  $shop["scode"]);
+                zm_form_input(0,"名 称","name",   $shop["name"]);
+                zm_form_input(0,"联系方式","contact",  $shop["contact"]);
+                zm_form_textarea(0,"地 址","address",  $shop["address"]);
+            ?>
             
             <div class="form-group">
               <div class="col-sm-offset-1 col-sm-6">
                 <button type="submit" class="btn btn-primary">保 存</button>&nbsp&nbsp&nbsp
                 <button class="btn btn-danger">删 除</button>&nbsp&nbsp&nbsp
-                <button class="btn btn-default" type="button" id="btn_back" onclick="javascript:history.back()">返 回</button>
+                <?php zm_btn_back("'shops/'") ?>
               </div>
             </div>
           </form>

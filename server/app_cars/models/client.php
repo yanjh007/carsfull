@@ -1,11 +1,13 @@
 <?php
 class Client extends CI_Model {
+  const SQLQUERY = "SELECT id,name,mobile,wechat,address FROM clients";
+  
   public function __construct() {
     $this->load->database();
   }
 
   public function search($keyword = FALSE) {
-    $sql="SELECT id,name,mobile,wechat FROM clients" ;
+    $sql= self::SQLQUERY ;
     if ($keyword) {
       $sql=$sql." where name like '%".$keyword."%' or mobile like '%".$keyword."%' ";
     }
@@ -16,9 +18,8 @@ class Client extends CI_Model {
     return $query->result_array();
   }
 
-  public function get_client($cid){
-    $sql="SELECT id,name,mobile,wechat FROM clients where id=".$cid ;
-    $query = $this->db->query($sql);
+  public function get_one($id){
+    $query = $this->db->query(self::SQLQUERY." where id=?",$id);
     return $query->row_array();
   }
   
@@ -43,13 +44,11 @@ class Client extends CI_Model {
     return TRUE;
   }
   
-  public function remove($client_id) {
-    $this->db->where('id', $client_id);
+  public function remove($item_id) {
+    $this->db->where('id', $item_id);
     $this->db->delete('clients'); 
     return TRUE;
   }
-
-
   
   function get_passwd_by_login($login) {
     $query = $this->db->query("SELECT passwd FROM clients where login ='".$login."' limit 1");

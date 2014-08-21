@@ -66,3 +66,22 @@ function is_active($input_params = "")
 
    return true;
 }
+
+function nav_menu_item($title,$path)
+{
+   if ($title=="") {
+      echo "<li class='divider'></li>";
+   } else {
+      echo "<li>".anchor(base_url($path),$title)."</li>";  
+   }
+}
+
+function link_to_edit($path)
+{
+   echo anchor($path,"编辑");
+}
+
+function link_to_jdelete($onclick)
+{
+   echo "<a href='#' onclick='".$onclick."'>删除</a>";
+}
