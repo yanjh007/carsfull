@@ -84,7 +84,14 @@ dev journal
 - appointment module begin, 
 - user module updated, user modify, shop select, shop table join
 - form improve, select, radio template
-- 
+-
+
+# 20140821
+- full project manager, include server side, client(iOS) init project
+- document for structure and technical path
+- cars and carmodels improve-
+- carmodels module
+- iOS client app begin, base page: menu, home, login 
 
 
 
