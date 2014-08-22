@@ -21,16 +21,16 @@
   
 				  <?php foreach ($tasktypes as $item): ?>
 					<tr>
-					  <td><?= $item["id"]; ?></td>
-					  <td><?= $item['tcode']; ?></td>
-					  <td><?= anchor("tasktypes/".$item["id"],$item["name"],""); ?></td>
-					  <td><?= $item['duration1']; ?></td>
-					  <td><?= $item['duration2']; ?></td>
-					  <td><?= $item['tasktime']; ?></td>
-					  <td><?= $item['taskprice']; ?></td>
+					  <td><?php echo $item["id"]; ?></td>
+					  <td><?php echo $item['tcode']; ?></td>
+					  <td><?php echo anchor("tasktypes/".$item["id"],$item["name"],""); ?></td>
+					  <td><?php echo $item['duration1']; ?></td>
+					  <td><?php echo $item['duration2']; ?></td>
+					  <td><?php echo $item['tasktime']; ?></td>
+					  <td><?php echo $item['taskprice']; ?></td>
 					  <td align=right>
-						  <?= anchor("tasktypes/".$item["id"]."/edit","编辑"); ?> |
-						  <a href="#" onclick="confirm_del(<?= $item["id"].",'".$item["name"]."'" ?>);">删除</a>
+					    <?php link_to_edit("tasktypes/".$item["id"]."/edit"); ?> |
+					    <?php link_to_jdelete("confirm_del(".$item["id"].",\"".$item["name"]."\")"); ?>
 					  </td>
 					</tr>
 				  <?php endforeach ?>
@@ -44,15 +44,15 @@
 				<!-- Default panel contents -->
 				<div class="panel-heading">增加任务类型</div>				
 				<div class="panel-body">				
-					<?= form_open('tasktypes/save',array("role"=>"form")); ?>					
 					<?php
-						zm_form_input(1,"编 码","tcode","");
-						zm_form_input(1,"名 称","name","");
-						zm_form_input(1,"时间间隔(天)","duration1","30");
-						zm_form_input(1,"里程间隔(公里)","duration2","5000");
-						zm_form_input(1,"基准工时(分钟)","tasktime","45");
-						zm_form_input(1,"基准费用(元)","taskprice","100");
-						zm_btn_submit("增 加");
+					    zm_form_open("tasktypes/save");
+					    zm_form_input(1,"编 码","tcode","");
+					    zm_form_input(1,"名 称","name","");
+					    zm_form_input(1,"时间间隔(天)","duration1","30");
+					    zm_form_input(1,"里程间隔(公里)","duration2","5000");
+					    zm_form_input(1,"基准工时(分钟)","tasktime","45");
+					    zm_form_input(1,"基准费用(元)","taskprice","100");
+					    zm_btn_submit("增 加");
 					?>
 					</form>
 				</div>

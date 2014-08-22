@@ -20,14 +20,14 @@
   
 				  <?php foreach ($carmodels as $item): ?>
 					<tr>
-					  <td><?= $item["id"]; ?></td>
-					  <td><?= $item['manufacturer']."-".$item['brand']; ?></td>
-					  <td><?= anchor("carmodels/".$item["id"],$item["mcode"],""); ?></td>
-					  <td><?= $item['mname']; ?></td>
-					  <td><?= $item['ctype']; ?></td>
+					  <td><?php echo $item["id"]; ?></td>
+					  <td><?php echo $item['manufacturer']."-".$item['brand']; ?></td>
+					  <td><?php echo anchor("carmodels/".$item["id"],$item["mcode"],""); ?></td>
+					  <td><?php echo $item['mname']; ?></td>
+					  <td><?php echo $item['ctype']; ?></td>
 					  <td align=right>
-						  <?= anchor("carmodels/".$item["id"]."/edit","编辑"); ?> |
-						  <a href="#" onclick="confirm_del(<?= $item["id"].",'".$item["mcode"]."'" ?>);">删除</a>
+					    <?php link_to_edit("carmodels/".$item["id"]."/edit"); ?> |
+					    <?php link_to_jdelete("confirm_del(".$item["id"].",\"".$item["mname"]."\")"); ?>
 					  </td>
 					</tr>
 				  <?php endforeach ?>
@@ -41,14 +41,14 @@
 				<!-- Default panel contents -->
 				<div class="panel-heading">增加型号</div>				
 				<div class="panel-body">				
-					<?= form_open('carmodels/save',array("role"=>"form")); ?>					
 					<?php
-						zm_form_input(1,"型 号","mcode","");
-						zm_form_input(1,"名 称","mname","");
-						zm_form_input(1,"厂商","manufacturer","");
-						zm_form_input(1,"品牌","brand","");
-						zm_form_input(1,"类型","ctype","");
-						zm_btn_submit("增 加");
+					    zm_form_open('carmodels/save');
+					    zm_form_input(1,"型 号","mcode","");
+					    zm_form_input(1,"名 称","mname","");
+					    zm_form_input(1,"厂商","manufacturer","");
+					    zm_form_input(1,"品牌","brand","");
+					    zm_form_input(1,"类型","ctype","");
+					    zm_btn_submit("增 加");
 					?>
 					</form>
 				</div>

@@ -29,13 +29,13 @@
 
 				<?php foreach ($cars as $item): ?>
 		          <tr>
-		            <td><?= $item["id"]; ?></td>
-		            <td><?= anchor("cars/".$item["id"],$item["carnumber"],""); ?></td>
-		            <td><?= $item['manufacturer']."-".$item['brand']; ?></td>
-		            <td><?= $item['brand']; ?></td>
+		            <td><?php echo $item["id"]; ?></td>
+		            <td><?php echo anchor("cars/".$item["id"],$item["carnumber"],""); ?></td>
+		            <td><?php echo $item['manufacturer']."-".$item['brand']; ?></td>
+		            <td><?php echo $item['brand']; ?></td>
 		            <td align=right>
-		            	<?= anchor("cars/".$item["id"]."?method=edit","编辑"); ?> |
-						<a href="#" onclick="confirm_del(<?= $item["id"].",'".$item["carnumber"]."'" ?>);">删除</a>
+				<?php link_to_edit("cars/".$item["id"]."/edit"); ?> |
+				<?php link_to_jdelete("confirm_del(".$item["id"].",\"".$item["carnumber"]."\")"); ?>
 		            </td>
 		          </tr>
 				<?php endforeach ?>
@@ -48,31 +48,15 @@
 		    <div class="panel panel-default">
 				<!-- Default panel contents -->
 				<div class="panel-heading">增加车辆</div>				
-				<div class="panel-body">				
-					<?= form_open('cars/save',array("role"=>"form")); ?>
-					<div class="form-group">
-					  <label for="exampleInputEmail1">牌照号码</label>
-					  <?= form_input(array( 'name'  => 'carnumber',
-											'id'    => 'carnumber',
-											'class' => 'form-control',
-												)); ?>
-					</div>
-					<div class="form-group">
-					  <label for="exampleInputPassword1">制造厂商</label>
-					  <?= form_input(array( 'name'  => 'manufacturer',
-											'id'    => 'manufacturer',
-											'class' => 'form-control'
-											)); ?>
-					</div>
-					<div class="form-group">
-					  <label for="exampleInputPassword1">品牌系列</label>
-					  <?= form_input(array( 'name'  => 'brand',
-											'id'    => 'brand',
-											'class' => 'form-control'
-											)); ?>
-					</div>
-					<button type="submit" class="btn btn-primary">增 加</button>
-					</form>
+				<div class="panel-body">
+				    <?php
+					zm_form_open('cars/save');
+					zm_form_input(1,"牌照号码","carnumber");
+					zm_form_textarea(1,"制造厂商","manufacturer");
+					zm_form_textarea(1,"品牌系列","brand");
+					zm_btn_submit("增 加");
+				    ?>
+				    </form>
 				</div>
 		    </div>
 		</div>

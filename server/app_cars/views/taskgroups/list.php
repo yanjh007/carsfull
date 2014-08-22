@@ -30,20 +30,20 @@
 		          <tr>
 		            <td><?= $item["id"]; ?></td>
 		            <td>
-					<?= anchor("taskgroups/".$item["id"],$item["name"]); ?>
-					</td>
+				<?php echo anchor("taskgroups/".$item["id"],$item["name"]); ?>
+			    </td>
 		            <td><ul>
-						<?php
-						foreach ($tasks as $item2) {
-							if ($item2["lid"]==$item["id"]) {
-								echo "<li>".$item2["rname"]."</li>";
-							}
-						}
-						?>
-					</ul></td>
+				<?php
+				foreach ($tasks as $item2) {
+					if ($item2["lid"]==$item["id"]) {
+						echo "<li>".$item2["rname"]."</li>";
+					}
+				}
+				?>
+			    </ul></td>
 		            <td align=right>
-		            	<?= anchor("taskgroups/".$item["id"]."/edit","编辑"); ?> |
-						<a href="#" onclick="confirm_del(<?= $item["id"].",'".$item["name"]."'" ?>);">删除</a>
+				<?php link_to_edit("taskgroups/".$item["id"]."/edit"); ?> |
+				<?php link_to_jdelete("confirm_del(".$item["id"].",\"".$item["name"]."\")"); ?>
 		            </td>
 		          </tr>
 				<?php endforeach ?>
@@ -57,13 +57,13 @@
 				<!-- Default panel contents -->
 				<div class="panel-heading">增加任务组</div>				
 				<div class="panel-body">				
-					<?php
-						echo form_open('taskgroups/save',array("role"=>"form"));
-						zm_form_input(1,"名 称","name","");
-						zm_form_textarea(1,"描述信息","descp","");
-						zm_btn_submit("增 加");
-					?>
-					</form>
+				    <?php
+					zm_form_open('taskgroups/save');
+					zm_form_input(1,"名 称","name","");
+					zm_form_textarea(1,"描述信息","descp","");
+					zm_btn_submit("增 加");
+				    ?>
+				    </form>
 				</div>
 		    </div>
 		</div>

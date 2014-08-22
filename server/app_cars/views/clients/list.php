@@ -27,18 +27,18 @@
 
 		        <tbody>
 
-				<?php foreach ($clients as $item): ?>
+			    <?php foreach ($clients as $item): ?>
 		          <tr>
-		            <td><?= $item["id"]; ?></td>
-		            <td><?= anchor("clients/".$item["id"],$item["name"],""); ?></td>
-		            <td><?= $item['mobile']; ?></td>
-		            <td><?= $item['wechat']; ?></td>
+		            <td><?php echo $item["id"]; ?></td>
+		            <td><?php echo anchor("clients/".$item["id"],$item["name"],""); ?></td>
+		            <td><?php echo $item['mobile']; ?></td>
+		            <td><?php echo $item['wechat']; ?></td>
 		            <td align=right>
-		            	<?= anchor("clients/".$item["id"]."/edit","编辑"); ?> |
-						<a href="#" onclick="confirm_del(<?= $item["id"].",'".$item["name"]."'" ?>);">删除</a>
+				<?php link_to_edit("clients/".$item["id"]."/edit"); ?> |
+				<?php link_to_jdelete("confirm_del(".$item["id"].",\"".$item["name"]."\")"); ?>
 		            </td>
 		          </tr>
-				<?php endforeach ?>
+			    <?php endforeach ?>
 		        </tbody>
 		      </table>
 		    </div>    
@@ -48,36 +48,16 @@
 		    <div class="panel panel-default">
 				<!-- Default panel contents -->
 				<div class="panel-heading">增加客户</div>				
-				<div class="panel-body">				
-					<?= form_open('clients/save',array("role"=>"form")); ?>
-					<div class="form-group">
-					  <label for="exampleInputEmail1">名 称</label>
-					  <?= form_input(array( 'name'  => 'name',
-											'id'    => 'name',
-											'class' => 'form-control',
-											)); ?>
-					</div>
-					<div class="form-group">
-					  <label for="exampleInputPassword1">手 机</label>
-					  <?= form_input(array('name'  => 'mobile',
-												'id'    => 'mobile',
-												'class' => 'form-control'
-												)); ?>
-					</div>
-					<div class="form-group">
-					  <label for="exampleInputPassword1">IM方式(微信或QQ)</label>
-					  <?= form_input(array('name'  => 'im',
-												'id'    => 'im',
-												'class' => 'form-control'
-												)); ?>
-					</div>
-					<div class="checkbox">
-					  <label>
-						<input type="checkbox"> VIP
-					  </label>
-					</div>
-					<button type="submit" class="btn btn-primary">增 加</button>
-					</form>
+				<div class="panel-body">
+				    <?php
+					zm_form_open('clients/save');
+					zm_form_input(1,"名 称","name");
+					zm_form_input(1,"手 机","mobile");
+					zm_form_input(1,"IM方式(微信或QQ)","im");
+					zm_form_check("VIP","role");
+					zm_btn_submit("增 加");
+				    ?>
+				    </form>
 				</div>
 		    </div>
 		</div>

@@ -27,20 +27,20 @@
 
 		        <tbody>
 
-				<?php foreach ($users as $item): ?>
+			<?php foreach ($users as $item): ?>
 		          <tr>
-		            <td><?= $item["id"]; ?></td>
-		            <td><?= $item['login']; ?></td>
-		            <td><?= anchor("user/".$item["id"],$item["name"],""); ?></td>
-		            <td><?= $item['mobile']; ?></td>
-		            <td><?= $rolelist[$item['role']]; ?></td>
-		            <td><?= $item['shopname']; ?></td>
+		            <td><?php echo  $item["id"]; ?></td>
+		            <td><?php echo  $item['login']; ?></td>
+		            <td><?php echo  anchor("user/".$item["id"],$item["name"],""); ?></td>
+		            <td><?php echo  $item['mobile']; ?></td>
+		            <td><?php echo  $rolelist[$item['role']]; ?></td>
+		            <td><?php echo  $item['shopname']; ?></td>
 		            <td align=right>
-		            	<?= anchor("users/".$item["id"]."/edit","编辑"); ?> |
-						<a href="#" onclick="confirm_del(<?= $item["id"].",'".$item["name"]."'" ?>);">删除</a>
+		            	<?php link_to_edit("users/".$item["id"]."/edit"); ?> |
+				<?php link_to_jdelete("confirm_del(".$item["id"].",\"".$item["name"]."\")"); ?>
 		            </td>
 		          </tr>
-				<?php endforeach ?>
+			<?php endforeach ?>
 		        </tbody>
 		      </table>
 		    </div>    
@@ -51,34 +51,15 @@
 				<!-- Default panel contents -->
 				<div class="panel-heading">增加用户</div>				
 				<div class="panel-body">				
-					<?= form_open('users/save',array("role"=>"form")); ?>
-					<div class="form-group">
-					  <label for="exampleInputEmail1">显示名称</label>
-					  <?= form_input(array( 'name'  => 'name',
-											'id'    => 'name',
-											'class' => 'form-control',
-											)); ?>
-					</div>
-					<div class="form-group">
-					  <label for="exampleInputPassword1">登录名称</label>
-					  <?= form_input(array('name'  =>'',
-											'id'   => 'mobile',
-										   'class' => 'form-control'
-											)); ?>
-					</div>
-					<div class="form-group">
-					  <label for="exampleInputPassword1">密码</label>
-					  <?= form_input(array('name'  => 'im',
-												'id'    => 'im',
-												'class' => 'form-control'
-												)); ?>
-					</div>
-					<div class="checkbox">
-					  <label>
-						<input type="checkbox">管理员
-					  </label>
-					</div>
-					<button type="submit" class="btn btn-primary">增 加</button>
+					<?php
+					    zm_form_open("users/save");
+					    zm_form_input(1,"登录名称","login");
+					    zm_form_input(1,"显示名称","name");
+					    zm_form_input(1,"手 机","mobile");
+					    zm_form_input(1,"密 码","passwd");
+					    zm_form_check("管理员","role","checked");
+					    zm_btn_submit("增 加");
+					?>
 					</form>
 				</div>
 		    </div>

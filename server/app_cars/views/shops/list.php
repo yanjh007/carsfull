@@ -26,16 +26,16 @@
 
 		        <tbody>
 
-				<?php foreach ($shops as $item): ?>
+			<?php foreach ($shops as $item): ?>
 		          <tr>
-		            <td><?= $item["id"]; ?></td>
-		            <td><?= $item['scode']; ?></td>
-		            <td><?= anchor("shops/".$item["id"],$item["name"],""); ?></td>
-		            <td><?= $item['address']; ?></td>
-		            <td><?= $item['contact']; ?></td>
+		            <td><?php echo  $item["id"]; ?></td>
+		            <td><?php echo  $item['scode']; ?></td>
+		            <td><?php echo  anchor("shops/".$item["id"],$item["name"],""); ?></td>
+		            <td><?php echo  $item['address']; ?></td>
+		            <td><?php echo  $item['contact']; ?></td>
 		            <td align=right>
-		            	<?= anchor("shops/".$item["id"]."/edit","编辑"); ?> |
-						<a href="#" onclick="confirm_del(<?= $item["id"].",'".$item["name"]."'" ?>);">删除</a>
+				<?php link_to_edit("shops/".$item["id"]."/edit"); ?> |
+				<?php link_to_jdelete("confirm_del(".$item["id"].",\"".$item["name"]."\")"); ?>
 		            </td>
 		          </tr>
 				<?php endforeach ?>
@@ -48,48 +48,16 @@
 		    <div class="panel panel-default">
 				<!-- Default panel contents -->
 				<div class="panel-heading">增加店铺</div>				
-				<div class="panel-body">				
-					<?= form_open('shops/save',array("role"=>"form")); ?>
-					<div class="form-group">
-					  <label for="exampleInputPassword1">编 号</label>
-					  <?= form_input(array( 'name'  => 'scode',
-											'id'    => 'scode',
-											'class' => 'form-control'
-												)); ?>
-					<div class="form-group">
-					  <label for="exampleInputEmail1">名 称</label>
-					  <?= form_input(array( 'name'  => 'name',
-											'id'    => 'name',
-											'class' => 'form-control',
-											)); ?>
-					</div>
-					</div>
-					<div class="form-group">
-					  <label for="exampleInputPassword1">地址</label>
-					  <?= form_textarea(array( 	'name'  => 'address',
-												'id'    => 'address',
-												'rows'  => '3',
-												'cols'  => '40',
-												'class' => 'form-control',
-												)); ?>
-					</div>
-
-					<div class="form-group">
-					  <label for="exampleInputPassword1">联系方式</label>
-					  <?= form_input(array( 'name'  => 'contact',
-										    'id'    => 'contact',
-											'class' => 'form-control'
-												)); ?>
-					</div>
-
-					<div class="form-group">
-					  <label for="exampleInputPassword1">地理位置</label>
-					  <?= form_input(array( 'name'  => 'geoaddress',
-										    'id'    => 'geoaddress',
-											'class' => 'form-control'
-												)); ?>
-					</div>
-					<button type="submit" class="btn btn-primary">增 加</button>
+				<div class="panel-body">
+				    	<?php
+					    zm_form_open("shops/save");
+					    zm_form_input(1,"代 码","scode");
+					    zm_form_input(1,"名 称","name");
+					    zm_form_input(1,"联系方式","contact");
+					    zm_form_input(1,"地理位置","geoaddress");
+					    zm_form_textarea(1,"地 址","address");
+					    zm_btn_submit("增 加");
+					?>
 					</form>
 				</div>
 		    </div>

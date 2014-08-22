@@ -7,8 +7,8 @@
         <div class="panel-heading">编辑店铺</div>
         <div class="panel-body">
             <?php
-                echo form_open('tasktypes/save',array('class' => 'form-horizontal', 'role' => 'form'));
-                echo form_hidden('item_id', $tasktype["id"]);
+                zm_form_open('tasktypes/save',array('class' => 'form-horizontal', 'role' => 'form'));
+                zm_form_hidden('item_id', $tasktype["id"]);
                 zm_form_input(0,"编 码","tcode",  $tasktype["tcode"]);
                 zm_form_input(0,"名 称","name",   $tasktype["name"]);
                 zm_form_input(0,"时间间隔","duration1",  $tasktype["duration1"]);

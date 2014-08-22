@@ -23,8 +23,7 @@ function check_session()
 }
 
 function show_nav($current_tab)
-{
-   
+{   
    $CI=&get_instance();
    $user = $CI->session->userdata('logged_in'); 
    if (!$user) {

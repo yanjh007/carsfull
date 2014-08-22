@@ -19,12 +19,14 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">客户管理 <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="<?= base_url("clients") ?>">客户管理</a></li>
-            <li><a href="<?= base_url("cars") ?>">车辆管理</a></li>
-            <li><a href="<?= base_url("plans") ?>">维护计划</a></li>
-            <li class="divider"></li>
-            <li><?= anchor(base_url("appointments"),"预约管理") ?></li>
-            <li><a href="prices">报价管理</a></li>
+            <?php
+              nav_menu_item("客户管理","clients");
+              nav_menu_item("车辆管理","cars");
+              nav_menu_item("维修计划","plans");
+              nav_menu_item("","");
+              nav_menu_item("预约管理","appointments");
+              nav_menu_item("报价管理","");
+            ?>
           </ul>
         </li>
       </ul>
@@ -33,26 +35,33 @@
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">系统管理<span class="caret"></span></a>
                 <ul class="dropdown-menu" role="menu">
-                  <li><?= anchor(base_url("users"),"用户管理") ?>
-                  <li><?= anchor(base_url("shops"),"店铺管理") ?></li>
-                  <li class="divider"></li>
-                  <li><?= anchor(base_url("tasktypes"),"任务类型") ?></li>
-                  <li><?= anchor(base_url("taskgroups"),"任务组管理") ?></li>
-                  <li class="divider"></li>
-                  <li><?= anchor(base_url("carmodels"),"型号管理") ?></li>
-                  <li class="divider"></li>
-                  <li><?= anchor(base_url("dics"),"字典管理") ?></li>
-                  <li><?= anchor(base_url("syssettings"),"系统设置") ?></li>
+                <?php
+                  nav_menu_item("用户管理","users");
+                  nav_menu_item("店铺管理","shops");
+    
+                  nav_menu_item("","");
+                  nav_menu_item("任务类型","tasktypes");
+                  nav_menu_item("任务组管理","taskgroups");
+    
+                  nav_menu_item("","");
+                  nav_menu_item("型号管理","carmodels");
+    
+                  nav_menu_item("","");
+                  nav_menu_item("字典管理","dics");
+                  nav_menu_item("系统设置","syssettings");
+                ?>
                 </ul>
             </li>
          <?php } ?>
          <li class="dropdown">
              <a href="#" class="dropdown-toggle" data-toggle="dropdown">当前用户: <?php echo $username ?> <span class="caret"></span></a>
              <ul class="dropdown-menu" role="menu">
-               <li><?= anchor(base_url("usersettings"),"用户设置") ?></li>
-               <li><a href="#">通知</a></li>
-               <li class="divider"></li>
-               <li><a href="logout">注销</a></li>
+              <?php
+                  nav_menu_item("用户设置","usersettings");
+                  nav_menu_item("通知信息","notifys");
+                  nav_menu_item("","");
+                  nav_menu_item("注销","logout");
+              ?>
              </ul>
          </li>
       </ul>

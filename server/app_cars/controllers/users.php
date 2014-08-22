@@ -9,7 +9,7 @@ class Users extends CI_Controller {
   }
 
   public function index(){
-	$this->load->helper('form');
+	$this->load->helper(array('form','zmform'));
 
 	if ($this->input->get("search")) {
 	  $keyword=$this->input->get("search");
