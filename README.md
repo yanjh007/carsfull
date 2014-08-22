@@ -91,7 +91,13 @@ dev journal
 - document for structure and technical path
 - cars and carmodels improve-
 - carmodels module
-- iOS client app begin, base page: menu, home, login 
+- iOS client app begin, base page: menu, home, login
+
+# 20140822
+- iOS client network function add
+- common service interface and crypt research
+- delete button improved
+- zm_form_open and zm_form_hidden improved
 
 
 

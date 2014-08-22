@@ -11,7 +11,7 @@
  Target Server Version : 50620
  File Encoding         : utf-8
 
- Date: 08/21/2014 17:17:13 PM
+ Date: 08/22/2014 18:25:31 PM
 */
 
 SET NAMES utf8;
@@ -76,13 +76,13 @@ CREATE TABLE `carmodels` (
   `config_url` varchar(100) DEFAULT NULL,
   `edit_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `carmodels`
 -- ----------------------------
 BEGIN;
-INSERT INTO `carmodels` VALUES ('1', '蒙迪欧', '长安福特', 'B', 'CA07408', '自动经典型', null, '200612', '553', null, '4810-1800-1450-2754-1435', 'CAF488Q1', 'L6-2.0-143-185', '139087', 'FF', 'AT-4', '205-70-R18-88-H', '墨绿', 'http://www.xgo.com.cn/2650/2006/items.html', null), ('2', '雨燕', '长安铃木', 'A0', 'CA09987', '手动基本型', null, '200907', '552', null, '3765-1690-1510-2390-1040', '4A91', 'L4-1.3-67-115', '65700', 'FF', 'MT-5', '195-65-R15-88-H', '蓝', 'http://newcar.xcar.com.cn/176/2013/', null), ('3', '雅阁A', '广州本田', 'B', 'GB-74532', '自动豪华型', null, null, null, null, null, null, null, null, null, null, null, null, null, '2014-08-21 15:53:24'), ('4', 'a', 'a', 'a', 'a', 'a', null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `carmodels` VALUES ('1', '蒙迪欧', '长安福特', 'B', 'CA07408', '自动经典型', null, '200612', '553', null, '4810-1800-1450-2754-1435', 'CAF488Q1', 'L6-2.0-143-185', '139087', 'FF', 'AT-4', '205-70-R18-88-H', '墨绿', 'http://www.xgo.com.cn/2650/2006/items.html', null), ('2', '雨燕', '长安铃木', 'A0', 'CA09987', '手动基本型', null, '200907', '552', null, '3765-1690-1510-2390-1040', '4A91', 'L4-1.3-67-115', '65700', 'FF', 'MT-5', '195-65-R15-88-H', '蓝', 'http://newcar.xcar.com.cn/176/2013/', null), ('3', '雅阁A', '广州本田', 'B', 'GB-74532', '自动豪华型', null, null, null, null, null, null, null, null, null, null, null, null, null, '2014-08-21 15:53:24');
 COMMIT;
 
 -- ----------------------------
@@ -96,7 +96,7 @@ CREATE TABLE `cars` (
   `ctype` varchar(10) DEFAULT NULL,
   `modelname` varchar(20) DEFAULT NULL,
   `model` varchar(20) DEFAULT NULL,
-  `desc` varchar(128) DEFAULT NULL,
+  `descp` varchar(128) DEFAULT NULL,
   `manufacturer` varchar(20) DEFAULT NULL,
   `manudate` varchar(10) DEFAULT NULL,
   `structure` varchar(20) DEFAULT NULL,
@@ -140,7 +140,7 @@ CREATE TABLE `ci_sessions` (
 --  Records of `ci_sessions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `ci_sessions` VALUES ('d318aebea156fb9c1a7366ec7b275b48', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.8 (KHTML, like Gecko) Version/8.0 Safari/600.1.8', '1408607276', 'a:2:{s:9:\"user_data\";s:0:\"\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}');
+INSERT INTO `ci_sessions` VALUES ('3140950c5c4e4f21eed976ca3898052d', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.8 (KHTML, like Gecko) Version/8.0 Safari/600.1.8', '1408701775', ''), ('4e0f535958ae50b9aba42fceb83567c3', '192.168.0.131', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1408702198', '');
 COMMIT;
 
 -- ----------------------------
@@ -262,13 +262,13 @@ CREATE TABLE `taskgroups` (
   `name` varchar(20) DEFAULT NULL,
   `descp` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `taskgroups`
 -- ----------------------------
 BEGIN;
-INSERT INTO `taskgroups` VALUES ('1', 'A0普通日常保养', 'OK'), ('2', 'B级日常保养', '普通B级车'), ('3', 'A级日常保养', 'A级'), ('5', '美容套餐A', '精细洗车\n车标\n贴膜');
+INSERT INTO `taskgroups` VALUES ('1', 'A0普通日常保养', 'OK'), ('2', 'B级日常保养', '普通B级车'), ('3', 'A级日常保养', 'A级'), ('5', '美容套餐A', '精细洗车\n车标\n贴膜'), ('6', '底盘检修B', '底盘和悬挂系统检查，胎压和胎况检查'), ('11', '美容套餐B', '针对B级车，包括洗车，打蜡，车身检查');
 COMMIT;
 
 -- ----------------------------
@@ -280,19 +280,19 @@ CREATE TABLE `tasktypes` (
   `tcode` varchar(10) DEFAULT NULL,
   `name` varchar(20) DEFAULT NULL,
   `desc` varchar(200) DEFAULT NULL,
-  `duration1` tinyint(4) DEFAULT '0' COMMENT '按日期计算的任务间隔',
-  `duration2` smallint(6) DEFAULT '0' COMMENT '按里程计算的任务间隔',
+  `duration1` int(4) DEFAULT '0' COMMENT '按日期计算的任务间隔',
+  `duration2` int(6) DEFAULT '0' COMMENT '按里程计算的任务间隔',
   `price` int(11) DEFAULT NULL,
   `tasktime` smallint(6) DEFAULT NULL,
   `taskprice` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `tasktypes`
 -- ----------------------------
 BEGIN;
-INSERT INTO `tasktypes` VALUES ('1', 'W001', '洗车-小型', null, '15', '2000', null, '30', '20'), ('2', 'W002', '洗车-中大型', null, '20', '1000', null, '40', '30'), ('3', 'T101', '更换发动机油滤', null, '60', '6000', null, null, null), ('4', 'T201', '更换轮胎', null, '127', '32767', null, null, null), ('5', 'C001', '常规检查', null, '0', '0', null, null, null), ('6', 'C002', '高级检查', null, '0', '0', null, null, null), ('7', 'M008', '更换空气滤清器', null, '30', '5000', null, '30', '80'), ('8', 'M002', 'A0级日常保养', null, '60', '5000', null, '120', '150'), ('9', 'B003', '贴膜', null, '0', '0', null, '45', '100'), ('11', 'D2', '什么名字', null, '30', '5000', null, '45', '100'), ('12', null, '未命名', null, null, null, null, null, null), ('13', null, '未命名', null, null, null, null, null, null), ('14', null, '未命名', null, null, null, null, null, null);
+INSERT INTO `tasktypes` VALUES ('1', 'W001', '洗车-小型', null, '15', '2000', null, '30', '20'), ('2', 'W002', '洗车-中大型', null, '20', '1000', null, '40', '30'), ('3', 'T101', '更换发动机油滤', null, '60', '6000', null, null, null), ('4', 'T201', '更换轮胎', null, '127', '32767', null, null, null), ('5', 'C001', '常规检查', null, '0', '0', null, null, null), ('6', 'C002', '高级检查', null, '0', '0', null, null, null), ('7', 'M008', '更换空气滤清器', null, '30', '5000', null, '30', '80'), ('8', 'M002', 'A0级日常保养', null, '60', '5000', null, '120', '150'), ('9', 'B003', '贴膜', null, '0', '0', null, '45', '100'), ('11', 'D2', '什么名字', null, '30', '5000', null, '45', '100'), ('15', 'F003', '轮胎检查', null, '180', '15000', null, '30', '100');
 COMMIT;
 
 -- ----------------------------
