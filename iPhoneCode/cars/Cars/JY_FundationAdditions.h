@@ -69,7 +69,7 @@ static int const DELE_ACTION_PAY_FALSE   = 2103;
 static int const DELE_ACTION_PAY_RECOVER = 2104;
 
 
-@protocol ZM_STD_Delegate<NSObject>
+@protocol JY_STD_Delegate<NSObject>
 @optional
 - (int) action:(int)act withIndex:(int)index;
 - (int) action:(int)act withTag:(NSObject*)tag;
@@ -242,11 +242,6 @@ static int const DELE_ACTION_PAY_RECOVER = 2104;
 + (float) largerValue:(float) v1 and:(float)v2;
 + (float) smallerValue:(float) v1 and:(float)v2;
 
-+(UIColor*) color:(int)index;
-+(UIColor*) color:(int)index from:(int)from;
-
-+(void) setFillColor:(int)index from:(int)from;
-+(void) setStrokeColor:(int)index from:(int)from;
 
 //格式化
 +(NSString*) format:(float)value withtype:(int)ftype;

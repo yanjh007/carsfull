@@ -84,7 +84,8 @@ function zm_dlg_delete($form_data)
 
 function zm_btn_back($address)
 {
-   echo "<button class='btn btn-default' type='button' id='btn_back' onclick=javascript:document.location.href=".$address.">返 回</button>&nbsp&nbsp";   
+   $click="document.location.href='".base_url($address)."'";
+   echo "<button class='btn btn-default' type='button' id='btn_back' onclick=".$click.">返 回</button>&nbsp&nbsp";   
 }
 
 function zm_btn_submit($title,$option="")
@@ -92,9 +93,9 @@ function zm_btn_submit($title,$option="")
    echo "<button type='submit' class='btn btn-primary'>".$title."</button>&nbsp&nbsp";
 }
 
-function zm_btn_delete($title,$option="")
+function zm_btn_delete($title,$onclick,$option="")
 {
-   echo "<button type='submit' class='btn btn-danger'>".$title."</button>&nbsp&nbsp";
+   echo "<button type='button' class='btn btn-danger' onclick='".$onclick."' >".$title."</button>&nbsp&nbsp";
 }
 
 

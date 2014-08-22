@@ -43,7 +43,7 @@ class Tasktypes extends CI_Controller {
 	  $data['tasktype'] = $this->tasktype->get_one($tid);
 	  if (empty($data['tasktype'])) show_404();
 
-	  $this->load->helper('form');
+	  $this->load->helper(array('form','zmform'));
 	  $this->load->view('_common/header');
 	  show_nav(11);
 	  
@@ -63,7 +63,6 @@ class Tasktypes extends CI_Controller {
 	  $this->load->view('_common/header');
 	  show_nav(11);
 	  
-	  var_dump($data);
 	  $this->load->view('tasktypes/edit', $data);
 	  $this->load->view('_common/footer');	  
   }
@@ -80,8 +79,7 @@ class Tasktypes extends CI_Controller {
 	  redirect('tasktypes/'.$tasktypeid);
 	} else {
 	  redirect('tasktypes');
-	}
-	
+	}	
   } 
   
 }

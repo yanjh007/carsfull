@@ -7,8 +7,8 @@
         <div class="panel-heading">编辑任务组</div>
         <div class="panel-body">            
             <?php
-                echo form_open('taskgroups/save',array('class' => 'form-horizontal', 'role' => 'form'));
-                echo form_hidden('taskgroup_id', $taskgroup["id"]);
+                zm_form_open('taskgroups/save',array('class' => 'form-horizontal', 'role' => 'form'));
+                zm_form_hidden('item_id', $taskgroup["id"]);
                 zm_form_input(0,"名 称","name",$taskgroup["name"]);
                 zm_form_textarea(0,"说 明","descp",$taskgroup["descp"]);
             ?>
@@ -17,13 +17,16 @@
               <div class="col-sm-offset-1 col-sm-6">
                 <?php
                     zm_btn_submit("保 存");
-                    zm_btn_delete("删 除");
+                    zm_btn_delete("删 除","confirm_del(".$taskgroup["id"].",\"".$taskgroup["name"]."\")");
                 ?>
               </div>
             </div>
           </form>
         </div>
     </div>
+    <?php zm_dlg_delete(array("path"    => base_url("taskgroups/"),
+                          "title1"  => "确认删除任务组信息",
+                          "title2"  => "任务组: ")); ?>
     
     <div class="panel panel-default">
         <div class="panel-heading" >任务关联</div>
@@ -42,5 +45,5 @@
             </div>
         </div>
     </div>
-    <?php zm_btn_back("'taskgroups/'"); ?>
+    <?php zm_btn_back("taskgroups"); ?>
 </div>

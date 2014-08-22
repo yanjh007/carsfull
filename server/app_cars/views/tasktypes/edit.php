@@ -19,13 +19,19 @@
             
             <div class="form-group">
               <div class="col-sm-offset-1 col-sm-6">
-                <button type="submit" class="btn btn-primary">保 存</button>&nbsp&nbsp&nbsp
-                <button class="btn btn-danger">删 除</button>&nbsp&nbsp&nbsp
-                <?php zm_btn_back("'tasktypes/'") ?>
+                <?php
+                    zm_btn_submit("保 存");
+                    zm_btn_delete("删 除","confirm_del(".$tasktype["id"].",\"".$tasktype["name"]."\")");
+                    zm_btn_back("tasktypes");
+                    
+                ?>
                 
               </div>
             </div>
           </form>
         </div>
     </div>
+    <?php zm_dlg_delete(array("path"    => base_url("tasktypes/"),
+                      "title1"  => "确认删除任务信息",
+                      "title2"  => "任务: ")); ?>
 </div>

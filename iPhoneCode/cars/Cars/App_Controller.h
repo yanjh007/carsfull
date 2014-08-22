@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-//#import "ZM_FundationAdditions.h"
+#import "JY_FundationAdditions.h"
 //#import "ZM_UMHelper.h"
-//#import "ZM_Request.h"
+#import "JY_Request.h"
 
 //测试模式 - APP启动实验，支付宝、银联1分，更多测试菜单， IAP验证
 #define IN_TEST NO
@@ -17,6 +17,10 @@
 
 //iCloud  key-value存储的keyID
 #define UBIQUITY_CONTAINER_URL @"YXV3L9ZB93.com.zhuamiinfo.com"
+
+// Url
+static NSString *const URL_BASE_URL  = @"http://192.168.0.131/cars/s";
+
 
 //第一次安装标识
 static NSString *const IsFirstInstallMark     = @"isfirstinstallmark";

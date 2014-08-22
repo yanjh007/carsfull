@@ -5,6 +5,7 @@ $route['default_controller'] = "home";
 $route['login']  = 'home/login';
 $route['logout'] = 'home/logout';
 // 服务
+$route['s'] = 'service';
 $route['s/([a-z]+)/([a-z]+)'] = 'service/$1/$2';
 
 // 404

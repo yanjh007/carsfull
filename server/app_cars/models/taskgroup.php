@@ -1,6 +1,7 @@
 <?php
 Class Taskgroup extends CI_Model {
-  const SQLQUERY = 'SELECT id,name,descp FROM taskgroups ';
+  const SQLQUERY   = 'SELECT id,name,descp FROM taskgroups ';
+  const TABLENAME  = 'taskgroups';
   
   public function __construct() {
     $this->load->database();
@@ -24,18 +25,18 @@ Class Taskgroup extends CI_Model {
 			'descp' => $taskgroup["descp"],
           );
     
-	if (isset($taskgroup["taskgroup_id"]) ) { // insert
-        $this->db->where('id', $taskgroup["taskgroup_id"]);
-        $this->db->update('taskgroups', $data); 
+	if (isset($taskgroup["item_id"]) ) { // insert
+        $this->db->where('id', $taskgroup["item_id"]);
+        $this->db->update(self::TABLENAME, $data); 
 	} else {
-        $this->db->insert('taskgroups', $data); 
+        $this->db->insert(self::TABLENAME, $data); 
 	}
     return TRUE;
   }
   
    public function remove($id) {
     $this->db->where('id', $id);
-    $this->db->delete('taskgroups');
+    $this->db->delete(self::TABLENAME);
 	
 	$this->load->model('link');
     $this->db->where('ltype',Link::TYPE_TASKGROUP_TASK);

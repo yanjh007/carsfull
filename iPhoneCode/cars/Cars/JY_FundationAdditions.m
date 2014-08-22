@@ -1273,28 +1273,6 @@ static NSString *const URL_SD_NOTIFY_REG = @"http://sd2.zhuami.info:7189/pushMan
     return [JVAL_RESULT_OK isEqualToString:[json[JKEY_RESULT] uppercaseString] ];
 }
 
-static NSArray *ZM_COLORS;
-+(UIColor*) color:(int)index
-{
-    return [JY_Helper color:index from:0];
-}
-
-+(UIColor*) color:(int)index from:(int)from
-{
-    ZM_COLORS=ZMCOLOR_ARRAY;
-    return (UIColor*)ZM_COLORS[(index+from)%ZM_COLORS.count];
-}
-
-+(void) setFillColor:(int)index from:(int)from
-{
-    [[JY_Helper color:index from:from] setFill];
-}
-
-+(void) setStrokeColor:(int)index from:(int)from
-{
-    [[JY_Helper color:index from:from] setStroke];
-}
-
 +(NSString*) format:(float)value withtype:(int)ftype
 {
     NSString *result=@"";

@@ -60,6 +60,19 @@ class Cars extends CI_Controller {
 	}
   }
 
+  public function edit($id) {	
+	  $data['car'] = $this->car->get_one($id);
+	  if (empty($data['car'])) show_404();
+
+	  $this->load->helper(array('form', 'zmform',"nav"));
+	
+	  $this->load->view('_common/header');
+	  show_nav(11);
+	  
+	  $this->load->view('cars/edit', $data);
+	  $this->load->view('_common/footer');	  
+  }
+  
   public function save() {	
 	$this->car->save($this->input->post());
 	redirect('cars');

@@ -1,0 +1,1 @@
+{"R":"FALSE","T":"<?php echo $server_time ?>","E":"<?php echo $error ?>"}

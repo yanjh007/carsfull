@@ -1,11 +1,14 @@
 <?php
 class Car extends CI_Model {
+  const SQLQUERY   = 'SELECT id,carnumber,manufacturer,brand,descp FROM cars ';
+  const TABLENAME  = 'cars';	
+  
   public function __construct() {
     $this->load->database();
   }
 
   public function search($keyword = FALSE) {
-    $sql="SELECT id,carnumber,manufacturer,brand FROM cars" ;
+    $sql=self::SQLQUERY;
     if ($keyword) {
       $sql=$sql." where carnumber like '%".$keyword."%' or manufacturer like '%".$keyword."%' or brand like '%".$keyword."%'";
     }
@@ -16,30 +19,22 @@ class Car extends CI_Model {
     return $query->result_array();
   }
 
-  public function get_car($cid){
-    $sql="SELECT id,carnumber,manufacturer,brand FROM cars where id=".$cid ;
-	var_dump($sql);
-    $query = $this->db->query($sql);
+  public function get_one($id){
+    $query = $this->db->query(self::SQLQUERY." where id=?",$id);
     return $query->row_array();
   }
   
-  public function save($car) {
-	if (isset($car["car_id"]) ) { // insert
-        $carid= $car["car_id"];    
-        $data = array(
-               'carnumber' => $car["carnumber"],
-               'manufacturer'   => $car["manufacturer"],
-               'brand' => $car["brand"],
-              );
-        $this->db->where('id', $carid);
-        $this->db->update('clients', $data); 
+  public function save($item) {
+    $data = array(
+			'carnumber' => $item["carnumber"],
+			'descp' => $item["descp"],
+          );
+    
+	if (isset($item["item_id"]) ) { // insert
+        $this->db->where('id', $item["item_id"]);
+        $this->db->update(self::TABLENAME, $data); 
 	} else {
-        $data = array(
-               'carnumber' => $car["carnumber"],
-               'manufacturer'   => $car["manufacturer"],
-               'brand' => $car["brand"],
-              );
-        $this->db->insert('clients', $data); 
+        $this->db->insert(self::TABLENAME, $data); 
 	}
     return TRUE;
   }

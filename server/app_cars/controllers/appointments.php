@@ -1,5 +1,8 @@
 <?php
 class Appointments extends CI_Controller {
+  const ATYPE_CAR  = 0; //预约类型，修车
+  const ATYPE_METAL= 1; //预约类型，订餐
+  
   public function __construct()
   {
     parent::__construct();
