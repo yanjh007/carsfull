@@ -19,23 +19,14 @@
 #define UBIQUITY_CONTAINER_URL @"YXV3L9ZB93.com.zhuamiinfo.com"
 
 // Url
-static NSString *const URL_BASE_URL  = @"http://192.168.0.131/cars/s";
+static NSString *const URL_BASE_URL  = @"http://192.168.199.203/cars/s";
+//static NSString *const URL_BASE_URL  = @"http://192.168.0.131/cars/s";
 
 
 //第一次安装标识
 static NSString *const IsFirstInstallMark     = @"isfirstinstallmark";
 
-//存储免费股票标识
-static NSString *const SaveFreeStockMark      = @"savefreestockmark";
-
-//获取免费股票成功的通知
-static NSString *const GetFreeStcokSucceedNotication     = @"getfreestocksucceed";
-
-//试用通知
-static NSString *const GetFreeTryToUseDiagnoseNotification = @"getfreetryusediagnose";
-
-
-// 背景和图片
+// 主NIB文件
 static NSString *const NIB_MAIN  = @"Main";
 
 

@@ -8,6 +8,7 @@
 
 #import "HomeVC.h"
 #import "LMenuVC.h"
+#import "LoginVC.h"
 
 @interface HomeVC ()
 
@@ -64,44 +65,14 @@
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    // Return the number of sections.
-    return 1;
+- (IBAction)do_login:(UIButton *)sender {
+    LoginVC *vc = [[LoginVC alloc] init];
+    UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:vc];
+    if (PPSystemVersionGreaterOrEqualThan(5.0))
+        [self presentModalViewController:n animated:YES];
+    else
+        [self.revealSideViewController presentModalViewController:n animated:YES];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    // Return the number of rows in the section.
-    return 30;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    }
-    cell.textLabel.text = [NSString stringWithFormat:@"Main %d", indexPath.row];
-    
-    return cell;
-}
-
-
-#pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    LMenuVC *left = [[LMenuVC alloc] init];
-
-    // We don't want to be able to pan on nav bar to see the left side when we pushed a controller
-    [self.revealSideViewController unloadViewControllerForSide:PPRevealSideDirectionLeft];
-    
-    [self.navigationController pushViewController:left animated:YES];
-}
 
 @end

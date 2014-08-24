@@ -6,17 +6,39 @@ class Service extends CI_Controller {
   }
 
   public function index() {
-	$content  = $this->input->get_post('C');
-	
+	$method  = $this->input->get_post("M");
+		    
 	$this->load->helper('date');
 	$data["server_time"] = now();
 	
-	if ($content) {
-	  $content = str_replace(" ","+",$content);
+	switch ($method) {
+	  case "login":
+	    $this->load->library('encrypt');
+	    $passwd=$this->input->post("passwd");
+	    
+	    if($passwd==$this->encrypt->sha1("hello")) {	      
+	      $data["content"]= "\"Welcome ".$this->input->post("login")."\""; //$original;
+	      log_message("error","data: ".$data["content"]);
+	      $this->load->view('service/json_ok', $data);
+	      return;
+	    } else {
+	      $data["error"]="user or password mismatch";
+	    }
+	    break;
+	  default:
+	    $data["error"]="bad request";
+	}
+	
+	$this->load->view('service/json_false', $data);	
+  }
+  
+  public function crypt() {
+    	if ($method) {
+	  $content = str_replace(" ","+",$content); //
 
 	  // 加解密库
 	  $this->load->library('encrypt');
-	  $this->encrypt->set_cipher(MCRYPT_RIJNDAEL_128);
+	  //$this->encrypt->set_cipher(MCRYPT_RIJNDAEL_128);
 	  $this->encrypt->set_mode(MCRYPT_MODE_ECB);
 	  
 	  $this->load->helper('date');
@@ -24,23 +46,29 @@ class Service extends CI_Controller {
 	  $key = mdate("%Y%m%d", now());
 	  $key = substr($this->encrypt->sha1($key),0,32);
 	  
-	  $original = $this->encrypt->decode(base64_decode($content),$key);
+	  //$original = $this->encrypt->decode(base64_decode($content),$key);
 	  	  
 	  // 解密方式
-	  //$iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_ECB);
-	  //$iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
+	  $iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_ECB);
+	  $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
 	  $original = trim(mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key, base64_decode($content), MCRYPT_MODE_ECB));
-	  $original = rtrim($original, "\x03");
+	  $original = utf8_encode(rtrim($original, "\x03"));
 	  
 	  log_message("error","内容:".$content);
 	  log_message("error","key:".$key.",decode:".$original);
 	  
-	  $data["content"]= "\"".$original."\""; // "\"content\""; //$original;
-	  $this->load->view('service/json_ok', $data);
+	  $json = json_decode($original);
+	  
+	  if ($json) {
+	    $data["content"]= "\"".$json->method."\""; //$original;
+	    $this->load->view('service/json_ok', $data);
+	    exit;
+	  } else {
+	    $data["error"]="data format error";	
+	  }
 	} else {
-	  $data["error"]="bad request";
-	  $this->load->view('service/json_false', $data);
-	}	  
+	  $data["error"]="bad request";	  
+	}
   }
   
   public function login() { //登录服务 客户端提交sha1(password)+username 服务器响应session和错误
