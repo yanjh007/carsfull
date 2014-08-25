@@ -16,25 +16,26 @@
  */
 
 
-class Toast_all extends CI_Controller
+class Test_all extends CI_Controller
 {
 	// The folder INSIDE /controllers/ where the test classes are located
 	// TODO: autoset
-	var $test_dir = '/test/';
+	
+	var $test_dir = '/_test/';
 
 	// Files to skip (ie. non-test classes) inside the test dir
 	var $skip = array(
 		'Toast.php',
-		'Toast_all.php'
+		'Test_all.php'
 	);
 
 	// CURL multithreaded mode (only set to true if you are sure your tests
 	// don't conflict when run in parallel)
 	var $multithreaded = false;
 
-	function Toast_all()
+	function Test_all()
 	{
-		parent::Controller();
+		parent::__construct();
 	}
 
 	function index()
@@ -53,7 +54,7 @@ class Toast_all extends CI_Controller
 		}
 
 		// Load header
-		$output .= $this->load->view('test/header', NULL, TRUE);
+		$output .= $this->load->view('_test/header', NULL, TRUE);
 
 		// Aggregate test results
 		if ($this->multithreaded)
@@ -66,7 +67,7 @@ class Toast_all extends CI_Controller
 		}
 
 		// Load footer
-		$output .= $this->load->view('test/footer', NULL, TRUE);
+		$output .= $this->load->view('_test/footer', NULL, TRUE);
 		
 		// Send to display
 		echo $output;
@@ -92,6 +93,7 @@ class Toast_all extends CI_Controller
 			}
 		}
 		closedir($handle);
+		
 		return $files;
 	}
 
@@ -107,8 +109,13 @@ class Toast_all extends CI_Controller
 		foreach ($urls as $url)
 		{
 			$curl_handle=curl_init();
-			curl_setopt($curl_handle, CURLOPT_URL, $url);
-			curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt_array($curl_handle,
+							  array(
+									CURLOPT_URL=>$url,
+									CURLOPT_RETURNTRANSFER=>1
+								   ));
+
+			$result = curl_exec($curl_handle);
 			$html_str .= curl_exec($curl_handle);
 			curl_close($curl_handle);
 		}
@@ -123,6 +130,8 @@ class Toast_all extends CI_Controller
 	 */
 	function _curl_get_multi($urls)
 	{
+		var_dump($urls);
+		
 		$html_str = '';
 		$url_count = count($urls);
 
@@ -150,8 +159,6 @@ class Toast_all extends CI_Controller
 		}
 		return $html_str;
 	}
-
-
 }
 
 // End of file Toast_all.php */

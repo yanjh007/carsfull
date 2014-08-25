@@ -1,9 +1,9 @@
 <?php
-require_once(APPPATH . '/controllers/test/Toast.php');
+require_once(APPPATH . '/controllers/_test/Toast.php');
 
-class Car_tests extends Toast
+class Shop_tests extends Toast
 {
-	function Car_tests()
+	function Shop_tests()
 	{
 		parent::Toast(__FILE__);
 		// Load any models, libraries etc. you need here

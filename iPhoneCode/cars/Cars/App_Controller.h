@@ -19,7 +19,7 @@
 #define UBIQUITY_CONTAINER_URL @"YXV3L9ZB93.com.zhuamiinfo.com"
 
 // Url
-static NSString *const URL_BASE_URL  = @"http://192.168.199.203/cars/s";
+static NSString *const URL_BASE_URL  = @"http://127.0.0.1/cars/s";
 //static NSString *const URL_BASE_URL  = @"http://192.168.0.131/cars/s";
 
 

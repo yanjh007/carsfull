@@ -18,13 +18,13 @@
  * 
  */
 
-
 abstract class Toast extends CI_Controller
 {
 	// The folder INSIDE /controllers/ where the test classes are located
 	// TODO: autoset
-	var $test_dir = '/test/';
-
+	var $test_dir = '/_test/';
+	var $test_view_dir = '_test/';
+	
 	var $modelname;
 	var $modelname_short;
 	var $message;
@@ -52,7 +52,7 @@ abstract class Toast extends CI_Controller
 		$data['modelname'] = $this->modelname;
 		$data['results'] = $this->unit->result();
 		$data['messages'] = $this->messages;
-		$this->load->view('test/results', $data);
+		$this->load->view($this->test_view_dir.'results', $data);
 	}
 
 	function _show_all()
@@ -61,10 +61,9 @@ abstract class Toast extends CI_Controller
 		$data['modelname'] = $this->modelname;
 		$data['results'] = $this->unit->result();
 		$data['messages'] = $this->messages;
+		
+		$this->_load_views($data);
 
-		$this->load->view('test/header');
-		$this->load->view('test/results', $data);
-		$this->load->view('test/footer');
 	}
 
 	function _show($method)
@@ -74,9 +73,14 @@ abstract class Toast extends CI_Controller
 		$data['results'] = $this->unit->result();
 		$data['messages'] = $this->messages;
 
-		$this->load->view('test/header');
-		$this->load->view('test/results', $data);
-		$this->load->view('test/footer');
+		$this->_load_views($data);
+	}
+	
+	function _load_views($data)
+	{
+		$this->load->view($this->test_view_dir.'header');
+		$this->load->view($this->test_view_dir.'results', $data);
+		$this->load->view($this->test_view_dir.'footer');		
 	}
 
 	function _run_all()
@@ -263,8 +267,6 @@ abstract class Toast extends CI_Controller
 			return FALSE;
 		}
 	}
-	
-
 }
 
 // End of file Toast.php */

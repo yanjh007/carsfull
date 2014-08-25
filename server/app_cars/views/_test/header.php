@@ -1,6 +1,7 @@
 <html>
 <head>
 <title>Unit test results</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 * { font-family: Arial, sans-serif; font-size: 9pt }
 #results { width: 100% }
@@ -15,6 +16,6 @@ a:active, a:hover { text-decoration: none; color: black; background-color: yello
 </head>
 <body>
 
-<h1>Toast Unit Tests:</h1>
+<h1>Toast单元测试:</h1>
 
 <ol>

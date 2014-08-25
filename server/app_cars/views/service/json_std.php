@@ -1,0 +1,1 @@
+{"R":"<?php echo isset($result)?$result:"OK"; ?>","T":"<?php echo time() ?>","C":<?php echo isset($content)?$content:"{}" ?>}

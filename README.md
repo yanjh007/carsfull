@@ -99,6 +99,13 @@ dev journal
 - delete button improved
 - zm_form_open and zm_form_hidden improved
 
+# 20140825
+- client bind module, login, verify code, iOS client and CI server side
+- iOS app menu icon
+- service interface update, general json template and useage
+- codeigniter unit test update, common test all method
+
+
 
 
 

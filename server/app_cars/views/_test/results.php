@@ -16,7 +16,6 @@
 		</div>
 	<?php else: ?>
 		<div class="err">
-
 			[<?php echo strtoupper(lang('ut_failed')); ?>] <?php echo $result[lang('ut_test_name')]; ?>
 
 			<?php if ( ! empty($messages[$i])): ?>
@@ -24,7 +23,6 @@
 				<?php echo $messages[$i]; ?>&nbsp;
 			</div>
 			<?php endif; ?>
-
 		</div>
 	<?php endif; ?>
 	</li>

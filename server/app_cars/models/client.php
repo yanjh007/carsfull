@@ -1,6 +1,7 @@
 <?php
 class Client extends CI_Model {
-  const SQLQUERY = "SELECT id,name,mobile,wechat,address FROM clients";
+  const SQLQUERY  = "SELECT id,name,mobile,wechat,address,passwd FROM clients";
+  const TABLENAME = "clients";
   
   public function __construct() {
     $this->load->database();
@@ -98,4 +99,39 @@ class Client extends CI_Model {
     }
   }
   
+  public function add($login,$passwd,$device) {
+	$data = array(
+	   'passwd' 	=> $passwd,
+	   'mobile' 	=> $login,
+	   'deviceid' 	=> $device,
+	   'login'    	=> $login
+	);
+    $this->db->insert(self::TABLENAME, $data); 
+  }
+  
+  public function get_by_login($login) {
+    $query = $this->db->query(self::SQLQUERY." where login=? or mobile=? limit 1",array($login,$login));
+    if($query -> num_rows() > 0) {
+      return $query->row_array();
+    } else {
+      return NULL;
+    }
+  }
+  
+  public function gen_vcode($login) {	
+	$vcode= rand(100000,999999);
+	$data = array(
+	   'vcode' 	=> $vcode,
+	);
+	
+	$this->db->set('vtime', 'NOW()', FALSE);
+	$this->db->where('login', $login);
+	$this->db->update(self::TABLENAME, $data);
+
+	if ($this->db->affected_rows()>0) {
+	  return $vcode;  
+	} else {
+	  return 0;
+	}		
+  } 
 }

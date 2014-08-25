@@ -6,31 +6,22 @@ class Service extends CI_Controller {
   }
 
   public function index() {
-	$method  = $this->input->get_post("M");
-		    
-	$this->load->helper('date');
-	$data["server_time"] = now();
-	
-	switch ($method) {
+	switch ($this->input->get_post("M")) {
 	  case "login":
-	    $this->load->library('encrypt');
-	    $passwd=$this->input->post("passwd");
-	    
-	    if($passwd==$this->encrypt->sha1("hello")) {	      
-	      $data["content"]= "\"Welcome ".$this->input->post("login")."\""; //$original;
-	      log_message("error","data: ".$data["content"]);
-	      $this->load->view('service/json_ok', $data);
-	      return;
-	    } else {
-	      $data["error"]="user or password mismatch";
-	    }
-	    break;
+		$this->_login();
+	    return;
+	  case "getcode": //重置密码
+		$this->_getcode();
+	    return;
 	  default:
+		$this->load->helper('date');
+		$data["server_time"] = now();
 	    $data["error"]="bad request";
-	}
-	
-	$this->load->view('service/json_false', $data);	
+		$this->load->view('service/json_false', $data);	
+	}	
   }
+  
+  
   
   public function crypt() {
     	if ($method) {
@@ -70,8 +61,54 @@ class Service extends CI_Controller {
 	  $data["error"]="bad request";	  
 	}
   }
+
+  public function _login() { //client登录服务 客户端提交sha1(password)+username 服务器响应session和错误
+	$hash  = $this->input->get_post('H');
+	if ($hash) { // Post
+   		$login    = substr($hash,40);
+		$passwd   = substr($hash,0,40);
+		$device= $this->input->get_post('I');
+		
+		$this->load->model('client','',TRUE);
+		$client= $this->client->get_by_login($login);
+		if ($client) { //有记录，验证密码和Device
+		  if ($client["passwd"]==$passwd) {
+			$data["content"] = json_encode(array("status"=>2));
+		  } else {
+			$data["result"] = "FALSE";
+			$data["content"] = json_encode(array("status"=>21,"error"=>"密码错误"));
+		  }
+		} else { //无记录，新用户
+		  $this->client->add($login,$passwd,$device);
+		  $data["content"] = json_encode(array("status"=>1));
+		}	  
+	} else {
+	  $data["result"] = "FALSE";
+	  $data["content"] = json_encode(array("status"=>22,"error"=>"数据交付格式错误"));
+	}
+	$this->load->view('service/json_std', $data);
+  }
   
-  public function login() { //登录服务 客户端提交sha1(password)+username 服务器响应session和错误
+  public function _getcode() { //密码恢复
+	$login  = $this->input->get_post('login');
+	if ($login) { // Post
+		$device= $this->input->get_post('I');
+		
+		$this->load->model('client','',TRUE);
+		$vcode= $this->client->gen_vcode($login);
+		if ($vcode>0) { //有记录，生成验证码
+		  $data["content"] = json_encode(array("status"=>2,"vcode"=>$vcode));
+		} else { //无记录，可能是新用户
+		  $data["content"] = json_encode(array("status"=>1));
+		}	  
+	} else {
+	  $data["result"]="FALSE"; //数据交付格式错误
+	  $data["content"] = json_encode(array("status"=>22,"error"=>"数据提交格式错误"));
+	}
+	$this->load->view('service/json_std', $data);
+  }
+  
+  public function login1() { //登录服务 客户端提交sha1(password)+username 服务器响应session和错误
 	$this->load->helper('date');
 	$data["server_time"] = now();
 

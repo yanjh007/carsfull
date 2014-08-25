@@ -320,12 +320,19 @@ static char encodingTable[64] = {
     
 }
 
-+(NSString*) randomString:(int)num {
-    NSMutableString* string = [NSMutableString stringWithCapacity:num];
-    for (int i = 0; i < num; i++) {
-        [string appendFormat:@"%C", (unichar)('a' + arc4random_uniform(25))];
++(NSString*) randomString:(int)length {
+    static NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    NSMutableString *randomString = [NSMutableString stringWithCapacity: length];
+    for (int i=0; i<length; i++) {
+            [randomString appendFormat: @"%C", [letters characterAtIndex: arc4random() % [letters length]]];
     }
-    return string;
+    return randomString;
+    
+//    NSMutableString* string = [NSMutableString stringWithCapacity:num];
+//    for (int i = 0; i < num; i++) {
+//        [string appendFormat:@"%C", (unichar)('a' + arc4random_uniform(25))];
+//    }
+//    return string;
 }
 
 - (NSString *)reversedString
