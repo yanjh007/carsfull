@@ -28,7 +28,6 @@ static int const DELE_RESULT_CANCEL = 2;
 static int const DELE_RESULT_QUIT   = 3;
 static int const DELE_RESULT_NULL   = 4;
 
-
 static int const DELE_ACTION_HTTP_OK=11;
 static int const DELE_ACTION_HTTP_FALSE=12;
 static int const DELE_ACTION_HTTP_ERROR=13;
@@ -42,6 +41,9 @@ static int const DELE_ACTION_POPMENU_ITEM=1013;
 static int const DELE_ACTION_SEARCH=1101;
 
 static int const DELE_ACTION_NOTIFICATION_PERMISSION=1201;
+
+static int const DELE_ACTION_PUSH=1211;
+static int const DELE_ACTION_PUSH_BACK=1212;
 
 static int const DELE_LIST_CHECK     = 1301;
 static int const DELE_LIST_UNCHECK   = 1302;

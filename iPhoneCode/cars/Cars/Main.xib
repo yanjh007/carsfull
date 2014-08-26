@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="14A329f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1552" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -317,12 +317,26 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="pFA-rR-cLD">
-                        <rect key="frame" x="20" y="407" width="280" height="47"/>
+                        <rect key="frame" x="20" y="341" width="280" height="47"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" red="1" green="0.32574084679999998" blue="0.036157006790000001" alpha="1" colorSpace="calibratedRGB"/>
                         <state key="normal" title="删 除">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
+                        <connections>
+                            <action selector="do_delete:" destination="guR-LB-G4H" eventType="touchUpInside" id="4dE-v7-auQ"/>
+                        </connections>
+                    </button>
+                    <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="sxM-Sf-bms">
+                        <rect key="frame" x="20" y="286" width="280" height="47"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" red="0.25098040699958801" green="0.0" blue="0.50196081399917603" alpha="1" colorSpace="calibratedRGB"/>
+                        <state key="normal" title="保 存">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="do_save:" destination="guR-LB-G4H" eventType="touchUpInside" id="zuC-ic-grI"/>
+                        </connections>
                     </button>
                 </subviews>
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -333,8 +347,9 @@
             <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
             <connections>
-                <outlet property="tv_brand" destination="tfw-ES-Xhm" id="M6M-Bz-wHn"/>
-                <outlet property="tv_carnumber" destination="YEJ-C2-2ic" id="cMF-7S-4uo"/>
+                <outlet property="bt_delete" destination="pFA-rR-cLD" id="aSM-Sb-q8P"/>
+                <outlet property="tv_cnumber" destination="YEJ-C2-2ic" id="GnA-wE-va5"/>
+                <outlet property="tv_fnumber" destination="tfw-ES-Xhm" id="pa5-k3-MYE"/>
             </connections>
         </viewController>
     </objects>

@@ -9,6 +9,7 @@
 #import <XCTest/XCTest.h>
 #import "JY_FundationAdditions.h"
 #import "JY_Request.h"
+#import "Car.h"
 
 @interface Cars_Tests : XCTestCase
 
@@ -68,7 +69,8 @@
 
 - (void)testDatabase
 {
-    XCTAssertTrue(100>50, @"100 greate than 150");
+    //[Car add:@"Name1" framenumber:@"123-4"];
+    
 }
 
 

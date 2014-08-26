@@ -11,7 +11,7 @@
 #import "CarVC.h"
 #import "Car.h"
 
-@interface InfoVC ()<UITableViewDelegate,UITableViewDataSource>
+@interface InfoVC ()<UITableViewDelegate,UITableViewDataSource,JY_STD_Delegate>
 @property (weak, nonatomic) IBOutlet UITableView *tb_info;
 @property (strong,nonatomic) NSMutableArray *info_base,*info_cars;
 @end
@@ -135,7 +135,7 @@
             Car *item=self.info_cars[indexPath.row];
             
             cell.textLabel.text = item.carnumber;
-            cell.detailTextLabel.text =item.carnumber;
+            cell.detailTextLabel.text =item.framenumber;
         }
     }
     
@@ -148,14 +148,31 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==1) {
-        NSString *title=@"Carnumber";
-        CarVC *vc = [[CarVC alloc] initWithData:@[title]];
+        Car *item;
+        if (indexPath.row < [self.info_cars count]) {
+            item = self.info_cars[indexPath.row];
+        } else {
+            item =[[Car alloc] init];
+        }
+
+        CarVC *vc = [[CarVC alloc] initWithData:@[item,self]];
         
         // We don't want to be able to pan on nav bar to see the left side when we pushed a controller
         [self.revealSideViewController unloadViewControllerForSide:PPRevealSideDirectionLeft];
-        
         [self.navigationController pushViewController:vc animated:YES];
     }
+}
+
+-(int) action:(int)act withIndex:(int)index
+{
+    if (act==DELE_LIST_RELOAD) {
+        if (index==1) { //call from CarVC
+            self.info_cars =  [[Car getCars] copy];
+            [self.tb_info reloadData];
+        }
+        
+    }
+    return DELE_RESULT_VOID;
 }
 
 @end

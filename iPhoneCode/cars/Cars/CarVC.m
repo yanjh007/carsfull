@@ -8,29 +8,43 @@
 
 #import "CarVC.h"
 #import "JY_Request.h"
+#import "Car.h"
 
+@interface CarVC ()<UIActionSheetDelegate,UITextFieldDelegate>
 
-@interface CarVC ()
-@property (weak, nonatomic) IBOutlet UITextField *tv_carnumber;
-@property (weak, nonatomic) IBOutlet UITextField *tv_brand;
+@property (weak, nonatomic) IBOutlet UITextField *tv_cnumber;
+@property (weak, nonatomic) IBOutlet UITextField *tv_fnumber;
 @property (weak, nonatomic) IBOutlet UILabel *lb_brand;
+@property (weak, nonatomic) IBOutlet UIButton *bt_delete;
 @property (strong, nonatomic) NSString *verify_code,*pass_code; //验证码和临时密码
+@property (strong, nonatomic) Car *mCar; //验证码和临时密码
 @property (assign) int showMode;
+@property (nonatomic) id<JY_STD_Delegate> mDelegate;
+
 @end
 
 @implementation CarVC
 
-- (id)initWithData:(NSArray*)adata;
+- (id)initWithData:(NSArray*)adata; //0-car 1-delegate
 {
     self = [JY_Helper loadNib:NIB_MAIN atIndex:5];
     if (self) {
-        if (adata) {
+        self.mCar       = adata[0];
+        self.mDelegate  = adata[1];
+        if (self.mCar.carnumber) {
             self.showMode=1;
-            self.tv_carnumber.text=adata[0];
+            [self.bt_delete setHidden:NO];
+
+            self.tv_cnumber.text= self.mCar.carnumber;
+            self.tv_fnumber.text= self.mCar.framenumber;
+            
         } else { //新建
             self.showMode=0;
+            [self.bt_delete setHidden:YES];
+            
+            self.tv_cnumber.text= @"";
+            self.tv_fnumber.text=@"";
         }
-        // Custom initialization
     }
     return self;
 }
@@ -52,13 +66,51 @@
                                                                              action:@selector(do_save:)];
 }
 
-- (void) do_back:(id)sender
+- (IBAction) do_back:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void) do_save:(id)sender
+- (IBAction) do_save:(id)sender
 {
+    if (self.mCar.carnumber) {
+        [self.mCar update:self.tv_fnumber.text];
+    } else {
+        [Car add:self.tv_cnumber.text
+     framenumber:self.tv_fnumber.text];
+    }
+
+    [self go_back:YES];
+}
+
+- (IBAction)do_delete:(UIButton *)sender {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"确认删除当前车辆记录?"
+                                                             delegate:self
+                                                    cancelButtonTitle:@"取 消"
+                                               destructiveButtonTitle:@"删 除"
+                                                    otherButtonTitles:nil];
+
+    [actionSheet showInView:self.view];
+}
+
+- (void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == actionSheet.destructiveButtonIndex) {
+        if (self.mCar.carnumber) {
+            [self.mCar remove];
+            [self go_back:YES];
+        }
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
+- (void) go_back:(BOOL)bNotify
+{
+    if (bNotify
+        && self.mDelegate
+        && [self.mDelegate respondsToSelector:@selector(action:withIndex:)]) {
+        [self.mDelegate action:DELE_LIST_RELOAD withIndex:1];
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 

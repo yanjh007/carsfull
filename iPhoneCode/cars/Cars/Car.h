@@ -9,7 +9,14 @@
 #import <Foundation/Foundation.h>
 
 @interface Car : NSObject
-@property (strong,nonatomic) NSString *carnumber;
+@property (strong,nonatomic) NSString *carnumber,*framenumber;
+@property (assign) int carid;
+
 +(NSArray*) getCars;
+
++(BOOL) add:(NSString*)cnumber framenumber:(NSString*)fnumber;
+
+-(BOOL) update:(NSString*)fnumber;
+-(BOOL) remove;
 
 @end

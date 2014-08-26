@@ -51,7 +51,7 @@ static int const DB_VERSION = 2;
                 version++;
             }
             
-            [dataBase executeUpdate:@"update _meta set mvalue=? where mname='dbversion')",DB_VERSION];
+            [dataBase executeUpdate:[NSString stringWithFormat:@"update _meta set mvalue=%i where mname='dbversion'",DB_VERSION]];
             
         }
 
