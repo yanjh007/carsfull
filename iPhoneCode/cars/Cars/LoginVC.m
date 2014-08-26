@@ -77,11 +77,9 @@
         self.pass_code   = [self.tv_code.text substringToIndex:l-6];
         self.verify_code = [self.tv_code.text substringFromIndex:l-6];
         
-        [JY_Request post:@{@"M":@"recovery",
+        [JY_Request post:@{@"M":@"recover",
                            @"I":[JY_Helper fakeIMEI],
-                           @"H":[NSString stringWithFormat:@"%@%@",[self.pass_code sha1],[self.verify_code sha1]],
-                           @"passwd":[self.pass_code sha1],
-                           @"verify":[self.verify_code sha1]
+                           @"H":[NSString stringWithFormat:@"%@%@%@",[self.pass_code sha1],self.verify_code,self.tv_user.text],
                            }
                  withURL:URL_BASE_URL
               completion:^(int status, NSString *result){
@@ -116,14 +114,15 @@
         return;
     }
     
-    [JY_Request post:@{@"M":@"getcode",@"login":self.tv_user.text}
+    [JY_Request post:@{@"M":@"getcode",
+                       @"login":self.tv_user.text}
              withURL:URL_BASE_URL
           completion:^(int status, NSString *result){
               if (status==JY_STATUS_OK) {
                   NSDictionary *json=[result jsonObject];
                   if (json && [@"OK" isEqualToString:json[@"R"]]) {
                       NSDictionary *content=json[@"C"] ;
-                      if ([content[@"status"] intValue]==1) { //可能是新用户
+                      if ([content[@"status"] intValue]==11) { //可能是新用户
                           self.pass_code = [NSString randomString:6];
                           
                           [self.lb_info setText:[NSString stringWithFormat:@"您可能是新用户，系统已经为您生成密码: %@,可以用于下次绑定，请予以记录，当然您也可以自行设定密码",self.pass_code]];
@@ -153,7 +152,7 @@
         if ([@"OK" isEqualToString:json[@"R"]]) {
             if ([content[@"status"] intValue]==1) { //创建成功
                 [self.lb_info setText:[NSString stringWithFormat:@"用户已成功创建并绑定，密码为:%@",self.pass_code]];
-            } else { //登录成功
+            } else { //登录成功 status 2
                 [self.lb_info setText:[NSString stringWithFormat:@"用户已成功再次绑定"]];
             }
         } else {
@@ -168,15 +167,15 @@
     NSLog(@"result:%@",result);
     NSDictionary *json=[result jsonObject];
     if (json) {
+        NSDictionary *content=json[@"C"] ;
         if ([@"OK" isEqualToString:json[@"R"]]) {
-            if ([@"1" isEqualToString:json[@"S"]]) { //创建成功
-                [self.lb_info setText:[NSString stringWithFormat:@"用户已成功创建并绑定，密码为:%@",self.pass_code]];
-            } else { //登录成功
-                [self.lb_info setText:[NSString stringWithFormat:@"用户已成功再次绑定"]];
+            if ([content[@"status"] intValue]==3) { //创建成功
+                [self.lb_info setText:[NSString stringWithFormat:@"用户验证并成功绑定，且密码修改为:%@",self.pass_code]];
+            } else {
+                [self.lb_info setText:@"绑定验证失败，未知错误"];
             }
-            
         } else {
-            [self.lb_info setText:[NSString stringWithFormat:@"绑定失败:%@",json[@"E"]]];
+            [self.lb_info setText:[NSString stringWithFormat:@"绑定验证失败:%@",content[@"error"]]];
         }
     } else {
         [self.lb_info setText:@"格式错误"];
@@ -186,8 +185,6 @@
 - (void) handleError:(NSString*)result {
     [self.lb_info setText:[NSString stringWithFormat:@"请求失败: %@",result]];
 }
-
-
 
 @end
 

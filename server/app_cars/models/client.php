@@ -133,5 +133,33 @@ class Client extends CI_Model {
 	} else {
 	  return 0;
 	}		
+  }
+  
+  // 验证并保存
+  public function vsave($login,$passwd,$vcode) {
+    $query = $this->db->query("select vcode,UNIX_TIMESTAMP(vtime) vtime from clients where login=? or mobile=? limit 1",array($login,$login));
+    if($query -> num_rows() > 0) {
+      $row= $query->row_array();
+	  if ($row["vcode"]==$vcode) {
+		if (time()-$row["vtime"] >600) { //验证码超时		  
+		  return 2;
+		} else {
+		  $this->db->set('passwd', $passwd);
+		  $this->db->where('login', $login);
+		  $this->db->update(self::TABLENAME);
+	  
+		  if ($this->db->affected_rows()>0) {
+			return 10;  
+		  } else {
+			return 4; //保存错误
+		  }		  
+		}
+	  } else { //验证码错误
+		return 1;
+	  }
+    } else {
+      return 3; //未找到记录
+    }
+		
   } 
 }
