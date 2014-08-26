@@ -106,6 +106,13 @@ dev journal
 - codeigniter unit test update, common test all method
 
 
+# 20140826
+- iOS app client login update and optimize
+- iOS app FMDatabase integrate, dbhelper, dbinit, dbupdate
+- car model and VC begin, section info
+- client service, recover code verify and password reset(client model)
+
+
 
 
 

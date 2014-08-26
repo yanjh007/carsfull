@@ -1,1 +1,0 @@
-{"R":"FALSE","server_time":"<?= $server_time ?>","error":"<?= $error ?>"}

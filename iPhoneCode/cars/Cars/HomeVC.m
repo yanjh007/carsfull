@@ -29,8 +29,7 @@
 {
     [super viewDidLoad];
 
-    self.title = @"主 页";
-    
+    self.title = @"主 页";    
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_menu1"]
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:self

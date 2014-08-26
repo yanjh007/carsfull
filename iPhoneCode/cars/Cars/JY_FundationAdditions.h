@@ -200,7 +200,7 @@ static int const DELE_ACTION_PAY_RECOVER = 2104;
 @end
 
 #pragma mark - ZM Helper 抓米实用方法
-@interface ZM_Default:NSObject
+@interface JY_Default:NSObject
 +(NSObject*) get:(NSString *) key;
 +(int) getInt:(NSString *) key;
 +(NSNumber*) getNumber:(NSString *) key;

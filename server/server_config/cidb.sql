@@ -11,7 +11,7 @@
  Target Server Version : 50620
  File Encoding         : utf-8
 
- Date: 08/25/2014 17:15:18 PM
+ Date: 08/26/2014 16:53:11 PM
 */
 
 SET NAMES utf8;
@@ -140,7 +140,7 @@ CREATE TABLE `ci_sessions` (
 --  Records of `ci_sessions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `ci_sessions` VALUES ('aa70cc5c3fe873e4d6fd9a5dfc5c4659', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1408957910', '');
+INSERT INTO `ci_sessions` VALUES ('0d6c36cb8978d428e38ade011d935d84', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.8 (KHTML, like Gecko) Version/8.0 Safari/600.1.8', '1409014055', ''), ('862337dd91ce25dedf3cf1813f83d4ba', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1409016187', ''), ('9fc7eb451dae55045b4b371ab28fde7e', '127.0.0.1', 'Mozilla/5.0 (iPhone; CPU iPhone OS 7_0 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A465', '1409014056', ''), ('aa70cc5c3fe873e4d6fd9a5dfc5c4659', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1408957910', ''), ('fbc7ddd3423d89a4d3b4787b5712fb27', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1409022051', '');
 COMMIT;
 
 -- ----------------------------
@@ -172,7 +172,7 @@ CREATE TABLE `clients` (
 --  Records of `clients`
 -- ----------------------------
 BEGIN;
-INSERT INTO `clients` VALUES ('1', null, 'shixc', 'a5b09e5b217127812c3f0e778dd1098404ce1fd4', null, '施磊', null, null, '18602802121', 'X_shileixc', null, '1', '2014-08-14 16:04:33', null, null, null, null), ('2', null, 'yanjh', 'aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d', null, '颜建华', null, null, '13808077242', 'X_hahar006', null, '0', '2014-08-25 15:02:52', null, null, null, null), ('4', null, null, null, null, '周琪', null, null, '13880735908', 'Q8990099', null, '0', null, null, null, null, null), ('10', null, null, null, null, '陶莉', null, null, '13882189728', 'Q89960707', null, '0', '2014-08-15 15:21:08', null, null, null, null), ('11', null, '13908077242', '6d4882c4e964337a3e1b3e7f81fe285cbb5d85ee', '20170A5F-02B5-4D54-BDFE-EF0D4C7F8B8D', null, null, null, '13908077242', null, null, '0', '2014-08-25 17:13:57', null, null, '754642', '2014-08-25 17:13:57'), ('13', null, '13908077243', 'aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d', '20170A5F-02B5-4D54-BDFE-EF0D4C7F8B8D', null, null, null, '13908077243', null, null, '0', null, null, null, null, null), ('14', null, '13908077244', '968eebd91ee926d12857ecbeb3c9c8501a202dd5', '20170A5F-02B5-4D54-BDFE-EF0D4C7F8B8D', null, null, null, '13908077244', null, null, '0', '2014-08-25 17:11:50', null, null, '345463', '2014-08-25 17:11:50');
+INSERT INTO `clients` VALUES ('1', null, 'shixc', 'a5b09e5b217127812c3f0e778dd1098404ce1fd4', null, '施磊', null, null, '18602802121', 'X_shileixc', null, '1', '2014-08-14 16:04:33', null, null, null, null), ('2', null, 'yanjh', 'aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d', null, '颜建华', null, null, '13808077242', 'X_hahar006', null, '0', '2014-08-25 15:02:52', null, null, null, null), ('4', null, null, null, null, '周琪', null, null, '13880735908', 'Q8990099', null, '0', null, null, null, null, null), ('10', null, null, null, null, '陶莉', null, null, '13882189728', 'Q89960707', null, '0', '2014-08-15 15:21:08', null, null, null, null), ('11', null, '13908077242', '43485bbc9d6913993917c1e30af0e64bbfc1a2b2', '20170A5F-02B5-4D54-BDFE-EF0D4C7F8B8D', null, null, null, '13908077242', null, null, '0', '2014-08-26 11:09:22', null, null, '844174', '2014-08-26 11:09:06'), ('13', null, '13908077243', 'aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d', '20170A5F-02B5-4D54-BDFE-EF0D4C7F8B8D', null, null, null, '13908077243', null, null, '0', null, null, null, null, null), ('14', null, '13908077244', '968eebd91ee926d12857ecbeb3c9c8501a202dd5', '20170A5F-02B5-4D54-BDFE-EF0D4C7F8B8D', null, null, null, '13908077244', null, null, '0', '2014-08-25 17:11:50', null, null, '345463', '2014-08-25 17:11:50');
 COMMIT;
 
 -- ----------------------------

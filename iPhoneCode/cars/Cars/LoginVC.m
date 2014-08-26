@@ -12,7 +12,7 @@
 //#import "AESCrypt.h"
 #import "NSString+AESCrypt.h"
 
-@interface LoginVC ()
+@interface LoginVC ()<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *tv_user;
 @property (weak, nonatomic) IBOutlet UITextField *tv_code;
 @property (weak, nonatomic) IBOutlet UILabel *lb_info;

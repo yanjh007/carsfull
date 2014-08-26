@@ -940,7 +940,7 @@ static char const * const ZM_OBJTAG_KEY = "ZM_ObjectTag";
 @end
 
 #pragma mark - ZM Default 抓米设置方法
-@implementation ZM_Default
+@implementation JY_Default
 
 +(NSObject*) get:(NSString *) key;
 {
@@ -1216,7 +1216,7 @@ static NSString *const URL_SD_NOTIFY_REG = @"http://sd2.zhuami.info:7189/pushMan
     
     long timemargin = [[NSNumber numberWithDouble:time] longValue];
     
-    [ZM_Default saveInt:timemargin forKey:PKEY_TIME_MARGIN];
+    [JY_Default saveInt:timemargin forKey:PKEY_TIME_MARGIN];
     NSLog(@"server time margin:%ld",timemargin);
     
     return timemargin;
