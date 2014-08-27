@@ -11,6 +11,7 @@
 #import "AboutVC.h"
 #import "LoginVC.h"
 #import "InfoVC.h"
+#import "AppointmentListVC.h"
 
 @interface LMenuVC ()
 
@@ -77,6 +78,13 @@
     [self.revealSideViewController popViewControllerWithNewCenterController:n
                                                                    animated:YES];
     
+}
+
+- (IBAction)go_appointment:(UIButton *)sender {
+    AppointmentListVC *vc = [[AppointmentListVC alloc] init];
+    UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self.revealSideViewController popViewControllerWithNewCenterController:n
+                                                                   animated:YES];
 }
 
 

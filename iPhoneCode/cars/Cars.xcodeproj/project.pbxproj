@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		563587921605F5C6003BC599 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 563587911605F5C6003BC599 /* Default-568h@2x.png */; };
+		D831069219AD94F3006676BA /* Models.m in Sources */ = {isa = PBXBuildFile; fileRef = D831069119AD94F3006676BA /* Models.m */; };
 		D84718B319AC5CAC000106EC /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = D84718A919AC5CAC000106EC /* FMDatabase.m */; };
 		D84718B419AC5CAC000106EC /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = D84718A919AC5CAC000106EC /* FMDatabase.m */; };
 		D84718B519AC5CAC000106EC /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D84718AB19AC5CAC000106EC /* FMDatabaseAdditions.m */; };
@@ -20,8 +21,6 @@
 		D84718BC19AC5CAC000106EC /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = D84718B219AC5CAC000106EC /* FMResultSet.m */; };
 		D84718C019AC5D66000106EC /* JY_DBHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D84718BF19AC5D66000106EC /* JY_DBHelper.m */; };
 		D84718C119AC5D66000106EC /* JY_DBHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D84718BF19AC5D66000106EC /* JY_DBHelper.m */; };
-		D84718C419AC61DC000106EC /* Car.m in Sources */ = {isa = PBXBuildFile; fileRef = D84718C319AC61DC000106EC /* Car.m */; };
-		D84718C519AC61DC000106EC /* Car.m in Sources */ = {isa = PBXBuildFile; fileRef = D84718C319AC61DC000106EC /* Car.m */; };
 		D84718C919AC632C000106EC /* CarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D84718C819AC632C000106EC /* CarVC.m */; };
 		D84718CA19AC632C000106EC /* CarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D84718C819AC632C000106EC /* CarVC.m */; };
 		D84718CC19AC77AB000106EC /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D84718CB19AC77AB000106EC /* libsqlite3.0.dylib */; };
@@ -45,6 +44,8 @@
 		D8700CE119A5E27B00FBF0F9 /* InfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D8700CE019A5E27B00FBF0F9 /* InfoVC.m */; };
 		D8700CE419A5E4DC00FBF0F9 /* LoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D8700CE319A5E4DC00FBF0F9 /* LoginVC.m */; };
 		D8700CE819A6E30800FBF0F9 /* JY_Request.m in Sources */ = {isa = PBXBuildFile; fileRef = D8700CE719A6E30800FBF0F9 /* JY_Request.m */; };
+		D8744DFC19AD71FB0015C32D /* AppointmentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D8744DFB19AD71FB0015C32D /* AppointmentVC.m */; };
+		D8744DFF19AD78E90015C32D /* AppointmentListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D8744DFE19AD78E90015C32D /* AppointmentListVC.m */; };
 		E0865F6815875F9100B46B63 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0865F6715875F9100B46B63 /* UIKit.framework */; };
 		E0865F6A15875F9100B46B63 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0865F6915875F9100B46B63 /* Foundation.framework */; };
 		E0865F6C15875F9100B46B63 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0865F6B15875F9100B46B63 /* CoreGraphics.framework */; };
@@ -67,6 +68,8 @@
 
 /* Begin PBXFileReference section */
 		563587911605F5C6003BC599 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
+		D831069019AD94F3006676BA /* Models.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Models.h; sourceTree = "<group>"; };
+		D831069119AD94F3006676BA /* Models.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Models.m; sourceTree = "<group>"; };
 		D84718A819AC5CAC000106EC /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
 		D84718A919AC5CAC000106EC /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
 		D84718AA19AC5CAC000106EC /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
@@ -80,8 +83,6 @@
 		D84718B219AC5CAC000106EC /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
 		D84718BE19AC5D66000106EC /* JY_DBHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JY_DBHelper.h; sourceTree = "<group>"; };
 		D84718BF19AC5D66000106EC /* JY_DBHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JY_DBHelper.m; sourceTree = "<group>"; };
-		D84718C219AC61DC000106EC /* Car.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Car.h; sourceTree = "<group>"; };
-		D84718C319AC61DC000106EC /* Car.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Car.m; sourceTree = "<group>"; };
 		D84718C719AC632C000106EC /* CarVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarVC.h; sourceTree = "<group>"; };
 		D84718C819AC632C000106EC /* CarVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarVC.m; sourceTree = "<group>"; };
 		D84718CB19AC77AB000106EC /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
@@ -114,6 +115,10 @@
 		D8700CE319A5E4DC00FBF0F9 /* LoginVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginVC.m; sourceTree = "<group>"; };
 		D8700CE619A6E30800FBF0F9 /* JY_Request.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JY_Request.h; sourceTree = "<group>"; };
 		D8700CE719A6E30800FBF0F9 /* JY_Request.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JY_Request.m; sourceTree = "<group>"; };
+		D8744DFA19AD71FB0015C32D /* AppointmentVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppointmentVC.h; sourceTree = "<group>"; };
+		D8744DFB19AD71FB0015C32D /* AppointmentVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppointmentVC.m; sourceTree = "<group>"; };
+		D8744DFD19AD78E90015C32D /* AppointmentListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppointmentListVC.h; sourceTree = "<group>"; };
+		D8744DFE19AD78E90015C32D /* AppointmentListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppointmentListVC.m; sourceTree = "<group>"; };
 		E0865F6315875F9100B46B63 /* Cars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cars.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0865F6715875F9100B46B63 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E0865F6915875F9100B46B63 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -175,20 +180,11 @@
 			path = FMDB;
 			sourceTree = "<group>";
 		};
-		D84718BD19AC5CEA000106EC /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				D84718BE19AC5D66000106EC /* JY_DBHelper.h */,
-				D84718BF19AC5D66000106EC /* JY_DBHelper.m */,
-			);
-			name = Helpers;
-			sourceTree = "<group>";
-		};
 		D84718C619AC61E4000106EC /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				D84718C219AC61DC000106EC /* Car.h */,
-				D84718C319AC61DC000106EC /* Car.m */,
+				D831069019AD94F3006676BA /* Models.h */,
+				D831069119AD94F3006676BA /* Models.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -219,6 +215,10 @@
 				D8700CE019A5E27B00FBF0F9 /* InfoVC.m */,
 				D84718C719AC632C000106EC /* CarVC.h */,
 				D84718C819AC632C000106EC /* CarVC.m */,
+				D8744DFD19AD78E90015C32D /* AppointmentListVC.h */,
+				D8744DFE19AD78E90015C32D /* AppointmentListVC.m */,
+				D8744DFA19AD71FB0015C32D /* AppointmentVC.h */,
+				D8744DFB19AD71FB0015C32D /* AppointmentVC.m */,
 				D8700CE219A5E4DC00FBF0F9 /* LoginVC.h */,
 				D8700CE319A5E4DC00FBF0F9 /* LoginVC.m */,
 				E0865F8215875FE700B46B63 /* HomeVC.h */,
@@ -254,6 +254,8 @@
 			children = (
 				D85FE77419A5B5DE0058E73E /* JY_FundationAdditions.h */,
 				D85FE77519A5B5DE0058E73E /* JY_FundationAdditions.m */,
+				D84718BE19AC5D66000106EC /* JY_DBHelper.h */,
+				D84718BF19AC5D66000106EC /* JY_DBHelper.m */,
 				D8700CE619A6E30800FBF0F9 /* JY_Request.h */,
 				D8700CE719A6E30800FBF0F9 /* JY_Request.m */,
 			);
@@ -309,7 +311,6 @@
 				563587911605F5C6003BC599 /* Default-568h@2x.png */,
 				D8700CE919A6E31900FBF0F9 /* App */,
 				D84718C619AC61E4000106EC /* Models */,
-				D84718BD19AC5CEA000106EC /* Helpers */,
 				D85FE77319A5A72E0058E73E /* View&VCs */,
 				D8700CE519A6E2EF00FBF0F9 /* Lib */,
 				D85FE76D19A5A5810058E73E /* OtherLib */,
@@ -430,7 +431,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D84718CA19AC632C000106EC /* CarVC.m in Sources */,
-				D84718C519AC61DC000106EC /* Car.m in Sources */,
 				D86C6DDB19A867A80071A96A /* Cars_Tests.m in Sources */,
 				D84718B819AC5CAC000106EC /* FMDatabasePool.m in Sources */,
 				D86C6DE519A8F9080071A96A /* JY_Request.m in Sources */,
@@ -452,17 +452,19 @@
 				E0865F7415875F9100B46B63 /* main.m in Sources */,
 				D84718C919AC632C000106EC /* CarVC.m in Sources */,
 				D84718B319AC5CAC000106EC /* FMDatabase.m in Sources */,
+				D831069219AD94F3006676BA /* Models.m in Sources */,
 				D8700CE419A5E4DC00FBF0F9 /* LoginVC.m in Sources */,
 				D84718C019AC5D66000106EC /* JY_DBHelper.m in Sources */,
 				D85FE77619A5B5DE0058E73E /* JY_FundationAdditions.m in Sources */,
 				D84718BB19AC5CAC000106EC /* FMResultSet.m in Sources */,
 				D8700CE119A5E27B00FBF0F9 /* InfoVC.m in Sources */,
 				D867F03D19A73B1900697CF8 /* NSString+AESCrypt.m in Sources */,
-				D84718C419AC61DC000106EC /* Car.m in Sources */,
+				D8744DFF19AD78E90015C32D /* AppointmentListVC.m in Sources */,
 				E0865F7815875F9100B46B63 /* AppDelegate.m in Sources */,
 				D85FE77919A5B76B0058E73E /* Reachability.m in Sources */,
 				E0865F8415875FE700B46B63 /* HomeVC.m in Sources */,
 				D8700CE819A6E30800FBF0F9 /* JY_Request.m in Sources */,
+				D8744DFC19AD71FB0015C32D /* AppointmentVC.m in Sources */,
 				E0865F8715875FF600B46B63 /* LMenuVC.m in Sources */,
 				D84718B719AC5CAC000106EC /* FMDatabasePool.m in Sources */,
 				D84718B919AC5CAC000106EC /* FMDatabaseQueue.m in Sources */,

@@ -9,11 +9,13 @@
 #import "InfoVC.h"
 #import "LMenuVC.h"
 #import "CarVC.h"
-#import "Car.h"
+#import "AppointmentVC.h"
+#import "Models.h"
 
-@interface InfoVC ()<UITableViewDelegate,UITableViewDataSource,JY_STD_Delegate>
-@property (weak, nonatomic) IBOutlet UITableView *tb_info;
-@property (strong,nonatomic) NSMutableArray *info_base,*info_cars;
+@interface InfoVC ()<UITableViewDelegate,UITableViewDataSource,UIActionSheetDelegate,JY_STD_Delegate>
+@property (retain, nonatomic) IBOutlet UITableView *tb_info;
+@property (retain,nonatomic) NSMutableArray *info_base,*info_cars;
+@property (retain, nonatomic) UIActionSheet *as_carcell;
 @end
 
 @implementation InfoVC
@@ -112,7 +114,6 @@
     }
 }
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell_Info";
@@ -150,18 +151,67 @@
     if (indexPath.section==1) {
         Car *item;
         if (indexPath.row < [self.info_cars count]) {
+            [self showCellAction:indexPath.row];
             item = self.info_cars[indexPath.row];
         } else {
-            item =[[Car alloc] init];
+            [self go_edit:[[Car alloc]init]];
         }
-
-        CarVC *vc = [[CarVC alloc] initWithData:@[item,self]];
-        
-        // We don't want to be able to pan on nav bar to see the left side when we pushed a controller
-        [self.revealSideViewController unloadViewControllerForSide:PPRevealSideDirectionLeft];
-        [self.navigationController pushViewController:vc animated:YES];
     }
 }
+
+
+-(void) showCellAction:(int)index
+{
+    if (!self.as_carcell) {
+        self.as_carcell = [[UIActionSheet alloc] initWithTitle:@"车辆管理"
+                                      delegate:self
+                             cancelButtonTitle:@"取 消"
+                        destructiveButtonTitle:@"编 辑"
+                             otherButtonTitles:@"维护预约",@"维护记录",nil];
+ 
+    }
+    [self.as_carcell setTag:index];
+    
+    [self.as_carcell setTitle:[NSString stringWithFormat:@"车辆管理:%@",[(Car*)self.info_cars[index] carnumber]]];
+    [self.as_carcell showInView:self.view];
+    
+}
+
+- (void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (actionSheet==self.as_carcell) {
+        int index=self.as_carcell.tag;
+        if (buttonIndex == actionSheet.destructiveButtonIndex) {
+            [self go_edit:self.info_cars[index]];
+        } else if (buttonIndex == 1) { //预约
+            [self go_appointment:self.info_cars[index]];
+        } else { //维护历史
+            
+        }
+    }
+}
+
+// 编辑车辆
+-(void) go_edit:(Car*) car
+{
+    CarVC *vc = [[CarVC alloc] initWithData:@[car,self]];
+    
+    // We don't want to be able to pan on nav bar to see the left side when we pushed a controller
+    [self.revealSideViewController unloadViewControllerForSide:PPRevealSideDirectionLeft];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+// 车辆预约
+-(void) go_appointment:(Car*) car
+{
+    Appointment *item = [[Appointment alloc] initWithCar:car.carnumber andShop:nil];
+    AppointmentVC *vc = [[AppointmentVC alloc] initWithData:@[@(0),self,item]];
+
+    // We don't want to be able to pan on nav bar to see the left side when we pushed a controller
+    [self.revealSideViewController unloadViewControllerForSide:PPRevealSideDirectionLeft];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 
 -(int) action:(int)act withIndex:(int)index
 {

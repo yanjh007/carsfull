@@ -921,10 +921,20 @@ static char const * const ZM_OBJTAG_KEY = "ZM_ObjectTag";
     return [dateFormatter stringFromDate:self];
 }
 
+
 + (NSString*) stringNow:(NSString*)dFormat
 {
     return [[NSDate date] stringValue:dFormat];
 }
+
+//反向秒数值
++ (NSString*) rstringNow
+{
+    NSString *now=[NSString stringWithFormat:@"%ld",(long)[NSDate timeIntervalSinceReferenceDate]];
+    
+    return [now reversedString];
+}
+
 
 + (int) daysFromNow:(NSString*)date format:(NSString*)dFormat
 {

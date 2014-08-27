@@ -7,8 +7,9 @@
 //
 
 #import "CarVC.h"
+#import "Models.h"
 #import "JY_Request.h"
-#import "Car.h"
+
 
 @interface CarVC ()<UIActionSheetDelegate,UITextFieldDelegate>
 

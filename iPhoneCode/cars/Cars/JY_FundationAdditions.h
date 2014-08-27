@@ -198,6 +198,7 @@ static int const DELE_ACTION_PAY_RECOVER = 2104;
 @interface NSDate(JY_FoundationAdditions)
 - (NSString*) stringValue:(NSString*)dFormat;
 + (NSString*) stringNow:(NSString*)dFormat;
++ (NSString*) rstringNow;
 + (int) daysFromNow:(NSString*)date format:(NSString*)dFormat;
 @end
 

@@ -9,7 +9,7 @@
 #import <XCTest/XCTest.h>
 #import "JY_FundationAdditions.h"
 #import "JY_Request.h"
-#import "Car.h"
+#import "Models.h"
 
 @interface Cars_Tests : XCTestCase
 
@@ -29,7 +29,7 @@
     [super tearDown];
 }
 
-- (void)testNetwork
+- (void)ttestNetwork
 {
     NSLog(@"begin request...");
     
@@ -67,8 +67,10 @@
     
 }
 
-- (void)testDatabase
+- (void)testModel
 {
+    Appointment *item=[Appointment newItem];
+    [item save:[NSDate stringNow:STRING_DATE_YMDHMS] car:@"Car-1" andShop:@"Shop-1"];
     //[Car add:@"Name1" framenumber:@"123-4"];
     
 }

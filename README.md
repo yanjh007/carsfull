@@ -113,6 +113,12 @@ dev journal
 - client service, recover code verify and password reset(client model)
 
 
+# 20140827
+- iOS app client appointment module,list-detail, model,viewcontroller and connect with cars module
+- iOS database improved
+- Helper improved
+- model file merged
+
 
 
 

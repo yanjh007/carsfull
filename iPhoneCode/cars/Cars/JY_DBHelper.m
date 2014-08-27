@@ -5,7 +5,6 @@
 static NSString *const DB_NAME   = @"appdata.db";
 static int const DB_VERSION = 2;
 
-
 @interface JY_DBHelper ()
 
 @end
@@ -38,25 +37,26 @@ static int const DB_VERSION = 2;
         
         if (DB_VERSION > version) { //升级
             if (version==0) { //从0升级
-                [dataBase executeUpdate:@"CREATE TABLE _meta(mname string PRIMARY KEY, mvalue text)"]; //meta表
+                [dataBase executeUpdate:@"CREATE TABLE _meta (mname string PRIMARY KEY, mvalue text)"]; //meta表
                 [dataBase executeUpdate:@"insert into _meta values('dbversion','1')"];
-                
-                [dataBase executeUpdate:@"CREATE TABLE brands(brand string, brand_sn string PRIMARY KEY, edit_at datetime)"]; //品牌型号列表
                 
                 version++;
             }
             
             if (version==1) { //从1升级
-                [dataBase executeUpdate:@"CREATE TABLE cars(carid int, carnumber string PRIMARY KEY, framenumber string, enginenumber string, brand string, brand_sn string)"];
+                [dataBase executeUpdate:@"CREATE TABLE brands (brand string, brand_sn string PRIMARY KEY, edit_at datetime)"]; //品牌型号列表
+
+                [dataBase executeUpdate:@"CREATE TABLE cars (carid int, carnumber string PRIMARY KEY, framenumber string, enginenumber string, brand string, brand_sn string)"];
+
+                [dataBase executeUpdate:@"CREATE TABLE appointments (acode string, create_at datetime, plan_at datetime, car string, shop string, status int)"];
+
                 version++;
             }
             
-            [dataBase executeUpdate:[NSString stringWithFormat:@"update _meta set mvalue=%i where mname='dbversion'",DB_VERSION]];
-            
+            [dataBase executeUpdate:@"update _meta set mvalue=? where mname='dbversion'",@(DB_VERSION)];
         }
-
+        [dataBase close];
     }
-    
 }
 
 +(FMDatabase*) openDB
@@ -73,6 +73,26 @@ static int const DB_VERSION = 2;
     } else {
         return dataBase;
     }
+}
+
++(void) updateMeta:(NSString*)k value:(NSString*)v
+{
+    FMDatabase *db = [JY_DBHelper openDB];
+    [db executeUpdate:@"UPDATE TABLE ? set mvalue=? where mname=?",TB_META,v,k];
+    [db close];
+}
+
++(NSString*) metaValue:(NSString*)k
+{
+    NSString *result=nil;
+    FMDatabase *db = [JY_DBHelper openDB];
+    FMResultSet *s = [db executeQuery:@"select mvalue from  ? where mname=? limit 1",TB_META,k];
+    if (s) {
+        if ([s next]) result=[s stringForColumnIndex:0];
+        [s close];
+    }
+    [db close];
+    return  result;
 }
 
 @end
