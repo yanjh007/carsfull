@@ -451,6 +451,21 @@ static char encodingTable[64] = {
     return NO;
 }
 
+- (NSString*) jsonString
+{
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:self
+                                                       options:NSJSONWritingPrettyPrinted // Pass 0 if you don't care about the readability of the generated string
+                                                         error:&error];
+    
+    if (jsonData) {
+        return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    } else {
+        NSLog(@"Got an error: %@", error);
+    }
+    return nil;
+}
+
 @end
 
 // 稀疏表操作

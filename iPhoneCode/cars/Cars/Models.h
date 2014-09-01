@@ -11,7 +11,7 @@
 
 #pragma mark - 预约模型
 typedef NS_ENUM(NSInteger, AppointmentStatus) {
-    AppointmentStatusEdit, //编辑中
+    AppointmentStatusEdit=0, //编辑中
     AppointmentStatusSubmited, //已提交
     AppointmentStatusConfirm, //已确认
     AppointmentStatusCanceled, //已取消

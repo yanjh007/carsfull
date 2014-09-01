@@ -1,6 +1,7 @@
 <?php
 Class Appointment extends CI_Model {
-  const SQLQUERY = 'SELECT id,client,car,atime,status FROM appointments ';
+  const SQLQUERY  = 'SELECT id,client,car,atime,status FROM appointments ';
+  const TABLENAME = 'appointments ';
   
   public function __construct() {
     $this->load->database();
@@ -50,6 +51,58 @@ Class Appointment extends CI_Model {
     //$this->db->delete('links');
     return TRUE;
   }
+  
+  public function onSubmit($json,$client_id) {
+    $apmts=json_decode($json,TRUE); //确认转化为数组
+    $list2="";
+
+    // 插入或更新数据
+    foreach ($apmts as $item) {
+      $acode = $item["acode"];
+      
+      $query = $this->db->query(self::SQLQUERY." where acode=? limit 1",$acode);
+
+      $data = array(
+	  'status'    => 1,
+	  'client'    => $client_id,
+	  'carnumber' => $item["car"],
+	  'rtime'     => $item["plan_at"], //提交时间
+	  'ptime'     => $item["plan_at"], //计划时间
+      );
+      
+      if ($query->num_rows()>0) {
+        $this->db->where('acode', $acode);
+        $this->db->update( self::TABLENAME, $data); 
+	
+      } else {
+	$data["acode"]=$acode;
+	$this->db->insert( self::TABLENAME, $data); 
+      }
+    }
+    
+    $list1=""; $i=0;
+    $query = $this->db->query(self::SQLQUERY." where status=?",2);
+    if ($query->num_rows() > 0) {
+      foreach ($query->result() as $row) {
+	if ($i>0) $list1.=",";
+	$list1.= $row->acode;
+      }
+    }
+    
+    $list2=""; $i=0;
+    $query = $this->db->query(self::SQLQUERY." where status=?",4);
+    if ($query->num_rows() > 0) {
+      foreach ($query->result() as $row) {
+	if ($i>0) $list2.=",";
+	$list2.= $row->acode;
+      }
+    }
+    
+    
+    $data["content"] = json_encode(array("list_confirm"=>$list1,"list_refuse"=>$list2));
+    return $data;
+  }
+  
  
 }
 ?>

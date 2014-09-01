@@ -80,6 +80,8 @@ static int const DELE_ACTION_PAY_RECOVER = 2104;
 #pragma mark - NSArray扩展
 @interface  NSArray (JY_FoundationAdditions)
 -(id) objectAtCheckedIndex:(NSUInteger) index;
+- (NSString*) jsonString;
+
 + (BOOL) isEmpty:(NSArray*)ary;
 @end
 

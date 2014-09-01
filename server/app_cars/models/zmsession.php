@@ -14,7 +14,7 @@ Class Zmsession extends CI_Model {
   }
   
   function is_valid_token($session,$client,$device) {
-    $query = $this->db->query("SELECT stime FROM zm_sessions where session_id = ? and device_id=?",$session,$device);
+    $query = $this->db->query("SELECT stime FROM zm_sessions where session_id = ? and device_id=?",array($session,$device));
 
     return $query -> num_rows() > 0 ;
   }

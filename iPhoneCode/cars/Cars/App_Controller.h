@@ -88,10 +88,11 @@ static NSString *const PKEY_APP_END_TIME        = @"application_close_time";
 static NSString *const PKEY_TIME_MARGIN        = @"application_time_margin_key";
 
 // 设置键值
-static NSString *const PKEY_TOKEN      = @"token";
-static NSString *const PKEY_TOKEN_TIME = @"token_time";
-static NSString *const PKEY_NOUN_TIME  = @"last_noun_time";
-static NSString *const PKEY_TOKEN_USER = @"user";
+static NSString *const PKEY_TOKEN       = @"token";
+static NSString *const PKEY_TOKEN_TIME  = @"token_time";
+static NSString *const PKEY_NOUN_TIME   = @"last_noun_time";
+static NSString *const PKEY_TOKEN_LOGIN = @"login";
+static NSString *const PKEY_TOKEN_USERID = @"userid";
 static NSString *const PKEY_TOKEN_PWD  = @"passwd";
 
 
@@ -114,16 +115,21 @@ static NSString *const UKEY_END=@"end";
 static NSString *const UVAL_END=@"20";
 
 static NSString *const UVAL_APPID=@"1005";
-static NSString *const JKEY_RESULT  = @"result";
+
+static NSString *const JKEY_RESULT  = @"R";
+static NSString *const JKEY_CONTENT = @"C";
+static NSString *const JKEY_USER    = @"U";
+static NSString *const JKEY_DEVICE  = @"I";
+static NSString *const JKEY_TIME    = @"T";
+
 static NSString *const JKEY_TITLE   = @"title";
 static NSString *const JKEY_ID      = @"id";
 static NSString *const JKEY_PAGING  = @"pagings";
-static NSString *const JKEY_CONTENT = @"content";
 
-static NSString *const JVAL_RESULT_OK=@"OK";
-static NSString *const JVAL_RESULT_FALSE=@"false";
-static NSString *const JVAL_RESULT_ERROR=@"error";
-static NSString *const JVAL_RESULT_NULL=@"null";
+static NSString *const JVAL_RESULT_OK    = @"OK";
+static NSString *const JVAL_RESULT_FALSE = @"FALSE";
+static NSString *const JVAL_RESULT_ERROR = @"ERROR";
+static NSString *const JVAL_RESULT_NULL  = @"NULL";
 
 static NSString *const UKEY_LAST_TIME=@"lastTime"; //
 

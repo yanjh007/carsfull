@@ -61,6 +61,15 @@ class Client extends CI_Model {
     }
   }
   
+  public get_id_by_login($login) {
+    $query = $this->db->query("SELECT id FROM clients where login = ? limit 1",$login);
+
+    if($query -> num_rows() > 0) {
+      return $query->row()->id;
+    } else {
+      return 0;
+    }	
+  }  
   
   public function link($client) {
     $car_number = $client["carnumber"];

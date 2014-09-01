@@ -159,6 +159,7 @@
                 [self.lb_info setText:[NSString stringWithFormat:@"用户已成功再次绑定"]];
             }
             [JY_Default saveString:content[@"token"] forKey:PKEY_TOKEN];
+            [JY_Default saveString:content[@"cid"] forKey:PKEY_TOKEN_USERID];
         } else {
             [self.lb_info setText:[NSString stringWithFormat:@"绑定失败:%@",content[@"error"]]];
         }
@@ -176,6 +177,7 @@
             if ([content[@"status"] intValue]==3) { //创建成功
                 [self.lb_info setText:[NSString stringWithFormat:@"用户验证并成功绑定，且密码修改为:%@",self.pass_code]];
                 [JY_Default saveString:content[@"token"] forKey:PKEY_TOKEN];
+                [JY_Default saveString:content[@"cid"] forKey:PKEY_TOKEN_USERID];
             } else {
                 [self.lb_info setText:@"绑定验证失败，未知错误"];
             }

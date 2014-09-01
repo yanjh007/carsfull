@@ -201,7 +201,7 @@
         } else {
             value=[v stringValue];
         }
-        if (value) {
+        if (value && [v length]>0) {
             NSString *encodedValue = [value stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             NSString *encodedKey = [key stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             NSString *part = [NSString stringWithFormat: @"%@=%@", encodedKey, encodedValue];

@@ -50,7 +50,7 @@ class Service extends CI_Controller {
 		if ($client) { //有记录，验证密码和Device
 		  if ($client["passwd"]==$passwd) {
 			$token = $this->zmsession->save(Zmsession::SESSION_TYPE_CLIENT,$login,$device,$this->input->ip_address());
-			$data["content"] = json_encode(array("status"=>2,"token"=>$token));
+			$data["content"] = json_encode(array("status"=>2,"token"=>$token,"cid"=>$client["id"]));
 		  } else {
 			$data["result"] = "FALSE";
 			$data["content"] = json_encode(array("status"=>21,"error"=>"密码错误"));
@@ -58,7 +58,8 @@ class Service extends CI_Controller {
 		} else { //无记录，新用户
 		  $this->client->add($login,$passwd,$device);
 		  $token = $this->zmsession->save(Zmsession::SESSION_TYPE_CLIENT,$login,$device,$this->input->ip_address());
-		  $data["content"] = json_encode(array("status"=>1,"token"=>$token));
+		  $cid= $this->client->get_id_by_login($login);
+		  $data["content"] = json_encode(array("status"=>1,"token"=>$token,"cid"=>$cid));
 		}	  
 	} else {
 	  $data["result"] = "FALSE";
@@ -100,7 +101,9 @@ class Service extends CI_Controller {
 		if ($r==10) { //正常验证，保存
 		  $this->load->model('zmsession');	
 		  $token = $this->zmsession->save(Zmsession::SESSION_TYPE_CLIENT,$login,$device,$this->input->ip_address());
-		  $data["content"] = json_encode(array("status"=>3,"token"=>$token));
+		  $cid= $this->client->get_id_by_login($login);
+		  
+		  $data["content"] = json_encode(array("status"=>3,"token"=>$token,"cid"=>$cid));
 		} else if ($r==1) { //验证码匹配错误
 		  $data["result"]="FALSE"; 
 		  $data["content"] = json_encode(array("status"=>23,"error"=>"验证码错误"));		  
@@ -125,7 +128,12 @@ class Service extends CI_Controller {
   public function _apmt() { //预约服务接口
 	if (!$this->_tokenCheck()) return;
 	
-	$data["content"] = json_encode(array("list_confirm"=>"B01,B02","list_refuse"=>"A01,A02"));	  
+	$this->load->model('appointment');
+	
+	$content = $this->input->get_post('C');
+	$client  = $this->input->get_post('U');
+	
+	$data = $this->appointment->onSubmit($content,$client);	  
 	$this->load->view('service/json_std', $data);
   }
   

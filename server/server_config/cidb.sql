@@ -3,15 +3,15 @@
 
  Source Server         : localdb
  Source Server Type    : MySQL
- Source Server Version : 50620
+ Source Server Version : 50538
  Source Host           : localhost
  Source Database       : cidb
 
  Target Server Type    : MySQL
- Target Server Version : 50620
+ Target Server Version : 50538
  File Encoding         : utf-8
 
- Date: 08/26/2014 16:53:11 PM
+ Date: 09/02/2014 01:18:04 AM
 */
 
 SET NAMES utf8;
@@ -30,6 +30,7 @@ CREATE TABLE `appointments` (
   `content` varchar(256) DEFAULT NULL,
   `ptime` datetime DEFAULT NULL COMMENT '计划时间',
   `status` smallint(6) DEFAULT NULL,
+  `carnumber` varchar(15) DEFAULT NULL,
   `shop` int(11) DEFAULT NULL,
   `descp` varchar(128) DEFAULT NULL,
   `edit_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
@@ -140,7 +141,7 @@ CREATE TABLE `ci_sessions` (
 --  Records of `ci_sessions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `ci_sessions` VALUES ('0d6c36cb8978d428e38ade011d935d84', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.8 (KHTML, like Gecko) Version/8.0 Safari/600.1.8', '1409014055', ''), ('862337dd91ce25dedf3cf1813f83d4ba', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1409016187', ''), ('9fc7eb451dae55045b4b371ab28fde7e', '127.0.0.1', 'Mozilla/5.0 (iPhone; CPU iPhone OS 7_0 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A465', '1409014056', ''), ('aa70cc5c3fe873e4d6fd9a5dfc5c4659', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1408957910', ''), ('fbc7ddd3423d89a4d3b4787b5712fb27', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1409022051', '');
+INSERT INTO `ci_sessions` VALUES ('9bf2ad658a2b24a521341e5aa471f017', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/13.3.0', '1409587804', ''), ('cddf2085e599a38bcf641fbb99fe8550', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/13.3.0', '1409580887', '');
 COMMIT;
 
 -- ----------------------------
@@ -152,7 +153,7 @@ CREATE TABLE `clients` (
   `ctype` tinyint(4) DEFAULT NULL COMMENT '客户类型',
   `login` varchar(20) DEFAULT NULL,
   `passwd` varchar(100) DEFAULT NULL,
-  `deviceid` varchar(36) DEFAULT NULL,
+  `deviceid` varchar(20) DEFAULT NULL,
   `name` varchar(30) DEFAULT NULL,
   `address` varchar(128) DEFAULT NULL,
   `contact` varchar(128) DEFAULT NULL,
@@ -163,16 +164,14 @@ CREATE TABLE `clients` (
   `edit_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `login_at` datetime DEFAULT NULL,
   `status` tinyint(4) DEFAULT NULL,
-  `vcode` varchar(10) DEFAULT NULL,
-  `vtime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `clients`
 -- ----------------------------
 BEGIN;
-INSERT INTO `clients` VALUES ('1', null, 'shixc', 'a5b09e5b217127812c3f0e778dd1098404ce1fd4', null, '施磊', null, null, '18602802121', 'X_shileixc', null, '1', '2014-08-14 16:04:33', null, null, null, null), ('2', null, 'yanjh', 'aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d', null, '颜建华', null, null, '13808077242', 'X_hahar006', null, '0', '2014-08-25 15:02:52', null, null, null, null), ('4', null, null, null, null, '周琪', null, null, '13880735908', 'Q8990099', null, '0', null, null, null, null, null), ('10', null, null, null, null, '陶莉', null, null, '13882189728', 'Q89960707', null, '0', '2014-08-15 15:21:08', null, null, null, null), ('11', null, '13908077242', '43485bbc9d6913993917c1e30af0e64bbfc1a2b2', '20170A5F-02B5-4D54-BDFE-EF0D4C7F8B8D', null, null, null, '13908077242', null, null, '0', '2014-08-26 11:09:22', null, null, '844174', '2014-08-26 11:09:06'), ('13', null, '13908077243', 'aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d', '20170A5F-02B5-4D54-BDFE-EF0D4C7F8B8D', null, null, null, '13908077243', null, null, '0', null, null, null, null, null), ('14', null, '13908077244', '968eebd91ee926d12857ecbeb3c9c8501a202dd5', '20170A5F-02B5-4D54-BDFE-EF0D4C7F8B8D', null, null, null, '13908077244', null, null, '0', '2014-08-25 17:11:50', null, null, '345463', '2014-08-25 17:11:50');
+INSERT INTO `clients` VALUES ('1', null, 'shixc', 'a5b09e5b217127812c3f0e778dd1098404ce1fd4', null, '施磊', null, null, '18602802121', 'X_shileixc', null, '1', '2014-08-14 16:04:33', null, null), ('2', null, 'yanjh', null, null, '颜建华', null, null, '13808077242', 'X_hahar006', null, '0', null, null, null), ('4', null, null, null, null, '周琪', null, null, '13880735908', 'Q8990099', null, '0', null, null, null), ('10', null, null, null, null, '陶莉', null, null, '13882189728', 'Q89960707', null, '0', '2014-08-15 15:21:08', null, null), ('11', null, '13908077242', 'aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d', '8C1AF92C-CDBC-4791-B', null, null, null, '13908077242', null, null, '0', null, null, null);
 COMMIT;
 
 -- ----------------------------
@@ -331,7 +330,7 @@ CREATE TABLE `zm_sessions` (
   `session_id` varchar(56) NOT NULL COMMENT 'sha1(时间)+ip(aaaaaaaa)',
   `client_id` varchar(20) DEFAULT NULL,
   `stime` datetime DEFAULT NULL,
-  `device_id` varchar(20) DEFAULT NULL,
+  `device_id` varchar(40) DEFAULT NULL,
   `ip_address` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`session_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -340,7 +339,7 @@ CREATE TABLE `zm_sessions` (
 --  Records of `zm_sessions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `zm_sessions` VALUES ('0', '2d2d763917352e6af02a07abc19a8ebef20c34f17f000001', 'shixc', '2014-08-14 09:55:30', 'bbb', null);
+INSERT INTO `zm_sessions` VALUES ('0', '2d2d763917352e6af02a07abc19a8ebef20c34f17f000001', 'shixc', '2014-08-14 09:55:30', 'bbb', null), ('2', '8fe11966741cee825ffede84a104d026c47b36ca7f000001', '13908077242', '2015-09-01 23:12:57', '8C1AF92C-CDBC-4791-BA37-761F576108FF', null);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

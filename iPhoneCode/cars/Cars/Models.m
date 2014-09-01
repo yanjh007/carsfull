@@ -77,18 +77,22 @@
     NSString *sql= [NSString stringWithFormat:@"SELECT acode,car,shop,create_at,plan_at FROM appointments where status=%i",AppointmentStatusEdit];
     
     FMResultSet *s = [db executeQuery:sql];
-    NSMutableString *submit=[NSMutableString stringWithString:@""];
+
+    NSMutableArray *ary=[NSMutableArray array];
     while ([s next]) {
-        if ([submit length]>0) {
-            [submit appendString:@","];
-        }
-        [submit appendString:[NSString stringWithFormat:@"{\"acode\":\"%@\"}",[s stringForColumnIndex:0]]];
+        NSDictionary *dic=@{
+                            @"acode":[s stringForColumnIndex:0],
+                            @"car":[s stringForColumnIndex:1],
+                            @"plan_at":[s stringForColumnIndex:4]
+                            };
+        [ary addObject:dic];
     }
     [db close];
-    if ([submit length] ==0) {
-        return @"";
+    if ([ary count] ==0) {
+        return nil;
     } else {
-        return [NSString stringWithFormat:@"[%@]",submit];
+        return [[ary copy] jsonString];
+//        return [NSString stringWithFormat:@"[%@]",submit];
     }
     
 }
@@ -98,9 +102,9 @@
     FMDatabase  *db=[JY_DBHelper openDB];
     if (self.acode==nil || [self.acode length]==0) {
         NSString *code=[NSString stringWithFormat:@"A%@",[NSDate rstringNow]];
-        [db executeUpdate:@"INSERT INTO appointments (acode,create_at,plan_at,car,shop,status) values (?,?,?,?,?,?)",code,plan_at,plan_at,car,shop,AppointmentStatusEdit];
+        [db executeUpdate:@"INSERT INTO appointments (acode,status,create_at,plan_at,car,shop) values (?,?,?,?,?,?)",code,@(AppointmentStatusEdit),plan_at,plan_at,car,shop];
     } else {
-        [db executeUpdate:@"UPDATE ? set plan_at=?,status=? where acode=?",TB_APPOINTMENTS,plan_at,self.acode,AppointmentStatusEdit] ;
+        [db executeUpdate:@"UPDATE ? set plan_at=?,status=? where acode=?",TB_APPOINTMENTS,plan_at,@(AppointmentStatusEdit),self.acode] ;
     }
     
     [db close];

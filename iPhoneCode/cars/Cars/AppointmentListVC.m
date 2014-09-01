@@ -116,16 +116,14 @@ static NSArray *ary_titles;
     
     if (indexPath.section==0) {
         item=self.ary_apmts1[indexPath.row];
-        cell.textLabel.text=item.acode;
-        
     } else if (indexPath.section==1) {
         item=self.ary_apmts2[indexPath.row];
-        cell.textLabel.text=item.acode;
-
     } else {
         item=self.ary_apmts3[indexPath.row];
-        cell.textLabel.text=item.acode;
     }
+
+    [cell.textLabel setText:item.car];
+    [cell.detailTextLabel setText:item.acode];
     
     return cell;
 }
@@ -185,32 +183,46 @@ static NSArray *ary_titles;
 - (void) submitAppoints
 {
     NSString *token =[JY_Default getString:PKEY_TOKEN];
-    NSString *user  =[JY_Default getString:PKEY_TOKEN_USER];
+    NSString *user  =[JY_Default getString:PKEY_TOKEN_USERID];
     
     NSString *apmts= [Appointment getForSubmit];
     
-    [JY_Request post:@{@"M":@"apmts",
-                       @"I":[JY_Helper fakeIMEI],
-                       @"S":token,
-                       @"U":user,
-                       @"C":apmts
-                       }
-             withURL:URL_BASE_URL
-          completion:^(int status, NSString *result){
-              if (status==JY_STATUS_OK) {
-                  [self handleResult:result];
-              } else {
-                  NSLog(@"数据错误");
-              }
-              
-          }];
+    if (apmts) {
+        [JY_Request post:@{@"M":@"apmts",
+                           @"I":[JY_Helper fakeIMEI],
+                           @"S":token?token:@"",
+                           @"U":user?user:@"",
+                           @"C":apmts?apmts:@""
+                           }
+                 withURL:URL_BASE_URL
+              completion:^(int status, NSString *result){
+                  if (status==JY_STATUS_OK) {
+                      [self handleResult:result];
+                  } else {
+                      NSLog(@"数据错误");
+                  }
+                  
+              }];
+    }
     
     
 }
 
 -(void) handleResult:(NSString*) result
 {
-    
+    NSLog(@"result:%@",result);
+    NSDictionary *json=[result jsonObject];
+    if (json) {
+        NSDictionary *content=json[JKEY_CONTENT] ;
+        if ([JVAL_RESULT_OK isEqualToString:json[JKEY_RESULT]]) {
+
+            
+        } else {
+            NSLog(@"内容错误%@",content[JKEY_CONTENT]);
+        }
+    } else {
+        NSLog(@"格式错误");
+    }
 }
 
 @end
