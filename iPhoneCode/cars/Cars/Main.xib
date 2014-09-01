@@ -506,6 +506,9 @@
             <nil key="simulatedBottomBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+            <connections>
+                <outlet property="tb_appointments" destination="SPK-KA-pnQ" id="WML-yF-trg"/>
+            </connections>
         </viewController>
     </objects>
 </document>

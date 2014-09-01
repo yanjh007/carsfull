@@ -119,6 +119,13 @@ dev journal
 - Helper improved
 - model file merged
 
+# 20140901
+- iOS app client appointment module
+- server side, login module, add session and session check function
+
+
+
+
 
 
 

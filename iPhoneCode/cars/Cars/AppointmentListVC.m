@@ -13,8 +13,9 @@
 #import "AppointmentVC.h"
 
 
-@interface AppointmentListVC ()<UIActionSheetDelegate,UITextFieldDelegate>
+@interface AppointmentListVC ()<UIActionSheetDelegate,UITextFieldDelegate,JY_STD_Delegate>
 @property (retain,nonatomic) NSMutableArray *ary_apmts1,*ary_apmts2,*ary_apmts3;
+@property (strong, nonatomic) IBOutlet UITableView *tb_appointments;
 
 @end
 
@@ -24,8 +25,6 @@
 {
     self = [JY_Helper loadNib:NIB_MAIN atIndex:7];
     if (self) {
-        self.ary_apmts1=[[Appointment getList:0] copy];
-
     }
     return self;
 }
@@ -58,6 +57,9 @@
     [super viewWillAppear:animated];
     LMenuVC *menu = [[LMenuVC alloc] init];
     [self.revealSideViewController preloadViewController:menu forSide:PPRevealSideDirectionLeft];
+    
+    [self refreshData];
+    [self submitAppoints];
 }
 
 - (void)viewDidUnload
@@ -85,16 +87,19 @@
     // Return the number of rows in the section.
     if (section==0) {
         return [self.ary_apmts1 count];
+    } else if (section==1) {
+        return [self.ary_apmts2 count];
+    } else if (section==2) {
+        return [self.ary_apmts3 count];
     } else {
         return 0;
     }
-    
 }
 static NSArray *ary_titles;
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section;
 {
-    ary_titles=@[@"计划中",@"未计划",@"已取消"];
+    ary_titles=@[@"已确认",@"待确认",@"已取消"];
     return ary_titles[section];
 }
 
@@ -159,7 +164,54 @@ static NSArray *ary_titles;
     }
 }
 
+-(int) action:(int)act withIndex:(int)index
+{
+    if (act==DELE_LIST_RELOAD) {
+        [self refreshData];
+    }
+    return DELE_RESULT_VOID;
+}
 
+- (void) refreshData
+{
+    self.ary_apmts1=[[Appointment getList:1] copy];
+    self.ary_apmts2=[[Appointment getList:2] copy];
+    self.ary_apmts3=[[Appointment getList:3] copy];
+    
+    [self.tb_appointments reloadData];
+    
+}
+
+- (void) submitAppoints
+{
+    NSString *token =[JY_Default getString:PKEY_TOKEN];
+    NSString *user  =[JY_Default getString:PKEY_TOKEN_USER];
+    
+    NSString *apmts= [Appointment getForSubmit];
+    
+    [JY_Request post:@{@"M":@"apmts",
+                       @"I":[JY_Helper fakeIMEI],
+                       @"S":token,
+                       @"U":user,
+                       @"C":apmts
+                       }
+             withURL:URL_BASE_URL
+          completion:^(int status, NSString *result){
+              if (status==JY_STATUS_OK) {
+                  [self handleResult:result];
+              } else {
+                  NSLog(@"数据错误");
+              }
+              
+          }];
+    
+    
+}
+
+-(void) handleResult:(NSString*) result
+{
+    
+}
 
 @end
 

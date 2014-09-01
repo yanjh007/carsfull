@@ -88,9 +88,11 @@ static NSString *const PKEY_APP_END_TIME        = @"application_close_time";
 static NSString *const PKEY_TIME_MARGIN        = @"application_time_margin_key";
 
 // 设置键值
-static NSString *const PKEY_TOKEN=@"token";
-static NSString *const PKEY_TOKEN_TIME=@"token_time";
-static NSString *const PKEY_NOUN_TIME=@"last_noun_time";
+static NSString *const PKEY_TOKEN      = @"token";
+static NSString *const PKEY_TOKEN_TIME = @"token_time";
+static NSString *const PKEY_NOUN_TIME  = @"last_noun_time";
+static NSString *const PKEY_TOKEN_USER = @"user";
+static NSString *const PKEY_TOKEN_PWD  = @"passwd";
 
 
 // 标准常用字典键值

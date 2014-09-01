@@ -24,7 +24,8 @@ typedef NS_ENUM(NSInteger, AppointmentStatus) {
 @property (assign) int aid,status;
 
 
-+(NSArray*) getList:(int)imode;
++(NSArray*) getList:(int)imode; //各种预约列表
++(NSString *) getForSubmit; //用于提交
 
 +(instancetype) newItem;
 -(instancetype) initWithCar:(NSString*)car andShop:(NSString*)shop;

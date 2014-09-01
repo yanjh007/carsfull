@@ -15,56 +15,20 @@ class Service extends CI_Controller {
 	    return;
 	  case "recover": //重置密码
 		$this->_recover();
+		return;
+	  case "apmts": //预约
+		$this->_apmt();
+	    return;
+	  case "shops": //预约
+		$this->_shop();
 	    return;
 	  default:
-		$this->load->helper('date');
-		$data["server_time"] = now();
-	    $data["error"]="bad request";
-		$this->load->view('service/json_false', $data);	
+		  $data["result"] = "FALSE";
+		  $data["content"] = json_encode(array("status"=>404,"error"=>"Request Not Found"));
+		  $this->load->view('service/json_std', $data);
 	}	
   }
   
-  
-  
-  public function crypt() {
-    	if ($method) {
-	  $content = str_replace(" ","+",$content); //
-
-	  // 加解密库
-	  $this->load->library('encrypt');
-	  //$this->encrypt->set_cipher(MCRYPT_RIJNDAEL_128);
-	  $this->encrypt->set_mode(MCRYPT_MODE_ECB);
-	  
-	  $this->load->helper('date');
-	  
-	  $key = mdate("%Y%m%d", now());
-	  $key = substr($this->encrypt->sha1($key),0,32);
-	  
-	  //$original = $this->encrypt->decode(base64_decode($content),$key);
-	  	  
-	  // 解密方式
-	  $iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_ECB);
-	  $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
-	  $original = trim(mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key, base64_decode($content), MCRYPT_MODE_ECB));
-	  $original = utf8_encode(rtrim($original, "\x03"));
-	  
-	  log_message("error","内容:".$content);
-	  log_message("error","key:".$key.",decode:".$original);
-	  
-	  $json = json_decode($original);
-	  
-	  if ($json) {
-	    $data["content"]= "\"".$json->method."\""; //$original;
-	    $this->load->view('service/json_ok', $data);
-	    exit;
-	  } else {
-	    $data["error"]="data format error";	
-	  }
-	} else {
-	  $data["error"]="bad request";	  
-	}
-  }
-
   // 登录接口 login，getcode,recover
   /* 登录接口状态
    * 1-新用户创建并登录 2-已有用户正常登录 3-密码验证恢复登录
@@ -79,18 +43,22 @@ class Service extends CI_Controller {
 		$passwd   = substr($hash,0,40);
 		$device= $this->input->get_post('I');
 		
+		$this->load->model('zmsession');
+		
 		$this->load->model('client','',TRUE);
 		$client= $this->client->get_by_login($login);
 		if ($client) { //有记录，验证密码和Device
 		  if ($client["passwd"]==$passwd) {
-			$data["content"] = json_encode(array("status"=>2));
+			$token = $this->zmsession->save(Zmsession::SESSION_TYPE_CLIENT,$login,$device,$this->input->ip_address());
+			$data["content"] = json_encode(array("status"=>2,"token"=>$token));
 		  } else {
 			$data["result"] = "FALSE";
 			$data["content"] = json_encode(array("status"=>21,"error"=>"密码错误"));
 		  }
 		} else { //无记录，新用户
 		  $this->client->add($login,$passwd,$device);
-		  $data["content"] = json_encode(array("status"=>1));
+		  $token = $this->zmsession->save(Zmsession::SESSION_TYPE_CLIENT,$login,$device,$this->input->ip_address());
+		  $data["content"] = json_encode(array("status"=>1,"token"=>$token));
 		}	  
 	} else {
 	  $data["result"] = "FALSE";
@@ -130,7 +98,9 @@ class Service extends CI_Controller {
 		$this->load->model('client','',TRUE);
 		$r=$this->client->vsave($login,$passwd,$vcode) ;
 		if ($r==10) { //正常验证，保存
-		  $data["content"] = json_encode(array("status"=>3));
+		  $this->load->model('zmsession');	
+		  $token = $this->zmsession->save(Zmsession::SESSION_TYPE_CLIENT,$login,$device,$this->input->ip_address());
+		  $data["content"] = json_encode(array("status"=>3,"token"=>$token));
 		} else if ($r==1) { //验证码匹配错误
 		  $data["result"]="FALSE"; 
 		  $data["content"] = json_encode(array("status"=>23,"error"=>"验证码错误"));		  
@@ -148,80 +118,43 @@ class Service extends CI_Controller {
 	$this->load->view('service/json_std', $data);
   }
 
-  public function login1() { //登录服务 客户端提交sha1(password)+username 服务器响应session和错误
-	$this->load->helper('date');
-	$data["server_time"] = now();
-
-	$hash  = $this->input->get_post('hash');
-	$device= $this->input->get_post('deviceid');
-	if ($hash) { // Post
-		$this->load->model('zmsession');
-   		$username    = substr($hash,41);
-		$sessiontype = substr($hash,40,1);
-		
-		if ($sessiontype==="0") {
-		  $this->load->model('client','',TRUE); //加载客户模型
-		  $password = $this->client->get_passwd_by_login($username);
-		  //var_dump($sessiontype."-".$username."-".$password);
-		  if ($password == substr($hash,0,40)) { //验证成功
-			  $data["session"] = $this->zmsession->save("0",$username,$device,$this->input->ip_address());
-			  $this->load->view('service/login_ok', $data);
-			  return TRUE;
-		  }
-		} else if ($sessiontype==="1") {
-		  $this->load->model('user','',TRUE); //加载用户模型
-		  $user = $this->user->get_user_by_login($username);
-		  if ($user) {
-			  $password = substr($hash,0,40);
-			  if ($password == $user->passwd) { //验证成功
-				  $data["session"] = $this->zmsession->save("0",$username,$device,$this->input->ip_address());
-				  $this->load->view('service/login_ok', $data);
-				  return TRUE;
-			  }
-		}
-		  
-		}
-		$data["error"]="用户名或密码错误"; 
-	} else {
-	  $data["error"]="数据格式错误";  
-	}
+  /*
+   * 提交 S,I,C(待审核预约列表)
+   * 返回 R,C(审核确认列表，包括确认和改期,审核取消列表)
+   */
+  public function _apmt() { //预约服务接口
+	if (!$this->_tokenCheck()) return;
 	
-	$this->load->view('service/login_false', $data);
-  }
-
-  public function verify() { //登录验证 客户端提交session 服务器响应session是否正确和过期
-	$this->load->helper('date');
-	$data["server_time"] = now();
-
-	$hash=$this->input->get_post('hash');
-	if ($hash) { // Post
-		$this->load->model('zmsession');	
-		$hash.= $this->zmsession->hex_ip($this->input->ip_address());
-		
-		if ($this->zmsession->is_valid($hash)) {		  
-		  $this->load->view('service/verify_ok', $data);
-		  return TRUE;
-		} else {
-		  $data["error"]="无有效记录"; 
-		}
-	} else {
-	  $data["error"]="数据格式错误";  
-	}
-	
-	$this->load->view('service/verify_false', $data);	
-  }  
-
-  public function client($action="") { //客户服务接口
-	if ($action=="login") {
-	  echo "Login OK";	  
-	} else {
-	  echo "OK";	  
-	}
+	$data["content"] = json_encode(array("list_confirm"=>"B01,B02","list_refuse"=>"A01,A02"));	  
+	$this->load->view('service/json_std', $data);
   }
   
-  public function user($action) { //客户服务接口
-
+  public function _shops() { //店铺信息同步接口
+	if (!$this->_tokenCheck()) return;
 
   }
+  
+  function _tokenCheck() {
+	$token  = $this->input->get_post('S');
+	$device = $this->input->get_post('I');
+	$user   = $this->input->get_post('U');
+	
+	if ($token!=NULL && strlen($token)>0) {
+	  $this->load->model('zmsession');	
+	  $token.= $this->zmsession->hex_ip($this->input->ip_address());
+	  
+	  if ($this->zmsession->is_valid_token($token,$user,$device)) {
+		return TRUE;
+	  } else {
+		$check = "无效的Token";
+	  }  
+	} else {
+	  $check="无效的请求或数据";
+	}
 
+	$data["result"] = "FALSE";
+	$data["content"] = json_encode(array("status"=>25,"error"=>$check));
+	$this->load->view('service/json_std', $data);
+	return FALSE;	
+  }
 }

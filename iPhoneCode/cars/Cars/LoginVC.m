@@ -71,6 +71,8 @@
         return;
     }
     
+    [JY_Default saveString:self.tv_user.text forKey:PKEY_TOKEN_USER];
+
     if  (self.verify_code) { //验证恢复模式
         int l=self.tv_code.text.length;
         
@@ -79,7 +81,7 @@
         
         [JY_Request post:@{@"M":@"recover",
                            @"I":[JY_Helper fakeIMEI],
-                           @"H":[NSString stringWithFormat:@"%@%@%@",[self.pass_code sha1],self.verify_code,self.tv_user.text],
+                           @"H":[NSString stringWithFormat:@"%@%@%@",[self.pass_code sha1],self.verify_code,self.tv_user.text]
                            }
                  withURL:URL_BASE_URL
               completion:^(int status, NSString *result){
@@ -114,6 +116,7 @@
         return;
     }
     
+
     [JY_Request post:@{@"M":@"getcode",
                        @"login":self.tv_user.text}
              withURL:URL_BASE_URL
@@ -155,6 +158,7 @@
             } else { //登录成功 status 2
                 [self.lb_info setText:[NSString stringWithFormat:@"用户已成功再次绑定"]];
             }
+            [JY_Default saveString:content[@"token"] forKey:PKEY_TOKEN];
         } else {
             [self.lb_info setText:[NSString stringWithFormat:@"绑定失败:%@",content[@"error"]]];
         }
@@ -171,6 +175,7 @@
         if ([@"OK" isEqualToString:json[@"R"]]) {
             if ([content[@"status"] intValue]==3) { //创建成功
                 [self.lb_info setText:[NSString stringWithFormat:@"用户验证并成功绑定，且密码修改为:%@",self.pass_code]];
+                [JY_Default saveString:content[@"token"] forKey:PKEY_TOKEN];
             } else {
                 [self.lb_info setText:@"绑定验证失败，未知错误"];
             }

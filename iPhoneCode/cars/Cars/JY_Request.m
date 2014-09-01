@@ -194,6 +194,8 @@
     for (NSString *key in params.allKeys) {
         id v=params[key];
         NSString *value;
+        if (!v) continue;
+
         if ([v isKindOfClass:[NSString class]]) {
             value=v;
         } else {

@@ -1,5 +1,9 @@
 <?php
 Class Zmsession extends CI_Model {
+  const TABLE_NAME          = 'zm_sessions';
+  const SESSION_TYPE_USER   = 1;
+  const SESSION_TYPE_CLIENT = 2;
+  
   function is_valid($session) {
 	$this->load->helper('date');
     
@@ -9,6 +13,17 @@ Class Zmsession extends CI_Model {
     return $query -> num_rows() > 0 ;
   }
   
+  function is_valid_token($session,$client,$device) {
+    $query = $this->db->query("SELECT stime FROM zm_sessions where session_id = ? and device_id=?",$session,$device);
+
+    return $query -> num_rows() > 0 ;
+  }
+  
+  /*
+   * 保存seession，返回token
+   *
+   */
+  
   function save($stype,$clientid,$deviceid,$ip) {
 	$this->load->library('encrypt');
 	$this->load->helper('general');
@@ -16,7 +31,13 @@ Class Zmsession extends CI_Model {
 	
 	$hip=$this->hex_ip($ip);
 	
-	$time = now()+3600;
+	$time = now();
+	if ($stype==self::SESSION_TYPE_CLIENT) {
+	  $time=$time+365*86400;
+	} else {
+	  $time=$time+3600;
+	}
+	
 	$stime= date("Y-m-d H:i:s",$time);
 	
 	$session = $this->encrypt->sha1($stime);
@@ -31,7 +52,6 @@ Class Zmsession extends CI_Model {
 
 	$this->db->insert('zm_sessions', $data);
 	return $session;
-
   }
   
   function hex_ip($ip) {// 转成16进制字符串  

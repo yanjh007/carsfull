@@ -71,6 +71,28 @@
     return [ary copy];
 }
 
++(NSString *) getForSubmit
+{
+    FMDatabase  *db=[JY_DBHelper openDB];
+    NSString *sql= [NSString stringWithFormat:@"SELECT acode,car,shop,create_at,plan_at FROM appointments where status=%i",AppointmentStatusEdit];
+    
+    FMResultSet *s = [db executeQuery:sql];
+    NSMutableString *submit=[NSMutableString stringWithString:@""];
+    while ([s next]) {
+        if ([submit length]>0) {
+            [submit appendString:@","];
+        }
+        [submit appendString:[NSString stringWithFormat:@"{\"acode\":\"%@\"}",[s stringForColumnIndex:0]]];
+    }
+    [db close];
+    if ([submit length] ==0) {
+        return @"";
+    } else {
+        return [NSString stringWithFormat:@"[%@]",submit];
+    }
+    
+}
+
 -(BOOL) save:(NSString*)plan_at car:(NSString*)car andShop:(NSString*)shop
 {
     FMDatabase  *db=[JY_DBHelper openDB];
