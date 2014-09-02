@@ -9,6 +9,7 @@
 #import "HomeVC.h"
 #import "LMenuVC.h"
 #import "LoginVC.h"
+#import "Models.h"
 
 @interface HomeVC ()
 
@@ -21,6 +22,7 @@
     self = [JY_Helper loadNib:NIB_MAIN atIndex:1];
     if (self) {
         // Custom initialization
+        [Shop syncShops]; //同步店铺信息
     }
     return self;
 }
@@ -72,6 +74,9 @@
     else
         [self.revealSideViewController presentModalViewController:n animated:YES];
 }
+
+
+
 
 
 @end

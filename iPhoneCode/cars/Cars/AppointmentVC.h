@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+@interface AppointmentListVC : UIViewController
+@end
+
 @interface AppointmentVC : UIViewController
 - (id)initWithData:(NSArray*)adata;
 @end

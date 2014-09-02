@@ -1,7 +1,8 @@
 <?php
 Class Appointment extends CI_Model {
   const SQLQUERY  = 'SELECT id,client,car,atime,status FROM appointments ';
-  const TABLENAME = 'appointments ';
+  const TABLENAME  = 'appointments';
+  const TABLENAME2 = 'car_aptms';
   
   public function __construct() {
     $this->load->database();
@@ -62,21 +63,28 @@ Class Appointment extends CI_Model {
       
       $query = $this->db->query(self::SQLQUERY." where acode=? limit 1",$acode);
 
-      $data = array(
-	  'status'    => 1,
-	  'client'    => $client_id,
-	  'carnumber' => $item["car"],
-	  'rtime'     => $item["plan_at"], //提交时间
-	  'ptime'     => $item["plan_at"], //计划时间
+      $data1 = array(
+		'status'    => 1,
+		'rtime'     => $item["plan_at"], //提交时间
+		'ptime'     => $item["plan_at"], //计划时间
       );
       
+      $data2 = array (
+		'client'    => $client_id,
+		'carnumber' => $item["car"],
+      );
+
       if ($query->num_rows()>0) {
         $this->db->where('acode', $acode);
-        $this->db->update( self::TABLENAME, $data); 
-	
+		
+        $this->db->update(self::TABLENAME,  $data1);
+        $this->db->update(self::TABLENAME2, $data2);		
       } else {
-	$data["acode"]=$acode;
-	$this->db->insert( self::TABLENAME, $data); 
+		$data1["acode"]=$acode;
+		$this->db->insert(self::TABLENAME, $data1); 
+
+		$data2["acode"]=$acode;
+		$this->db->insert(self::TABLENAME2, $data2); 
       }
     }
     
@@ -93,8 +101,8 @@ Class Appointment extends CI_Model {
     $query = $this->db->query(self::SQLQUERY." where status=?",4);
     if ($query->num_rows() > 0) {
       foreach ($query->result() as $row) {
-	if ($i>0) $list2.=",";
-	$list2.= $row->acode;
+		if ($i>0) $list2.=",";
+		$list2.= $row->acode;
       }
     }
     

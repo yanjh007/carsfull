@@ -128,18 +128,23 @@ class Service extends CI_Controller {
   public function _apmt() { //预约服务接口
 	if (!$this->_tokenCheck()) return;
 	
-	$this->load->model('appointment');
 	
 	$content = $this->input->get_post('C');
 	$client  = $this->input->get_post('U');
 	
+	$this->load->model('appointment');
 	$data = $this->appointment->onSubmit($content,$client);	  
 	$this->load->view('service/json_std', $data);
   }
   
-  public function _shops() { //店铺信息同步接口
-	if (!$this->_tokenCheck()) return;
+  public function _shop() { //店铺信息同步接口
+	//if (!$this->_tokenCheck()) return;
+	
+	$this->load->model('shop');
+	$version = $this->input->get_post('V');
 
+	$data = $this->shop->onSubmit($version);	  
+	$this->load->view('service/json_std', $data);
   }
   
   function _tokenCheck() {

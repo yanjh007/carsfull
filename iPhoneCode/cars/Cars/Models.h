@@ -40,7 +40,7 @@ typedef NS_ENUM(NSInteger, AppointmentStatus) {
 @property (strong,nonatomic) NSString *scode,*name,*address;
 
 +(NSArray*) getList;
-+(void) save:(NSDictionary*)dic at:(NSString*)dtime; //保存同步数据
++(void) syncShops;
 
 @end
 

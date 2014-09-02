@@ -1,6 +1,6 @@
 <?php
 class Shop extends CI_Model {
-  const SQLQUERY  = 'SELECT id,scode,name,address,contact FROM shops ';
+  const SQLQUERY  = 'SELECT id,scode,name,address,contact FROM shops  ';
   const TABLENAME = 'shops';
   
   public function __construct() {
@@ -20,7 +20,7 @@ class Shop extends CI_Model {
   }
 
   public function get_shop($sid){
-    $sql= Shop::SQLQUERY." where id=".$sid ;
+    $sql= self::SQLQUERY." where id=".$sid ;
     $query = $this->db->query($sql);
     return $query->row_array();
   }
@@ -39,12 +39,18 @@ class Shop extends CI_Model {
     } else {
       $this->db->insert(self::TABLENAME, $data); 
     }
+	
+	$this->load->model('zmversion');
+    $this->zmversion->setVersion("shop_version");
     return TRUE;
   }
   
   public function remove($item_id) {
     $this->db->where('id', $item_id);
     $this->db->delete(self::TABLENAME); 
+
+	$this->load->model('zmversion');
+    $this->zmversion->setVersion("shop_version");
     return TRUE;
   }
   
@@ -77,6 +83,25 @@ class Shop extends CI_Model {
       }
 	}
     return NULL;
+  }
+  
+  // 依据时间获取店铺列表
+  public function onSubmit($version) {
+	$this->load->model("zmversion");
+	$v2 = $this->zmversion->checkVersion("shop_version",$version?$version:0);
+	
+	if ($v2==0) {
+	  $data["result"] = "NULL";
+	} else {
+	  $query = $this->db->query(self::SQLQUERY." order by scode");	  
+	  if ($query->num_rows() > 0) {
+		$data["content"] = json_encode(array("version"=>$v2,"shops"=>($query->result())));
+	  } else {
+		$data["result"] = "NULL";
+	  }	  
+	}
+
+    return $data;
   }
   
 }

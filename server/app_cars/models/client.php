@@ -51,7 +51,7 @@ class Client extends CI_Model {
     return TRUE;
   }
   
-  function get_passwd_by_login($login) {
+  public function get_passwd_by_login($login) {
     $query = $this->db->query("SELECT passwd FROM clients where login ='".$login."' limit 1");
 
     if($query -> num_rows() > 0) {
@@ -61,7 +61,7 @@ class Client extends CI_Model {
     }
   }
   
-  public get_id_by_login($login) {
+  public function get_id_by_login($login) {
     $query = $this->db->query("SELECT id FROM clients where login = ? limit 1",$login);
 
     if($query -> num_rows() > 0) {

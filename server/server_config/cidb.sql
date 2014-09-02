@@ -3,15 +3,15 @@
 
  Source Server         : localdb
  Source Server Type    : MySQL
- Source Server Version : 50538
+ Source Server Version : 50620
  Source Host           : localhost
  Source Database       : cidb
 
  Target Server Type    : MySQL
- Target Server Version : 50538
+ Target Server Version : 50620
  File Encoding         : utf-8
 
- Date: 09/02/2014 01:18:04 AM
+ Date: 09/02/2014 15:24:13 PM
 */
 
 SET NAMES utf8;
@@ -43,12 +43,14 @@ CREATE TABLE `appointments` (
 DROP TABLE IF EXISTS `car_aptms`;
 CREATE TABLE `car_aptms` (
   `aid` int(11) DEFAULT NULL,
+  `acode` varchar(15) DEFAULT NULL,
   `client` int(11) DEFAULT NULL,
   `client_name` varchar(255) DEFAULT NULL,
   `car` int(11) DEFAULT NULL,
-  `car_code` varchar(20) DEFAULT NULL,
+  `carnumber` varchar(20) DEFAULT NULL,
   `shop` int(11) DEFAULT NULL,
-  `shop_name` varchar(20) DEFAULT NULL
+  `shop_name` varchar(20) DEFAULT NULL,
+  UNIQUE KEY `idx_code` (`acode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -141,7 +143,7 @@ CREATE TABLE `ci_sessions` (
 --  Records of `ci_sessions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `ci_sessions` VALUES ('9bf2ad658a2b24a521341e5aa471f017', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/13.3.0', '1409587804', ''), ('cddf2085e599a38bcf641fbb99fe8550', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/13.3.0', '1409580887', '');
+INSERT INTO `ci_sessions` VALUES ('22426aa7691bbb94a86234fcfe3a32d6', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.8 (KHTML, like Gecko) Version/8.0 Safari/600.1.8', '1409636499', 'a:2:{s:9:\"user_data\";s:0:\"\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}'), ('3803a0eab3d49737f9483a5b68a8094a', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1409641795', ''), ('44190270177c07872c77b6bd5d3431db', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.94 Safari/537.36', '1409636901', ''), ('584ecfb34c2ba7cd9c1c90a42d7e4340', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1409641643', ''), ('5cb5c11c6f75975c033dde7c44bfb943', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.94 Safari/537.36', '1409636905', ''), ('78c3133c90802faef60d581d37ced228', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1409640434', ''), ('9bf2ad658a2b24a521341e5aa471f017', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/13.3.0', '1409587804', ''), ('9f56bc3d8c62195b6bf78bd5ebe5c671', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1409640434', ''), ('cddf2085e599a38bcf641fbb99fe8550', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/13.3.0', '1409580887', ''), ('e33d8b00db2fe3366fd4380d2af6e31a', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.8 (KHTML, like Gecko) Version/8.0 Safari/600.1.8', '1409622460', ''), ('f5c58d2739b63998287abdd2cf29778b', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1409638616', '');
 COMMIT;
 
 -- ----------------------------
@@ -231,6 +233,21 @@ CREATE TABLE `news` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
+--  Table structure for `schools`
+-- ----------------------------
+DROP TABLE IF EXISTS `schools`;
+CREATE TABLE `schools` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pid` int(11) DEFAULT '0',
+  `utype` tinyint(4) DEFAULT '0',
+  `name` varchar(255) DEFAULT NULL,
+  `gyear` smallint(6) DEFAULT NULL,
+  `address` varchar(50) DEFAULT NULL,
+  `descp` varchar(128) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
 --  Table structure for `shops`
 -- ----------------------------
 DROP TABLE IF EXISTS `shops`;
@@ -251,8 +268,24 @@ CREATE TABLE `shops` (
 --  Records of `shops`
 -- ----------------------------
 BEGIN;
-INSERT INTO `shops` VALUES ('1', 'CDS001', '天府新区旗舰店', '天府软件园', '104.073938889,30.55955278\nN30.55955278,', '028-86000998', null, 'F'), ('2', 'CDN002', '火车北站店', '北站1路12号', null, '028-86000998', null, 'A'), ('3', 'CDS003', '火车南站店', '火车南站', null, '', null, 'B'), ('4', 'CDE001', '川师大店', '川师大南门', null, '13809998789', null, 'A'), ('5', 'CDW002', '西门车站店', '西门车站', null, '13809987654', null, 'A');
+INSERT INTO `shops` VALUES ('1', 'CDS001', '天府新区旗舰店', '天府软件园', '104.073938889,30.55955278\nN30.55955278,', '028-86000998', null, 'F'), ('2', 'CDN002', '火车北站店', '北站1路12号', null, '028-86000998', null, 'A'), ('3', 'CDS002', '火车南站店', '火车南站', null, '87676999', null, 'B'), ('4', 'CDE001', '川师大店', '川师大南门', null, '13809998789', null, 'A'), ('5', 'CDW002', '西门车站店', '西门车站', null, '13809987654', null, 'A');
 COMMIT;
+
+-- ----------------------------
+--  Table structure for `students`
+-- ----------------------------
+DROP TABLE IF EXISTS `students`;
+CREATE TABLE `students` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sid` varchar(8) DEFAULT NULL,
+  `sclass` int(11) DEFAULT NULL,
+  `name` varchar(20) DEFAULT NULL,
+  `bdate` varchar(8) DEFAULT NULL,
+  `gender` tinyint(4) DEFAULT '0',
+  `descp` varchar(128) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `taskgroups`
@@ -340,6 +373,23 @@ CREATE TABLE `zm_sessions` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `zm_sessions` VALUES ('0', '2d2d763917352e6af02a07abc19a8ebef20c34f17f000001', 'shixc', '2014-08-14 09:55:30', 'bbb', null), ('2', '8fe11966741cee825ffede84a104d026c47b36ca7f000001', '13908077242', '2015-09-01 23:12:57', '8C1AF92C-CDBC-4791-BA37-761F576108FF', null);
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `zm_versions`
+-- ----------------------------
+DROP TABLE IF EXISTS `zm_versions`;
+CREATE TABLE `zm_versions` (
+  `vkey` varchar(20) NOT NULL DEFAULT '',
+  `vvalue` int(11) DEFAULT '0',
+  PRIMARY KEY (`vkey`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `zm_versions`
+-- ----------------------------
+BEGIN;
+INSERT INTO `zm_versions` VALUES ('shop_version', '5');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

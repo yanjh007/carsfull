@@ -71,7 +71,7 @@
         return;
     }
     
-    [JY_Default saveString:self.tv_user.text forKey:PKEY_TOKEN_USER];
+    [JY_Default saveString:self.tv_user.text forKey:PKEY_TOKEN_LOGIN];
 
     if  (self.verify_code) { //验证恢复模式
         int l=self.tv_code.text.length;

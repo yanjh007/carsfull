@@ -152,7 +152,7 @@
 +(NSArray*) getList;
 {
     FMDatabase  *db=[JY_DBHelper openDB];
-    FMResultSet *s = [db executeQuery:@"SELECT scode,name,address FROM ? order by scode",TB_SHOPS];
+    FMResultSet *s = [db executeQuery:@"SELECT scode,name,address FROM shops order by scode"];
     NSMutableArray *ary=[NSMutableArray array];
     while ([s next]) {
         Shop *item=[[Shop alloc] initWithDbRow:s];
@@ -162,9 +162,49 @@
     return [ary copy];
 }
 
-+(void) save:(NSDictionary*)dic at:(NSString*)dtime
++(void) saveDic:(NSArray*)shops {
+    if (!shops || [shops count]==0) return;
+
+    FMDatabase  *db=[JY_DBHelper openDB];
+    [db executeUpdate:@"DELETE from shops"] ;
+
+    for (int i=0,count=shops.count;i<count;i++) {
+        NSDictionary *item=shops[i];
+        [db executeUpdate:@"INSERT INTO shops (scode,name,address) values (?,?,?)",item[@"scode"],item[@"name"],item[@"address"]];
+    }
+    
+    [db close];
+    
+}
+
+
++(void) syncShops
 {
-    [JY_DBHelper updateMeta:DBMKEY_SHOP_TIME value:dtime];
+    NSString *version  =[JY_DBHelper metaValue:DBMKEY_SHOP_VERSION];
+    
+    [JY_Request post:@{@"M":@"shops",
+                       @"V":version?version:@"0"
+                       }
+             withURL:URL_BASE_URL
+          completion:^(int status, NSString *result){
+              if (status==JY_STATUS_OK) {
+                  NSDictionary *json=[result jsonObject];
+                  if (json) {
+                      if ([JVAL_RESULT_OK isEqualToString:json[JKEY_RESULT]]) {
+                          NSDictionary *content=json[JKEY_CONTENT] ;
+                          
+                          [Shop saveDic:(NSArray*)content[@"shops"]];
+                          [JY_DBHelper updateMeta:DBMKEY_SHOP_VERSION value:content[@"version"]];
+                      } else {
+                          NSLog(@"内容错误或为空: %@",result);
+                      }
+                  } else {
+                      NSLog(@"格式错误");
+                  }
+              } else {
+                  NSLog(@"数据错误");
+              }
+          }];
 }
 
 

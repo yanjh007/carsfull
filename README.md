@@ -123,6 +123,15 @@ dev journal
 - iOS app client appointment module
 - server side, login module, add session and session check function
 
+# 20140902
+- iOS App, shop module, vc, data sync
+- iOS App, left menu use tableview
+- server side, appointment and shop interface, login interface improved
+- server side version, version control, zmversion model
+- iOS App, metadata improve, support shop version, db init before view
+- database improved
+
+
 
 
 

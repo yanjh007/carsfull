@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AppointmentListVC : UIViewController
+@interface ShopVC : UIViewController
 
 @end
