@@ -232,12 +232,12 @@ static NSArray *ary_titles;
 @property (strong, nonatomic) IBOutlet UILabel *lb_acode;
 @property (strong, nonatomic) IBOutlet UILabel *lb_status;
 @property (strong, nonatomic) IBOutlet UIPickerView *pv_items;
+@property (retain, nonatomic) IBOutlet UIDatePicker *pv_ptime;
 
 @property (retain, nonatomic) IBOutlet UIButton *bt_delete;
 
 @property (retain, nonatomic) UIActionSheet *ac_cars;
-@property (retain, nonatomic) NSArray *ary_cars;
-
+@property (retain, nonatomic) NSArray *ary_cars,*ary_shops;
 
 @property (nonatomic) id<JY_STD_Delegate> mDelegate;
 
@@ -267,6 +267,9 @@ static NSArray *ary_titles;
         
         [self.bt_car   setTitle:self.mAppointment.car  forState:UIControlStateNormal];
         [self.bt_shop  setTitle:self.mAppointment.shop forState:UIControlStateNormal];
+        
+        
+        
     }
     return self;
 }
@@ -285,7 +288,6 @@ static NSArray *ary_titles;
                                                                             target:self
                                                                              action:@selector(do_save:)];
     
-    self.ary_cars = [Car getCars];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -294,6 +296,10 @@ static NSArray *ary_titles;
     
     [self.pv_items setHidden:YES];
     self.pv_items.tag=0;
+    
+    self.ary_cars  = [Car getCars];
+    self.ary_shops = [Shop getList];
+
 }
 
 - (void)viewDidUnload
@@ -359,6 +365,9 @@ static NSArray *ary_titles;
     [self showPicker:1];
 
 }
+- (IBAction)do_select_shop:(UIButton *)sender {
+    [self showPicker:2];
+}
 
 -(void) showPicker:(int)ipick
 {
@@ -370,23 +379,24 @@ static NSArray *ary_titles;
     } else {
         [self.pv_items setHidden:!self.pv_items.hidden];
     }
+    
+    if (!self.pv_items.hidden) {
+        [self.pv_ptime setHidden:YES];
+    }
 
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *) pickerView
 {
-    if (pickerView.tag==1) {
-        return 1;
-    } else {
-        return 2;
-    }
-    return 0;
+    return 1;
 }
 
 - (NSInteger) pickerView:(UIPickerView *)pickerView numberOfRowsInComponent: (NSInteger)component
 {
     if (pickerView.tag==1) {
-        return [self.ary_cars count];
+        return self.ary_cars.count;
+    } else if (pickerView.tag==2) {
+        return self.ary_shops.count;
     }
     
     return 0;
@@ -397,6 +407,9 @@ static NSArray *ary_titles;
     if (pickerView.tag==1) {
         Car *item=self.ary_cars[row];
         return item.carnumber;
+    } else if (pickerView.tag==2) {
+        Shop *item=self.ary_shops[row];
+        return [NSString stringWithFormat:@"%@(%@)",item.name,item.scode];
     }
     return @"";
 }
@@ -406,7 +419,22 @@ static NSArray *ary_titles;
     if (pickerView.tag==1) {
         Car *item=self.ary_cars[row];
         [self.bt_car setTitle:item.carnumber forState:UIControlStateNormal];
+    } else if (pickerView.tag==2) {
+        Shop *item=self.ary_shops[row];
+        [self.bt_shop setTitle:item.name forState:UIControlStateNormal];
     }
+    
+}
+
+- (IBAction)do_date:(UIButton *)sender {
+    [self.pv_ptime setHidden:!self.pv_ptime.hidden];
+    if (!self.pv_ptime.hidden) {
+        [self.pv_items setHidden:YES];
+    }
+}
+
+- (IBAction)do_ptime_change:(UIDatePicker *)sender {
+    [self.bt_date setTitle:[[sender date] stringValue:STRING_DATE_YMDHM] forState:UIControlStateNormal];
     
 }
 
