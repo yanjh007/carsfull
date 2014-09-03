@@ -204,7 +204,8 @@
 // 车辆预约
 -(void) go_appointment:(Car*) car
 {
-    Appointment *item = [[Appointment alloc] initWithCar:car.carnumber andShop:nil];
+    Appointment *item = [Appointment newItem];
+    item.car= car.carnumber;
     AppointmentVC *vc = [[AppointmentVC alloc] initWithData:@[@(0),self,item]];
 
     // We don't want to be able to pan on nav bar to see the left side when we pushed a controller

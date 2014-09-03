@@ -12,7 +12,7 @@
 #define is_RETINA ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] && ([UIScreen mainScreen].scale == 2.0)
 
 
-// 字符串常量
+// 通用字符串常量
 static NSString *const STRING_DATE_YMDHM=@"yyyy-MM-dd HH:mm";
 static NSString *const STRING_DATE_YMDHMS=@"yyyy-MM-dd HH:mm:ss";
 static NSString *const STRING_DATE_YMDTHMS=@"yyyy-MM-dd'T'HH:mm:ss";
@@ -21,7 +21,7 @@ static NSString *const STRING_DATE_HM  =@"HH:mm";
 static NSString *const STRING_DATE_YMD =@"yyyy-MM-dd";
 static NSString *const STRING_DATE_MD  =@"MM-dd";
 
-// 代理方法
+// 通用代理标识
 static int const DELE_RESULT_VOID   = 0;
 static int const DELE_RESULT_OK     = 1;
 static int const DELE_RESULT_CANCEL = 2;
@@ -198,6 +198,7 @@ static int const DELE_ACTION_PAY_RECOVER = 2104;
 
 #pragma mark - NSDate 扩展
 @interface NSDate(JY_FoundationAdditions)
+- (NSString*) stdString;
 - (NSString*) stringValue:(NSString*)dFormat;
 + (NSString*) stringNow:(NSString*)dFormat;
 + (NSString*) rstringNow;

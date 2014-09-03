@@ -21,7 +21,7 @@
 				<!-- Table -->
 			  <table class="table">
 		        <thead>
-		          <tr><th>#</th><th>客户</th><th>车牌</th><th>型号</th><th>预约时间</th><th><div class="pull-right"> 操作</div></th></tr>
+		          <tr><th>#</th><th>客户</th><th>车辆</th><th>店铺</th><th>预约时间</th><th>状态</th><th><div class="pull-right"> 操作</div></th></tr>
 		        </thead>
 
 		        <tbody>
@@ -29,14 +29,16 @@
 				<?php foreach ($appointments as $item): ?>
 		          <tr>
 		            <td><?= $item["id"]; ?></td>
-		            <td><?= $item['client']; ?></td>
+		            <td><?= $item['userid']; ?></td>
 		            <td><?= $item["car"]; ?></td>
-		            <td><?= $item['car']; ?></td>
-		            <td><?= $item['atime']; ?></td>
+		            <td><?= $item['shop_code']."-".$item["shop_name"]; ?></td>
+		            <td><?= $item['ptime']; ?></td>
+		            <td><?= $item['status']; ?></td>
 		            <td align=right>
-		            	<?= anchor("appointments/".$item["id"]."/edit","编辑"); ?> |
-						<?= anchor("appointments/".$item["id"]."/edit","反馈"); ?> |
-						<a href="#" onclick="confirm_del(<?= $item["id"].",'".$item["client"]."'" ?>);">删除</a>
+		            	<?= anchor("appointments/".$item["id"],"查看"); ?> |
+						<?= anchor("appointments/".$item["id"]."/edit","确认"); ?> |
+						<?= anchor("appointments/".$item["id"]."/edit","取消"); ?> |
+						
 		            </td>
 		          </tr>
 				<?php endforeach ?>
@@ -50,7 +52,12 @@
 				<!-- Default panel contents -->
 				<div class="panel-heading">预约筛选</div>				
 				<div class="panel-body">				
-
+				<ul>
+				<li><?= anchor("appointments/filter?r=0","全部状态"); ?></li>	
+				<li><?= anchor("appointments/filter?r=1","待确认"); ?></li>	
+				<li><?= anchor("appointments/filter?r=2","最近确认"); ?></li>	
+				<li><?= anchor("appointments/filter?r=3","已取消"); ?></li>	
+				<ul>
 				</div>
 		    </div>
 		</div>

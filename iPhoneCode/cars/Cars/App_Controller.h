@@ -154,5 +154,5 @@ static NSString *const PMT_PAY_SUCCESS        = @"购买操作已成功，感谢
 static NSString *const PMT_PAY_CANCEL         = @"购买操作已取消";
 static NSString *const PMT_PAY_RECOVER        = @"订购记录已经成功恢复";
 
-
-
+// App DeleAction 5000+
+static int const DELE_ACTION_APMT_SAVE_BACK = 5011;

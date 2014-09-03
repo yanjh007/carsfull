@@ -11,7 +11,7 @@
  Target Server Version : 50620
  File Encoding         : utf-8
 
- Date: 09/02/2014 15:24:13 PM
+ Date: 09/03/2014 16:58:37 PM
 */
 
 SET NAMES utf8;
@@ -23,19 +23,24 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `appointments`;
 CREATE TABLE `appointments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userid` int(11) DEFAULT NULL,
   `atype` smallint(6) NOT NULL DEFAULT '0' COMMENT '预约类型',
   `acode` varchar(11) DEFAULT NULL COMMENT '预约编号',
-  `client` int(11) DEFAULT NULL,
-  `rtime` datetime DEFAULT NULL COMMENT '申请时间',
-  `content` varchar(256) DEFAULT NULL,
+  `rtime` datetime DEFAULT NULL COMMENT '提交时间',
   `ptime` datetime DEFAULT NULL COMMENT '计划时间',
   `status` smallint(6) DEFAULT NULL,
-  `carnumber` varchar(15) DEFAULT NULL,
-  `shop` int(11) DEFAULT NULL,
+  `content` varchar(256) DEFAULT NULL,
   `descp` varchar(128) DEFAULT NULL,
   `edit_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `appointments`
+-- ----------------------------
+BEGIN;
+INSERT INTO `appointments` VALUES ('1', '11', '0', 'A503804134', '2014-09-03 16:00:05', '2014-09-04 11:48:01', '1', null, null, '2014-09-03 16:00:05'), ('2', '11', '0', 'A723804134', '2014-09-03 15:55:52', '2014-09-06 11:50:16', '2', null, null, '2014-09-03 16:49:54'), ('3', '11', '0', 'A162514134', '2014-09-03 15:55:52', '2014-09-04 14:02:06', '1', null, null, '2014-09-03 15:55:52');
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `car_aptms`
@@ -50,8 +55,16 @@ CREATE TABLE `car_aptms` (
   `carnumber` varchar(20) DEFAULT NULL,
   `shop` int(11) DEFAULT NULL,
   `shop_name` varchar(20) DEFAULT NULL,
+  `shop_code` varchar(10) DEFAULT NULL,
   UNIQUE KEY `idx_code` (`acode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `car_aptms`
+-- ----------------------------
+BEGIN;
+INSERT INTO `car_aptms` VALUES (null, 'A503804134', '11', null, null, 'CA-1573R', null, null, 'CDS001'), (null, 'A723804134', '11', null, null, 'CA-1573R', null, null, 'CDS001'), (null, 'A162514134', '11', null, null, 'CA-1573R', null, null, 'CDS001');
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `carmodels`
@@ -143,7 +156,7 @@ CREATE TABLE `ci_sessions` (
 --  Records of `ci_sessions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `ci_sessions` VALUES ('22426aa7691bbb94a86234fcfe3a32d6', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.8 (KHTML, like Gecko) Version/8.0 Safari/600.1.8', '1409636499', 'a:2:{s:9:\"user_data\";s:0:\"\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}'), ('3803a0eab3d49737f9483a5b68a8094a', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1409641795', ''), ('44190270177c07872c77b6bd5d3431db', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.94 Safari/537.36', '1409636901', ''), ('584ecfb34c2ba7cd9c1c90a42d7e4340', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1409641643', ''), ('5cb5c11c6f75975c033dde7c44bfb943', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.94 Safari/537.36', '1409636905', ''), ('78c3133c90802faef60d581d37ced228', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1409640434', ''), ('9bf2ad658a2b24a521341e5aa471f017', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/13.3.0', '1409587804', ''), ('9f56bc3d8c62195b6bf78bd5ebe5c671', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1409640434', ''), ('cddf2085e599a38bcf641fbb99fe8550', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/13.3.0', '1409580887', ''), ('e33d8b00db2fe3366fd4380d2af6e31a', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.8 (KHTML, like Gecko) Version/8.0 Safari/600.1.8', '1409622460', ''), ('f5c58d2739b63998287abdd2cf29778b', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1409638616', '');
+INSERT INTO `ci_sessions` VALUES ('0aff2c591a7f5e3d6d24a44063e048c4', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1409730327', ''), ('a277854550fd7e1e911756a15718bf84', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.8 (KHTML, like Gecko) Version/8.0 Safari/600.1.8', '1409731268', 'a:2:{s:9:\"user_data\";s:0:\"\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}');
 COMMIT;
 
 -- ----------------------------
@@ -320,13 +333,13 @@ CREATE TABLE `tasktypes` (
   `tasktime` smallint(6) DEFAULT NULL,
   `taskprice` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `tasktypes`
 -- ----------------------------
 BEGIN;
-INSERT INTO `tasktypes` VALUES ('1', 'W001', '洗车-小型', null, '15', '2000', null, '30', '20'), ('2', 'W002', '洗车-中大型', null, '20', '1000', null, '40', '30'), ('3', 'T101', '更换发动机油滤', null, '60', '6000', null, null, null), ('4', 'T201', '更换轮胎', null, '127', '32767', null, null, null), ('5', 'C001', '常规检查', null, '0', '0', null, null, null), ('6', 'C002', '高级检查', null, '0', '0', null, null, null), ('7', 'M008', '更换空气滤清器', null, '30', '5000', null, '30', '80'), ('8', 'M002', 'A0级日常保养', null, '60', '5000', null, '120', '150'), ('9', 'B003', '贴膜', null, '0', '0', null, '45', '100'), ('11', 'D2', '什么名字', null, '30', '5000', null, '45', '100'), ('15', 'F003', '轮胎检查', null, '180', '15000', null, '30', '100');
+INSERT INTO `tasktypes` VALUES ('1', 'W001', '洗车-小型', null, '15', '2000', null, '30', '20'), ('2', 'W002', '洗车-中大型', null, '20', '1000', null, '40', '30'), ('3', 'T101', '更换发动机油滤', null, '60', '6000', null, null, null), ('4', 'T201', '更换轮胎', null, '127', '32767', null, null, null), ('5', 'C001', '常规检查', null, '0', '0', null, null, null), ('6', 'C002', '高级检查', null, '0', '0', null, null, null), ('7', 'M008', '更换空气滤清器', null, '30', '5000', null, '30', '80'), ('8', 'M002', 'A0级日常保养', null, '60', '5000', null, '120', '150'), ('9', 'B003', '贴膜', null, '0', '0', null, '45', '100'), ('11', 'D2', '什么名字', null, '30', '5000', null, '45', '100'), ('15', 'F003', '轮胎检查', null, '180', '15000', null, '30', '100'), ('16', '', '未命名', null, '30', '5000', null, '45', '100'), ('17', 'A001', '冷空气吸入口', null, '0', '0', null, '120', '200'), ('18', 'A002', '比赛用引擎调教', null, '0', '0', null, '90', '300'), ('19', 'A003', '比赛用节气门', null, '0', '0', null, '45', '100'), ('20', 'A004', '增加引擎缸径', null, '0', '0', null, '45', '100'), ('21', 'A005', '比赛用进气歧管', null, '0', '0', null, '45', '100'), ('22', 'A006', '比赛用凸轮轴', null, '0', '0', null, '45', '100'), ('23', 'A007', '比赛用汽缸盖', null, '0', '0', null, '45', '100'), ('24', 'A008', '高性能超级增压器普利盘', null, '0', '0', null, '45', '100');
 COMMIT;
 
 -- ----------------------------
@@ -372,7 +385,7 @@ CREATE TABLE `zm_sessions` (
 --  Records of `zm_sessions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `zm_sessions` VALUES ('0', '2d2d763917352e6af02a07abc19a8ebef20c34f17f000001', 'shixc', '2014-08-14 09:55:30', 'bbb', null), ('2', '8fe11966741cee825ffede84a104d026c47b36ca7f000001', '13908077242', '2015-09-01 23:12:57', '8C1AF92C-CDBC-4791-BA37-761F576108FF', null);
+INSERT INTO `zm_sessions` VALUES ('0', '2d2d763917352e6af02a07abc19a8ebef20c34f17f000001', 'shixc', '2014-08-14 09:55:30', 'bbb', null), ('2', '8fe11966741cee825ffede84a104d026c47b36ca7f000001', '13908077242', '2015-09-01 23:12:57', '8C1AF92C-CDBC-4791-BA37-761F576108FF', null), ('2', 'd62b561e5baefbd62512ee163a650d7dc8e9dbad7f000001', '13908077242', '2015-09-03 11:55:50', 'FDE249F3-5997-461F-AEF9-45C1E21E48DA', null);
 COMMIT;
 
 -- ----------------------------

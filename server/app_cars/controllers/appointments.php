@@ -29,6 +29,22 @@ class Appointments extends CI_Controller {
 
     $this->load->view('_common/footer');
   }
+  
+  public function filter(){
+	$filter=$this->input->get("r");
+
+	$data['appointments'] = $this->appointment->filter($filter);
+
+	$this->load->helper(array('form','zmform'));
+
+    $this->load->view('_common/header');
+    
+    show_nav(11);
+
+    $this->load->view('appointments/list', $data);
+
+    $this->load->view('_common/footer');
+  }
 
   public function detail($sid){
 	if ($this->input->server('REQUEST_METHOD')==="DELETE") {

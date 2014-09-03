@@ -53,48 +53,6 @@
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
-- (IBAction)go_content:(UIButton *)sender {
-
-}
-
-- (IBAction)go_about:(UIButton *)sender {
-    AboutVC *vc = [[AboutVC alloc] init];
-    UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:vc];
-    [self.revealSideViewController popViewControllerWithNewCenterController:n
-                                                                   animated:YES];
-
-}
-
-- (IBAction)go_info:(UIButton *)sender {
-    InfoVC *vc = [[InfoVC alloc] init];
-    UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:vc];
-    [self.revealSideViewController popViewControllerWithNewCenterController:n
-                                                                   animated:YES];
-    
-}
-
-- (IBAction)go_appointment:(UIButton *)sender {
-    AppointmentListVC *vc = [[AppointmentListVC alloc] init];
-    UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:vc];
-    [self.revealSideViewController popViewControllerWithNewCenterController:n
-                                                                   animated:YES];
-}
-
-
-- (IBAction)do_close:(UIButton *)sender {
-    
-    
-}
-
-- (IBAction)do_login:(UIButton *)sender {
-    LoginVC *vc = [[LoginVC alloc] init];
-    UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:vc];
-    if (PPSystemVersionGreaterOrEqualThan(5.0))
-        [self presentModalViewController:n animated:YES];
-    else
-        [self.revealSideViewController presentModalViewController:n animated:YES];
-    
-}
 
 #pragma mark - Table view data source
 static const NSArray *ary_menu;
@@ -130,7 +88,18 @@ static NSArray *ary_titles;
             vc = [[HomeVC alloc] init];
             break;
         case 1: //我的
-            vc = [[InfoVC alloc] init];
+            if ([JY_Default getString:PKEY_TOKEN]) {
+                vc = [[InfoVC alloc] init];
+            } else {
+                LoginVC *vc = [[LoginVC alloc] init];
+                UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:vc];
+                if (PPSystemVersionGreaterOrEqualThan(5.0))
+                    [self presentModalViewController:n animated:YES];
+                else
+                    [self.revealSideViewController presentModalViewController:n animated:YES];
+                
+                return;
+            }
             break;
         case 2: //店铺
             vc = [[ShopVC alloc] init];
@@ -138,7 +107,7 @@ static NSArray *ary_titles;
         case 3: //预约
             vc = [[AppointmentListVC alloc] init];
             break;
-        case 4:
+        case 4: //设置
             vc = [[HomeVC alloc] init];
             break;
         case 5: //关于

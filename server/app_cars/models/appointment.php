@@ -1,21 +1,44 @@
 <?php
 Class Appointment extends CI_Model {
-  const SQLQUERY  = 'SELECT id,client,car,atime,status FROM appointments ';
-  const TABLENAME  = 'appointments';
-  const TABLENAME2 = 'car_aptms';
+  const SQLQUERY  = 'SELECT id,userid,rtime,ptime,status FROM appointments ';
+  
+  const STD_SELECT = "SELECT a.id id,a.acode,userid,rtime,ptime,status,c.carnumber car,c.shop_code,s.name shop_name
+	FROM appointments a 
+	left join car_aptms c on a.acode=c.acode
+	left join shops s on c.shop_code=s.scode";
+
+  const TABLE_NAME  = "appointments";
+  const TABLE_NAME2 = "car_aptms";
+  const TABLE_NAME3 = "shops";
   
   public function __construct() {
     $this->load->database();
   }
   
   public function search($keyword = FALSE) {
-    $sql=self::SQLQUERY;
+    $sql=self::STD_SELECT;
     if ($keyword) {
       //$sql=$sql." where name like '%".$keyword."%' ";
     }
     
-    //$sql= $sql." order by role desc";
-
+	$sql=$sql." order by rtime desc";
+    $query = $this->db->query($sql);
+    return $query->result_array();
+  }
+  
+  // 筛选
+  public function filter($filter) {
+    $sql=self::STD_SELECT;
+    if ($filter==0) { //全部
+	  $sql .= " order by rtime desc";
+    } else if ($filter==1) {
+	  $sql .= " where status=1 order by rtime desc";
+	} else if ($filter==2) {
+	  $sql .= " where status=2 order by edit_at desc";
+	} else if ($filter==3) {
+	  $sql .= " where status=3 order by edit_at desc";
+	}
+    
     $query = $this->db->query($sql);
     return $query->result_array();
   }
@@ -55,50 +78,60 @@ Class Appointment extends CI_Model {
   
   public function onSubmit($json,$client_id) {
     $apmts=json_decode($json,TRUE); //确认转化为数组
-    $list2="";
-
+    
+	$list0="";
     // 插入或更新数据
-    foreach ($apmts as $item) {
+    if ($apmts) foreach ($apmts as $item) {
       $acode = $item["acode"];
-      
-      $query = $this->db->query(self::SQLQUERY." where acode=? limit 1",$acode);
-
+ 
       $data1 = array(
 		'status'    => 1,
-		'rtime'     => $item["plan_at"], //提交时间
+		'userid'    => $client_id, //用户
+		'rtime'     => date("Y-m-d H:i:s"), //计划时间
 		'ptime'     => $item["plan_at"], //计划时间
       );
       
       $data2 = array (
 		'client'    => $client_id,
 		'carnumber' => $item["car"],
+		'shop_code' => $item["shop"],
       );
 
+      $query = $this->db->query("select 1 from ".self::TABLE_NAME." where acode=? limit 1",$acode);
       if ($query->num_rows()>0) {
+		
         $this->db->where('acode', $acode);
 		
-        $this->db->update(self::TABLENAME,  $data1);
-        $this->db->update(self::TABLENAME2, $data2);		
+        $this->db->update(self::TABLE_NAME,  $data1);
+        $this->db->update(self::TABLE_NAME2, $data2);		
       } else {
 		$data1["acode"]=$acode;
-		$this->db->insert(self::TABLENAME, $data1); 
+		$this->db->insert(self::TABLE_NAME, $data1); 
 
 		$data2["acode"]=$acode;
-		$this->db->insert(self::TABLENAME2, $data2); 
+		$this->db->insert(self::TABLE_NAME2, $data2); 
       }
+	  
+	  if ($list0=="") {
+		$list0 = $acode;
+	  } else {
+		$list0.=",".$acode;
+	  }
     }
     
+	// approved list
     $list1=""; $i=0;
-    $query = $this->db->query(self::SQLQUERY." where status=?",2);
+    $query = $this->db->query("select acode from ".self::TABLE_NAME." where atype=0 and status=? and userid= ?",array(2,$client_id));
     if ($query->num_rows() > 0) {
       foreach ($query->result() as $row) {
-	if ($i>0) $list1.=",";
-	$list1.= $row->acode;
+		if ($i>0) $list1.=",";
+		$list1.= $row->acode;
       }
     }
     
+	// refaused list
     $list2=""; $i=0;
-    $query = $this->db->query(self::SQLQUERY." where status=?",4);
+    $query = $this->db->query("select acode from ".self::TABLE_NAME." where atype=0 and status=? and userid= ?",array(3,$client_id));
     if ($query->num_rows() > 0) {
       foreach ($query->result() as $row) {
 		if ($i>0) $list2.=",";
@@ -106,11 +139,8 @@ Class Appointment extends CI_Model {
       }
     }
     
-    
-    $data["content"] = json_encode(array("list_confirm"=>$list1,"list_refuse"=>$list2));
+    $data["content"] = json_encode(array("received"=>$list0,"approved"=>$list1,"refused"=>$list2));
     return $data;
-  }
-  
- 
+  } 
 }
 ?>

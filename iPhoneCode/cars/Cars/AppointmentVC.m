@@ -11,9 +11,14 @@
 #import "Models.h"
 #import "JY_Request.h"
 
+#pragma mark - 预约列表
+
 @interface AppointmentListVC ()<UIActionSheetDelegate,UITextFieldDelegate,JY_STD_Delegate>
+
 @property (retain,nonatomic) NSMutableArray *ary_apmts1,*ary_apmts2,*ary_apmts3;
 @property (strong, nonatomic) IBOutlet UITableView *tb_appointments;
+
+@property (retain, nonatomic) UIActionSheet *as_list1,*as_list2,*as_list3;
 
 @end
 
@@ -98,7 +103,7 @@ static NSArray *ary_titles;
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section;
 {
-    ary_titles=@[@"已确认",@"待确认",@"已取消"];
+    ary_titles=@[@"已确认",@"待确认",@"取消和完成"];
     return ary_titles[section];
 }
 
@@ -121,8 +126,9 @@ static NSArray *ary_titles;
         item=self.ary_apmts3[indexPath.row];
     }
     
-    [cell.textLabel setText:item.car];
-    [cell.detailTextLabel setText:item.acode];
+    [cell.textLabel setText:[NSString stringWithFormat:@"%@(%@)",item.acode,item.statusString]];
+    [cell.detailTextLabel setText: [NSString stringWithFormat:@"%@-%@-%@",
+                                    item.car,item.shopName,[item.plan_at stringValue:STRING_DATE_YMDHM]]];
     
     return cell;
 }
@@ -130,10 +136,49 @@ static NSArray *ary_titles;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section==1) {
+    if (indexPath.section==0) {
         
+        
+    } else if (indexPath.section==1){
+        Appointment *item = self.ary_apmts2[indexPath.row];
+        AppointmentVC *vc = [[AppointmentVC alloc] initWithData:@[@(1),self,item]];
+        
+        // We don't want to be able to pan on nav bar to see the left side when we pushed a controller
+        [self.revealSideViewController unloadViewControllerForSide:PPRevealSideDirectionLeft];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+}
+
+
+-(void) showCellAction:(int)index
+{
+    if (!self.as_list1) {
+        self.as_list1 = [[UIActionSheet alloc] initWithTitle:@"预约管理"
+                                                      delegate:self
+                                             cancelButtonTitle:@"取 消"
+                                        destructiveButtonTitle:@"编 辑"
+                                             otherButtonTitles:@"维护预约",@"维护记录",nil];
         
     }
+    [self.as_list1 setTag:index];
+    
+//    [self.as_list1 setTitle:[NSString stringWithFormat:@"车辆管理:%@",[(Car*)self.info_cars[index] carnumber]]];
+    [self.as_list1 showInView:self.view];
+    
+}
+
+- (void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+//    if (actionSheet==self.as_carcell) {
+//        int index=self.as_carcell.tag;
+//        if (buttonIndex == actionSheet.destructiveButtonIndex) {
+//            [self go_edit:self.info_cars[index]];
+//        } else if (buttonIndex == 1) { //预约
+//            [self go_appointment:self.info_cars[index]];
+//        } else { //维护历史
+//            
+//        }
+//    }
 }
 
 #pragma mark - Custom Delegate and Method
@@ -154,16 +199,16 @@ static NSArray *ary_titles;
 }
 
 
-- (void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == actionSheet.destructiveButtonIndex) {
-        
-    }
-}
-
 -(int) action:(int)act withIndex:(int)index
 {
     if (act==DELE_LIST_RELOAD) {
+        [self refreshData];
+    } else if (act==DELE_ACTION_APMT_SAVE_BACK) {
+        if (index==1) { //yes to commit
+            [Appointment submit:^(int status) {
+                if (status>0) [self refreshData];
+            }];
+        }
         [self refreshData];
     }
     return DELE_RESULT_VOID;
@@ -179,50 +224,10 @@ static NSArray *ary_titles;
     
 }
 
-- (void) submitAppoints
-{
-    NSString *token =[JY_Default getString:PKEY_TOKEN];
-    NSString *user  =[JY_Default getString:PKEY_TOKEN_USERID];
-    
-    NSString *apmts= [Appointment getForSubmit];
-    
-    if (apmts) {
-        [JY_Request post:@{@"M":@"apmts",
-                           @"I":[JY_Helper fakeIMEI],
-                           @"S":token?token:@"",
-                           @"U":user?user:@"",
-                           @"C":apmts?apmts:@""
-                           }
-                 withURL:URL_BASE_URL
-              completion:^(int status, NSString *result){
-                  if (status==JY_STATUS_OK) {
-                      [self handleResult:result];
-                  } else {
-                      NSLog(@"数据错误");
-                  }
-                  
-              }];
-    }
-}
-
--(void) handleResult:(NSString*) result
-{
-    NSLog(@"result:%@",result);
-    NSDictionary *json=[result jsonObject];
-    if (json) {
-        NSDictionary *content=json[JKEY_CONTENT] ;
-        if ([JVAL_RESULT_OK isEqualToString:json[JKEY_RESULT]]) {
-            
-            
-        } else {
-            NSLog(@"内容错误%@",content[JKEY_CONTENT]);
-        }
-    } else {
-        NSLog(@"格式错误");
-    }
-}
-
 @end
+
+
+#pragma mark - 预约编辑
 
 @interface AppointmentVC ()<UIActionSheetDelegate,UITextFieldDelegate,UIPickerViewDelegate,UIPickerViewDataSource>
 
@@ -245,6 +250,8 @@ static NSArray *ary_titles;
 @property (retain, nonatomic) Car *mCar; //验证码和临时密码
 @property (retain, nonatomic) Appointment *mAppointment; //验证码和临时密码
 
+@property (retain,nonatomic) NSDate *time_plan;
+
 @end
 
 @implementation AppointmentVC
@@ -253,8 +260,8 @@ static NSArray *ary_titles;
 {
     self = [JY_Helper loadNib:NIB_MAIN atIndex:6];
     if (self) {
-        self.showMode   = [adata[0] intValue] ;
-        self.mDelegate  = adata[1];
+        self.showMode    = [adata[0] intValue] ;
+        self.mDelegate   = adata[1];
         self.mAppointment=adata[2];
 
         if (self.showMode==0) { //新建
@@ -262,13 +269,16 @@ static NSArray *ary_titles;
             
         } else { //修改
             self.title = @"预约编辑";
+            
             self.lb_acode.text=self.mAppointment.acode;
         }
         
-        [self.bt_car   setTitle:self.mAppointment.car  forState:UIControlStateNormal];
-        [self.bt_shop  setTitle:self.mAppointment.shop forState:UIControlStateNormal];
         
-        
+        [self.lb_acode  setText :[NSString isEmpty:self.mAppointment.acode]?@"<新预约>":self.mAppointment.acode];
+        [self.bt_car    setTitle: self.mAppointment.car  forState:UIControlStateNormal];
+        [self.bt_shop   setTitle: self.mAppointment.shopName forState:UIControlStateNormal];
+        [self.bt_date   setTitle: [self.mAppointment.plan_at stringValue:STRING_DATE_YMDHM] forState:UIControlStateNormal];
+        [self.lb_status setText:  [self.mAppointment statusString]];
         
     }
     return self;
@@ -283,10 +293,6 @@ static NSArray *ary_titles;
                                                                              target:self
                                                                              action:@selector(do_back:)];
 
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"保存"
-                                                                             style:UIBarButtonItemStyleBordered
-                                                                            target:self
-                                                                             action:@selector(do_save:)];
     
 }
 
@@ -322,11 +328,23 @@ static NSArray *ary_titles;
 
 - (IBAction) do_save:(id)sender
 {
-    NSString *stime=[NSDate stringNow:STRING_DATE_YMDHMS];
-    
-    [self.mAppointment save:stime car:self.mAppointment.car andShop:self.mAppointment.shop];
+    [self save:NO];
+}
 
-    [self go_back:YES];
+- (IBAction) do_save_commit:(id)sender
+{
+    [self save:YES];
+}
+
+- (void) save:(BOOL)bCommit
+{
+    self.mAppointment.status=bCommit?AppointmentStatusForSubmit:AppointmentStatusEdit;
+    [self.mAppointment save];
+    
+    if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(action:withIndex:)])
+        [self.mDelegate action:DELE_ACTION_APMT_SAVE_BACK withIndex:bCommit?1:2];
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)do_delete:(UIButton *)sender {
@@ -352,11 +370,9 @@ static NSArray *ary_titles;
 
 - (void) go_back:(BOOL)bNotify
 {
-    if (bNotify &&
-        self.mDelegate &&
-        [self.mDelegate respondsToSelector:@selector(action:withIndex:)]) {
-            [self.mDelegate action:DELE_LIST_RELOAD withIndex:1];
-    }
+    if (bNotify && self.mDelegate && [self.mDelegate respondsToSelector:@selector(action:withIndex:)])
+        [self.mDelegate action:DELE_ACTION_APMT_SAVE_BACK withIndex:1];
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -383,7 +399,6 @@ static NSArray *ary_titles;
     if (!self.pv_items.hidden) {
         [self.pv_ptime setHidden:YES];
     }
-
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *) pickerView
@@ -419,9 +434,12 @@ static NSArray *ary_titles;
     if (pickerView.tag==1) {
         Car *item=self.ary_cars[row];
         [self.bt_car setTitle:item.carnumber forState:UIControlStateNormal];
+        self.mAppointment.car=item.carnumber;
     } else if (pickerView.tag==2) {
         Shop *item=self.ary_shops[row];
+        
         [self.bt_shop setTitle:item.name forState:UIControlStateNormal];
+        self.mAppointment.shop=item.scode;
     }
     
 }
@@ -434,8 +452,9 @@ static NSArray *ary_titles;
 }
 
 - (IBAction)do_ptime_change:(UIDatePicker *)sender {
-    [self.bt_date setTitle:[[sender date] stringValue:STRING_DATE_YMDHM] forState:UIControlStateNormal];
-    
+    self.mAppointment.plan_at=sender.date;
+
+    [self.bt_date setTitle:[self.mAppointment.plan_at stringValue:STRING_DATE_YMDHM] forState:UIControlStateNormal];
 }
 
 @end

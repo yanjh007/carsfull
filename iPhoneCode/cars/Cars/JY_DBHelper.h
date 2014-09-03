@@ -18,3 +18,7 @@ static NSString *const DBMKEY_BRAND_TIME = @"brands_update_time";
 +(void) updateMeta:(NSString*)k value:(NSString*)v;
 +(NSString*) metaValue:(NSString*)k;
 @end
+
+@interface NSString(Database)
+-(NSString*) withTable:(NSString*)table;
+@end

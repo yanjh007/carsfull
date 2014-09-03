@@ -936,10 +936,19 @@ static char const * const ZM_OBJTAG_KEY = "ZM_ObjectTag";
     return [dateFormatter stringFromDate:self];
 }
 
+- (NSString*) stdString
+{
+    return  [self stringValue:STRING_DATE_YMDHMS];
+}
+
 
 + (NSString*) stringNow:(NSString*)dFormat
 {
-    return [[NSDate date] stringValue:dFormat];
+    if (dFormat) {
+        return [[NSDate date] stringValue:dFormat];
+    } else {
+        return [[NSDate date] stringValue:STRING_DATE_YMDHMS];
+    }
 }
 
 //反向秒数值

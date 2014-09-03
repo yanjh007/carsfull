@@ -131,6 +131,10 @@ dev journal
 - iOS App, metadata improve, support shop version, db init before view
 - database improved
 
+# 20140903
+- appointment workflow implementing
+- 
+
 
 
 
