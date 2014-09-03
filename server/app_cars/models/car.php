@@ -1,7 +1,7 @@
 <?php
 class Car extends CI_Model {
-  const SQLQUERY   = 'SELECT id,carnumber,manufacturer,brand,descp FROM cars ';
-  const TABLENAME  = 'cars';	
+  const SQLQUERY    = 'SELECT id,carnumber,manufacturer,brand,descp FROM cars ';
+  const TABLE_NAME  = 'cars';	
   
   public function __construct() {
     $this->load->database();
@@ -32,16 +32,16 @@ class Car extends CI_Model {
     
 	if (isset($item["item_id"]) ) { // insert
         $this->db->where('id', $item["item_id"]);
-        $this->db->update(self::TABLENAME, $data); 
+        $this->db->update(self::TABLE_NAME, $data); 
 	} else {
-        $this->db->insert(self::TABLENAME, $data); 
+        $this->db->insert(self::TABLE_NAME, $data); 
 	}
     return TRUE;
   }
   
-  public function remove($car_id) {
-    $this->db->where('id', $car_id);
-    $this->db->delete('clients'); 
+  public function remove($id) {
+    $this->db->where('id', $id);
+    $this->db->delete(self::TABLE_NAME); 
     return TRUE;
   }
   

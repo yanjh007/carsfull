@@ -55,7 +55,6 @@ function zm_form_check($title,$name,$checked="")
    $CI->load->view('_form/check_0',$form_data);   
 }
 
-
 function zm_form_input($ftype,$title,$name,$value="")
 {  
    $CI=&get_instance();
@@ -76,12 +75,6 @@ function zm_form_textarea($ftype,$title,$name,$value="")
    $CI->load->view('_form/textarea_'.$ftype,$form_data);   
 }
 
-function zm_dlg_delete($form_data)
-{
-   $CI=&get_instance();
-   $CI->load->view('_form/dlg_delete',$form_data);  
-}
-
 function zm_btn_back($address)
 {
    $click="document.location.href='".base_url($address)."'";
@@ -98,5 +91,21 @@ function zm_btn_delete($title,$onclick,$option="")
    echo "<button type='button' class='btn btn-danger' onclick='".$onclick."' >".$title."</button>&nbsp&nbsp";
 }
 
+function zm_dlg_delete($form_data)
+{
+   $CI=&get_instance();
+   $CI->load->view('_form/dlg_delete',$form_data);  
+}
+
+function zm_btn_input($title,$onclick,$option="")
+{
+   echo "<button type='button' class='btn btn-danger' onclick='".$onclick."' >".$title."</button>&nbsp&nbsp";
+}
+
+function zm_dlg_input($form_data)
+{
+   $CI=&get_instance();
+   $CI->load->view('_form/dlg_input',$form_data);  
+}
 
 

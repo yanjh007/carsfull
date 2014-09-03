@@ -25,17 +25,18 @@ class Appointments extends CI_Controller {
     
     show_nav(11);
 
+    $data["status_desc"] = array(1=>"待处理",2=>"已确认",3=>"已取消");
     $this->load->view('appointments/list', $data);
 
     $this->load->view('_common/footer');
   }
   
   public function filter(){
-	$filter=$this->input->get("r");
+    $filter=$this->input->get("r");
 
-	$data['appointments'] = $this->appointment->filter($filter);
+    $data['appointments'] = $this->appointment->filter($filter);
 
-	$this->load->helper(array('form','zmform'));
+    $this->load->helper(array('form','zmform'));
 
     $this->load->view('_common/header');
     
@@ -47,39 +48,18 @@ class Appointments extends CI_Controller {
   }
 
   public function detail($sid){
-	if ($this->input->server('REQUEST_METHOD')==="DELETE") {
-	  $this->appointment->remove($sid);
-	  echo "OK";
-	  return;
-	}
-	
-	if ($this->input->get("method") === "delete") {
-	  	$this->appointment->remove($sid);
-		redirect('appointments'); 		  
-	} else if ($this->input->get("method") === "edit") {
-	  $data['appointment'] = $this->appointment->get_one($cid);
-	  if (empty($data['appointment'])) show_404();
+      //详情页面 
+      $data['appointment'] = $this->appointment->get_one($sid);
+      if (empty($data['appointment'])) show_404();
 
-	  $this->load->helper('form');
-	
-	  $this->load->view('_common/header');
-	  show_nav(11);
-	  
-	  $this->load->view('appointments/edit', $data);
-	  $this->load->view('_common/footer');	  
-	} else { //详情页面 
-	  $data['appointment'] = $this->appointment->get_one($sid);
-	  if (empty($data['appointment'])) show_404();
-
-	  $this->load->helper('form');
-	  $this->load->view('_common/header');
-	  show_nav(11);
-	  
-	  $this->load->view('appointments/detail', $data);
-	  
-	  $this->load->view('_common/footer');	  
-	}
-  }
+      $this->load->helper('form');
+      $this->load->view('_common/header');
+      show_nav(11);
+      
+      $this->load->view('appointments/detail', $data);
+      
+      $this->load->view('_common/footer');	  
+ }
 
   public function save() {	
 	$this->appointment->save($this->input->post());
@@ -87,15 +67,44 @@ class Appointments extends CI_Controller {
   }
   
   public function edit($sid) {	
-	  $data['appointment'] = $this->appointment->get_appointment($sid);
-	  if (empty($data['appointment'])) show_404();
+      $data['appointment'] = $this->appointment->get_appointment($sid);
+      if (empty($data['appointment'])) show_404();
 
-	  $this->load->helper('form');
-	
-	  $this->load->view('_common/header');
-	  show_nav(11);
-	  
-	  $this->load->view('appointments/edit', $data);
-	  $this->load->view('_common/footer');	  
+      $this->load->helper('form');
+    
+      $this->load->view('_common/header');
+      show_nav(11);
+      
+      $this->load->view('appointments/edit', $data);
+      $this->load->view('_common/footer');	  
+  }
+  
+
+  // ajax delete
+  public function jdelete($id) {	
+      if ($this->input->server('REQUEST_METHOD')==="DELETE") {
+	$this->appointment->remove($id);
+	echo "OK";
+      }	  
   }  
+  
+  // ajax confirm
+  public function jconfirm($id) {	
+      if ($this->input->server('REQUEST_METHOD')==="POST") {
+	$note= $this->input->post("note");
+	$this->appointment->confirm($id,2,$note);
+	echo "OK";
+      }	  
+  }  
+
+  // ajax cancel
+  public function jcancel($id) {	
+      if ($this->input->server('REQUEST_METHOD')==="POST") {
+	$note= $this->input->post("note");
+	$this->appointment->confirm($id,3,$note);
+	echo "OK";
+      }	  
+  }  
+  
+  
 }

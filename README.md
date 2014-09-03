@@ -133,7 +133,9 @@ dev journal
 
 # 20140903
 - appointment workflow implementing
-- 
+- server side, appointment manager, confirm ,cancel, note input
+- web page view, input dialog pannel
+- router improved, use controller/id/action pattene
 
 
 

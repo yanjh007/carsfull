@@ -28,12 +28,6 @@ class Cars extends CI_Controller {
   }
 
   public function detail($cid){
-	if ($this->input->server('REQUEST_METHOD')==="DELETE") {
-	  $this->car->remove($cid);
-	  echo "OK";
-	  return;
-	}
-	
 	if ($this->input->get("method") === "delete") {
 	  	$this->car->remove($cid);
 		redirect('cars'); 		  
@@ -76,5 +70,14 @@ class Cars extends CI_Controller {
   public function save() {	
 	$this->car->save($this->input->post());
 	redirect('cars');
-  }  
+  }
+  
+    // ajax delete
+  public function jdelete($id) {	
+      if ($this->input->server('REQUEST_METHOD')==="DELETE") {
+	$this->car->remove($id);
+	echo "OK";
+      }
+  } 
+  
 }

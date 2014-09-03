@@ -28,17 +28,16 @@
 
 				<?php foreach ($appointments as $item): ?>
 		          <tr>
-		            <td><?= $item["id"]; ?></td>
-		            <td><?= $item['userid']; ?></td>
-		            <td><?= $item["car"]; ?></td>
-		            <td><?= $item['shop_code']."-".$item["shop_name"]; ?></td>
-		            <td><?= $item['ptime']; ?></td>
-		            <td><?= $item['status']; ?></td>
+		            <td><?php echo $item["id"]; ?></td>
+		            <td><?php echo $item['userid']; ?></td>
+		            <td><?php echo $item["car"]; ?></td>
+		            <td><?php echo $item['shop_code']."-".$item["shop_name"]; ?></td>
+		            <td><?php echo $item['ptime']; ?></td>
+		            <td><?php echo $status_desc[$item['status']]; ?></td>
 		            <td align=right>
-		            	<?= anchor("appointments/".$item["id"],"查看"); ?> |
-						<?= anchor("appointments/".$item["id"]."/edit","确认"); ?> |
-						<?= anchor("appointments/".$item["id"]."/edit","取消"); ?> |
-						
+		            	<?php echo anchor("appointments/".$item["id"],"查看"); ?> |
+				<?php link_to_jinput("confirm_input(\"".$item["id"]."/jconfirm\",\"确认预约-".$item["acode"]."\")","确认"); ?> |
+				<?php link_to_jinput("confirm_input(\"".$item["id"]."/jcancel\",\"取消预约-".$item["acode"]."\")","取消"); ?> 						
 		            </td>
 		          </tr>
 				<?php endforeach ?>
@@ -53,19 +52,19 @@
 				<div class="panel-heading">预约筛选</div>				
 				<div class="panel-body">				
 				<ul>
-				<li><?= anchor("appointments/filter?r=0","全部状态"); ?></li>	
-				<li><?= anchor("appointments/filter?r=1","待确认"); ?></li>	
-				<li><?= anchor("appointments/filter?r=2","最近确认"); ?></li>	
-				<li><?= anchor("appointments/filter?r=3","已取消"); ?></li>	
+				<li><?php echo anchor("appointments/filter?r=0","全部状态"); ?></li>	
+				<li><?php echo anchor("appointments/filter?r=1","待确认"); ?></li>	
+				<li><?php echo anchor("appointments/filter?r=2","最近确认"); ?></li>	
+				<li><?php echo anchor("appointments/filter?r=3","已取消"); ?></li>	
 				<ul>
 				</div>
 		    </div>
 		</div>
-		<?php zm_dlg_delete(array("path"  => base_url("appointments/"),
-								"title1"  => "确认删除预约信息",
-								"title2"  => "预约: ")); ?>
+		
     </div>
-	
+    <?php zm_dlg_input(array("path"    => base_url("appointments"),
+			     "title1"  => "输入备注信息并继续操作",
+			     "title2"  => "操作: ")); ?>
 </div>
 
 

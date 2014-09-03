@@ -35,7 +35,7 @@
 		            <td><?php echo $item['brand']; ?></td>
 		            <td align=right>
 				<?php link_to_edit("cars/".$item["id"]."/edit"); ?> |
-				<?php link_to_jdelete("confirm_del(".$item["id"].",\"".$item["carnumber"]."\")"); ?>
+				<?php link_to_jdelete("confirm_del(\"".$item["id"]."/jdelete\",\"".$item["carnumber"]."\")"); ?>
 		            </td>
 		          </tr>
 				<?php endforeach ?>
@@ -63,69 +63,24 @@
     </div>
 
 
-<script type="text/javascript">
-	function confirm_del(cid,cname){
-		$("#cname").text(cname);
-		$("#carid").text(cid);
-		$('#dlg_remove').modal('show').on('shown',function() {
-			 
-		})
-	}
+    <script type="text/javascript">
+	    function do_search() {
+		    var keyword=$("#keyword").val();
+		    
+		    //this will redirect us in same window
+		    if (keyword.length>0){
+			    document.location.href = "cars?search="+keyword;
+		    } else {
+			    alert( "搜索关键字无效");
+		    }
+		    
+	    }
+    </script>  
 
-	function do_del(){
-		//this will redirect us in same window
-		document.location.href = "cars/"+$("#carid").text()+"?method=delete";
-	}
-	
-	function do_search() {
-		var keyword=$("#keyword").val();
-		
-		//this will redirect us in same window
-		if (keyword.length>0){
-			document.location.href = "cars?search="+keyword;
-		} else {
-			alert( "搜索关键字无效");
-		}
-		
-	}
-	
-	function ajax_del(){
-		$('#dlg_remove').modal('hide');
-		var clientid=$("#clientid").text();
-		$.ajax({
-			type: "DELETE",
-			url: "cars/"+clientid,
-		})
-		.done(function( msg ) {
-			if (msg == "OK"){
-				document.location.href = "cars/";
-			} else {
-				alert( "处理错误:" + msg );
-			}
-		});
-	}
+    <?php zm_dlg_delete(array("path"    => base_url("cars"),
+			     "title1"  => "确认删除车辆信息",
+			     "title2"  => "您确认要删除相关车辆信息吗?: ")); ?>
 
-</script>  
-
-<div id="clientid" class="hide"></div>
-<div class="modal fade" id="dlg_remove">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title">确认删除车辆信息</h4>
-      </div>
-      <div class="modal-body">
-        <p>您确认要删除相关车辆信息吗:</p>
-		<p id="cname"></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-        <button type="button" class="btn btn-primary" onclick="ajax_del()">确定</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
 
 </div>
 

@@ -85,3 +85,10 @@ function link_to_jdelete($onclick)
 {
    echo "<a href='#' onclick='".$onclick."'>删除</a>";
 }
+
+function link_to_jinput($onclick,$title)
+{
+   echo "<a href='#' onclick='".$onclick."'>".$title."</a>";
+}
+
+

@@ -76,6 +76,14 @@ Class Appointment extends CI_Model {
     return TRUE;
   }
   
+  public function confirm($id,$status,$note="") { //预约确认
+
+    $this->db->where('id',$id);
+    $this->db->update(self::TABLE_NAME,array("status"=>$status,"descp"=>$note,"edit_at"=>date("Y-m-d H:i:s")));
+
+    return TRUE;
+  }
+  
   public function onSubmit($json,$client_id) {
     $apmts=json_decode($json,TRUE); //确认转化为数组
     
