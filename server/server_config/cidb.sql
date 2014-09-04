@@ -11,7 +11,7 @@
  Target Server Version : 50620
  File Encoding         : utf-8
 
- Date: 09/03/2014 16:58:37 PM
+ Date: 09/04/2014 16:59:48 PM
 */
 
 SET NAMES utf8;
@@ -39,7 +39,7 @@ CREATE TABLE `appointments` (
 --  Records of `appointments`
 -- ----------------------------
 BEGIN;
-INSERT INTO `appointments` VALUES ('1', '11', '0', 'A503804134', '2014-09-03 16:00:05', '2014-09-04 11:48:01', '1', null, null, '2014-09-03 16:00:05'), ('2', '11', '0', 'A723804134', '2014-09-03 15:55:52', '2014-09-06 11:50:16', '2', null, null, '2014-09-03 16:49:54'), ('3', '11', '0', 'A162514134', '2014-09-03 15:55:52', '2014-09-04 14:02:06', '1', null, null, '2014-09-03 15:55:52');
+INSERT INTO `appointments` VALUES ('1', '11', '0', 'A503804134', '2014-09-03 16:00:05', '2014-09-04 11:48:01', '2', null, 'ok', '2014-09-04 15:00:43'), ('2', '11', '0', 'A723804134', '2014-09-03 15:55:52', '2014-09-06 11:50:16', '3', null, 'no time', '2014-09-04 10:08:31'), ('3', '11', '0', 'A162514134', '2014-09-03 15:55:52', '2014-09-04 14:02:06', '2', null, 'hello', '2014-09-04 09:58:14');
 COMMIT;
 
 -- ----------------------------
@@ -139,6 +139,35 @@ INSERT INTO `cars` VALUES ('1', '川A-BQ498', '蒙迪欧', 'B', '自动经典型
 COMMIT;
 
 -- ----------------------------
+--  Table structure for `carseries`
+-- ----------------------------
+DROP TABLE IF EXISTS `carseries`;
+CREATE TABLE `carseries` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ctype` varchar(10) DEFAULT NULL,
+  `manufacturer` varchar(20) DEFAULT NULL,
+  `brand` varchar(20) DEFAULT NULL,
+  `name` varchar(20) DEFAULT NULL,
+  `serie_url` varchar(20) DEFAULT NULL,
+  `desc` varchar(128) DEFAULT NULL,
+  `cfg_list` varchar(100) DEFAULT NULL,
+  `style_list` varchar(100) DEFAULT NULL,
+  `engine_list` varchar(100) DEFAULT NULL,
+  `trans_list` varchar(30) DEFAULT NULL COMMENT '里程数',
+  `color_list` varchar(30) DEFAULT NULL,
+  `version` int(11) DEFAULT '0',
+  `tags` varchar(26) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `carseries`
+-- ----------------------------
+BEGIN;
+INSERT INTO `carseries` VALUES ('1', 'B', '长安福特', '蒙迪欧', '自动经典型', 'CA07408', null, '200612', '553', null, '139087', '墨绿', '0', 'CFM'), ('2', 'A0', '长安铃木', '雨燕', '手动基本型', 'CA09987', null, 'LMH', '552', '1.3-L4,1.5-L4,1.5-L4-T', '5-MT,6-AT,4-AMT,5-CVT', '蓝,白,黄,黑,绿,红', '0', 'CLY'), ('3', 'B', '广州本田', '雅阁', '', 'GB-74532', null, '自动豪华型', null, '2.0L4,2.5L4,3.0V6', '6-AT,6-MT,7-DSG', '黑,白,墨绿', '0', 'YGB'), ('4', 'A', '长安铃木', '天语SX4', null, null, null, null, null, null, null, null, '0', 'CLMT'), ('5', 'A', '北京现代', '伊兰特', null, null, null, null, null, null, null, null, '0', 'BXY');
+COMMIT;
+
+-- ----------------------------
 --  Table structure for `ci_sessions`
 -- ----------------------------
 DROP TABLE IF EXISTS `ci_sessions`;
@@ -156,7 +185,7 @@ CREATE TABLE `ci_sessions` (
 --  Records of `ci_sessions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `ci_sessions` VALUES ('0aff2c591a7f5e3d6d24a44063e048c4', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1409730327', ''), ('a277854550fd7e1e911756a15718bf84', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.8 (KHTML, like Gecko) Version/8.0 Safari/600.1.8', '1409731268', 'a:2:{s:9:\"user_data\";s:0:\"\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}');
+INSERT INTO `ci_sessions` VALUES ('64a40cee31630a692f767519fd2034fc', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1409817732', ''), ('dd8fe8651ed63317e15a126f39e1f5d3', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.8 (KHTML, like Gecko) Version/8.0 Safari/600.1.8', '1409813874', 'a:1:{s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}');
 COMMIT;
 
 -- ----------------------------
@@ -385,7 +414,7 @@ CREATE TABLE `zm_sessions` (
 --  Records of `zm_sessions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `zm_sessions` VALUES ('0', '2d2d763917352e6af02a07abc19a8ebef20c34f17f000001', 'shixc', '2014-08-14 09:55:30', 'bbb', null), ('2', '8fe11966741cee825ffede84a104d026c47b36ca7f000001', '13908077242', '2015-09-01 23:12:57', '8C1AF92C-CDBC-4791-BA37-761F576108FF', null), ('2', 'd62b561e5baefbd62512ee163a650d7dc8e9dbad7f000001', '13908077242', '2015-09-03 11:55:50', 'FDE249F3-5997-461F-AEF9-45C1E21E48DA', null);
+INSERT INTO `zm_sessions` VALUES ('0', '2d2d763917352e6af02a07abc19a8ebef20c34f17f000001', 'shixc', '2014-08-14 09:55:30', 'bbb', null), ('2', '32b3e5562bf33acaf45381f13310c2bc7ddc46527f000001', '13908077242', '2015-09-04 15:51:57', 'EFDD10DC-1341-40C9-8C18-2DEF2D665E4C', null), ('2', '8fe11966741cee825ffede84a104d026c47b36ca7f000001', '13908077242', '2015-09-01 23:12:57', '8C1AF92C-CDBC-4791-BA37-761F576108FF', null), ('2', 'd62b561e5baefbd62512ee163a650d7dc8e9dbad7f000001', '13908077242', '2015-09-03 11:55:50', 'FDE249F3-5997-461F-AEF9-45C1E21E48DA', null);
 COMMIT;
 
 -- ----------------------------
