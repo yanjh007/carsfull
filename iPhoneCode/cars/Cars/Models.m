@@ -6,6 +6,7 @@
 //
 //
 
+#import "User.h"
 #import "Models.h"
 #import "JY_DBHelper.h"
 
@@ -108,11 +109,27 @@
     }
     [db close];
     if ([ary count] ==0) {
-        return nil;
+        return @"";
     } else {
         return [[ary copy] jsonString];
     }
     
+}
+
++(BOOL) isNeedRequest //是否需要请求
+{
+    BOOL bRequest=NO;
+    FMDatabase  *db=[JY_DBHelper openDB];
+    NSString *sql=[@"SELECT 1 FROM %@ where status=? or status =?" withTable:TB_APPOINTMENTS];
+    FMResultSet *s = [db executeQuery:sql,@(AppointmentStatusForSubmit),@(AppointmentStatusSubmited)];
+    
+    if (s) {
+        if ([s next]) bRequest=YES;
+        [s close];
+    }
+    [db close];
+        
+    return bRequest;
 }
 
 -(BOOL) save
@@ -151,51 +168,57 @@
 
 +(void) submit:(void (^)(int status)) completion
 {
-    NSString *apmts= [Appointment getForSubmit];
-    if (![NSString isEmpty:apmts]) {
-        NSString *token =[JY_Default getString:PKEY_TOKEN];
-        NSString *user  =[JY_Default getString:PKEY_TOKEN_USERID];
-        [JY_Request post:@{@"M":@"apmts",
-                           @"I":[JY_Helper fakeIMEI],
-                           @"S":token?token:@"",
-                           @"U":user?user:@"",
-                           @"C":apmts?apmts:@""
-                           }
-                 withURL:URL_BASE_URL
-              completion:^(int status, NSString *result){
-                  if (status==JY_STATUS_OK) {
-                      NSDictionary *json= [result jsonObject];
-                      if ([JVAL_RESULT_OK isEqualToString:json[JKEY_RESULT]]) {
-                          NSDictionary *content=json[JKEY_CONTENT];
-                          FMDatabase  *db=[JY_DBHelper openDB];
-                          NSString *sql=@"Update %@ set status=%i where acode in (%@)";
-                          
-                          NSString *list=content[@"received"];
-                          if (list && list.length) {
-                              list=[NSString stringWithFormat:@"'%@'",[list stringByReplacingOccurrencesOfString:@"," withString:@"','"]];
-                              [db executeUpdate: [NSString stringWithFormat:sql,TB_APPOINTMENTS,AppointmentStatusSubmited,list]];
-                          }
-                          
-                          list=content[@"approved"];
-                          if (list && list.length) {
-                              list=[NSString stringWithFormat:@"'%@'",[list stringByReplacingOccurrencesOfString:@"," withString:@"','"]];
-                              [db executeUpdate: [NSString stringWithFormat:sql,TB_APPOINTMENTS,AppointmentStatusConfirm,list]];
-                          }
-                          
-                          list=content[@"refused"];
-                          if (list && list.length) {
-                              list=[NSString stringWithFormat:@"'%@'",[list stringByReplacingOccurrencesOfString:@"," withString:@"','"]];
-                              [db executeUpdate: [NSString stringWithFormat:sql,TB_APPOINTMENTS,AppointmentStatusCanceledByService,list]];
-                          }
-                          
-                          [db close];
-                      }
-                      completion(1);
-                  }
-                  
-                  completion(0);
-              }];
+    if (![Appointment isNeedRequest]) {
+        completion(0);
+        return;
     }
+    
+    [JY_Request post:@{@"M":@"apmts",
+                       @"I":[JY_Helper fakeIMEI],
+                       @"S":[User currentUser].token,
+                       @"U":@([User currentUser].userid),
+                       @"C":[Appointment getForSubmit]
+                       }
+             withURL:URL_BASE_URL
+          completion:^(int status, NSString *result){
+              if (status==JY_STATUS_OK) {
+                  NSDictionary *json= [result jsonObject];
+                  if ([JVAL_RESULT_OK isEqualToString:json[JKEY_RESULT]]) {
+                      NSDictionary *content=json[JKEY_CONTENT];
+                      FMDatabase  *db=[JY_DBHelper openDB];
+                      NSString *sql=@"Update %@ set status=%i, descp='%@', edit_at=date('now') where acode ='%@'";
+                      NSArray *ary;
+                      NSString *list=content[@"received"]; //接受的预约
+                      if (list && list.length) {
+                          list=[NSString stringWithFormat:@"'%@'",[list stringByReplacingOccurrencesOfString:@"," withString:@"','"]];
+                          [db executeUpdate: [NSString stringWithFormat:sql,TB_APPOINTMENTS,AppointmentStatusSubmited,list]];
+                      }
+                      
+                      list=content[@"approved"]; // 确认的预约
+                      if (list && list.length) {
+                          ary = [list componentsSeparatedByString:@"#"];
+                          for (int i=0,count=ary.count; i<count; i++) {
+                              [db executeUpdate: [NSString stringWithFormat:sql,TB_APPOINTMENTS,AppointmentStatusConfirm,ary[i+1],ary[i]]];
+                              i++;
+                          }
+                      }
+                      
+                      list=content[@"refused"]; // 拒绝的预约
+                      if (list && list.length) {
+                          ary = [list componentsSeparatedByString:@"#"];
+                          for (int i=0,count=ary.count; i<count; i++) {
+                              [db executeUpdate: [NSString stringWithFormat:sql,TB_APPOINTMENTS,AppointmentStatusCanceledByService,ary[i+1],ary[i]]];
+                              i++;
+                          }
+                      }
+                      
+                      [db close];
+                  }
+                  completion(1);
+              }
+              
+              completion(0);
+          }];
 }
 
 @end
@@ -372,4 +395,14 @@
 }
 
 @end
+
+#pragma mark - 车系模型
+@interface Carserie ()
+
+@end
+
+@implementation Carserie
+
+@end
+
 

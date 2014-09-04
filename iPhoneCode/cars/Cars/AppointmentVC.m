@@ -62,8 +62,8 @@
     LMenuVC *menu = [[LMenuVC alloc] init];
     [self.revealSideViewController preloadViewController:menu forSide:PPRevealSideDirectionLeft];
     
+    [self action:DELE_ACTION_APMT_SAVE_BACK withIndex:1];
     [self refreshData];
-    [self submitAppoints];
 }
 
 - (void)viewDidUnload

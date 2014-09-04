@@ -108,4 +108,15 @@ function zm_dlg_input($form_data)
    $CI->load->view('_form/dlg_input',$form_data);  
 }
 
+function zm_table_header($header,$ritem=NULL)
+{
+   $th="";
+   $ary= explode(",",$header);
+   foreach($ary as $item) {
+      $th.="<th>".$item."</th>";
+   }
+   if ($ritem) $th.="<th><div class='pull-right'>".$ritem."</div></th>";
+   return "<thead><tr>".$th."</tr></thead>";
+}
+
 

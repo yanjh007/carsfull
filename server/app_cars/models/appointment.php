@@ -120,31 +120,25 @@ Class Appointment extends CI_Model {
 		$this->db->insert(self::TABLE_NAME2, $data2); 
       }
 	  
-	  if ($list0=="") {
-		$list0 = $acode;
-	  } else {
-		$list0.=",".$acode;
-	  }
+	  $list0.=strlen($list0)>0?",".$acode:$acode;
     }
     
 	// approved list
-    $list1=""; $i=0;
-    $query = $this->db->query("select acode from ".self::TABLE_NAME." where atype=0 and status=? and userid= ?",array(2,$client_id));
-    if ($query->num_rows() > 0) {
-      foreach ($query->result() as $row) {
-		if ($i>0) $list1.=",";
-		$list1.= $row->acode;
-      }
+	$sql = "select acode,descp from ".self::TABLE_NAME." where atype=0 and status=? and userid= ?";
+	
+    $list1="";
+    $query = $this->db->query($sql,array(2,$client_id));
+    if ($query->num_rows() > 0) foreach ($query->result() as $row) {
+	  if (strlen($list1)>0) $list1 .="#";
+	  $list1.= $row->acode."#".$row->descp;
     }
     
 	// refaused list
-    $list2=""; $i=0;
-    $query = $this->db->query("select acode from ".self::TABLE_NAME." where atype=0 and status=? and userid= ?",array(3,$client_id));
-    if ($query->num_rows() > 0) {
-      foreach ($query->result() as $row) {
-		if ($i>0) $list2.=",";
-		$list2.= $row->acode;
-      }
+    $list2="";
+    $query = $this->db->query($sql,array(3,$client_id));
+    if ($query->num_rows() > 0) foreach ($query->result() as $row) {
+	  if (strlen($list2)>0) $list2 .="#";
+	  $list2.= $row->acode."#".$row->descp;
     }
     
     $data["content"] = json_encode(array("received"=>$list0,"approved"=>$list1,"refused"=>$list2));

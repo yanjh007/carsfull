@@ -31,6 +31,7 @@ typedef NS_ENUM(NSInteger, AppointmentStatus) {
 -(NSString*) statusString;
 +(NSArray*) getList:(int)imode; //各种预约列表
 +(NSString *) getForSubmit; //用于提交
++(BOOL) isNeedRequest;
 
 
 -(BOOL) save;
@@ -69,6 +70,12 @@ typedef NS_ENUM(NSInteger, AppointmentStatus) {
 @end
 
 
+#pragma mark - 车系
+@interface Carserie : NSObject
+@property (strong,nonatomic) NSString *manufactor,*brand;
+@property (assign) int csid;
 
++(NSArray*) getCarseries;
 
-#pragma mark - 车辆型号
+@end
+

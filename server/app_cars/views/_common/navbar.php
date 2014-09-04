@@ -44,6 +44,7 @@
                   nav_menu_item("任务组管理","taskgroups");
     
                   nav_menu_item("","");
+                  nav_menu_item("车系管理","carseries");
                   nav_menu_item("型号管理","carmodels");
     
                   nav_menu_item("","");

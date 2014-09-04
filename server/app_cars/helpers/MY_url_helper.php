@@ -88,7 +88,7 @@ function link_to_jdelete($onclick)
 
 function link_to_jinput($onclick,$title)
 {
-   echo "<a href='#' onclick='".$onclick."'>".$title."</a>";
+   echo "<a href='javascript:void(0);' onclick='".$onclick."'>".$title."</a>";
 }
 
 

@@ -11,6 +11,7 @@
 #import "JY_Request.h"
 //#import "AESCrypt.h"
 #import "NSString+AESCrypt.h"
+#import "User.h"
 
 @interface LoginVC ()<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *tv_user;
@@ -71,12 +72,15 @@
         return;
     }
     
+    [User currentUser].login=[self.tv_user.text copy];
     [JY_Default saveString:self.tv_user.text forKey:PKEY_TOKEN_LOGIN];
 
     if  (self.verify_code) { //验证恢复模式
         int l=self.tv_code.text.length;
         
         self.pass_code   = [self.tv_code.text substringToIndex:l-6];
+        [User currentUser].password=self.pass_code;
+        
         self.verify_code = [self.tv_code.text substringFromIndex:l-6];
         
         [JY_Request post:@{@"M":@"recover",
@@ -94,6 +98,8 @@
         
     } else { //新建和登录模式
         self.pass_code=self.tv_code.text;
+        [User currentUser].password=self.pass_code;
+        
         [JY_Request post:@{@"M":@"login",
                            @"I":[JY_Helper fakeIMEI],
                            @"H":[NSString stringWithFormat:@"%@%@",[self.tv_code.text sha1],self.tv_user.text]
@@ -115,7 +121,6 @@
         [self.lb_info setText:@"用户名不能为空"];
         return;
     }
-    
 
     [JY_Request post:@{@"M":@"getcode",
                        @"login":self.tv_user.text}
@@ -158,8 +163,9 @@
             } else { //登录成功 status 2
                 [self.lb_info setText:[NSString stringWithFormat:@"用户已成功再次绑定"]];
             }
-            [JY_Default saveString:content[@"token"] forKey:PKEY_TOKEN];
-            [JY_Default saveString:content[@"cid"] forKey:PKEY_TOKEN_USERID];
+            
+            [User save:[content[@"cid"] intValue] token:content[@"token"]];
+            
         } else {
             [self.lb_info setText:[NSString stringWithFormat:@"绑定失败:%@",content[@"error"]]];
         }
@@ -176,8 +182,8 @@
         if ([@"OK" isEqualToString:json[@"R"]]) {
             if ([content[@"status"] intValue]==3) { //创建成功
                 [self.lb_info setText:[NSString stringWithFormat:@"用户验证并成功绑定，且密码修改为:%@",self.pass_code]];
-                [JY_Default saveString:content[@"token"] forKey:PKEY_TOKEN];
-                [JY_Default saveString:content[@"cid"] forKey:PKEY_TOKEN_USERID];
+                
+                [User save:[content[@"cid"] intValue] token:content[@"token"]];
             } else {
                 [self.lb_info setText:@"绑定验证失败，未知错误"];
             }
@@ -193,7 +199,10 @@
     [self.lb_info setText:[NSString stringWithFormat:@"请求失败: %@",result]];
 }
 
+
 @end
+
+
 
 
 //    NSString *post =@"{\"method\":\"login\"}";

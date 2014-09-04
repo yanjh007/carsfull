@@ -10,13 +10,15 @@ class Appointments extends CI_Controller {
     check_session();
   }
 
-  public function index(){
-	
+  public function index(){	
 	if ($this->input->get("search")) {
 	  $keyword=$this->input->get("search");
-	  $data['appointments'] = $this->appointment->search($keyword);
+	  $data['itemlist'] = $this->appointment->search($keyword);
+	} else if ($this->input->get("filter")){
+      $filter=$this->input->get("filter");
+      $data['itemlist'] = $this->appointment->filter($filter);
 	} else {
-	  $data['appointments'] = $this->appointment->search();
+	  $data['itemlist'] = $this->appointment->search();
 	}
 
 	$this->load->helper(array('form','zmform'));
@@ -25,28 +27,13 @@ class Appointments extends CI_Controller {
     
     show_nav(11);
 
-    $data["status_desc"] = array(1=>"待处理",2=>"已确认",3=>"已取消");
-    $this->load->view('appointments/list', $data);
+    $data['sdesc'] = array(1=>"待处理",2=>"已确认",3=>"已取消");
+	
+    $this->load->view('appointments/list',$data);
 
     $this->load->view('_common/footer');
   }
   
-  public function filter(){
-    $filter=$this->input->get("r");
-
-    $data['appointments'] = $this->appointment->filter($filter);
-
-    $this->load->helper(array('form','zmform'));
-
-    $this->load->view('_common/header');
-    
-    show_nav(11);
-
-    $this->load->view('appointments/list', $data);
-
-    $this->load->view('_common/footer');
-  }
-
   public function detail($sid){
       //详情页面 
       $data['appointment'] = $this->appointment->get_one($sid);

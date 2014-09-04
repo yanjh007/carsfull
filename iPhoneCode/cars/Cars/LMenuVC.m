@@ -13,6 +13,8 @@
 #import "InfoVC.h"
 #import "ShopVC.h"
 #import "AppointmentVC.h"
+#import "User.h"
+#import "UserVC.h"
 
 @interface LMenuVC ()
 
@@ -59,7 +61,7 @@ static const NSArray *ary_menu;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    ary_menu = @[@"主页",@"我的",@"店铺",@"预约",@"设置",@"关于"];
+    ary_menu = @[@"主页",@"我的",@"车辆",@"店铺",@"预约",@"设置",@"关于"];
     return ary_menu.count;
 }
 static NSArray *ary_titles;
@@ -88,9 +90,14 @@ static NSArray *ary_titles;
             vc = [[HomeVC alloc] init];
             break;
         case 1: //我的
-            if ([JY_Default getString:PKEY_TOKEN]) {
+            vc = [[UserVC alloc] init];
+            break;
+        case 2: //车辆
+            if ([User currentUser].token.length>0) {
                 vc = [[InfoVC alloc] init];
             } else {
+                [self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionLeft animated:YES];
+                
                 LoginVC *vc = [[LoginVC alloc] init];
                 UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:vc];
                 if (PPSystemVersionGreaterOrEqualThan(5.0))
@@ -101,16 +108,16 @@ static NSArray *ary_titles;
                 return;
             }
             break;
-        case 2: //店铺
+        case 3: //店铺
             vc = [[ShopVC alloc] init];
             break;
-        case 3: //预约
+        case 4: //预约
             vc = [[AppointmentListVC alloc] init];
             break;
-        case 4: //设置
+        case 5: //设置
             vc = [[HomeVC alloc] init];
             break;
-        case 5: //关于
+        case 6: //关于
             vc = [[AboutVC alloc] init];
             break;
             

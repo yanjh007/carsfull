@@ -1,0 +1,63 @@
+<?php
+class Carserie extends CI_Model {
+  const STD_QUERY  = "SELECT id,name,manufacturer,brand,ctype,tags,serie_url FROM carseries ";
+  const TABLE_NAME = "carseries";
+  
+  public function __construct() {
+    $this->load->database();
+  }
+
+  public function search($keyword = FALSE) {
+    $sql =  self::STD_QUERY;
+    if ($keyword) {
+      $sql=$sql." where mcode like '%".$keyword."%' or manufacturer like '%".$keyword."%' or brand like '%".$keyword."%'";
+    }
+    
+    $sql= $sql." order by version desc limit 20";
+
+    $query = $this->db->query($sql);
+    return $query->result_array();
+  }
+
+  
+  public function search_tag($tag = FALSE) {
+    $sql =  self::STD_QUERY;
+    if ($tag) {
+      $sql=$sql." where tags like '%".$tag."%'";
+    }
+    
+    $sql= $sql." order by tags";
+
+    $query = $this->db->query($sql);
+    return $query->result_array();
+  }
+  
+  public function get_one($id){
+    $query = $this->db->query(self::STD_QUERY." where id=?",$id);
+    return $query->row_array();
+  }
+  
+  public function save($item,$id) {
+    $data = array(
+			  'manufacturer'=> $item["manufacturer"],
+			  'brand' 		=> $item["brand"],
+			  'ctype'  		=> $item["ctype"],
+			  'tags'   		=> $item["tags"],
+			);
+    
+	if ($id>0) { // insert
+        $this->db->where('id', $id);
+        $this->db->update(self::TABLE_NAME, $data); 
+	} else {
+        $this->db->insert(self::TABLE_NAME, $data); 
+	}
+    return TRUE;
+  }
+  
+  public function remove($item_id) {
+    $this->db->where('id', $item_id);
+    $this->db->delete(self::TABLE_NAME); 
+    return TRUE;
+  }
+
+}

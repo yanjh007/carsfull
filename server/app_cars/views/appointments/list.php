@@ -20,24 +20,21 @@
 		      
 				<!-- Table -->
 			  <table class="table">
-		        <thead>
-		          <tr><th>#</th><th>客户</th><th>车辆</th><th>店铺</th><th>预约时间</th><th>状态</th><th><div class="pull-right"> 操作</div></th></tr>
-		        </thead>
+				<?php echo zm_table_header("#,客户,车辆,店铺,预约时间,状态","操作") ?>
 
 		        <tbody>
-
-				<?php foreach ($appointments as $item): ?>
+				<?php foreach ($itemlist as $item): ?>
 		          <tr>
 		            <td><?php echo $item["id"]; ?></td>
 		            <td><?php echo $item['userid']; ?></td>
 		            <td><?php echo $item["car"]; ?></td>
 		            <td><?php echo $item['shop_code']."-".$item["shop_name"]; ?></td>
-		            <td><?php echo $item['ptime']; ?></td>
-		            <td><?php echo $status_desc[$item['status']]; ?></td>
+		            <td><?php echo substr($item['ptime'],5,11); ?></td>
+		            <td><?php echo $sdesc[$item['status']]; ?></td>
 		            <td align=right>
 		            	<?php echo anchor("appointments/".$item["id"],"查看"); ?> |
-				<?php link_to_jinput("confirm_input(\"".$item["id"]."/jconfirm\",\"确认预约-".$item["acode"]."\")","确认"); ?> |
-				<?php link_to_jinput("confirm_input(\"".$item["id"]."/jcancel\",\"取消预约-".$item["acode"]."\")","取消"); ?> 						
+						<?php link_to_jinput("confirm_input(\"".$item["id"]."/jconfirm\",\"确认预约-".$item["acode"]."\")","确认"); ?> |
+						<?php link_to_jinput("confirm_input(\"".$item["id"]."/jcancel\",\"取消预约-".$item["acode"]."\")","取消"); ?> 						
 		            </td>
 		          </tr>
 				<?php endforeach ?>
@@ -52,15 +49,14 @@
 				<div class="panel-heading">预约筛选</div>				
 				<div class="panel-body">				
 				<ul>
-				<li><?php echo anchor("appointments/filter?r=0","全部状态"); ?></li>	
-				<li><?php echo anchor("appointments/filter?r=1","待确认"); ?></li>	
-				<li><?php echo anchor("appointments/filter?r=2","最近确认"); ?></li>	
-				<li><?php echo anchor("appointments/filter?r=3","已取消"); ?></li>	
+				<li><?php echo anchor("appointments?filter=0","全部状态"); ?></li>	
+				<li><?php echo anchor("appointments?filter=1","待确认"); ?></li>	
+				<li><?php echo anchor("appointments?filter=2","最近确认"); ?></li>	
+				<li><?php echo anchor("appointments?filter=3","已取消"); ?></li>	
 				<ul>
 				</div>
 		    </div>
 		</div>
-		
     </div>
     <?php zm_dlg_input(array("path"    => base_url("appointments"),
 			     "title1"  => "输入备注信息并继续操作",

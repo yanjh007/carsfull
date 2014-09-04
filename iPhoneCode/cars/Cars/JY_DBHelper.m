@@ -48,7 +48,7 @@ static int const DB_VERSION = 2;
 
                 [dataBase executeUpdate:@"CREATE TABLE cars (carid int, carnumber string PRIMARY KEY, framenumber string, enginenumber string, brand string, brand_sn string)"];
 
-                [dataBase executeUpdate:@"CREATE TABLE appointments (acode string, edit_at datetime, plan_at datetime, car string, shop string, status int)"];
+                [dataBase executeUpdate:@"CREATE TABLE appointments (acode string, edit_at datetime, plan_at datetime, car string, shop string, status int, descp text)"];
 
                 [dataBase executeUpdate:@"CREATE TABLE shops (scode string, name string, contact text, address text, geoaddress text, status int)"];
 

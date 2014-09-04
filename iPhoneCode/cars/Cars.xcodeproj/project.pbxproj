@@ -45,6 +45,8 @@
 		D8700CE419A5E4DC00FBF0F9 /* LoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D8700CE319A5E4DC00FBF0F9 /* LoginVC.m */; };
 		D8700CE819A6E30800FBF0F9 /* JY_Request.m in Sources */ = {isa = PBXBuildFile; fileRef = D8700CE719A6E30800FBF0F9 /* JY_Request.m */; };
 		D8744DFC19AD71FB0015C32D /* AppointmentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D8744DFB19AD71FB0015C32D /* AppointmentVC.m */; };
+		D8B6B9FC19B849970080FDD4 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B6B9FB19B849970080FDD4 /* User.m */; };
+		D8B6B9FF19B859BA0080FDD4 /* UserVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B6B9FE19B859BA0080FDD4 /* UserVC.m */; };
 		D8F9046819B59BF300FD3581 /* ShopVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F9046719B59BF300FD3581 /* ShopVC.m */; };
 		E0865F6815875F9100B46B63 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0865F6715875F9100B46B63 /* UIKit.framework */; };
 		E0865F6A15875F9100B46B63 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0865F6915875F9100B46B63 /* Foundation.framework */; };
@@ -117,6 +119,10 @@
 		D8700CE719A6E30800FBF0F9 /* JY_Request.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JY_Request.m; sourceTree = "<group>"; };
 		D8744DFA19AD71FB0015C32D /* AppointmentVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppointmentVC.h; sourceTree = "<group>"; };
 		D8744DFB19AD71FB0015C32D /* AppointmentVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppointmentVC.m; sourceTree = "<group>"; };
+		D8B6B9FA19B849970080FDD4 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		D8B6B9FB19B849970080FDD4 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		D8B6B9FD19B859BA0080FDD4 /* UserVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserVC.h; sourceTree = "<group>"; };
+		D8B6B9FE19B859BA0080FDD4 /* UserVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserVC.m; sourceTree = "<group>"; };
 		D8F9046619B59BF300FD3581 /* ShopVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopVC.h; sourceTree = "<group>"; };
 		D8F9046719B59BF300FD3581 /* ShopVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopVC.m; sourceTree = "<group>"; };
 		E0865F6315875F9100B46B63 /* Cars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cars.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -185,6 +191,8 @@
 			children = (
 				D831069019AD94F3006676BA /* Models.h */,
 				D831069119AD94F3006676BA /* Models.m */,
+				D8B6B9FA19B849970080FDD4 /* User.h */,
+				D8B6B9FB19B849970080FDD4 /* User.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -213,6 +221,8 @@
 				D85FE78519A5C1E20058E73E /* AboutVC.m */,
 				D8700CDF19A5E27B00FBF0F9 /* InfoVC.h */,
 				D8700CE019A5E27B00FBF0F9 /* InfoVC.m */,
+				D8B6B9FD19B859BA0080FDD4 /* UserVC.h */,
+				D8B6B9FE19B859BA0080FDD4 /* UserVC.m */,
 				D8F9046619B59BF300FD3581 /* ShopVC.h */,
 				D8F9046719B59BF300FD3581 /* ShopVC.m */,
 				D84718C719AC632C000106EC /* CarVC.h */,
@@ -450,11 +460,13 @@
 				D85FE78619A5C1E20058E73E /* AboutVC.m in Sources */,
 				D867F03C19A73B1900697CF8 /* NSData+AESCrypt.m in Sources */,
 				E0865F7415875F9100B46B63 /* main.m in Sources */,
+				D8B6B9FF19B859BA0080FDD4 /* UserVC.m in Sources */,
 				D84718C919AC632C000106EC /* CarVC.m in Sources */,
 				D84718B319AC5CAC000106EC /* FMDatabase.m in Sources */,
 				D831069219AD94F3006676BA /* Models.m in Sources */,
 				D8700CE419A5E4DC00FBF0F9 /* LoginVC.m in Sources */,
 				D84718C019AC5D66000106EC /* JY_DBHelper.m in Sources */,
+				D8B6B9FC19B849970080FDD4 /* User.m in Sources */,
 				D85FE77619A5B5DE0058E73E /* JY_FundationAdditions.m in Sources */,
 				D84718BB19AC5CAC000106EC /* FMResultSet.m in Sources */,
 				D8700CE119A5E27B00FBF0F9 /* InfoVC.m in Sources */,
