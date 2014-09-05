@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		563587921605F5C6003BC599 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 563587911605F5C6003BC599 /* Default-568h@2x.png */; };
+		D80999C119B9ADA0003091F9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D80999C019B9ADA0003091F9 /* Images.xcassets */; };
 		D831069219AD94F3006676BA /* Models.m in Sources */ = {isa = PBXBuildFile; fileRef = D831069119AD94F3006676BA /* Models.m */; };
 		D84718B319AC5CAC000106EC /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = D84718A919AC5CAC000106EC /* FMDatabase.m */; };
 		D84718B419AC5CAC000106EC /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = D84718A919AC5CAC000106EC /* FMDatabase.m */; };
@@ -25,7 +25,6 @@
 		D84718CA19AC632C000106EC /* CarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D84718C819AC632C000106EC /* CarVC.m */; };
 		D84718CC19AC77AB000106EC /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D84718CB19AC77AB000106EC /* libsqlite3.0.dylib */; };
 		D85FE77019A5A6150058E73E /* PPRevealSideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D85FE76F19A5A6150058E73E /* PPRevealSideViewController.m */; };
-		D85FE77219A5A7150058E73E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D85FE77119A5A7150058E73E /* Images.xcassets */; };
 		D85FE77619A5B5DE0058E73E /* JY_FundationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D85FE77519A5B5DE0058E73E /* JY_FundationAdditions.m */; };
 		D85FE77919A5B76B0058E73E /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = D85FE77819A5B76B0058E73E /* Reachability.m */; };
 		D85FE77F19A5BA470058E73E /* Main.xib in Resources */ = {isa = PBXBuildFile; fileRef = D85FE77E19A5BA470058E73E /* Main.xib */; };
@@ -69,7 +68,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		563587911605F5C6003BC599 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
+		D80999C019B9ADA0003091F9 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D831069019AD94F3006676BA /* Models.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Models.h; sourceTree = "<group>"; };
 		D831069119AD94F3006676BA /* Models.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Models.m; sourceTree = "<group>"; };
 		D84718A819AC5CAC000106EC /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
@@ -90,7 +89,6 @@
 		D84718CB19AC77AB000106EC /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		D85FE76E19A5A6150058E73E /* PPRevealSideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPRevealSideViewController.h; sourceTree = "<group>"; };
 		D85FE76F19A5A6150058E73E /* PPRevealSideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPRevealSideViewController.m; sourceTree = "<group>"; };
-		D85FE77119A5A7150058E73E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D85FE77419A5B5DE0058E73E /* JY_FundationAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JY_FundationAdditions.h; sourceTree = "<group>"; };
 		D85FE77519A5B5DE0058E73E /* JY_FundationAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JY_FundationAdditions.m; sourceTree = "<group>"; };
 		D85FE77719A5B76B0058E73E /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
@@ -318,14 +316,12 @@
 		E0865F6D15875F9100B46B63 /* Cars */ = {
 			isa = PBXGroup;
 			children = (
-				563587911605F5C6003BC599 /* Default-568h@2x.png */,
 				D8700CE919A6E31900FBF0F9 /* App */,
 				D84718C619AC61E4000106EC /* Models */,
 				D85FE77319A5A72E0058E73E /* View&VCs */,
 				D8700CE519A6E2EF00FBF0F9 /* Lib */,
 				D85FE76D19A5A5810058E73E /* OtherLib */,
 				E0865F6E15875F9100B46B63 /* Supporting Files */,
-				D85FE77119A5A7150058E73E /* Images.xcassets */,
 			);
 			path = Cars;
 			sourceTree = "<group>";
@@ -333,6 +329,7 @@
 		E0865F6E15875F9100B46B63 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D80999C019B9ADA0003091F9 /* Images.xcassets */,
 				E0865F6F15875F9100B46B63 /* Cars-Info.plist */,
 				E0865F7015875F9100B46B63 /* InfoPlist.strings */,
 				E0865F7315875F9100B46B63 /* main.m */,
@@ -426,10 +423,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D85FE77219A5A7150058E73E /* Images.xcassets in Resources */,
 				E0865F7215875F9100B46B63 /* InfoPlist.strings in Resources */,
+				D80999C119B9ADA0003091F9 /* Images.xcassets in Resources */,
 				D85FE77F19A5BA470058E73E /* Main.xib in Resources */,
-				563587921605F5C6003BC599 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

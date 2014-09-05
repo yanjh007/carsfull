@@ -13,7 +13,7 @@
 static const NSString* PKEY_USER=@"user_key";
 
 @interface User : NSObject
-@property (strong,nonatomic) NSString *name,*login,*token,*address,*password,*geoaddress,*contact;
+@property (copy,nonatomic) NSString *name,*login,*token,*address,*password,*geoaddress,*contact;
 @property (assign) int userid,version,usertype,status;
 
 +(NSArray*) getToken;

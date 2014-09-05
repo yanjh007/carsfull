@@ -17,19 +17,24 @@
 @property (strong, nonatomic) IBOutlet UITextField *tv_name;
 @property (strong, nonatomic) IBOutlet UITextField *tv_contact;
 @property (strong, nonatomic) IBOutlet UITextView *tv_address;
+
+@property (weak,nonatomic) id<JY_STD_Delegate> mDelegate;
 @end
 
 @implementation UserVC
 
-- (id)init
+- (id)initWithData:(NSDictionary*)dicData
 {
     self = [JY_Helper loadNib:NIB_MAIN atIndex:9];
     if (self) {
         self.title = @"用户设置";
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_menu1"]
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_back"]
                                                                                  style:UIBarButtonItemStylePlain
                                                                                 target:self
-                                                                                action:@selector(showMenu:)];
+                                                                                action:@selector(go_back:)];
+        
+        if (dicData && dicData[@"delegate"]) self.mDelegate=dicData[@"delegate"];
+        [self loadData];
     }
     return self;
 }
@@ -40,14 +45,6 @@
 
 }
 
-- (void) showMenu:(id)sender
-{
-    // used to push a new controller, but we preloaded it !
-//    LeftViewController *left = [[LeftViewController alloc] initWithStyle:UITableViewStylePlain];
-//    [self.revealSideViewController pushViewController:left onDirection:PPRevealSideDirectionLeft animated:YES];
-    
-    [self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionLeft animated:YES];
-}
 
 - (void) viewWillAppear:(BOOL)animated
 {
@@ -97,6 +94,23 @@
     [User currentUser].address  = self.tv_address.text;
     [[User currentUser] save];
     
+    if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(action:withIndex:)])
+        [self.mDelegate action:DELE_ACTION_USER_SAVE_BACK withIndex:1];
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(void) loadData
+{
+    self.tv_name.text = [User currentUser].name    ;
+    self.tv_contact.text = [User currentUser].contact ;
+    self.tv_address.text = [User currentUser].address ;
+}
+
+
+- (void) go_back:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

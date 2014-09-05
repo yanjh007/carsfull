@@ -11,6 +11,8 @@
 #import "CarVC.h"
 #import "AppointmentVC.h"
 #import "Models.h"
+#import "User.h"
+#import "UserVC.h"
 
 @interface InfoVC ()<UITableViewDelegate,UITableViewDataSource,UIActionSheetDelegate,JY_STD_Delegate>
 @property (retain, nonatomic) IBOutlet UITableView *tb_info;
@@ -24,38 +26,21 @@
 {
     self = [JY_Helper loadNib:NIB_MAIN atIndex:3];
     if (self) {
-        self.info_base=[@[@{
-                             @"title":@"用户标示(手机号)",
-                             @"value":@"13808077424",
-                             @"descp":@"用户手机号，用于登录"
-                             },
-                         @{
-                             @"title":@"用户姓名",
-                             @"value":@"颜建华",
-                             @"descp":@"用户姓名，显示"
-                             },
-                         @{
-                             @"title":@"客户地址",
-                             @"value":@"天府软件园",
-                             @"descp":@"用户姓名，显示"
-                             }
-                        ] copy];
-        self.info_cars =  [[Car getCars] copy];
+        self.title = @"用户设置";
+        
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_menu"]
+                                                                                 style:UIBarButtonItemStylePlain
+                                                                                target:self
+                                                                                action:@selector(showMenu:)];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_add"]
+                                                                                 style:UIBarButtonItemStylePlain
+                                                                                target:self
+                                                                                 action:@selector(do_add:)];
+
         // Custom initialization
+        self.info_cars =  [[Car getCars] copy];
     }
     return self;
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-
-    self.title = @"用户设置";
-
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_menu1"]
-                                                                             style:UIBarButtonItemStylePlain
-                                                                            target:self
-                                                                            action:@selector(showMenu:)];
 }
 
 - (void) showMenu:(id)sender
@@ -98,7 +83,11 @@
 {
     // Return the number of rows in the section.
     if (section==0) {
-        return [self.info_base count];
+        if ([User currentUser].userid==0) { //未登录
+            return 1;
+        } else {
+            return 4;
+        }
     } else {
         return [self.info_cars count]+1;
     }
@@ -108,7 +97,7 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section;
 {
     if (section==0) {
-        return @"基本信息";
+        return @"个人基本信息";
     } else {
         return @"车辆信息";
     }
@@ -123,11 +112,44 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
-    if (indexPath.section==0) {
-        NSDictionary *item=self.info_base[indexPath.row];
+    if (indexPath.section==0) { //基本信息
+        NSString *title=@"",*subtitle=@"";
+ 
+        switch (indexPath.row) {
+            case 0: //基本信息
+                if ([User currentUser].userid==0) { //未登录
+                    title=@"<未登录>";
+                } else {
+                    title    = [NSString stringWithFormat:@"用户:%@",[User currentUser].name];
+                    subtitle = [NSString stringWithFormat:@"登录标识:%@",[User currentUser].login];
+                }
+                break;
+            case 1:
+                if ([User currentUser].userid>0) { //未登录
+                    title    = @"联系方式:";
+                    subtitle = [User currentUser].contact;
+                }
+                break;
+            case 2:
+                if ([User currentUser].userid>0) { //未登录
+                    title    = @"地址:";
+                    subtitle = [User currentUser].address;
+                }
+                break;
+            case 3:
+                if ([User currentUser].userid>0) { //未登录
+                    title    = @"驾龄:";
+                    subtitle = [User currentUser].address;
+                }
+                break;
+                
+                
+            default:
+                break;
+        }
         
-        cell.textLabel.text = item[@"title"];
-        cell.detailTextLabel.text = item[@"value"];
+        cell.textLabel.text = title;
+        cell.detailTextLabel.text =subtitle;
     } else {
         if (indexPath.row == [self.info_cars count]) {
             cell.textLabel.text = @"[新车辆]";
@@ -156,6 +178,19 @@
         } else {
             [self go_edit:[[Car alloc]init]];
         }
+    } else if (indexPath.section==0) {
+        UIViewController *vc;
+        if ([User currentUser].userid==0) { //未登录
+            
+        } else {
+
+        }
+        
+        vc= [[UserVC alloc] initWithData:@{@"delegate":self}];
+        
+        // We don't want to be able to pan on nav bar to see the left side when we pushed a controller
+        [self.revealSideViewController unloadViewControllerForSide:PPRevealSideDirectionLeft];
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
@@ -167,7 +202,9 @@
                                       delegate:self
                              cancelButtonTitle:@"取 消"
                         destructiveButtonTitle:@"编 辑"
-                             otherButtonTitles:@"维护预约",@"维护记录",nil];
+                             otherButtonTitles:@"维护预约",
+                                               @"行车日志",
+                                                nil];
  
     }
     [self.as_carcell setTag:index];
@@ -192,6 +229,11 @@
 }
 
 // 编辑车辆
+-(void) do_add:(id)sender
+{
+    [self go_edit:[[Car alloc] init]];
+}
+
 -(void) go_edit:(Car*) car
 {
     CarVC *vc = [[CarVC alloc] initWithData:@[car,self]];
@@ -221,6 +263,12 @@
             self.info_cars =  [[Car getCars] copy];
             [self.tb_info reloadData];
         }
+        
+    } else if (act==DELE_ACTION_USER_SAVE_BACK) {
+        if (index==1) {
+            [self.tb_info reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:nil];
+        }
+        
         
     }
     return DELE_RESULT_VOID;

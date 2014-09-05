@@ -26,9 +26,10 @@ class Carserie extends CI_Model {
       $sql=$sql." where tags like '%".$tag."%'";
     }
     
-    $sql= $sql." order by tags";
-
+    $sql= $sql." order by tags";	
+	
     $query = $this->db->query($sql);
+
     return $query->result_array();
   }
   
@@ -58,6 +59,20 @@ class Carserie extends CI_Model {
     $this->db->where('id', $item_id);
     $this->db->delete(self::TABLE_NAME); 
     return TRUE;
+  }
+  
+  public function if_tag($tag) {
+    $sql="select id,manufacturer,brand,tags from ".self::TABLE_NAME." where tags like '%".$tag."%' order by manufacturer";	
+	
+    $query = $this->db->query($sql);
+
+	if ($query->num_rows() > 0) {
+	  $data["content"] = json_encode($query->result_array());
+	} else {
+	  $data["result"] = "NULL";
+	}	
+
+    return $data;  
   }
 
 }

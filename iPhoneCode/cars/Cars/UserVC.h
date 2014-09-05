@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface UserVC : UIViewController
-
+- (id)initWithData:(NSDictionary*)dicData;
 @end

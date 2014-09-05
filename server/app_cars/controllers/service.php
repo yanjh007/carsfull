@@ -22,6 +22,9 @@ class Service extends CI_Controller {
 	  case "shops": //预约
 		$this->_shop();
 	    return;
+	  case "carseries": //车型
+		$this->_carseries();
+	    return;
 	  default:
 		  $data["result"] = "FALSE";
 		  $data["content"] = json_encode(array("status"=>404,"error"=>"Request Not Found"));
@@ -144,6 +147,16 @@ class Service extends CI_Controller {
 	$version = $this->input->get_post('V');
 
 	$data = $this->shop->onSubmit($version);	  
+	$this->load->view('service/json_std', $data);
+  }
+  
+  public function _carseries() { //店铺信息同步接口
+	//if (!$this->_tokenCheck()) return;
+	
+	$this->load->model('carserie');
+	$tag = $this->input->get_post('K');
+
+	$data = $this->carserie->if_tag($tag);	  
 	$this->load->view('service/json_std', $data);
   }
   

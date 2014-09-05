@@ -26,15 +26,19 @@
     static User *currentUser;
     
     @synchronized(self) {
-        if (!currentUser) currentUser = [[User alloc] init];
-        NSDictionary *duser=(NSDictionary*)[JY_Default get:PKEY_USER] ;
-        
-        currentUser.login  = duser[@"login"] ?:@"";
-        currentUser.userid = duser[@"userid"]?:0;
-        currentUser.token  = duser[@"token"] ?:@"";
-        currentUser.name  = duser[@"name"] ?:@"";
-        currentUser.address  = duser[@"address"] ?:@"";
-        currentUser.contact  = duser[@"contact"] ?:@"";
+        if (!currentUser) {
+            NSDictionary *duser=(NSDictionary*)[JY_Default get:PKEY_USER] ;
+            currentUser = [[User alloc] init];
+            
+            currentUser.login  = duser[@"login"] ?:@"";
+            currentUser.userid = duser[@"userid"]?:0;
+            currentUser.version  = duser[@"version"] ?:0;
+            currentUser.token  = duser[@"token"] ?:@"";
+
+            currentUser.name  = duser[@"name"] ?:@"";
+            currentUser.address  = duser[@"address"] ?:@"";
+            currentUser.contact  = duser[@"contact"] ?:@"";
+        }
         
         return currentUser;
     }
@@ -44,10 +48,11 @@
 {
     NSDictionary *duser=@{ @"login"    :self.login,
                            @"userid"   :@(self.userid),
-                           @"passwd"   :self.password,
-                           @"name"     :self.name,
-                           @"address"  :self.address,
-                           @"token"    :self.token
+                           @"passwd"   :self.password?self.password:@"",
+                           @"name"     :self.name?self.name:@"",
+                           @"address"  :self.address?self.address:@"",
+                           @"token"    :self.token?self.token:@"",
+                           @"version"  :@(self.version)
                         };
     
     [JY_Default save:duser forKey:PKEY_USER];

@@ -137,6 +137,15 @@ dev journal
 - web page view, input dialog pannel
 - router improved, use controller/id/action pattene
 
+# 20140905
+- server side carseries improved, tag search, information interface
+- iOS app, background images, icons update
+- iOS app, user module, user info modify
+- iOS app, carseries select VC, request and show
+
+
+
+
 
 
 

@@ -11,3 +11,8 @@
 @interface CarVC : UIViewController
 - (id)initWithData:(NSArray*)adata;
 @end
+
+
+@interface CarseriesVC : UIViewController
+- (id)initWithData:(NSArray*)adata;
+@end

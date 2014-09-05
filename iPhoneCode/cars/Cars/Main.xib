@@ -155,8 +155,7 @@
                             <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="krC-IX-CVA">
                                 <rect key="frame" x="20" y="149" width="280" height="47"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="1" green="0.32574084679999998" blue="0.036157006790000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="绑 定">
+                                <state key="normal" title="绑 定" backgroundImage="cbg_red1">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -166,11 +165,11 @@
                             <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="7H3-a9-Su8">
                                 <rect key="frame" x="225" y="88" width="75" height="28"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="1" green="0.32574084679999998" blue="0.036157006790000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <state key="normal" title="生成/获取">
+                                <state key="normal" title="生成/获取" backgroundImage="cbg_green1">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <state key="highlighted" backgroundImage="cbg_green2"/>
                                 <connections>
                                     <action selector="do_getcode:" destination="KGc-jZ-RqJ" eventType="touchUpInside" id="0xn-fE-Yv7"/>
                                 </connections>
@@ -265,10 +264,10 @@
                     <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="pFA-rR-cLD">
                         <rect key="frame" x="20" y="341" width="280" height="47"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" red="1" green="0.32574084679999998" blue="0.036157006790000001" alpha="1" colorSpace="calibratedRGB"/>
-                        <state key="normal" title="删 除">
+                        <state key="normal" title="删 除" backgroundImage="cbg_red1">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
+                        <state key="highlighted" backgroundImage="cbg_red2"/>
                         <connections>
                             <action selector="do_delete:" destination="guR-LB-G4H" eventType="touchUpInside" id="4dE-v7-auQ"/>
                         </connections>
@@ -276,10 +275,10 @@
                     <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="sxM-Sf-bms">
                         <rect key="frame" x="20" y="286" width="280" height="47"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" red="0.25098040699958801" green="0.0" blue="0.50196081399917603" alpha="1" colorSpace="calibratedRGB"/>
-                        <state key="normal" title="保 存">
+                        <state key="normal" title="保 存" backgroundImage="cbg_green1">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
+                        <state key="highlighted" backgroundImage="cbg_green2"/>
                         <connections>
                             <action selector="do_save:" destination="guR-LB-G4H" eventType="touchUpInside" id="zuC-ic-grI"/>
                         </connections>
@@ -394,10 +393,10 @@
                     <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="haH-50-9Qm">
                         <rect key="frame" x="20" y="360" width="280" height="43"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" red="1" green="0.32574084679999998" blue="0.036157006790000001" alpha="1" colorSpace="calibratedRGB"/>
-                        <state key="normal" title="取消预约">
+                        <state key="normal" title="取消预约" backgroundImage="cbg_blue1">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
+                        <state key="highlighted" backgroundImage="cbg_blue2"/>
                         <connections>
                             <action selector="do_delete:" destination="3gc-uP-4t4" eventType="touchUpInside" id="YRV-lp-579"/>
                         </connections>
@@ -405,10 +404,10 @@
                     <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="fIg-gf-mcf">
                         <rect key="frame" x="20" y="310" width="130" height="42"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" red="0.25098040700000002" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
-                        <state key="normal" title="保 存">
+                        <state key="normal" title="保 存" backgroundImage="cbg_green1">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
+                        <state key="highlighted" backgroundImage="cbg_green2"/>
                         <connections>
                             <action selector="do_save:" destination="3gc-uP-4t4" eventType="touchUpInside" id="2ta-Y1-rrU"/>
                         </connections>
@@ -416,10 +415,10 @@
                     <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="piH-8X-76L">
                         <rect key="frame" x="170" y="310" width="130" height="42"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" red="0.25098040700000002" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
-                        <state key="normal" title="保存并提交">
+                        <state key="normal" title="保存并提交" backgroundImage="cbg_red1">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
+                        <state key="highlighted" backgroundImage="cbg_red2"/>
                         <connections>
                             <action selector="do_save_commit:" destination="3gc-uP-4t4" eventType="touchUpInside" id="cuw-IC-Wwq"/>
                         </connections>
@@ -542,38 +541,49 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
+                    <view appearanceType="aqua" contentMode="scaleToFill" id="aY6-FC-g72">
+                        <rect key="frame" x="29" y="183" width="253" height="34"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <view appearanceType="aqua" contentMode="scaleToFill" id="nyU-zK-30z">
+                        <rect key="frame" x="29" y="106" width="119" height="34"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
                     <label appearanceType="aqua" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="联系方式(其他电话、IM或电邮)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="i1T-gN-hK8">
-                        <rect key="frame" x="30" y="120" width="253" height="21"/>
+                        <rect key="frame" x="30" y="157" width="253" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label appearanceType="aqua" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="地址" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4CB-U6-gl5">
-                        <rect key="frame" x="30" y="193" width="90" height="21"/>
+                        <rect key="frame" x="30" y="230" width="90" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label appearanceType="aqua" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="姓名" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="txf-gc-Ild">
-                        <rect key="frame" x="30" y="43" width="34" height="21"/>
+                        <rect key="frame" x="31" y="80" width="34" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <textField appearanceType="aqua" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="颜建华1" borderStyle="roundedRect" minimumFontSize="17" id="ObK-Iu-oUb">
-                        <rect key="frame" x="30" y="72" width="98" height="30"/>
+                    <textField appearanceType="aqua" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="颜建华" minimumFontSize="17" id="ObK-Iu-oUb">
+                        <rect key="frame" x="35" y="108" width="98" height="30"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits"/>
                         <connections>
                             <outlet property="delegate" destination="b4V-qz-GO4" id="Bcp-U2-eKQ"/>
                         </connections>
                     </textField>
-                    <textField appearanceType="aqua" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="yanjh@sina.com" borderStyle="roundedRect" minimumFontSize="17" id="hxy-vZ-Qmu">
-                        <rect key="frame" x="29" y="149" width="253" height="30"/>
+                    <textField appearanceType="aqua" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="yanjh@sina.com" minimumFontSize="17" id="hxy-vZ-Qmu">
+                        <rect key="frame" x="37" y="182" width="239" height="36"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits"/>
@@ -582,21 +592,20 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                         </connections>
                     </textField>
                     <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Mar-wy-1OW">
-                        <rect key="frame" x="30" y="299" width="253" height="43"/>
+                        <rect key="frame" x="30" y="336" width="253" height="43"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" red="1" green="0.1748920276" blue="0.28652623510000003" alpha="1" colorSpace="calibratedRGB"/>
-                        <state key="normal" title="保 存">
+                        <state key="normal" title="保 存" backgroundImage="cbg_red1">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
+                        <state key="highlighted" backgroundImage="cbg_red2"/>
                         <connections>
-                            <action selector="do_login:" destination="jFd-yH-Axo" eventType="touchUpInside" id="EY6-w4-mBA"/>
                             <action selector="do_save:" destination="b4V-qz-GO4" eventType="touchUpInside" id="J5M-dJ-G5a"/>
                         </connections>
                     </button>
-                    <textView appearanceType="aqua" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="v6h-h3-DA0">
-                        <rect key="frame" x="29" y="217" width="253" height="68"/>
+                    <textView appearanceType="aqua" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="天府软件园" id="v6h-h3-DA0">
+                        <rect key="frame" x="29" y="254" width="253" height="68"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" red="1" green="0.80000001190000003" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.90196079015731812" green="0.90196079015731812" blue="0.90196079015731812" alpha="1" colorSpace="calibratedRGB"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         <connections>
@@ -617,5 +626,45 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 <outlet property="tv_name" destination="ObK-Iu-oUb" id="wKx-wU-NKD"/>
             </connections>
         </viewController>
+        <viewController id="ZJj-fA-niH" userLabel="10-CarSeriesVC" customClass="CarseriesVC">
+            <view key="view" contentMode="scaleToFill" id="os0-6d-9Hc">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <view appearanceType="aqua" contentMode="scaleToFill" id="7ai-lZ-XPi">
+                        <rect key="frame" x="0.0" y="67" width="320" height="96"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" red="1" green="0.6365378236" blue="0.03030117278" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <tableView appearanceType="aqua" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="jbn-4c-wpR">
+                        <rect key="frame" x="0.0" y="163" width="325" height="405"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <connections>
+                            <outlet property="dataSource" destination="ZJj-fA-niH" id="LF8-49-dhf"/>
+                            <outlet property="delegate" destination="ZJj-fA-niH" id="D95-x0-Qdx"/>
+                        </connections>
+                    </tableView>
+                </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            </view>
+            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+            <connections>
+                <outlet property="tb_series" destination="jbn-4c-wpR" id="qbM-d7-huv"/>
+                <outlet property="v_chars" destination="7ai-lZ-XPi" id="aga-hi-fuW"/>
+            </connections>
+        </viewController>
     </objects>
+    <resources>
+        <image name="cbg_blue1" width="2" height="2"/>
+        <image name="cbg_blue2" width="2" height="2"/>
+        <image name="cbg_green1" width="2" height="2"/>
+        <image name="cbg_green2" width="2" height="2"/>
+        <image name="cbg_red1" width="2" height="2"/>
+        <image name="cbg_red2" width="2" height="2"/>
+    </resources>
 </document>

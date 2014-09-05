@@ -11,7 +11,7 @@
  Target Server Version : 50620
  File Encoding         : utf-8
 
- Date: 09/04/2014 16:59:48 PM
+ Date: 09/05/2014 17:08:34 PM
 */
 
 SET NAMES utf8;
@@ -158,7 +158,7 @@ CREATE TABLE `carseries` (
   `version` int(11) DEFAULT '0',
   `tags` varchar(26) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `carseries`
@@ -185,7 +185,7 @@ CREATE TABLE `ci_sessions` (
 --  Records of `ci_sessions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `ci_sessions` VALUES ('64a40cee31630a692f767519fd2034fc', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1409817732', ''), ('dd8fe8651ed63317e15a126f39e1f5d3', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.8 (KHTML, like Gecko) Version/8.0 Safari/600.1.8', '1409813874', 'a:1:{s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}');
+INSERT INTO `ci_sessions` VALUES ('377922da684af814787b36483e3c4c5b', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1409885221', ''), ('61a08241de5ef1dff0b786a7d7e4bf0a', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1409896734', ''), ('689686488d73500a8b9848ca34ef7acd', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.8 (KHTML, like Gecko) Version/8.0 Safari/600.1.8', '1409887438', ''), ('88d4d988c3d2f6bab648d59adee39941', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1409898506', '');
 COMMIT;
 
 -- ----------------------------
