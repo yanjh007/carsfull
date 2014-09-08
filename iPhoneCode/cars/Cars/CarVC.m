@@ -11,17 +11,23 @@
 #import "JY_Request.h"
 
 #pragma mark - 车辆列表
-@interface CarVC ()<UIActionSheetDelegate,UITextFieldDelegate>
+@interface CarVC ()<UIActionSheetDelegate,UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate,JY_STD_Delegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *tv_cnumber;
 @property (weak, nonatomic) IBOutlet UITextField *tv_fnumber;
 @property (weak, nonatomic) IBOutlet UILabel *lb_brand;
 @property (weak, nonatomic) IBOutlet UIButton *bt_delete;
-@property (strong, nonatomic) NSString *verify_code,*pass_code; //验证码和临时密码
-@property (strong, nonatomic) Car *mCar; //验证码和临时密码
+@property (strong, nonatomic) Car *mCar;
 @property (assign) int showMode;
 @property (nonatomic) id<JY_STD_Delegate> mDelegate;
+@property (weak, nonatomic) IBOutlet UIPickerView *pv_config;
+@property (strong, nonatomic) IBOutlet UIButton *bt_config;
+@property (strong, nonatomic) IBOutlet UIButton *bt_year;
+@property (strong, nonatomic) IBOutlet UIButton *bt_engine;
 
+@property (strong, nonatomic) IBOutlet UIButton *bt_trans;
+@property (strong, nonatomic) IBOutlet UIButton *bt_color;
+@property (strong, nonatomic) IBOutlet UIButton *bt_brand;
 @end
 
 @implementation CarVC
@@ -30,6 +36,17 @@
 {
     self = [JY_Helper loadNib:NIB_MAIN atIndex:5];
     if (self) {
+        self.title = @"车辆编辑";
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_back"]
+                                                                                 style:UIBarButtonItemStylePlain
+                                                                                target:self
+                                                                                action:@selector(do_back:)];
+
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"保存"
+                                                                                  style:UIBarButtonItemStyleBordered
+                                                                                 target:self
+                                                                                 action:@selector(do_save:)];
+        
         self.mCar       = adata[0];
         self.mDelegate  = adata[1];
         if (self.mCar.carnumber) {
@@ -46,30 +63,58 @@
             self.tv_cnumber.text= @"";
             self.tv_fnumber.text=@"";
         }
+        
+        self.mCar.cfgList   =@[@"高",@"中",@"低"];
+        self.mCar.colorList =@[@"白",@"黑",@"红",@"蓝",@"银",@"黄",@"绿"];
     }
     return self;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-
-    self.title = @"车辆编辑";
-    
-    self.navigationItem.leftBarButtonItem  = [[UIBarButtonItem alloc] initWithTitle:@"返回"
-                                                                              style:UIBarButtonItemStyleBordered
-                                                                             target:self
-                                                                             action:@selector(do_back:)];
-
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"保存"
-                                                                             style:UIBarButtonItemStyleBordered
-                                                                            target:self
-                                                                             action:@selector(do_save:)];
-}
 
 - (IBAction) do_back:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)do_seires:(UIButton *)sender {
+    UIViewController *vc=[[CarseriesVC alloc] initWithData:@[self]];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+
+- (IBAction)do_config:(UIButton *)sender {
+    if (sender.tag==self.pv_config.tag) {
+        self.pv_config.hidden=!self.pv_config.hidden;
+        return;
+    }
+    
+    switch (sender.tag) {
+        case 51: //年份
+            
+            break;
+        case 52: //配置
+            
+            break;
+        case 53: //发动机
+            
+            break;
+        case 54: //变速箱
+            
+            break;
+        case 55: //颜色
+            
+            break;
+   
+        default:
+            return;
+    }
+    
+    self.pv_config.tag=sender.tag;
+    [self.pv_config setHidden:NO];
+    
+    [self.pv_config reloadAllComponents];
+    
+    
 }
 
 - (IBAction) do_save:(id)sender
@@ -131,12 +176,62 @@
 {
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
 
+- (NSInteger) pickerView:(UIPickerView *)pickerView numberOfRowsInComponent: (NSInteger)component
+{
+    if (pickerView.tag==51) {
+
+    } else if (pickerView.tag==52) { //配置
+        return [self.mCar.cfgList count];
+    } else if (pickerView.tag==55) { //颜色
+        return [self.mCar.colorList count];
+    }
+    
+    return 0;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component;
+{
+
+    if (pickerView.tag==51) {
+
+    } else if (pickerView.tag==52) {
+        return self.mCar.cfgList[row];
+    } else if (pickerView.tag==55) {
+        return self.mCar.colorList[row];
+    }
+    return @"";
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    if (pickerView.tag==51) {
+        
+    } else if (pickerView.tag==52) {
+        [self.bt_config setTitle:self.mCar.cfgList[row] forState:UIControlStateNormal];
+    } else if (pickerView.tag==55) {
+        [self.bt_color setTitle:self.mCar.colorList[row] forState:UIControlStateNormal];
+    }
+    
+}
+
+-(int)action:(int)act withTag:(NSObject *)tag
+{
+    if (act==DELE_ACTION_CARSERIE_CHOOSE_BACK) {
+        [self.bt_brand setTitle:(NSString*)tag forState:UIControlStateNormal];
+    }
+    
+    return DELE_RESULT_VOID;
+}
 
 @end
 
 #pragma mark - 车系选择
-@interface CarseriesVC() <UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UITableViewDataSource,UITableViewDelegate,JY_STD_Delegate>
+@interface CarseriesVC() <UITableViewDataSource,UITableViewDelegate,JY_STD_Delegate>
 @property (strong, nonatomic) IBOutlet UICollectionView *tb_chars;
 
 @property (strong, nonatomic) IBOutlet UITableView *tb_series;
@@ -154,10 +249,11 @@
     self = [JY_Helper loadNib:NIB_MAIN atIndex:10];
     if (self) {
         self.title = @"车系设置";
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_menu1"]
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_back"]
                                                                                  style:UIBarButtonItemStylePlain
                                                                                 target:self
-                                                                                action:@selector(showMenu:)];
+                                                                                action:@selector(do_back:)];
+        if (adata) self.mDelegate = adata[0];
         
         [self addCharButtons];
 
@@ -165,19 +261,10 @@
     return self;
 }
 
-- (void) showMenu:(id)sender
-{
-    // used to push a new controller, but we preloaded it !
-    //    LeftViewController *left = [[LeftViewController alloc] initWithStyle:UITableViewStylePlain];
-    //    [self.revealSideViewController pushViewController:left onDirection:PPRevealSideDirectionLeft animated:YES];
-    
-    [self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionLeft animated:YES];
-}
-
 static NSString *const LIST_CHARS=@"#ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 -(void) addCharButtons
 {
-    UILabel *lb; UIButton *btn;
+    UIButton *btn;
     int count=LIST_CHARS.length;
     for (int i=0; i<count; i++) {
         float x = 16+i%9*32;
@@ -217,15 +304,6 @@ static NSString *const LIST_CHARS=@"#ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     
 }
 
-- (IBAction)do_delete:(UIButton *)sender {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"确认删除当前车辆记录?"
-                                                             delegate:self
-                                                    cancelButtonTitle:@"取 消"
-                                               destructiveButtonTitle:@"删 除"
-                                                    otherButtonTitles:nil];
-    
-    [actionSheet showInView:self.view];
-}
 
 - (void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -236,12 +314,13 @@ static NSString *const LIST_CHARS=@"#ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     }
 }
 
-- (void) go_back:(BOOL)bNotify
+- (void) go_back:(int)row
 {
-    if (bNotify
-        && self.mDelegate
-        && [self.mDelegate respondsToSelector:@selector(action:withIndex:)]) {
-        [self.mDelegate action:DELE_LIST_RELOAD withIndex:1];
+    if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(action:withTag:)]) {
+        NSString *item=[NSString stringWithFormat:@"%@-%@",
+                            self.ary_tag_result[row][@"manufacturer"],self.ary_tag_result[row][@"brand"]];
+        
+        [self.mDelegate action:DELE_ACTION_CARSERIE_CHOOSE_BACK withTag:item];
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -292,7 +371,7 @@ static NSArray *ary_titles;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
- 
+    [self go_back:indexPath.row];
     
 }
 

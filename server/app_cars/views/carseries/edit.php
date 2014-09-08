@@ -12,6 +12,14 @@
                 zm_form_input(0,"品 牌","brand",  $item["brand"]);
                 zm_form_input(0,"类 型","ctype",   $item["ctype"]);
                 zm_form_input(0,"标 签","tags",   $item["tags"]);
+                
+                zm_form_textarea(0,"基本信息","descp",   $item["descp"]);
+                zm_form_input(0,"车系链接","serie_url",   $item["serie_url"]);
+                
+                zm_form_textarea(0,"引擎列表","engine_list",   $item["engine_list"]);
+                zm_form_textarea(0,"变速箱列表","trans_list",   $item["trans_list"]);
+                zm_form_input(0,"颜色列表","color_list",   $item["color_list"]);
+                
             ?>
             
             <div class="form-group">

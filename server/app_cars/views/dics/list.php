@@ -8,13 +8,13 @@
 			<?php foreach ($dic_list as $item): ?>
 				<?php if ($item["did"]==0): ?>
 					<div class="panel panel-default">
-					<div class="panel-heading" ><?= $item["name"]; ?></div>
+					<div class="panel-heading" ><?php echo $item["name"]; ?></div>
 					<div class="row show-grid">
 				<?php elseif ($item["did"]==100): ?>
 					</div></div>
 				<?php else:  ?>
 					<div class="col-xs-4">
-					<button type="button" class="btn btn-primary"><?= $item["name"] ?></button>
+					<button type="button" class="btn btn-primary"><?php echo $item["name"] ?></button>
 					</div>
 				<?php endif ?>
 			<?php endforeach ?>
@@ -25,44 +25,14 @@
 				<!-- Default panel contents -->
 				<div class="panel-heading">增加项目</div>				
 				<div class="panel-body">				
-					<?= form_open('dics/save',array("role"=>"form")); ?>
-					<div class="form-group">
-					  <label for="exampleInputEmail1">类 型</label>
-					  <?= form_input(array( 'name'  => 'name',
-											'id'    => 'username',
-											'class' => 'form-control',
-												)); ?>
-					</div>
-
-					<div class="form-group">
-					  <label for="exampleInputEmail1">名 称</label>
-					  <?= form_input(array( 'name'  => 'name',
-											'id'    => 'username',
-											'class' => 'form-control',
-												)); ?>
-					</div>
-					<div class="form-group">
-					  <label for="exampleInputPassword1">次 序</label>
-					  <?= form_input(array('name'  => 'mobile',
-												'id'    => 'mobile',
-												'class' => 'form-control'
-												)); ?>
-					</div>
-					<div class="form-group">
-					  <label for="exampleInputPassword1">简 写</label>
-					  <?= form_input(array('name'  => 'im',
-												'id'    => 'im',
-												'class' => 'form-control'
-												)); ?>
-					</div>
-					<div class="form-group">
-					  <label for="exampleInputPassword1">简单描述</label>
-					  <?= form_input(array('name'  => 'im',
-												'id'    => 'im',
-												'class' => 'form-control'
-												)); ?>
-					</div>
-					<button type="submit" class="btn btn-primary">增 加</button>
+					<?php					    
+					    zm_form_open('dics/0/save');
+					    zm_form_input(1,"类 型","dtype");
+					    zm_form_input(1,"次 序","did");
+					    zm_form_input(1,"简 称","sname");
+					    zm_form_input(1,"简单描述","sdesc");
+					    zm_btn_submit("增 加");
+					?>
 					</form>
 				</div>
 		    </div>

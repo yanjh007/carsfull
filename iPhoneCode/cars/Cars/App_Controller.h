@@ -158,3 +158,5 @@ static NSString *const PMT_PAY_RECOVER        = @"订购记录已经成功恢复
 static int const DELE_ACTION_APMT_SAVE_BACK = 5011;
 
 static int const DELE_ACTION_USER_SAVE_BACK = 5021;
+
+static int const DELE_ACTION_CARSERIE_CHOOSE_BACK = 5031;

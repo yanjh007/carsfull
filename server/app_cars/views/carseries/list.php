@@ -11,17 +11,18 @@
 		      
 				<!-- Table -->
 				<table class="table">
-					<?php echo zm_table_header("#,厂商,车系,类型,标签","操作") ?>
+					<?php echo zm_table_header("#,厂商-车系,类型,标签,配置选项","操作") ?>
 	
 				  <tbody>  
 				  <?php foreach ($itemlist as $item): ?>
 					<tr>
 					  <td><?php echo $item["id"]; ?></td>
-					  <td><?php echo $item['manufacturer']; ?></td>
-					  <td><?php echo $item['brand']; ?></td>
+					  <td><?php echo $item['manufacturer']."-".$item['brand']; ?></td>
 					  <td><?php echo $item['ctype']; ?></td>
 					  <td><?php echo $item['tags']; ?></td>
+					  <td><?php echo "引擎:".$item['engine_list']."<br>变速:".$item['trans_list']."<br>颜色:".$item['color_list']; ?></td>
 					  <td align=right>
+					    <?php echo anchor($item["serie_url"],"链接"); ?> |
 					    <?php link_to_edit("carseries/".$item["id"]."/edit"); ?> |
 					    <?php link_to_jdelete("confirm_del(\"".$item["id"]."/delete\",\"".$item["brand"]."\")"); ?>
 					  </td>

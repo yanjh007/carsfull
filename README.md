@@ -143,6 +143,15 @@ dev journal
 - iOS app, user module, user info modify
 - iOS app, carseries select VC, request and show
 
+# 20140908
+- iOS app, carVC and carserieVC connect, carVC add car enginelist, colorlist...
+- iOS app icon updated
+- server side , carseries update, enginelist .. edit
+- dic module updated
+
+
+
+
 
 
 

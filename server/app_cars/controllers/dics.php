@@ -9,7 +9,7 @@ class Dics extends CI_Controller {
   }
 
   public function index(){
-	$this->load->helper('form');
+	$this->load->helper(array('form',"zmform"));
 	
 	$data['dic_list'] = $this->dic->get_list();
 	//var_dump($data);

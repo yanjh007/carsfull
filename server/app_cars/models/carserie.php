@@ -1,6 +1,6 @@
 <?php
 class Carserie extends CI_Model {
-  const STD_QUERY  = "SELECT id,name,manufacturer,brand,ctype,tags,serie_url FROM carseries ";
+  const STD_QUERY  = "SELECT id,name,manufacturer,brand,ctype,tags,trans_list,color_list,engine_list,serie_url,descp FROM carseries ";
   const TABLE_NAME = "carseries";
   
   public function __construct() {
@@ -13,7 +13,7 @@ class Carserie extends CI_Model {
       $sql=$sql." where mcode like '%".$keyword."%' or manufacturer like '%".$keyword."%' or brand like '%".$keyword."%'";
     }
     
-    $sql= $sql." order by version desc limit 20";
+    $sql= $sql." order by manufacturer,version desc limit 20";
 
     $query = $this->db->query($sql);
     return $query->result_array();
@@ -44,6 +44,11 @@ class Carserie extends CI_Model {
 			  'brand' 		=> $item["brand"],
 			  'ctype'  		=> $item["ctype"],
 			  'tags'   		=> $item["tags"],
+			  'color_list'   	=> $item["color_list"],
+			  'trans_list'   	=> $item["trans_list"],
+			  'engine_list'   	=> $item["engine_list"],
+			  'descp'   		=> $item["descp"],
+			  'serie_url'   		=> $item["serie_url"],
 			);
     
 	if ($id>0) { // insert
