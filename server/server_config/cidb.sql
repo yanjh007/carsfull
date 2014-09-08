@@ -3,15 +3,15 @@
 
  Source Server         : localdb
  Source Server Type    : MySQL
- Source Server Version : 50620
+ Source Server Version : 50538
  Source Host           : localhost
  Source Database       : cidb
 
  Target Server Type    : MySQL
- Target Server Version : 50620
+ Target Server Version : 50538
  File Encoding         : utf-8
 
- Date: 09/05/2014 17:08:34 PM
+ Date: 09/09/2014 01:37:47 AM
 */
 
 SET NAMES utf8;
@@ -148,7 +148,7 @@ CREATE TABLE `carseries` (
   `manufacturer` varchar(20) DEFAULT NULL,
   `brand` varchar(20) DEFAULT NULL,
   `name` varchar(20) DEFAULT NULL,
-  `serie_url` varchar(20) DEFAULT NULL,
+  `serie_url` varchar(60) DEFAULT NULL,
   `desc` varchar(128) DEFAULT NULL,
   `cfg_list` varchar(100) DEFAULT NULL,
   `style_list` varchar(100) DEFAULT NULL,
@@ -157,6 +157,7 @@ CREATE TABLE `carseries` (
   `color_list` varchar(30) DEFAULT NULL,
   `version` int(11) DEFAULT '0',
   `tags` varchar(26) DEFAULT NULL,
+  `descp` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
@@ -164,7 +165,7 @@ CREATE TABLE `carseries` (
 --  Records of `carseries`
 -- ----------------------------
 BEGIN;
-INSERT INTO `carseries` VALUES ('1', 'B', '长安福特', '蒙迪欧', '自动经典型', 'CA07408', null, '200612', '553', null, '139087', '墨绿', '0', 'CFM'), ('2', 'A0', '长安铃木', '雨燕', '手动基本型', 'CA09987', null, 'LMH', '552', '1.3-L4,1.5-L4,1.5-L4-T', '5-MT,6-AT,4-AMT,5-CVT', '蓝,白,黄,黑,绿,红', '0', 'CLY'), ('3', 'B', '广州本田', '雅阁', '', 'GB-74532', null, '自动豪华型', null, '2.0L4,2.5L4,3.0V6', '6-AT,6-MT,7-DSG', '黑,白,墨绿', '0', 'YGB'), ('4', 'A', '长安铃木', '天语SX4', null, null, null, null, null, null, null, null, '0', 'CLMT'), ('5', 'A', '北京现代', '伊兰特', null, null, null, null, null, null, null, null, '0', 'BXY');
+INSERT INTO `carseries` VALUES ('1', 'B', '长安福特', '蒙迪欧', '自动经典型', 'CA07408', null, '200612', '553', null, '139087', '墨绿', '0', 'CFM', null), ('2', 'A0', '长安铃木', '雨燕', '手动基本型', 'http://newcar.xcar.com.cn/176/', null, 'LMH', '552', '1.3-L4,1.5-L4,1.5-L4-T', '5-MT,6-AT,4-AMT,5-CVT', '蓝,白,黄,黑,绿,红,银,灰', '0', 'CLY', '铃木A0级小型轿车，两厢5门5座，2005年首款'), ('3', 'B', '广州本田', '雅阁', '', 'GB-74532', null, '自动豪华型', null, '2.0L4,2.5L4,3.0V6', '6-AT,6-MT,7-DSG', '黑,白,墨绿', '0', 'YGB', null), ('4', 'A', '长安铃木', '天语SX4', null, null, null, null, null, null, null, null, '0', 'CLMT', null), ('5', 'A', '北京现代', '伊兰特', null, null, null, null, null, null, null, null, '0', 'BXY', null);
 COMMIT;
 
 -- ----------------------------
@@ -185,7 +186,7 @@ CREATE TABLE `ci_sessions` (
 --  Records of `ci_sessions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `ci_sessions` VALUES ('377922da684af814787b36483e3c4c5b', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1409885221', ''), ('61a08241de5ef1dff0b786a7d7e4bf0a', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1409896734', ''), ('689686488d73500a8b9848ca34ef7acd', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.8 (KHTML, like Gecko) Version/8.0 Safari/600.1.8', '1409887438', ''), ('88d4d988c3d2f6bab648d59adee39941', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1409898506', '');
+INSERT INTO `ci_sessions` VALUES ('cfb34aba60f18446813e072725e3cbc2', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/13.3.0', '1410186702', ''), ('cff8039291b9798ab2b4e0d237426191', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/13.3.0', '1410192238', '');
 COMMIT;
 
 -- ----------------------------
@@ -215,7 +216,7 @@ CREATE TABLE `clients` (
 --  Records of `clients`
 -- ----------------------------
 BEGIN;
-INSERT INTO `clients` VALUES ('1', null, 'shixc', 'a5b09e5b217127812c3f0e778dd1098404ce1fd4', null, '施磊', null, null, '18602802121', 'X_shileixc', null, '1', '2014-08-14 16:04:33', null, null), ('2', null, 'yanjh', null, null, '颜建华', null, null, '13808077242', 'X_hahar006', null, '0', null, null, null), ('4', null, null, null, null, '周琪', null, null, '13880735908', 'Q8990099', null, '0', null, null, null), ('10', null, null, null, null, '陶莉', null, null, '13882189728', 'Q89960707', null, '0', '2014-08-15 15:21:08', null, null), ('11', null, '13908077242', 'aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d', '8C1AF92C-CDBC-4791-B', null, null, null, '13908077242', null, null, '0', null, null, null);
+INSERT INTO `clients` VALUES ('1', null, 'shixc', 'a5b09e5b217127812c3f0e778dd1098404ce1fd4', null, '施磊', null, null, '18602802121', 'X_shileixc', null, '1', '2014-08-14 16:04:33', null, null), ('2', null, 'yanjh', null, null, '颜建华', null, null, '13808077242', 'X_hahar006', null, '0', null, null, null), ('4', null, null, null, null, '周琪', null, null, '13880735908', 'Q8990099', null, '0', null, null, null), ('10', null, null, null, null, '陶莉', null, null, '13882189728', 'Q89960707', null, '0', '2014-08-15 15:21:08', null, null), ('11', null, '13908077242', 'aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d', '8C1AF92C-CDBC-4791-B', '颜建华', null, null, '13908077242', null, null, '0', '2014-09-08 20:26:00', null, null);
 COMMIT;
 
 -- ----------------------------
@@ -414,7 +415,7 @@ CREATE TABLE `zm_sessions` (
 --  Records of `zm_sessions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `zm_sessions` VALUES ('0', '2d2d763917352e6af02a07abc19a8ebef20c34f17f000001', 'shixc', '2014-08-14 09:55:30', 'bbb', null), ('2', '32b3e5562bf33acaf45381f13310c2bc7ddc46527f000001', '13908077242', '2015-09-04 15:51:57', 'EFDD10DC-1341-40C9-8C18-2DEF2D665E4C', null), ('2', '8fe11966741cee825ffede84a104d026c47b36ca7f000001', '13908077242', '2015-09-01 23:12:57', '8C1AF92C-CDBC-4791-BA37-761F576108FF', null), ('2', 'd62b561e5baefbd62512ee163a650d7dc8e9dbad7f000001', '13908077242', '2015-09-03 11:55:50', 'FDE249F3-5997-461F-AEF9-45C1E21E48DA', null);
+INSERT INTO `zm_sessions` VALUES ('0', '2d2d763917352e6af02a07abc19a8ebef20c34f17f000001', 'shixc', '2014-08-14 09:55:30', 'bbb', null), ('2', '32b3e5562bf33acaf45381f13310c2bc7ddc46527f000001', '13908077242', '2015-09-04 15:51:57', 'EFDD10DC-1341-40C9-8C18-2DEF2D665E4C', null), ('2', '8fe11966741cee825ffede84a104d026c47b36ca7f000001', '13908077242', '2015-09-01 23:12:57', '8C1AF92C-CDBC-4791-BA37-761F576108FF', null), ('2', 'd62b561e5baefbd62512ee163a650d7dc8e9dbad7f000001', '13908077242', '2015-09-03 11:55:50', 'FDE249F3-5997-461F-AEF9-45C1E21E48DA', null), ('2', 'e2820a768720c5b2a329d5d3596ec6d6038899977f000001', '13908077242', '2015-09-08 22:32:38', '01B5BDF3-A228-4DDF-B920-7CBB0DDDE302', null);
 COMMIT;
 
 -- ----------------------------
@@ -433,5 +434,11 @@ CREATE TABLE `zm_versions` (
 BEGIN;
 INSERT INTO `zm_versions` VALUES ('shop_version', '5');
 COMMIT;
+
+-- ----------------------------
+--  View structure for `v_cappointments`
+-- ----------------------------
+DROP VIEW IF EXISTS `v_cappointments`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_cappointments` AS select `a`.`acode` AS `acode`,`a`.`rtime` AS `rtime`,`a`.`ptime` AS `ptime`,`c`.`carnumber` AS `carnumber`,`u`.`name` AS `name`,`c`.`client` AS `client`,`a`.`status` AS `status`,`a`.`descp` AS `descp`,`a`.`edit_at` AS `edit_at` from ((`appointments` `a` left join `car_aptms` `c` on((`a`.`acode` = `c`.`acode`))) left join `clients` `u` on((`u`.`id` = `c`.`client`))) where (`a`.`atype` = 0);
 
 SET FOREIGN_KEY_CHECKS = 1;
