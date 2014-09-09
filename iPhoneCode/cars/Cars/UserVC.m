@@ -28,10 +28,11 @@
     self = [JY_Helper loadNib:NIB_MAIN atIndex:9];
     if (self) {
         self.title = @"用户设置";
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_back"]
-                                                                                 style:UIBarButtonItemStylePlain
-                                                                                target:self
-                                                                                action:@selector(go_back:)];
+
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_save"]
+                                                                                  style:UIBarButtonItemStylePlain
+                                                                                 target:self
+                                                                                 action:@selector(do_close:)];
         
         if (dicData && dicData[@"delegate"]) self.mDelegate=dicData[@"delegate"];
         [self loadData];
@@ -42,35 +43,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-}
-
-
-- (void) viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    LMenuVC *menu = [[LMenuVC alloc] init];
-    [self.revealSideViewController preloadViewController:menu forSide:PPRevealSideDirectionLeft];
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
 #pragma mark -  Standard and System Delegate
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView;
 {
-    
     [textView resignFirstResponder];
-    
     return YES;
 }
 -(BOOL) textFieldShouldReturn:(UITextField *)textField
@@ -112,10 +90,5 @@
     self.tv_address.text = [User currentUser].address ;
 }
 
-
-- (void) go_back:(id)sender
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
 
 @end

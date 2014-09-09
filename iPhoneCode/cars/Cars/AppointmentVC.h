@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JY_StdVC.h"
 
-@interface AppointmentListVC : UIViewController
+@interface AppointmentListVC : JY_StdMainVC
 @end
 
-@interface AppointmentVC : UIViewController
+@interface AppointmentVC : JY_StdPushVC
 - (id)initWithData:(NSArray*)adata;
 @end

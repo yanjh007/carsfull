@@ -29,6 +29,11 @@
 {
     self = [JY_Helper loadNib:NIB_MAIN atIndex:7];
     if (self) {
+        self.title = @"预约管理";
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"新预约"
+                                                                                  style:UIBarButtonItemStyleBordered
+                                                                                 target:self
+                                                                                 action:@selector(do_add:)];
     }
     return self;
 }
@@ -36,46 +41,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"预约管理";
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_menu1"]
-                                                                             style:UIBarButtonItemStylePlain
-                                                                            target:self
-                                                                            action:@selector(showMenu:)];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"新预约"
-                                                                              style:UIBarButtonItemStyleBordered
-                                                                             target:self
-                                                                             action:@selector(do_add:)];
-}
-- (void) showMenu:(id)sender
-{
-    // used to push a new controller, but we preloaded it !
-    //    LeftViewController *left = [[LeftViewController alloc] initWithStyle:UITableViewStylePlain];
-    //    [self.revealSideViewController pushViewController:left onDirection:PPRevealSideDirectionLeft animated:YES];
-    
-    [self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionLeft animated:YES];
 }
 
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    LMenuVC *menu = [[LMenuVC alloc] init];
-    [self.revealSideViewController preloadViewController:menu forSide:PPRevealSideDirectionLeft];
     
     [self action:DELE_ACTION_APMT_SAVE_BACK withIndex:1];
     [self refreshData];
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
 #pragma mark - Table view data source
@@ -287,13 +261,6 @@ static NSArray *ary_titles;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.navigationItem.leftBarButtonItem  = [[UIBarButtonItem alloc] initWithTitle:@"返回"
-                                                                              style:UIBarButtonItemStyleBordered
-                                                                             target:self
-                                                                             action:@selector(do_back:)];
-
-    
 }
 
 - (void) viewWillAppear:(BOOL)animated

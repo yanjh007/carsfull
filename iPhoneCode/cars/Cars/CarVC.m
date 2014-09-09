@@ -37,15 +37,11 @@
     self = [JY_Helper loadNib:NIB_MAIN atIndex:5];
     if (self) {
         self.title = @"车辆编辑";
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_back"]
-                                                                                 style:UIBarButtonItemStylePlain
-                                                                                target:self
-                                                                                action:@selector(do_back:)];
 
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"保存"
-                                                                                  style:UIBarButtonItemStyleBordered
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_menu3"]
+                                                                                  style:UIBarButtonItemStylePlain
                                                                                  target:self
-                                                                                 action:@selector(do_save:)];
+                                                                                 action:@selector(do_showmenu:)];
         
         self.mCar       = adata[0];
         self.mDelegate  = adata[1];
@@ -66,10 +62,22 @@
         
         self.mCar.cfgList   =@[@"高",@"中",@"低"];
         self.mCar.colorList =@[@"白",@"黑",@"红",@"蓝",@"银",@"黄",@"绿"];
+        
+        int iyear=[[NSDate stringNow:@"YYYY"] integerValue];
+        NSMutableArray *ary_years=[NSMutableArray array];
+        for (int i=0; i<10; i++) {
+            [ary_years addObject:@(iyear-0)];
+        }
+        self.mCar.yearList=[ary_years copy];
+        
     }
     return self;
 }
 
+- (IBAction) do_showmenu:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 - (IBAction) do_back:(id)sender
 {
@@ -160,22 +168,7 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void) viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-}
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
     return 1;
@@ -183,8 +176,8 @@
 
 - (NSInteger) pickerView:(UIPickerView *)pickerView numberOfRowsInComponent: (NSInteger)component
 {
-    if (pickerView.tag==51) {
-
+    if (pickerView.tag==51) { //年份
+        return [self.mCar.yearList count];
     } else if (pickerView.tag==52) { //配置
         return [self.mCar.cfgList count];
     } else if (pickerView.tag==55) { //颜色
@@ -198,7 +191,7 @@
 {
 
     if (pickerView.tag==51) {
-
+        return [NSString stringWithFormat:@"%@",self.mCar.yearList[row]];
     } else if (pickerView.tag==52) {
         return self.mCar.cfgList[row];
     } else if (pickerView.tag==55) {

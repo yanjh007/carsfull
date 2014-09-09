@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JY_StdVC.h"
 
-@interface ShopVC : UIViewController
+@interface ShopVC : JY_StdMainVC
 
 @end

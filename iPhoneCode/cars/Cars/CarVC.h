@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JY_StdVC.h"
 
-@interface CarVC : UIViewController
+@interface CarVC : JY_StdPushVC
 - (id)initWithData:(NSArray*)adata;
 @end
 
 
-@interface CarseriesVC : UIViewController
+@interface CarseriesVC : JY_StdPushVC
 - (id)initWithData:(NSArray*)adata;
 @end

@@ -44,8 +44,11 @@
 		D8700CE419A5E4DC00FBF0F9 /* LoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D8700CE319A5E4DC00FBF0F9 /* LoginVC.m */; };
 		D8700CE819A6E30800FBF0F9 /* JY_Request.m in Sources */ = {isa = PBXBuildFile; fileRef = D8700CE719A6E30800FBF0F9 /* JY_Request.m */; };
 		D8744DFC19AD71FB0015C32D /* AppointmentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D8744DFB19AD71FB0015C32D /* AppointmentVC.m */; };
+		D888F1E819BE938900F94A88 /* JY_StdVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D888F1E719BE938900F94A88 /* JY_StdVC.m */; };
 		D8B6B9FC19B849970080FDD4 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B6B9FB19B849970080FDD4 /* User.m */; };
 		D8B6B9FF19B859BA0080FDD4 /* UserVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B6B9FE19B859BA0080FDD4 /* UserVC.m */; };
+		D8E0134319BEA6C100FB40EC /* Add.xib in Resources */ = {isa = PBXBuildFile; fileRef = D8E0134219BEA6C100FB40EC /* Add.xib */; };
+		D8E0134619BEA7C400FB40EC /* LinkVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D8E0134519BEA7C400FB40EC /* LinkVC.m */; };
 		D8F9046819B59BF300FD3581 /* ShopVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F9046719B59BF300FD3581 /* ShopVC.m */; };
 		E0865F6815875F9100B46B63 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0865F6715875F9100B46B63 /* UIKit.framework */; };
 		E0865F6A15875F9100B46B63 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0865F6915875F9100B46B63 /* Foundation.framework */; };
@@ -117,10 +120,15 @@
 		D8700CE719A6E30800FBF0F9 /* JY_Request.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JY_Request.m; sourceTree = "<group>"; };
 		D8744DFA19AD71FB0015C32D /* AppointmentVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppointmentVC.h; sourceTree = "<group>"; };
 		D8744DFB19AD71FB0015C32D /* AppointmentVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppointmentVC.m; sourceTree = "<group>"; };
+		D888F1E619BE938900F94A88 /* JY_StdVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JY_StdVC.h; sourceTree = "<group>"; };
+		D888F1E719BE938900F94A88 /* JY_StdVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JY_StdVC.m; sourceTree = "<group>"; };
 		D8B6B9FA19B849970080FDD4 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		D8B6B9FB19B849970080FDD4 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		D8B6B9FD19B859BA0080FDD4 /* UserVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserVC.h; sourceTree = "<group>"; };
 		D8B6B9FE19B859BA0080FDD4 /* UserVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserVC.m; sourceTree = "<group>"; };
+		D8E0134219BEA6C100FB40EC /* Add.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Add.xib; sourceTree = "<group>"; };
+		D8E0134419BEA7C400FB40EC /* LinkVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkVC.h; sourceTree = "<group>"; };
+		D8E0134519BEA7C400FB40EC /* LinkVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinkVC.m; sourceTree = "<group>"; };
 		D8F9046619B59BF300FD3581 /* ShopVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopVC.h; sourceTree = "<group>"; };
 		D8F9046719B59BF300FD3581 /* ShopVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopVC.m; sourceTree = "<group>"; };
 		E0865F6315875F9100B46B63 /* Cars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cars.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -234,6 +242,9 @@
 				E0865F8515875FF600B46B63 /* LMenuVC.h */,
 				E0865F8615875FF600B46B63 /* LMenuVC.m */,
 				D85FE77E19A5BA470058E73E /* Main.xib */,
+				D8E0134419BEA7C400FB40EC /* LinkVC.h */,
+				D8E0134519BEA7C400FB40EC /* LinkVC.m */,
+				D8E0134219BEA6C100FB40EC /* Add.xib */,
 			);
 			name = "View&VCs";
 			sourceTree = "<group>";
@@ -260,6 +271,8 @@
 		D8700CE519A6E2EF00FBF0F9 /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				D888F1E619BE938900F94A88 /* JY_StdVC.h */,
+				D888F1E719BE938900F94A88 /* JY_StdVC.m */,
 				D85FE77419A5B5DE0058E73E /* JY_FundationAdditions.h */,
 				D85FE77519A5B5DE0058E73E /* JY_FundationAdditions.m */,
 				D84718BE19AC5D66000106EC /* JY_DBHelper.h */,
@@ -424,6 +437,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E0865F7215875F9100B46B63 /* InfoPlist.strings in Resources */,
+				D8E0134319BEA6C100FB40EC /* Add.xib in Resources */,
 				D80999C119B9ADA0003091F9 /* Images.xcassets in Resources */,
 				D85FE77F19A5BA470058E73E /* Main.xib in Resources */,
 			);
@@ -467,12 +481,14 @@
 				D84718BB19AC5CAC000106EC /* FMResultSet.m in Sources */,
 				D8700CE119A5E27B00FBF0F9 /* InfoVC.m in Sources */,
 				D867F03D19A73B1900697CF8 /* NSString+AESCrypt.m in Sources */,
+				D888F1E819BE938900F94A88 /* JY_StdVC.m in Sources */,
 				E0865F7815875F9100B46B63 /* AppDelegate.m in Sources */,
 				D85FE77919A5B76B0058E73E /* Reachability.m in Sources */,
 				E0865F8415875FE700B46B63 /* HomeVC.m in Sources */,
 				D8700CE819A6E30800FBF0F9 /* JY_Request.m in Sources */,
 				D8744DFC19AD71FB0015C32D /* AppointmentVC.m in Sources */,
 				E0865F8715875FF600B46B63 /* LMenuVC.m in Sources */,
+				D8E0134619BEA7C400FB40EC /* LinkVC.m in Sources */,
 				D84718B719AC5CAC000106EC /* FMDatabasePool.m in Sources */,
 				D8F9046819B59BF300FD3581 /* ShopVC.m in Sources */,
 				D84718B919AC5CAC000106EC /* FMDatabaseQueue.m in Sources */,

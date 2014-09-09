@@ -9,6 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "JY_StdVC.h"
 
-@interface UserVC : JY_StdPushVC
-- (id)initWithData:(NSDictionary*)dicData;
+@interface LinkVC : JY_StdMainVC
+
 @end
+
+@interface LinkView :UIView
+- (void)setData:(NSDictionary*) data;
+- (void)setDelegate:(id<JY_STD_Delegate>) dele;
+@end
+
+@interface LinkGestureRecognizer : UIGestureRecognizer
+
+@end
+

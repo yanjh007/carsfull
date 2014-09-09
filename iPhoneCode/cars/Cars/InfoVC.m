@@ -28,11 +28,7 @@
     if (self) {
         self.title = @"用户设置";
         
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_menu2"]
-                                                                                 style:UIBarButtonItemStylePlain
-                                                                                target:self
-                                                                                action:@selector(showMenu:)];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_add"]
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_addcar"]
                                                                                  style:UIBarButtonItemStylePlain
                                                                                 target:self
                                                                                  action:@selector(do_add:)];
@@ -43,32 +39,11 @@
     return self;
 }
 
-- (void) showMenu:(id)sender
-{
-    // used to push a new controller, but we preloaded it !
-//    LeftViewController *left = [[LeftViewController alloc] initWithStyle:UITableViewStylePlain];
-//    [self.revealSideViewController pushViewController:left onDirection:PPRevealSideDirectionLeft animated:YES];
-    
-    [self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionLeft animated:YES];
-}
-
-- (void) viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    LMenuVC *menu = [[LMenuVC alloc] init];
-    [self.revealSideViewController preloadViewController:menu forSide:PPRevealSideDirectionLeft];
-}
-
 - (void)viewDidUnload
 {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
 #pragma mark - Table view data source

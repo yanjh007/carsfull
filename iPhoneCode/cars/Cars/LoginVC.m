@@ -36,12 +36,12 @@
 {
     [super viewDidLoad];
 
-    self.title = @"系统绑定";
+    self.title = @"用户绑定";
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭"
-                                                                             style:UIBarButtonItemStyleBordered
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_exit"]
+                                                                             style:UIBarButtonItemStylePlain
                                                                             target:self
-                                                                             action:@selector(do_close:)];
+                                                                            action:@selector(do_close:)];
 }
 
 - (void) do_close:(id)sender

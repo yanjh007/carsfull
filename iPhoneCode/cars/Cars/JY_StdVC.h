@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "JY_StdVC.h"
 
-@interface UserVC : JY_StdPushVC
-- (id)initWithData:(NSDictionary*)dicData;
+@interface JY_StdMainVC : UIViewController
+
+@end
+
+@interface JY_StdPushVC : UIViewController
+
 @end

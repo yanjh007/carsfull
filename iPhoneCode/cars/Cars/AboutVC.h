@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JY_StdVC.h"
 
-@interface AboutVC : UIViewController
+@interface AboutVC : JY_StdMainVC
 
 @end
