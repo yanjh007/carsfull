@@ -158,17 +158,17 @@
         [path addArcWithCenter:CGPointMake(self.xl,[self.mPoints[i] floatValue])
                         radius:3
                     startAngle:0
-                      endAngle:M_2_PI
+                      endAngle:M_PI*2
                      clockwise:YES];
         
-        [path moveToPoint:CGPointMake(self.xr-3,[self.mPoints[i] floatValue])];
+        [path moveToPoint:CGPointMake(self.xr+3,[self.mPoints[i] floatValue])];
         [path addArcWithCenter:CGPointMake(self.xr,[self.mPoints[i] floatValue])
                         radius:3
                     startAngle:0
-                      endAngle:M_2_PI
+                      endAngle:M_PI*2
                      clockwise:YES];
     }
-    [path setLineWidth:2];
+    [path setLineWidth:1];
     [path stroke];
     
 }
