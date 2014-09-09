@@ -14,57 +14,23 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a href="#">服务管理</a></li>
-        <li><a href="#">知识管理</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">客户管理 <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <?php
-              nav_menu_item("客户管理","clients");
-              nav_menu_item("车辆管理","cars");
-              nav_menu_item("维修计划","plans");
-              nav_menu_item("","");
-              nav_menu_item("预约管理","appointments");
-              nav_menu_item("报价管理","");
-            ?>
-          </ul>
-        </li>
+        <li><a href="#">知识管理</a></li>        
+        <?php
+          nav_menu(array("服务管理","菜单管理","dishes","","订单管理","dorders")); 
+          nav_menu(array("客户管理","客户管理","clients","车辆管理","cars","维修计划","plans","","预约管理","appointments","报价管理","prices"));
+        ?> 
+
       </ul>
       <ul class="nav navbar-nav navbar-right">
-         <?php if($userrole>=100) { ?>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">系统管理<span class="caret"></span></a>
-                <ul class="dropdown-menu" role="menu">
-                <?php
-                  nav_menu_item("用户管理","users");
-                  nav_menu_item("店铺管理","shops");
-    
-                  nav_menu_item("","");
-                  nav_menu_item("任务类型","tasktypes");
-                  nav_menu_item("任务组管理","taskgroups");
-    
-                  nav_menu_item("","");
-                  nav_menu_item("车系管理","carseries");
-                  nav_menu_item("型号管理","carmodels");
-    
-                  nav_menu_item("","");
-                  nav_menu_item("字典管理","dics");
-                  nav_menu_item("系统设置","syssettings");
-                ?>
-                </ul>
-            </li>
-         <?php } ?>
-         <li class="dropdown">
-             <a href="#" class="dropdown-toggle" data-toggle="dropdown">当前用户: <?php echo $username ?> <span class="caret"></span></a>
-             <ul class="dropdown-menu" role="menu">
-              <?php
-                  nav_menu_item("用户设置","usersettings");
-                  nav_menu_item("通知信息","notifys");
-                  nav_menu_item("","");
-                  nav_menu_item("注销","logout");
-              ?>
-             </ul>
-         </li>
+         <?php if($userrole>=100) { 
+                  nav_menu(array("系统管理","用户管理","users","店铺管理","shops",
+                           "","任务类型","tasktypes","任务组管理","taskgroups",
+                           "","车系管理","carseries","型号管理","carmodels",
+                           "","字典管理","dics","系统设置","syssettings"));
+                }
+                
+                nav_menu(array("当前用户:".$username,"用户设置","usersettings","通知信息","notifys","","注销","logout"));
+          ?>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

@@ -44,13 +44,20 @@ static int const DB_VERSION = 2;
             }
             
             if (version==1) { //从1升级
-                [dataBase executeUpdate:@"CREATE TABLE brands (brand string, brand_sn string PRIMARY KEY, edit_at datetime)"]; //品牌型号列表
+                //  车辆列表
+                [dataBase executeUpdate:@"CREATE TABLE cars (carid int, carnumber string PRIMARY KEY, framenumber string, enginenumber string, brand string, brand_sn string, color string, manufacturer string, engine string, trans string, cfglevel string,year int, status int)"];
 
-                [dataBase executeUpdate:@"CREATE TABLE cars (carid int, carnumber string PRIMARY KEY, framenumber string, enginenumber string, brand string, brand_sn string)"];
-
+                // 预约列表
                 [dataBase executeUpdate:@"CREATE TABLE appointments (acode string, edit_at datetime, plan_at datetime, car string, shop string, status int, descp text)"];
 
+                // 店铺列表，和店铺列表版本序号一起使用
                 [dataBase executeUpdate:@"CREATE TABLE shops (scode string, name string, contact text, address text, geoaddress text, status int)"];
+
+                // 汽车里程记账
+                [dataBase executeUpdate:@"CREATE TABLE miles (carnumber string, rtime datetime, miles int , location text, descp text, status int)"];
+
+                // 维护计划
+                [dataBase executeUpdate:@"CREATE TABLE mplans (tcode string, tname string, duration1 int, duration2 int, starttime datetime, startmile int,descp text, status int)"];
 
                 version++;
             }

@@ -18,8 +18,12 @@
 @property (weak, nonatomic) IBOutlet UILabel *lb_brand;
 @property (weak, nonatomic) IBOutlet UIButton *bt_delete;
 @property (strong, nonatomic) Car *mCar;
+@property (strong, nonatomic) NSDictionary *mCarserie;
+
+
 @property (assign) int showMode;
 @property (nonatomic) id<JY_STD_Delegate> mDelegate;
+
 @property (weak, nonatomic) IBOutlet UIPickerView *pv_config;
 @property (strong, nonatomic) IBOutlet UIButton *bt_config;
 @property (strong, nonatomic) IBOutlet UIButton *bt_year;
@@ -28,6 +32,8 @@
 @property (strong, nonatomic) IBOutlet UIButton *bt_trans;
 @property (strong, nonatomic) IBOutlet UIButton *bt_color;
 @property (strong, nonatomic) IBOutlet UIButton *bt_brand;
+
+@property (retain, nonatomic) UIActionSheet *as_edit;
 @end
 
 @implementation CarVC
@@ -66,7 +72,7 @@
         int iyear=[[NSDate stringNow:@"YYYY"] integerValue];
         NSMutableArray *ary_years=[NSMutableArray array];
         for (int i=0; i<10; i++) {
-            [ary_years addObject:@(iyear-0)];
+            [ary_years addObject:@(iyear-i)];
         }
         self.mCar.yearList=[ary_years copy];
         
@@ -76,7 +82,18 @@
 
 - (IBAction) do_showmenu:(id)sender
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    if (!self.as_edit) {
+        self.as_edit = [[UIActionSheet alloc] initWithTitle:@"车辆管理"
+                                                      delegate:self
+                                             cancelButtonTitle:@"取 消"
+                                        destructiveButtonTitle:@"保 存"
+                                             otherButtonTitles:@"删 除",nil];
+        
+    }
+    [self.as_edit setTag:index];
+    
+//    [self.as_edit setTitle:[NSString stringWithFormat:@"车辆管理:%@",[(Car*)self.info_cars[index] carnumber]]];
+    [self.as_edit showInView:self.view];
 }
 
 - (IBAction) do_back:(id)sender
@@ -88,7 +105,6 @@
     UIViewController *vc=[[CarseriesVC alloc] initWithData:@[self]];
     [self.navigationController pushViewController:vc animated:YES];
 }
-
 
 - (IBAction)do_config:(UIButton *)sender {
     if (sender.tag==self.pv_config.tag) {
@@ -180,6 +196,10 @@
         return [self.mCar.yearList count];
     } else if (pickerView.tag==52) { //配置
         return [self.mCar.cfgList count];
+    } else if (pickerView.tag==53) { //引擎
+        return self.mCar.engineList?[self.mCar.engineList count]:0;
+    } else if (pickerView.tag==54) { //变速
+        return self.mCar.transList?[self.mCar.transList count]:0;
     } else if (pickerView.tag==55) { //颜色
         return [self.mCar.colorList count];
     }
@@ -189,11 +209,14 @@
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component;
 {
-
     if (pickerView.tag==51) {
         return [NSString stringWithFormat:@"%@",self.mCar.yearList[row]];
     } else if (pickerView.tag==52) {
         return self.mCar.cfgList[row];
+    } else if (pickerView.tag==53) {
+        return self.mCar.engineList[row];
+    } else if (pickerView.tag==54) {
+        return self.mCar.transList[row];
     } else if (pickerView.tag==55) {
         return self.mCar.colorList[row];
     }
@@ -202,20 +225,36 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    if (pickerView.tag==51) {
-        
-    } else if (pickerView.tag==52) {
+    if (pickerView.tag==51) { //年份
+        self.mCar.year = self.mCar.yearList[row];
+        [self.bt_year setTitle:[NSString stringWithFormat:@"%@",self.mCar.yearList[row]] forState:UIControlStateNormal];
+    } else if (pickerView.tag==52) { //配置
+        self.mCar.cfglevel=self.mCar.cfgList[row];
         [self.bt_config setTitle:self.mCar.cfgList[row] forState:UIControlStateNormal];
+    } else if (pickerView.tag==53) { //引擎
+        self.mCar.engine=self.mCar.engineList[row];
+        [self.bt_config setTitle:self.mCar.engineList[row] forState:UIControlStateNormal];
+    } else if (pickerView.tag==54) { //传动
+        self.mCar.trans=self.mCar.transList[row];
+        [self.bt_config setTitle:self.mCar.transList[row] forState:UIControlStateNormal];
     } else if (pickerView.tag==55) {
+        self.mCar.color=self.mCar.colorList[row];
         [self.bt_color setTitle:self.mCar.colorList[row] forState:UIControlStateNormal];
     }
-    
 }
 
 -(int)action:(int)act withTag:(NSObject *)tag
 {
     if (act==DELE_ACTION_CARSERIE_CHOOSE_BACK) {
-        [self.bt_brand setTitle:(NSString*)tag forState:UIControlStateNormal];
+        self.mCarserie=(NSDictionary*)tag;
+        NSString *list= self.mCarserie[@"engine_list"];
+        self.mCar.engineList =[list componentsSeparatedByString:@","];
+        
+        list=self.mCarserie[@"trans_list"];
+        self.mCar.transList = [list componentsSeparatedByString:@","];
+        
+        [self.bt_brand setTitle:[NSString stringWithFormat:@"%@-%@",self.mCarserie[@"manufacturer"],self.mCarserie[@"brand"]]
+                       forState:UIControlStateNormal];
     }
     
     return DELE_RESULT_VOID;
@@ -310,29 +349,10 @@ static NSString *const LIST_CHARS=@"#ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 - (void) go_back:(int)row
 {
     if (self.mDelegate && [self.mDelegate respondsToSelector:@selector(action:withTag:)]) {
-        NSString *item=[NSString stringWithFormat:@"%@-%@",
-                            self.ary_tag_result[row][@"manufacturer"],self.ary_tag_result[row][@"brand"]];
-        
-        [self.mDelegate action:DELE_ACTION_CARSERIE_CHOOSE_BACK withTag:item];
+        [self.mDelegate action:DELE_ACTION_CARSERIE_CHOOSE_BACK
+                       withTag:[self.ary_tag_result[row] copy]];
     }
     [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void) viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
 

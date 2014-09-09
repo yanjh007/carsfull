@@ -60,22 +60,25 @@ class Carserie extends CI_Model {
     return TRUE;
   }
   
+  
   public function remove($item_id) {
     $this->db->where('id', $item_id);
     $this->db->delete(self::TABLE_NAME); 
     return TRUE;
   }
   
+  
+  //用于接口
   public function if_tag($tag) {
-    $sql="select id,manufacturer,brand,tags from ".self::TABLE_NAME." where tags like '%".$tag."%' order by manufacturer";	
+    $sql="select id,manufacturer,brand,tags,engine_list,trans_list,descp from ".self::TABLE_NAME." where tags like '%".$tag."%' order by manufacturer";	
 	
     $query = $this->db->query($sql);
 
-	if ($query->num_rows() > 0) {
-	  $data["content"] = json_encode($query->result_array());
-	} else {
-	  $data["result"] = "NULL";
-	}	
+    if ($query->num_rows() > 0) {
+      $data["content"] = json_encode($query->result_array());
+    } else {
+      $data["result"] = "NULL";
+    }	
 
     return $data;  
   }

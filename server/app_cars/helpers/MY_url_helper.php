@@ -76,6 +76,32 @@ function nav_menu_item($title,$path)
    }
 }
 
+function nav_menu($items)
+{
+   if ($items && count($items)==0) return;
+   
+   $count=count($items);
+   if ($count== 2 ) {
+      
+   } else {
+      echo "<li class='dropdown'>";
+      for ($i = 0; $i < $count; $i++) {
+         if ($i==0) {
+            echo "<a href='#' class='dropdown-toggle' data-toggle='dropdown'>".$items[0]."<span class='caret'></span></a>";
+            echo "<ul class='dropdown-menu' role='menu'>";
+         } else {
+            if ($items[$i]=="") {
+               echo "<li class='divider'></li>";
+            } else {
+               echo "<li>".anchor(base_url($items[$i+1]),$items[$i])."</li>";  
+               $i++;
+            }
+         }
+      } 
+      echo "</ul></li>";
+   }          
+}
+
 function link_to_edit($path)
 {
    echo anchor($path,"编辑");
