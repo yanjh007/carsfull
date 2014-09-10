@@ -226,7 +226,7 @@
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     if (pickerView.tag==51) { //年份
-        self.mCar.year = self.mCar.yearList[row];
+        self.mCar.year = [self.mCar.yearList[row] intValue];
         [self.bt_year setTitle:[NSString stringWithFormat:@"%@",self.mCar.yearList[row]] forState:UIControlStateNormal];
     } else if (pickerView.tag==52) { //配置
         self.mCar.cfglevel=self.mCar.cfgList[row];

@@ -49,6 +49,7 @@
 		D8B6B9FF19B859BA0080FDD4 /* UserVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B6B9FE19B859BA0080FDD4 /* UserVC.m */; };
 		D8E0134319BEA6C100FB40EC /* Add.xib in Resources */ = {isa = PBXBuildFile; fileRef = D8E0134219BEA6C100FB40EC /* Add.xib */; };
 		D8E0134619BEA7C400FB40EC /* LinkVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D8E0134519BEA7C400FB40EC /* LinkVC.m */; };
+		D8E0134919BFF2DA00FB40EC /* CarlogVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D8E0134819BFF2DA00FB40EC /* CarlogVC.m */; };
 		D8F9046819B59BF300FD3581 /* ShopVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F9046719B59BF300FD3581 /* ShopVC.m */; };
 		E0865F6815875F9100B46B63 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0865F6715875F9100B46B63 /* UIKit.framework */; };
 		E0865F6A15875F9100B46B63 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0865F6915875F9100B46B63 /* Foundation.framework */; };
@@ -129,6 +130,8 @@
 		D8E0134219BEA6C100FB40EC /* Add.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Add.xib; sourceTree = "<group>"; };
 		D8E0134419BEA7C400FB40EC /* LinkVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkVC.h; sourceTree = "<group>"; };
 		D8E0134519BEA7C400FB40EC /* LinkVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinkVC.m; sourceTree = "<group>"; };
+		D8E0134719BFF2DA00FB40EC /* CarlogVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarlogVC.h; sourceTree = "<group>"; };
+		D8E0134819BFF2DA00FB40EC /* CarlogVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarlogVC.m; sourceTree = "<group>"; };
 		D8F9046619B59BF300FD3581 /* ShopVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopVC.h; sourceTree = "<group>"; };
 		D8F9046719B59BF300FD3581 /* ShopVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopVC.m; sourceTree = "<group>"; };
 		E0865F6315875F9100B46B63 /* Cars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cars.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -233,6 +236,8 @@
 				D8F9046719B59BF300FD3581 /* ShopVC.m */,
 				D84718C719AC632C000106EC /* CarVC.h */,
 				D84718C819AC632C000106EC /* CarVC.m */,
+				D8E0134719BFF2DA00FB40EC /* CarlogVC.h */,
+				D8E0134819BFF2DA00FB40EC /* CarlogVC.m */,
 				D8744DFA19AD71FB0015C32D /* AppointmentVC.h */,
 				D8744DFB19AD71FB0015C32D /* AppointmentVC.m */,
 				D8700CE219A5E4DC00FBF0F9 /* LoginVC.h */,
@@ -489,6 +494,7 @@
 				D8744DFC19AD71FB0015C32D /* AppointmentVC.m in Sources */,
 				E0865F8715875FF600B46B63 /* LMenuVC.m in Sources */,
 				D8E0134619BEA7C400FB40EC /* LinkVC.m in Sources */,
+				D8E0134919BFF2DA00FB40EC /* CarlogVC.m in Sources */,
 				D84718B719AC5CAC000106EC /* FMDatabasePool.m in Sources */,
 				D8F9046819B59BF300FD3581 /* ShopVC.m in Sources */,
 				D84718B919AC5CAC000106EC /* FMDatabaseQueue.m in Sources */,
@@ -607,8 +613,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -620,10 +631,14 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -632,14 +647,22 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";

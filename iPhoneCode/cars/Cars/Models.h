@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "JY_DBHelper.h"
+
 
 #pragma mark - 预约模型
 typedef NS_ENUM(NSInteger, AppointmentStatus) {
@@ -55,7 +57,7 @@ typedef NS_ENUM(NSInteger, AppointmentStatus) {
 
 
 #pragma mark - 车辆模型
-
+@class Carlog;
 @interface Car : NSObject
 @property (strong,nonatomic) NSString *carnumber,*framenumber,*cfglevel,*engine,*trans,*color;
 @property (assign) int carid,year;
@@ -68,6 +70,10 @@ typedef NS_ENUM(NSInteger, AppointmentStatus) {
 -(BOOL) update:(NSString*)fnumber;
 -(BOOL) remove;
 
+// 行车日志
+-(NSArray*) getLogs;
+-(BOOL) addLog:(Carlog*)log;
+
 @end
 
 
@@ -76,7 +82,18 @@ typedef NS_ENUM(NSInteger, AppointmentStatus) {
 @property (strong,nonatomic) NSString *manufactor,*brand,*engine_list,*trans_list;
 @property (assign) int csid;
 
-+(NSArray*) getCarseries;
+@end
+
+#pragma mark - 车志
+@interface Carlog : NSObject
+@property (strong,nonatomic) NSString *descp,*location,*ltimestr;
+@property (assign) int logid,ltype,ltime,lmiles;
+
+// instance methods
++(instancetype) newItem;
+- (id)initWithDbRow:(FMResultSet*)rs;
+
+- (void) setTime;
 
 @end
 

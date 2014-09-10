@@ -31,8 +31,8 @@
             currentUser = [[User alloc] init];
             
             currentUser.login  = duser[@"login"] ?:@"";
-            currentUser.userid = duser[@"userid"]?:0;
-            currentUser.version  = duser[@"version"] ?:0;
+            currentUser.userid = duser[@"userid"]?[duser[@"userid"] intValue]:0;
+            currentUser.version  = duser[@"version"] ?[duser[@"version"] intValue]:0;
             currentUser.token  = duser[@"token"] ?:@"";
 
             currentUser.name  = duser[@"name"] ?:@"";

@@ -32,7 +32,7 @@
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_save"]
                                                                                   style:UIBarButtonItemStylePlain
                                                                                  target:self
-                                                                                 action:@selector(do_close:)];
+                                                                                 action:@selector(do_save_close:)];
         
         if (dicData && dicData[@"delegate"]) self.mDelegate=dicData[@"delegate"];
         [self loadData];
@@ -71,7 +71,7 @@
     return DELE_RESULT_VOID;
 }
 
-- (IBAction)do_save:(UIButton *)sender {
+- (IBAction)do_save_close:(UIButton *)sender {
     [User currentUser].name     = self.tv_name.text;
     [User currentUser].contact  = self.tv_contact.text;
     [User currentUser].address  = self.tv_address.text;

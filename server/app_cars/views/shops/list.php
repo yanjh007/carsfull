@@ -5,43 +5,39 @@
 
     <div class="row">
         <div class="col-md-8">
-		    <div class="panel panel-default">
-				<!-- Default panel contents -->
-				<div class="panel-heading" >					
-					店铺列表
-					<div class="input-group pull-right col-md-6">						
-						<input type="text" class="form-control" id="keyword">
-						<span class="input-group-btn">
-							<button class="btn btn-default" type="button" onclick="do_search()">搜索</button>
-						</span>
-					</div><!-- /input-group -->
-					<div style="clear: both"></div>
-				</div>
-		      
-				<!-- Table -->
-			  <table class="table">
-		        <thead>
-		          <tr><th>#</th><th>编号</th><th>名称</th><th>地址</th><th>联系方式</th><th><div class="pull-right"> 操作</div></th></tr>
-		        </thead>
-
-		        <tbody>
-
-			<?php foreach ($shops as $item): ?>
-		          <tr>
-		            <td><?php echo  $item["id"]; ?></td>
-		            <td><?php echo  $item['scode']; ?></td>
-		            <td><?php echo  anchor("shops/".$item["id"],$item["name"],""); ?></td>
-		            <td><?php echo  $item['address']; ?></td>
-		            <td><?php echo  $item['contact']; ?></td>
-		            <td align=right>
-				<?php link_to_edit("shops/".$item["id"]."/edit"); ?> |
-				<?php link_to_jdelete("confirm_del(".$item["id"].",\"".$item["name"]."\")"); ?>
-		            </td>
-		          </tr>
-				<?php endforeach ?>
-		        </tbody>
-		      </table>
-		    </div>    
+		<div class="panel panel-default">
+			<!-- Default panel contents -->
+			<div class="panel-heading" >					
+				店铺列表
+				<div class="input-group pull-right col-md-6">						
+					<input type="text" class="form-control" id="keyword">
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button" onclick="do_search()">搜索</button>
+					</span>
+				</div><!-- /input-group -->
+				<div style="clear: both"></div>
+			</div>
+		  
+			    <!-- Table -->
+		      <table class="table">
+			    <?php echo zm_table_header("#,编号,名称,地址,联系方式","操作") ?>
+		    <tbody>
+			    <?php foreach ($itemlist as $item): ?>
+				      <tr>
+					    <td><?php echo  $item["id"]; ?></td>
+					    <td><?php echo  $item['scode']; ?></td>
+					    <td><?php echo  anchor("shops/".$item["id"],$item["name"],""); ?></td>
+					    <td><?php echo  $item['address']; ?></td>
+					    <td><?php echo  $item['contact']; ?></td>
+					    <td align=right>
+				    <?php link_to_edit("shops/".$item["id"]."/edit"); ?> |
+				    <?php link_to_jdelete("confirm_del(".$item["id"].",\"".$item["name"]."\")"); ?>
+					    </td>
+				      </tr>
+			    <?php endforeach ?>
+		    </tbody>
+		  </table>
+		</div>    
         </div>
         
         <div class="col-md-4">

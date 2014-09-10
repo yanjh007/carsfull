@@ -10,7 +10,7 @@
 
 
 #pragma mark - 用户模型
-static const NSString* PKEY_USER=@"user_key";
+static NSString *const PKEY_USER=@"user_key";
 
 @interface User : NSObject
 @property (copy,nonatomic) NSString *name,*login,*token,*address,*password,*geoaddress,*contact;

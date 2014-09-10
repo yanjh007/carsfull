@@ -8,7 +8,7 @@
 
 #import "User.h"
 #import "Models.h"
-#import "JY_DBHelper.h"
+
 
 #pragma mark - 预约模型
 @interface Appointment ()
@@ -281,7 +281,6 @@
     
 }
 
-
 +(void) syncShops
 {
     NSString *version  =[JY_DBHelper metaValue:DBMKEY_SHOP_VERSION];
@@ -394,6 +393,29 @@
     return YES;
 }
 
+
+-(NSArray*) getLogs;
+{
+    FMDatabase  *db=[JY_DBHelper openDB];
+    FMResultSet *s = [db executeQuery:@"SELECT ltime,location,miles,descp FROM carlogs where ltype=0 and carnumber=? order by ltime desc",self.carnumber];
+    NSMutableArray *ary_logs=[NSMutableArray array];
+    while ([s next]) {
+        Carlog *item=[[Carlog alloc] initWithDbRow:s];
+        [ary_logs addObject:item];
+    }
+    [db close];
+    return [ary_logs copy];
+}
+
+-(BOOL) addLog:(Carlog*)log
+{
+    FMDatabase  *db=[JY_DBHelper openDB];
+    [db executeUpdate:@"INSERT INTO carlogs (ltype,carnumber,ltime,miles,location,descp) VALUES (0,?,?,?,?,?)",
+     self.carnumber,@(log.ltime),@(log.lmiles),log.location?:@"",log.descp?:@""] ;
+    [db close];
+    return YES;
+}
+
 @end
 
 #pragma mark - 车系模型
@@ -404,5 +426,46 @@
 @implementation Carserie
 
 @end
+
+#pragma mark - 行车日志
+@interface Carlog ()
+
+@end
+
+@implementation Carlog
+
++(instancetype) newItem
+{
+    Carlog *log=[[Carlog alloc] init];
+    
+    return log;
+}
+
+- (void) setTime
+{
+    int itime=[NSDate timeIntervalSinceReferenceDate]/60;
+    self.ltime=itime;
+    self.ltimestr=[NSDate stringNow:STRING_DATE_YMDHM];
+}
+
+- (id)initWithDbRow:(FMResultSet*) rs
+{
+    self = [super init];
+    if (self) {
+        self.ltime    = [rs intForColumn:@"ltime"];
+        NSDate *t= [NSDate dateWithTimeIntervalSinceReferenceDate:self.ltime*60];
+        self.ltimestr = [t stringValue:STRING_DATE_YMDHM];
+        self.lmiles   = [rs intForColumn:@"miles"];
+        self.descp    = [rs stringForColumn:@"descp"];
+        self.location = [rs stringForColumn:@"location"];
+    }
+    
+    return self;
+}
+
+
+@end
+
+
 
 

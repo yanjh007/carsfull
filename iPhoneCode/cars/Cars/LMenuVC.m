@@ -62,7 +62,7 @@ static const NSArray *ary_menu;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    ary_menu = @[@"主 页",@"我 的",@"店 铺",@"预 约",@"设 置",@"关 于",@"车 系",@"连 线"];
+    ary_menu = @[@"主 页",@"我 的",@"店 铺",@"预 约",@"设 置",@"关 于",@"行车日志",@"连 线"];
     return ary_menu.count;
 }
 static NSArray *ary_titles;
@@ -118,8 +118,8 @@ static NSArray *ary_titles;
         case 5: //关于
             vc = [[AboutVC alloc] init];
             break;
-        case 6: //车系
-            vc = [[CarseriesVC alloc] initWithData:nil];
+        case 6: //行车日志
+            vc = [[NSClassFromString(@"CarlogVC") alloc] init];
             break;
         case 7: //连线游戏
             vc = [[NSClassFromString(@"LinkVC") alloc] init];

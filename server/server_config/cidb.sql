@@ -3,15 +3,15 @@
 
  Source Server         : localdb
  Source Server Type    : MySQL
- Source Server Version : 50538
+ Source Server Version : 50620
  Source Host           : localhost
  Source Database       : cidb
 
  Target Server Type    : MySQL
- Target Server Version : 50538
+ Target Server Version : 50620
  File Encoding         : utf-8
 
- Date: 09/09/2014 01:37:47 AM
+ Date: 09/10/2014 16:54:01 PM
 */
 
 SET NAMES utf8;
@@ -186,7 +186,7 @@ CREATE TABLE `ci_sessions` (
 --  Records of `ci_sessions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `ci_sessions` VALUES ('cfb34aba60f18446813e072725e3cbc2', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/13.3.0', '1410186702', ''), ('cff8039291b9798ab2b4e0d237426191', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/13.3.0', '1410192238', '');
+INSERT INTO `ci_sessions` VALUES ('10d0d559e092ee77bebc1d728797ccd1', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.15 (KHTML, like Gecko) Version/8.0 Safari/600.1.15', '1410338255', 'a:2:{s:9:\"user_data\";s:0:\"\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}'), ('265e054b11382eef51b7319eafa44c6b', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1410328622', ''), ('c63c6ea049e70c2728af86868f32164e', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1410332362', '');
 COMMIT;
 
 -- ----------------------------
@@ -232,13 +232,35 @@ CREATE TABLE `dic` (
   `sname` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `did` (`dtype`,`did`)
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `dic`
 -- ----------------------------
 BEGIN;
-INSERT INTO `dic` VALUES ('1', '1', '0', '乘用车辆类型', null, null), ('2', '2', '0', '变速箱类型', null, null), ('3', '1', '1', 'A00-微型车', null, null), ('4', '1', '2', 'A0-小型车', '小型车', 'A0'), ('5', '1', '3', 'A-紧凑级', null, 'A'), ('6', '1', '4', 'B-中级车', null, 'B'), ('7', '1', '5', 'C-豪华级', null, 'C'), ('8', '1', '6', 'D-大型豪华级', null, 'D'), ('9', '1', '7', 'S0-小型SUV', null, 'S0'), ('10', '1', '8', 'SA-紧凑型SUV', '紧凑型SUV', 'SA'), ('11', '1', '9', 'MPV', '商务车', 'MPV'), ('12', '1', '100', '其他', null, null), ('13', '2', '1', 'MT4-4速手动', null, null), ('14', '2', '2', 'MT5-5速手动', null, null), ('15', '2', '3', 'MT6-6速手动', null, null), ('16', '2', '4', 'AT4-4速自动', null, null), ('17', '2', '5', 'AT5-5速自动', null, null), ('18', '2', '6', 'AT6-6速自动', null, null), ('19', '2', '7', 'CVT', null, null), ('20', '2', '8', 'DT', null, null), ('21', '3', '0', '车身结构', null, null), ('22', '1', '20', 'SB-中型SUV', null, 'SB'), ('23', '1', '21', 'SF-大型SUV', null, 'SF'), ('24', '1', '22', 'SC-跑车', null, 'SC'), ('25', '1', '23', 'SSC-超级跑车', null, 'SSC'), ('26', '3', '1', '552-5门5座2箱', null, null), ('27', '3', '2', '552-5门5座3箱', null, null), ('28', '3', '3', '553-3门5座2箱', null, null), ('29', '4', '0', '驱动形式', null, null), ('30', '4', '1', 'FF-前置前驱', null, null), ('31', '4', '2', 'FR-前置后驱', null, null), ('32', '4', '3', 'F4-前置四驱', null, null), ('33', '4', '4', 'RR-后置后驱', null, null), ('34', '4', '5', 'MR-中置后驱', null, null), ('35', '4', '6', 'M4-中置四驱', null, null), ('36', '2', '100', '其他', null, null), ('37', '3', '100', null, null, null), ('38', '4', '100', null, null, null), ('40', '5', '0', '预约和服务状态', null, null), ('41', '5', '100', null, null, null), ('42', '6', '0', '客户类型', null, null), ('43', '6', '100', null, null, null), ('44', '5', '1', '客户预约', null, null), ('45', '5', '2', '预约确认', null, null), ('46', '5', '10', '预约完成', null, null), ('47', '5', '11', '预约取消', null, null), ('48', '5', '3', '服务进行中', null, null), ('49', '7', '0', '客户账号状态', null, null), ('50', '7', '100', null, null, null), ('51', '7', '50', '正常', null, null), ('52', '7', '1', '未激活', null, null), ('53', '7', '2', '验证中', null, null), ('54', '7', '10', '已禁用', null, null);
+INSERT INTO `dic` VALUES ('1', '1', '0', '乘用车辆类型', null, null), ('2', '2', '0', '变速箱类型', null, null), ('3', '1', '1', 'A00-微型车', null, null), ('4', '1', '2', 'A0-小型车', '小型车', 'A0'), ('5', '1', '3', 'A-紧凑级', null, 'A'), ('6', '1', '4', 'B-中级车', null, 'B'), ('7', '1', '5', 'C-豪华级', null, 'C'), ('8', '1', '6', 'D-大型豪华级', null, 'D'), ('9', '1', '7', 'S0-小型SUV', null, 'S0'), ('10', '1', '8', 'SA-紧凑型SUV', '紧凑型SUV', 'SA'), ('11', '1', '9', 'MPV', '商务车', 'MPV'), ('12', '1', '100', '其他', null, null), ('13', '2', '1', 'MT4-4速手动', null, null), ('14', '2', '2', 'MT5-5速手动', null, null), ('15', '2', '3', 'MT6-6速手动', null, null), ('16', '2', '4', 'AT4-4速自动', null, null), ('17', '2', '5', 'AT5-5速自动', null, null), ('18', '2', '6', 'AT6-6速自动', null, null), ('19', '2', '7', 'CVT', null, null), ('20', '2', '8', 'DT', null, null), ('21', '3', '0', '车身结构', null, null), ('22', '1', '20', 'SB-中型SUV', null, 'SB'), ('23', '1', '21', 'SF-大型SUV', null, 'SF'), ('24', '1', '22', 'SC-跑车', null, 'SC'), ('25', '1', '23', 'SSC-超级跑车', null, 'SSC'), ('26', '3', '1', '552-5门5座2箱', null, null), ('27', '3', '2', '552-5门5座3箱', null, null), ('28', '3', '3', '553-3门5座2箱', null, null), ('29', '4', '0', '驱动形式', null, null), ('30', '4', '1', 'FF-前置前驱', null, null), ('31', '4', '2', 'FR-前置后驱', null, null), ('32', '4', '3', 'F4-前置四驱', null, null), ('33', '4', '4', 'RR-后置后驱', null, null), ('34', '4', '5', 'MR-中置后驱', null, null), ('35', '4', '6', 'M4-中置四驱', null, null), ('36', '2', '100', '其他', null, null), ('37', '3', '100', null, null, null), ('38', '4', '100', null, null, null), ('40', '5', '0', '预约和服务状态', null, null), ('41', '5', '100', null, null, null), ('42', '6', '0', '客户类型', null, null), ('43', '6', '100', null, null, null), ('44', '5', '1', '客户预约', null, null), ('45', '5', '2', '预约确认', null, null), ('46', '5', '10', '预约完成', null, null), ('47', '5', '11', '预约取消', null, null), ('48', '5', '3', '服务进行中', null, null), ('49', '7', '0', '客户账号状态', null, null), ('50', '7', '100', null, null, null), ('51', '7', '50', '正常', null, null), ('52', '7', '1', '未激活', null, null), ('53', '7', '2', '验证中', null, null), ('54', '7', '10', '已禁用', null, null), ('55', '8', '0', '菜品类别', null, null), ('56', '8', '100', null, null, null), ('57', '8', '10', '套餐', null, null), ('58', '8', '11', '热炒', null, null), ('59', '8', '12', '凉菜', null, null), ('60', '8', '41', '主食', null, null), ('61', '8', '42', '配餐', null, null), ('62', '8', '43', '饮料', null, null), ('63', '8', '44', '甜品', null, null), ('64', '8', '13', '面食', null, null), ('65', '8', '14', '汤煲', null, null);
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `dishes`
+-- ----------------------------
+DROP TABLE IF EXISTS `dishes`;
+CREATE TABLE `dishes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `dcode` varchar(5) DEFAULT NULL,
+  `dtype` tinyint(4) DEFAULT NULL COMMENT '0-菜品 1-套餐',
+  `name` varchar(50) DEFAULT NULL,
+  `ename` varchar(50) DEFAULT NULL,
+  `price` float DEFAULT NULL,
+  `descp` varchar(120) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `dishes`
+-- ----------------------------
+BEGIN;
+INSERT INTO `dishes` VALUES ('1', null, '1', '麦辣鸡腿堡套餐', null, '18', null), ('2', null, '0', '麦辣鸡腿堡', null, '10', null), ('3', null, '0', '中可乐', null, '6', null), ('4', null, '0', '中薯条', null, '6', null), ('5', null, '0', '套餐配汤', null, '3', null), ('6', null, '0', '套餐米饭', null, '1', null), ('7', null, '1', '辣子鸡丁套餐', null, '16', null), ('8', null, '0', '辣子鸡丁', null, '14', null);
 COMMIT;
 
 -- ----------------------------
@@ -415,7 +437,7 @@ CREATE TABLE `zm_sessions` (
 --  Records of `zm_sessions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `zm_sessions` VALUES ('0', '2d2d763917352e6af02a07abc19a8ebef20c34f17f000001', 'shixc', '2014-08-14 09:55:30', 'bbb', null), ('2', '32b3e5562bf33acaf45381f13310c2bc7ddc46527f000001', '13908077242', '2015-09-04 15:51:57', 'EFDD10DC-1341-40C9-8C18-2DEF2D665E4C', null), ('2', '8fe11966741cee825ffede84a104d026c47b36ca7f000001', '13908077242', '2015-09-01 23:12:57', '8C1AF92C-CDBC-4791-BA37-761F576108FF', null), ('2', 'd62b561e5baefbd62512ee163a650d7dc8e9dbad7f000001', '13908077242', '2015-09-03 11:55:50', 'FDE249F3-5997-461F-AEF9-45C1E21E48DA', null), ('2', 'e2820a768720c5b2a329d5d3596ec6d6038899977f000001', '13908077242', '2015-09-08 22:32:38', '01B5BDF3-A228-4DDF-B920-7CBB0DDDE302', null);
+INSERT INTO `zm_sessions` VALUES ('0', '2d2d763917352e6af02a07abc19a8ebef20c34f17f000001', 'shixc', '2014-08-14 09:55:30', 'bbb', null), ('2', '32b3e5562bf33acaf45381f13310c2bc7ddc46527f000001', '13908077242', '2015-09-04 15:51:57', 'EFDD10DC-1341-40C9-8C18-2DEF2D665E4C', null), ('2', '3da376a0cdf72a609a99382eb2d9e6c0be9dad837f000001', '13908077242', '2015-09-10 14:01:05', 'DB7EDF4E-8FED-42BB-AE77-4632DE40A904', null), ('2', '8fe11966741cee825ffede84a104d026c47b36ca7f000001', '13908077242', '2015-09-01 23:12:57', '8C1AF92C-CDBC-4791-BA37-761F576108FF', null), ('2', 'd62b561e5baefbd62512ee163a650d7dc8e9dbad7f000001', '13908077242', '2015-09-03 11:55:50', 'FDE249F3-5997-461F-AEF9-45C1E21E48DA', null), ('2', 'e2820a768720c5b2a329d5d3596ec6d6038899977f000001', '13908077242', '2015-09-08 22:32:38', '01B5BDF3-A228-4DDF-B920-7CBB0DDDE302', null);
 COMMIT;
 
 -- ----------------------------

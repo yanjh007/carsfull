@@ -54,7 +54,7 @@ static int const DB_VERSION = 2;
                 [dataBase executeUpdate:@"CREATE TABLE shops (scode string, name string, contact text, address text, geoaddress text, status int)"];
 
                 // 汽车里程记账
-                [dataBase executeUpdate:@"CREATE TABLE miles (carnumber string, rtime datetime, miles int , location text, descp text, status int)"];
+                [dataBase executeUpdate:@"CREATE TABLE carlogs (ltype int, carnumber string, ltime int, miles int , location text, descp text, status int)"];
 
                 // 维护计划
                 [dataBase executeUpdate:@"CREATE TABLE mplans (tcode string, tname string, duration1 int, duration2 int, starttime datetime, startmile int,descp text, status int)"];

@@ -13,9 +13,9 @@ class Shops extends CI_Controller {
 	
 	if ($this->input->get("search")) {
 	  $keyword=$this->input->get("search");
-	  $data['shops'] = $this->shop->search($keyword);
+	  $data['itemlist'] = $this->shop->search($keyword);
 	} else {
-	  $data['shops'] = $this->shop->search();
+	  $data['itemlist'] = $this->shop->search();
 	}
 
     $this->load->view('_common/header');
@@ -27,29 +27,8 @@ class Shops extends CI_Controller {
     $this->load->view('_common/footer');
   }
 
-  public function detail($sid){
-	if ($this->input->server('REQUEST_METHOD')==="DELETE") {
-	  $this->shop->remove($sid);
-	  echo "OK";
-	  return;
-	}
-	
-	if ($this->input->get("method") === "delete") {
-	  	$this->shop->remove($sid);
-		redirect('shops'); 		  
-	} else if ($this->input->get("method") === "edit") {
-	  $data['shop'] = $this->shop->get_shop($cid);
-	  if (empty($data['shop'])) show_404();
-
-	  $this->load->helper('form');
-	
-	  $this->load->view('_common/header');
-	  show_nav(11);
-	  
-	  $this->load->view('shops/edit', $data);
-	  $this->load->view('_common/footer');	  
-	} else { //详情页面 
-	  $data['shop'] = $this->shop->get_shop($sid);
+  public function detail($id){
+	  $data['shop'] = $this->shop->get_shop($id);
 	  if (empty($data['shop'])) show_404();
 
 	  $this->load->helper('form');
@@ -59,7 +38,6 @@ class Shops extends CI_Controller {
 	  $this->load->view('shops/detail', $data);
 	  
 	  $this->load->view('_common/footer');	  
-	}
   }
 
   public function save() {	
@@ -87,9 +65,7 @@ class Shops extends CI_Controller {
 	  redirect('shops/'.$shopid);
 	} else {
 	  redirect('shops');
-	}
-	
+	}	
   }  
 
-  
 }
