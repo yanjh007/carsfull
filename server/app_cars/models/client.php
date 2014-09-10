@@ -19,7 +19,7 @@ class Client extends CI_Model {
     return $query->result_array();
   }
 
-  public function get_one($id){
+  public function get_item($id){
     $query = $this->db->query(self::SQLQUERY." where id=?",$id);
     return $query->row_array();
   }
@@ -96,10 +96,10 @@ class Client extends CI_Model {
   }
   
   public function get_cars($cid) {
-    $sql = "select carnumber,model,modelname,manufacturer,brand from cars where id in (select rid from links where ltype=? and lid=?)";
+    $sql = "select carnumber,model,modelname,manufacturer,brand from cars where id in (select rid from links where ltype=1 and lid=".$cid.")";
     //$sql="SELECT rid,rname FROM links where lid = ? and ltype=?";
 	
-    $query = $this->db->query($sql,"1",$cid);
+    $query = $this->db->query($sql);
 
     if($query -> num_rows() > 0) {
       return $query->result_array();

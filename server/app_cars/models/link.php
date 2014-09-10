@@ -3,6 +3,7 @@ class Link extends CI_Model {
   const SQLQUERY = 'SELECT id,name,descp FROM link ';
   const TYPE_CLIENT_CARS = 1;
   const TYPE_TASKGROUP_TASK = 2;
+  const TYPE_DISHE_CATAS = 10;
   
   public function __construct() {
     $this->load->database();
@@ -39,5 +40,24 @@ class Link extends CI_Model {
     return TRUE;
   }
   
+  public function rlist($ltype,$lid){
+    $sql= "select rid,rname from links where ltype=".$ltype." and lid= ".$lid;
+    $query = $this->db->query($sql);
+    if ($query->num_rows()>0) {
+      return $query->result_array();
+    } else {
+      return NULL;
+    }
+  }
+  
+  public function llist($ltype,$rid){
+    $sql= "select lid,lname from links where ltype=".$ltype." and rid= ".$rid;
+    $query = $this->db->query($sql);
+    if ($query->num_rows()>0) {
+      return $query->result_array();
+    } else {
+      return NULL;
+    }
+  }
 
 }

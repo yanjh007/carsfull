@@ -17,8 +17,10 @@
             
             <div class="form-group">
               <div class="col-sm-offset-1 col-sm-6">
-                <button type="submit" class="btn btn-primary">保 存</button>&nbsp&nbsp&nbsp
-                <?php zm_btn_back("'clients/'") ?>
+                <?php
+                    zm_btn_submit("保 存");
+                    zm_btn_back("clients")
+                ?>
               </div>
             </div>
           </form>

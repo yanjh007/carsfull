@@ -1,7 +1,7 @@
 <?php
 class Dishe extends CI_Model {
-  const SQLQUERY  = 'SELECT id,scode,name,address,contact FROM shops  ';
-  const TABLENAME = 'shops';
+  const SQLQUERY  = 'SELECT id,dtype,name,price,descp FROM dishes  ';
+  const TABLENAME = 'deshes';
   
   public function __construct() {
     $this->load->database();
@@ -19,8 +19,8 @@ class Dishe extends CI_Model {
     return $query->result_array();
   }
 
-  public function get_shop($sid){
-    $sql= self::SQLQUERY." where id=".$sid ;
+  public function get_item($id){
+    $sql= self::SQLQUERY." where id=".$id ;
     $query = $this->db->query($sql);
     return $query->row_array();
   }
@@ -96,6 +96,20 @@ class Dishe extends CI_Model {
   // 从字典中获取分类列表
   public function get_catas() {
     $sql= "select id,did,name from dic where dtype=8 and did>0 order by did ";
+
+    $query = $this->db->query($sql);
+    return $query->result_array();
+  }
+  
+  public function get_catas1($id) {
+    $this->load->model('link');
+    return $this->link->rlist(Link::TYPE_DISHE_CATAS,$id);
+  }
+  
+  public function get_catas2($id) {
+    $this->load->model('link');
+    
+    $sql= "select id,did,name from dic where dtype=8 and did>0 and did<100 and id not in (select rid from links where ltype=".Link::TYPE_DISHE_CATAS." and lid= ".$id.") ";
 
     $query = $this->db->query($sql);
     return $query->result_array();

@@ -44,12 +44,12 @@
 				<!-- Default panel contents -->
 				<div class="panel-heading">关联车辆</div>				
 				<div class="panel-body">				
-					<?= form_open('clients/link',array("role"=>"form")); ?>
-                    <?= form_hidden('client_id', $client["id"]); ?>
-                    <?= form_hidden('client_name', $client["name"]); ?>
+					<?php echo form_open('clients/link',array("role"=>"form")); ?>
+					<?php echo form_hidden('client_id', $client["id"]); ?>
+					<?php echo form_hidden('client_name', $client["name"]); ?>
 					<div class="form-group">
 					  <label for="exampleInputEmail1">牌照号码</label>
-					  <?= form_input(array( 'name'  => 'carnumber',
+					  <?echo  form_input(array( 'name'  => 'carnumber',
 											'id'    => 'carnumber',
 											'class' => 'form-control',
 												)); ?>
