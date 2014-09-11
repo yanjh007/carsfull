@@ -19,6 +19,8 @@ static NSString *const PKEY_USER=@"user_key";
 +(NSArray*) getToken;
 +(instancetype) currentUser;
 -(void) save;
+-(void) logout;
+
 +(void) save:(int)uid token:(NSString*)token;
 
 @end

@@ -15,6 +15,8 @@
 
 @implementation User
 
+static User *instance=nil;
+
 +(NSArray*) getToken;
 {
     NSDictionary *user=(NSDictionary*)[JY_Default get:PKEY_USER] ;
@@ -23,24 +25,23 @@
 
 +(instancetype) currentUser
 {
-    static User *currentUser;
     
     @synchronized(self) {
-        if (!currentUser) {
+        if (!instance) {
             NSDictionary *duser=(NSDictionary*)[JY_Default get:PKEY_USER] ;
-            currentUser = [[User alloc] init];
+            instance = [[User alloc] init];
             
-            currentUser.login  = duser[@"login"] ?:@"";
-            currentUser.userid = duser[@"userid"]?[duser[@"userid"] intValue]:0;
-            currentUser.version  = duser[@"version"] ?[duser[@"version"] intValue]:0;
-            currentUser.token  = duser[@"token"] ?:@"";
+            instance.login  = duser[@"login"] ?:@"";
+            instance.userid = duser[@"userid"]?[duser[@"userid"] intValue]:0;
+            instance.version  = duser[@"version"] ?[duser[@"version"] intValue]:0;
+            instance.token  = duser[@"token"] ?:@"";
 
-            currentUser.name  = duser[@"name"] ?:@"";
-            currentUser.address  = duser[@"address"] ?:@"";
-            currentUser.contact  = duser[@"contact"] ?:@"";
+            instance.name  = duser[@"name"] ?:@"";
+            instance.address  = duser[@"address"] ?:@"";
+            instance.contact  = duser[@"contact"] ?:@"";
         }
         
-        return currentUser;
+        return instance;
     }
 }
 
@@ -66,6 +67,12 @@
     cuser.token  = token;
     
     [cuser save];
+}
+
+-(void) logout
+{
+    [JY_Default removeOne:PKEY_USER];
+    instance=nil;
 }
 
 @end

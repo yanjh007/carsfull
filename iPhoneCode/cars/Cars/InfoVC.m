@@ -17,7 +17,7 @@
 @interface InfoVC ()<UITableViewDelegate,UITableViewDataSource,UIActionSheetDelegate,JY_STD_Delegate>
 @property (retain, nonatomic) IBOutlet UITableView *tb_info;
 @property (retain,nonatomic) NSMutableArray *info_base,*info_cars;
-@property (retain, nonatomic) UIActionSheet *as_carcell;
+@property (retain, nonatomic) UIActionSheet *as_carcell,*as_logout;
 @end
 
 @implementation InfoVC
@@ -61,7 +61,7 @@
         if ([User currentUser].userid==0) { //未登录
             return 1;
         } else {
-            return 4;
+            return 5;
         }
     } else {
         return [self.info_cars count]+1;
@@ -113,8 +113,13 @@
                 break;
             case 3:
                 if ([User currentUser].userid>0) { //未登录
-                    title    = @"驾龄:";
-                    subtitle = [User currentUser].address;
+                    title    = @"驾龄:20";
+                    //subtitle = [User currentUser].address;
+                }
+                break;
+            case 4:
+                if ([User currentUser].userid>0) { //未登录
+                    title    = @"注销当前用户";
                 }
                 break;
                 
@@ -161,12 +166,32 @@
 
         }
         
-        vc= [[UserVC alloc] initWithData:@{@"delegate":self}];
+        if (indexPath.row==4) {
+            [self showLogout];
+        } else {
+            vc= [[UserVC alloc] initWithData:@{@"delegate":self}];
+            
+            // We don't want to be able to pan on nav bar to see the left side when we pushed a controller
+            [self.revealSideViewController unloadViewControllerForSide:PPRevealSideDirectionLeft];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
         
-        // We don't want to be able to pan on nav bar to see the left side when we pushed a controller
-        [self.revealSideViewController unloadViewControllerForSide:PPRevealSideDirectionLeft];
-        [self.navigationController pushViewController:vc animated:YES];
     }
+}
+
+-(void) showLogout
+{
+    if (!self.as_logout) {
+        self.as_logout = [[UIActionSheet alloc] initWithTitle:@"用户注销"
+                                                      delegate:self
+                                             cancelButtonTitle:@"取 消"
+                                        destructiveButtonTitle:@"确定注销"
+                                             otherButtonTitles:nil];
+        
+    }
+    
+    [self.as_logout showInView:self.view];
+    
 }
 
 
@@ -199,6 +224,13 @@
             [self go_appointment:self.info_cars[index]];
         } else { //维护历史
             
+        }
+    } else if (actionSheet==self.as_logout) {
+        if (buttonIndex == actionSheet.destructiveButtonIndex ) { //注销
+            [[User currentUser] logout];
+            UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:[NSClassFromString(@"HomeVC") new]];
+            [self.revealSideViewController popViewControllerWithNewCenterController:nvc
+                                                                           animated:YES];
         }
     }
 }

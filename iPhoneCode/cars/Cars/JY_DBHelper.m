@@ -92,7 +92,7 @@ static int const DB_VERSION = 2;
     if (s) {
         NSString *sql;
         if ([s next]) {
-            sql=@"UPDATE TABLE _meta set mvalue=? where mname=?";
+            sql=@"UPDATE _meta set mvalue=? where mname=?";
         } else {
             sql=@"INSERT INTO _meta (mvalue,mname) values (?,?)";
         }
