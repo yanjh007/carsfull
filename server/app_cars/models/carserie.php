@@ -63,7 +63,8 @@ class Carserie extends CI_Model {
   
   public function remove($item_id) {
     $this->db->where('id', $item_id);
-    $this->db->delete(self::TABLE_NAME); 
+    $this->db->delete(self::TABLE_NAME);
+    
     return TRUE;
   }
   

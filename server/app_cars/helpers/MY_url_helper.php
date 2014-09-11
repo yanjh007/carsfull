@@ -109,7 +109,7 @@ function link_to_edit($path)
 
 function link_to_jdelete($onclick)
 {
-   echo "<a href='#' onclick='".$onclick."'>删除</a>";
+   echo "<a href='javascript:void(0);' onclick='".$onclick."'>删除</a>";
 }
 
 function link_to_jinput($onclick,$title)

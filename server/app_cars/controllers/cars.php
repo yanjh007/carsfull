@@ -72,7 +72,7 @@ class Cars extends CI_Controller {
 	redirect('cars');
   }
   
-    // ajax delete
+  // ajax delete
   public function jdelete($id) {	
       if ($this->input->server('REQUEST_METHOD')==="DELETE") {
 	$this->car->remove($id);
