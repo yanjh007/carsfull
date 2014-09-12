@@ -11,7 +11,7 @@
  Target Server Version : 50620
  File Encoding         : utf-8
 
- Date: 09/10/2014 16:54:01 PM
+ Date: 09/12/2014 17:00:28 PM
 */
 
 SET NAMES utf8;
@@ -186,7 +186,7 @@ CREATE TABLE `ci_sessions` (
 --  Records of `ci_sessions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `ci_sessions` VALUES ('10d0d559e092ee77bebc1d728797ccd1', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.15 (KHTML, like Gecko) Version/8.0 Safari/600.1.15', '1410338255', 'a:2:{s:9:\"user_data\";s:0:\"\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}'), ('265e054b11382eef51b7319eafa44c6b', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1410328622', ''), ('c63c6ea049e70c2728af86868f32164e', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1410332362', '');
+INSERT INTO `ci_sessions` VALUES ('7481cc2a0c0e185e9ae71b3f237fc7a6', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.15 (KHTML, like Gecko) Version/8.0 Safari/600.1.15', '1410508109', ''), ('f03f55216ff03b46ae306fe4b8fd9337', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1410502342', '');
 COMMIT;
 
 -- ----------------------------
@@ -216,7 +216,7 @@ CREATE TABLE `clients` (
 --  Records of `clients`
 -- ----------------------------
 BEGIN;
-INSERT INTO `clients` VALUES ('1', null, 'shixc', 'a5b09e5b217127812c3f0e778dd1098404ce1fd4', null, '施磊', null, null, '18602802121', 'X_shileixc', null, '1', '2014-08-14 16:04:33', null, null), ('2', null, 'yanjh', null, null, '颜建华', null, null, '13808077242', 'X_hahar006', null, '0', null, null, null), ('4', null, null, null, null, '周琪', null, null, '13880735908', 'Q8990099', null, '0', null, null, null), ('10', null, null, null, null, '陶莉', null, null, '13882189728', 'Q89960707', null, '0', '2014-08-15 15:21:08', null, null), ('11', null, '13908077242', 'aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d', '8C1AF92C-CDBC-4791-B', '颜建华', null, null, '13908077242', null, null, '0', '2014-09-08 20:26:00', null, null);
+INSERT INTO `clients` VALUES ('1', null, 'shixc', 'a5b09e5b217127812c3f0e778dd1098404ce1fd4', null, '施磊', null, null, '18602802121', 'X_shileixc', null, '1', '2014-08-14 16:04:33', null, null), ('2', null, 'yanjh', null, null, '颜建华', null, null, '13808077242', 'X_hahar006', null, '0', null, null, null), ('4', null, null, null, null, '周琪', null, null, '13880735908', 'Q8990099', null, '0', null, null, null), ('10', null, null, null, null, '陶莉', null, null, '13882189728', 'Q89960707', null, '0', '2014-08-15 15:21:08', null, null), ('11', null, '13908077242', 'aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d', '8C1AF92C-CDBC-4791-B', 'John Yan', 'yanjh@sina.com', 'yanjh@sina.com', '13908077242', null, null, '0', '2014-09-12 14:54:37', null, null);
 COMMIT;
 
 -- ----------------------------
@@ -232,13 +232,13 @@ CREATE TABLE `dic` (
   `sname` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `did` (`dtype`,`did`)
-) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `dic`
 -- ----------------------------
 BEGIN;
-INSERT INTO `dic` VALUES ('1', '1', '0', '乘用车辆类型', null, null), ('2', '2', '0', '变速箱类型', null, null), ('3', '1', '1', 'A00-微型车', null, null), ('4', '1', '2', 'A0-小型车', '小型车', 'A0'), ('5', '1', '3', 'A-紧凑级', null, 'A'), ('6', '1', '4', 'B-中级车', null, 'B'), ('7', '1', '5', 'C-豪华级', null, 'C'), ('8', '1', '6', 'D-大型豪华级', null, 'D'), ('9', '1', '7', 'S0-小型SUV', null, 'S0'), ('10', '1', '8', 'SA-紧凑型SUV', '紧凑型SUV', 'SA'), ('11', '1', '9', 'MPV', '商务车', 'MPV'), ('12', '1', '100', '其他', null, null), ('13', '2', '1', 'MT4-4速手动', null, null), ('14', '2', '2', 'MT5-5速手动', null, null), ('15', '2', '3', 'MT6-6速手动', null, null), ('16', '2', '4', 'AT4-4速自动', null, null), ('17', '2', '5', 'AT5-5速自动', null, null), ('18', '2', '6', 'AT6-6速自动', null, null), ('19', '2', '7', 'CVT', null, null), ('20', '2', '8', 'DT', null, null), ('21', '3', '0', '车身结构', null, null), ('22', '1', '20', 'SB-中型SUV', null, 'SB'), ('23', '1', '21', 'SF-大型SUV', null, 'SF'), ('24', '1', '22', 'SC-跑车', null, 'SC'), ('25', '1', '23', 'SSC-超级跑车', null, 'SSC'), ('26', '3', '1', '552-5门5座2箱', null, null), ('27', '3', '2', '552-5门5座3箱', null, null), ('28', '3', '3', '553-3门5座2箱', null, null), ('29', '4', '0', '驱动形式', null, null), ('30', '4', '1', 'FF-前置前驱', null, null), ('31', '4', '2', 'FR-前置后驱', null, null), ('32', '4', '3', 'F4-前置四驱', null, null), ('33', '4', '4', 'RR-后置后驱', null, null), ('34', '4', '5', 'MR-中置后驱', null, null), ('35', '4', '6', 'M4-中置四驱', null, null), ('36', '2', '100', '其他', null, null), ('37', '3', '100', null, null, null), ('38', '4', '100', null, null, null), ('40', '5', '0', '预约和服务状态', null, null), ('41', '5', '100', null, null, null), ('42', '6', '0', '客户类型', null, null), ('43', '6', '100', null, null, null), ('44', '5', '1', '客户预约', null, null), ('45', '5', '2', '预约确认', null, null), ('46', '5', '10', '预约完成', null, null), ('47', '5', '11', '预约取消', null, null), ('48', '5', '3', '服务进行中', null, null), ('49', '7', '0', '客户账号状态', null, null), ('50', '7', '100', null, null, null), ('51', '7', '50', '正常', null, null), ('52', '7', '1', '未激活', null, null), ('53', '7', '2', '验证中', null, null), ('54', '7', '10', '已禁用', null, null), ('55', '8', '0', '菜品类别', null, null), ('56', '8', '100', null, null, null), ('57', '8', '10', '套餐', null, null), ('58', '8', '11', '热炒', null, null), ('59', '8', '12', '凉菜', null, null), ('60', '8', '41', '主食', null, null), ('61', '8', '42', '配餐', null, null), ('62', '8', '43', '饮料', null, null), ('63', '8', '44', '甜品', null, null), ('64', '8', '13', '面食', null, null), ('65', '8', '14', '汤煲', null, null);
+INSERT INTO `dic` VALUES ('1', '1', '0', '乘用车辆类型', null, null), ('2', '2', '0', '变速箱类型', null, null), ('3', '1', '1', 'A00-微型车', null, null), ('4', '1', '2', 'A0-小型车', '小型车', 'A0'), ('5', '1', '3', 'A-紧凑级', null, 'A'), ('6', '1', '4', 'B-中级车', null, 'B'), ('7', '1', '5', 'C-豪华级', null, 'C'), ('8', '1', '6', 'D-大型豪华级', null, 'D'), ('9', '1', '7', 'S0-小型SUV', null, 'S0'), ('10', '1', '8', 'SA-紧凑型SUV', '紧凑型SUV', 'SA'), ('11', '1', '9', 'MPV', '商务车', 'MPV'), ('12', '1', '100', '其他', null, null), ('13', '2', '1', 'MT4-4速手动', null, null), ('14', '2', '2', 'MT5-5速手动', null, null), ('15', '2', '3', 'MT6-6速手动', null, null), ('16', '2', '4', 'AT4-4速自动', null, null), ('17', '2', '5', 'AT5-5速自动', null, null), ('18', '2', '6', 'AT6-6速自动', null, null), ('19', '2', '7', 'CVT', null, null), ('20', '2', '8', 'DT', null, null), ('21', '3', '0', '车身结构', null, null), ('22', '1', '20', 'SB-中型SUV', null, 'SB'), ('23', '1', '21', 'SF-大型SUV', null, 'SF'), ('24', '1', '22', 'SC-跑车', null, 'SC'), ('25', '1', '23', 'SSC-超级跑车', null, 'SSC'), ('26', '3', '1', '552-5门5座2箱', null, null), ('27', '3', '2', '552-5门5座3箱', null, null), ('28', '3', '3', '553-3门5座2箱', null, null), ('29', '4', '0', '驱动形式', null, null), ('30', '4', '1', 'FF-前置前驱', null, null), ('31', '4', '2', 'FR-前置后驱', null, null), ('32', '4', '3', 'F4-前置四驱', null, null), ('33', '4', '4', 'RR-后置后驱', null, null), ('34', '4', '5', 'MR-中置后驱', null, null), ('35', '4', '6', 'M4-中置四驱', null, null), ('36', '2', '100', '其他', null, null), ('37', '3', '100', null, null, null), ('38', '4', '100', null, null, null), ('40', '5', '0', '预约和服务状态', null, null), ('41', '5', '100', null, null, null), ('42', '6', '0', '客户类型', null, null), ('43', '6', '100', null, null, null), ('44', '5', '1', '客户预约', null, null), ('45', '5', '2', '预约确认', null, null), ('46', '5', '10', '预约完成', null, null), ('47', '5', '11', '预约取消', null, null), ('48', '5', '3', '服务进行中', null, null), ('49', '7', '0', '客户账号状态', null, null), ('50', '7', '100', null, null, null), ('51', '7', '50', '正常', null, null), ('52', '7', '1', '未激活', null, null), ('53', '7', '2', '验证中', null, null), ('54', '7', '10', '已禁用', null, null), ('55', '8', '0', '菜品类别', null, null), ('56', '8', '100', 'END', null, null), ('58', '8', '13', '热炒', null, null), ('59', '8', '14', '凉菜', null, null), ('60', '8', '43', '主食', null, null), ('61', '8', '44', '配餐', null, null), ('62', '8', '45', '饮料', null, null), ('63', '8', '46', '甜品', null, null), ('64', '8', '15', '面食', null, null), ('65', '8', '16', '汤煲', null, null);
 COMMIT;
 
 -- ----------------------------
@@ -254,13 +254,13 @@ CREATE TABLE `dishes` (
   `price` float DEFAULT NULL,
   `descp` varchar(120) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `dishes`
 -- ----------------------------
 BEGIN;
-INSERT INTO `dishes` VALUES ('1', null, '1', '麦辣鸡腿堡套餐', null, '18', null), ('2', null, '0', '麦辣鸡腿堡', null, '10', null), ('3', null, '0', '中可乐', null, '6', null), ('4', null, '0', '中薯条', null, '6', null), ('5', null, '0', '套餐配汤', null, '3', null), ('6', null, '0', '套餐米饭', null, '1', null), ('7', null, '1', '辣子鸡丁套餐', null, '16', null), ('8', null, '0', '辣子鸡丁', null, '14', null);
+INSERT INTO `dishes` VALUES ('1', 'S0011', '1', '麦辣鸡腿堡套餐', null, '18', '麦辣鸡腿堡，中可乐，中薯条'), ('2', 'W0011', '0', '麦辣鸡腿堡', null, '10', ''), ('3', 'D0004', '0', '中可乐', null, '6', '500ml'), ('4', 'A0003', '0', '中薯条', null, '6', '100g'), ('5', 'S1002', '0', '套餐配汤', null, '3', ''), ('6', 'S1001', '0', '套餐米饭', null, '1', ''), ('7', 'S1021', '1', '辣子鸡丁套餐', null, '16', ''), ('8', null, '0', '辣子鸡丁', null, '14', null), ('9', 'S1022', '1', '回锅肉套餐', null, '16', ''), ('10', 'S0012', '1', '双层吉士堡套餐', null, '18', ''), ('15', 'N0011', '0', '牛肉拉面(大)', null, '9', '');
 COMMIT;
 
 -- ----------------------------
@@ -281,7 +281,7 @@ CREATE TABLE `links` (
 --  Records of `links`
 -- ----------------------------
 BEGIN;
-INSERT INTO `links` VALUES ('1', '2', '颜建华', '2', '川A-A1574', null), ('1', '10', '陶莉', '1', '川A-BQ498', null), ('1', '10', '陶莉', '2', '川A-A1574', null), ('2', '1', '', '4', '更换轮胎', null), ('2', '1', '', '5', '常规检查', null), ('2', '1', '', '8', 'A0级日常保养', null), ('2', '2', '', '3', '更换发动机油滤', null), ('2', '2', '', '6', '高级检查', null), ('2', '3', '', '3', '更换发动机油滤', null), ('2', '3', '', '4', '更换轮胎', null), ('2', '3', '', '7', '更换空气滤清器', null), ('2', '5', '', '1', '洗车-小型', null), ('2', '5', '', '4', '更换轮胎', null);
+INSERT INTO `links` VALUES ('1', '2', '颜建华', '2', '川A-A1574', null), ('1', '10', '陶莉', '1', '川A-BQ498', null), ('1', '10', '陶莉', '2', '川A-A1574', null), ('2', '1', '', '4', '更换轮胎', null), ('2', '1', '', '5', '常规检查', null), ('2', '1', '', '8', 'A0级日常保养', null), ('2', '2', '', '3', '更换发动机油滤', null), ('2', '2', '', '6', '高级检查', null), ('2', '3', '', '3', '更换发动机油滤', null), ('2', '3', '', '4', '更换轮胎', null), ('2', '3', '', '7', '更换空气滤清器', null), ('2', '5', '', '1', '洗车-小型', null), ('2', '5', '', '4', '更换轮胎', null), ('10', '1', '', '60', '主食', null), ('10', '1', '', '61', '配餐', null), ('10', '4', '', '61', '配餐', null), ('10', '5', '套餐配汤', '61', '配餐', null), ('10', '8', '', '58', '热炒', null), ('10', '15', '', '64', '面食', null), ('11', '3', '', '1', '麦辣鸡腿堡套餐', null), ('11', '3', '', '10', '双层吉士堡套餐', null), ('11', '5', '套餐配汤', '7', '辣子鸡丁套餐', null), ('11', '6', '', '7', '辣子鸡丁套餐', null), ('11', '6', '', '9', '回锅肉套餐', null), ('11', '8', '', '7', '辣子鸡丁套餐', null);
 COMMIT;
 
 -- ----------------------------
@@ -437,7 +437,7 @@ CREATE TABLE `zm_sessions` (
 --  Records of `zm_sessions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `zm_sessions` VALUES ('0', '2d2d763917352e6af02a07abc19a8ebef20c34f17f000001', 'shixc', '2014-08-14 09:55:30', 'bbb', null), ('2', '32b3e5562bf33acaf45381f13310c2bc7ddc46527f000001', '13908077242', '2015-09-04 15:51:57', 'EFDD10DC-1341-40C9-8C18-2DEF2D665E4C', null), ('2', '3da376a0cdf72a609a99382eb2d9e6c0be9dad837f000001', '13908077242', '2015-09-10 14:01:05', 'DB7EDF4E-8FED-42BB-AE77-4632DE40A904', null), ('2', '8fe11966741cee825ffede84a104d026c47b36ca7f000001', '13908077242', '2015-09-01 23:12:57', '8C1AF92C-CDBC-4791-BA37-761F576108FF', null), ('2', 'd62b561e5baefbd62512ee163a650d7dc8e9dbad7f000001', '13908077242', '2015-09-03 11:55:50', 'FDE249F3-5997-461F-AEF9-45C1E21E48DA', null), ('2', 'e2820a768720c5b2a329d5d3596ec6d6038899977f000001', '13908077242', '2015-09-08 22:32:38', '01B5BDF3-A228-4DDF-B920-7CBB0DDDE302', null);
+INSERT INTO `zm_sessions` VALUES ('2', '011df3836cca0d7bc341350011118b23f12b35137f000001', '13908077242', '2015-09-12 14:23:53', 'DB7EDF4E-8FED-42BB-AE77-4632DE40A904', null), ('2', '1622b001f1d1d7dd8ae596ac20729f94954f33c67f000001', '13908077242', '2015-09-12 14:43:03', 'DB7EDF4E-8FED-42BB-AE77-4632DE40A904', null), ('2', '1a02d2860f42d5ddecfd5d188c0c386b561d02017f000001', '13908077242', '2015-09-12 14:28:07', 'DB7EDF4E-8FED-42BB-AE77-4632DE40A904', null), ('2', '2bd033a2fb942bd084fe9db045bd5e8067ddef3e7f000001', '13908077242', '2015-09-12 14:36:45', 'DB7EDF4E-8FED-42BB-AE77-4632DE40A904', null), ('0', '2d2d763917352e6af02a07abc19a8ebef20c34f17f000001', 'shixc', '2014-08-14 09:55:30', 'bbb', null), ('2', '32b3e5562bf33acaf45381f13310c2bc7ddc46527f000001', '13908077242', '2015-09-04 15:51:57', 'EFDD10DC-1341-40C9-8C18-2DEF2D665E4C', null), ('2', '3da376a0cdf72a609a99382eb2d9e6c0be9dad837f000001', '13908077242', '2015-09-10 14:01:05', 'DB7EDF4E-8FED-42BB-AE77-4632DE40A904', null), ('2', '5d30d36fcbbc455b0ca2cab991fb6718d74985c37f000001', '13908077242', '2015-09-12 14:37:03', 'DB7EDF4E-8FED-42BB-AE77-4632DE40A904', null), ('2', '8c579dac98e0e9b0615ad515180805e2879ed0327f000001', '13908077242', '2015-09-12 14:33:22', 'DB7EDF4E-8FED-42BB-AE77-4632DE40A904', null), ('2', '8fe11966741cee825ffede84a104d026c47b36ca7f000001', '13908077242', '2015-09-01 23:12:57', '8C1AF92C-CDBC-4791-BA37-761F576108FF', null), ('2', 'c1669ea4e9b5b9550936f7d5abddb8bb023f22457f000001', '13908077242', '2015-09-12 14:45:13', 'DB7EDF4E-8FED-42BB-AE77-4632DE40A904', null), ('2', 'cdda1ec3269923f663cbbf67a070d582e1e551a07f000001', '13908077242', '2015-09-11 16:50:59', 'DB7EDF4E-8FED-42BB-AE77-4632DE40A904', null), ('2', 'd43b9a45d3234875cf22135acefadc682df19c317f000001', '13908077242', '2015-09-11 16:55:01', 'DB7EDF4E-8FED-42BB-AE77-4632DE40A904', null), ('2', 'd62b561e5baefbd62512ee163a650d7dc8e9dbad7f000001', '13908077242', '2015-09-03 11:55:50', 'FDE249F3-5997-461F-AEF9-45C1E21E48DA', null), ('2', 'df8a54b232a961f8f42d4a845a4e4ea2fc332a477f000001', '13908077242', '2015-09-11 15:35:28', 'DB7EDF4E-8FED-42BB-AE77-4632DE40A904', null), ('2', 'e2820a768720c5b2a329d5d3596ec6d6038899977f000001', '13908077242', '2015-09-08 22:32:38', '01B5BDF3-A228-4DDF-B920-7CBB0DDDE302', null), ('2', 'ed3b3db340cd33edd9a81eb28a88c3b7d36722b07f000001', '13908077242', '2015-09-11 15:57:17', 'DB7EDF4E-8FED-42BB-AE77-4632DE40A904', null), ('2', 'f4d01309a0529a4521294caecd22e95cb019a0177f000001', '13908077242', '2015-09-12 14:42:52', 'DB7EDF4E-8FED-42BB-AE77-4632DE40A904', null);
 COMMIT;
 
 -- ----------------------------
@@ -454,7 +454,7 @@ CREATE TABLE `zm_versions` (
 --  Records of `zm_versions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `zm_versions` VALUES ('shop_version', '5');
+INSERT INTO `zm_versions` VALUES ('shop_version', '9');
 COMMIT;
 
 -- ----------------------------
@@ -462,5 +462,11 @@ COMMIT;
 -- ----------------------------
 DROP VIEW IF EXISTS `v_cappointments`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_cappointments` AS select `a`.`acode` AS `acode`,`a`.`rtime` AS `rtime`,`a`.`ptime` AS `ptime`,`c`.`carnumber` AS `carnumber`,`u`.`name` AS `name`,`c`.`client` AS `client`,`a`.`status` AS `status`,`a`.`descp` AS `descp`,`a`.`edit_at` AS `edit_at` from ((`appointments` `a` left join `car_aptms` `c` on((`a`.`acode` = `c`.`acode`))) left join `clients` `u` on((`u`.`id` = `c`.`client`))) where (`a`.`atype` = 0);
+
+-- ----------------------------
+--  View structure for `v_carsofuser`
+-- ----------------------------
+DROP VIEW IF EXISTS `v_carsofuser`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_carsofuser` AS select `u`.`name` AS `name`,`c`.`carnumber` AS `carnumber`,`c`.`manufacturer` AS `manufacturer`,`c`.`brand` AS `brand`,`c`.`id` AS `cid`,`c`.`descp` AS `descp`,`u`.`id` AS `uid`,`c`.`mileage` AS `mileage`,`c`.`config` AS `config`,`c`.`engine` AS `engine`,`c`.`color` AS `color` from ((`links` `l` left join `clients` `u` on((`u`.`id` = `l`.`lid`))) left join `cars` `c` on((`c`.`id` = `l`.`rid`))) where (`l`.`ltype` = 1);
 
 SET FOREIGN_KEY_CHECKS = 1;
