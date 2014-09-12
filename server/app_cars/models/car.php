@@ -44,14 +44,40 @@ class Car extends CI_Model {
     $this->db->delete(self::TABLE_NAME); 
     return TRUE;
   }
-  
-  function get_passwd_by_login($login) {
-    $query = $this->db->query("SELECT passwd FROM clients where login ='".$login."' limit 1");
 
-    if($query -> num_rows() > 0) {
-      return $query->row()->passwd;
+  
+  // 网络接口用方法
+  function get_cars_list() {
+    $clientid=$this->input->get_post("C");
+    $sql= "select carnumber,manufacturer,brand,descp from v_carsofuser where uid =".$clientid;
+
+    $query = $this->db->query($sql);
+    return  $query->result_array(); 
+  }
+  
+  function if_cars_list() {
+    $content = $this->get_cars_list();
+    $data["content"] = json_encode($content);
+    return $data;
+  }
+  
+  function if_cars_update() {
+    $cars =$this->input->put("C");
+    
+    if ($cars) {
+      $strupdate="";
+      $ary=json_decode($cars,TRUE);
+      foreach ($ary as $item) {
+	
+	$strupdate.= ($strupdate=="")?$item["carnumber"]:",".$item["carnumber"];
+      }
+      $data["content"] = json_encode(array("updated"=>$strupdate));	
+    
     } else {
-        return NULL;
+	$data["result"]="FALSE"; //数据交付格式错误
+	$data["content"] = json_encode(array("status"=>21,"error"=>"数据为空"));	
     }
+    
+    return $data;
   }
 }

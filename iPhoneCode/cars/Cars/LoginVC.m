@@ -158,13 +158,29 @@
     if (json) {
         NSDictionary *content=json[@"C"] ;
         if ([@"OK" isEqualToString:json[@"R"]]) {
+            User *user=[User currentUser];
             if ([content[@"status"] intValue]==1) { //创建成功
                 [self.lb_info setText:[NSString stringWithFormat:@"用户已成功创建并绑定，密码为:%@",self.pass_code]];
+                
+                
             } else { //登录成功 status 2
                 [self.lb_info setText:[NSString stringWithFormat:@"用户已成功再次绑定"]];
+                NSDictionary *info=content[@"info"];
+                if (info) {
+                    if (info[@"name"])      user.name    = info[@"name"];
+                    if (info[@"contact"])   user.contact = info[@"contact"];
+                    if (info[@"address"])   user.address = info[@"address"];
+                }
+                
             }
             
-            [User save:[content[@"cid"] intValue] token:content[@"token"]];
+            user.userid = [content[@"cid"] intValue];
+            user.token  = content[@"token"];
+            [user save];
+            
+            
+            [[LMenuVC sharedVC] showVC:@"InfoVC"];
+            [self do_close:nil];
             
         } else {
             [self.lb_info setText:[NSString stringWithFormat:@"绑定失败:%@",content[@"error"]]];
@@ -199,20 +215,6 @@
     [self.lb_info setText:[NSString stringWithFormat:@"请求失败: %@",result]];
 }
 
-
 @end
 
-
-
-
-//    NSString *post =@"{\"method\":\"login\"}";
-////    NSString *post = [@{@"method":@"login",@"login":self.tv_user.text,@"passwd":self.tv_code.text} jsonString];
-//    NSString *key  = [[[NSDate stringNow:@"YYYYMMdd"] sha1] substringToIndex:32];
-////    NSString *content =[AESCrypt encrypt:post password:key];
-//
-//    post = [post stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-//
-//    NSString *content = [post AES256EncryptWithKey: key];
-//
-//    NSLog(@"key:%@,encode:%@,编码:%@",key,content,[content AES256DecryptWithKey:key]);
 

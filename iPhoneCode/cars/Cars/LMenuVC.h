@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface LMenuVC : UITableViewController
-
++(instancetype) sharedVC;
+-(void) showVC:(NSString*)vcname;
 @end

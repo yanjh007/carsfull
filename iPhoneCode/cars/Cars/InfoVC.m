@@ -274,6 +274,7 @@
     } else if (act==DELE_ACTION_USER_SAVE_BACK) {
         if (index==1) {
             [self.tb_info reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [[User currentUser] updateCloud:^(int status) { }];
         }
         
         

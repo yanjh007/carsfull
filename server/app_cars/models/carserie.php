@@ -70,7 +70,8 @@ class Carserie extends CI_Model {
   
   
   //用于接口
-  public function if_tag($tag) {
+  public function if_tag() {
+    $tag = $this->input->get_post('K');
     $sql="select id,manufacturer,brand,tags,engine_list,trans_list,descp from ".self::TABLE_NAME." where tags like '%".$tag."%' order by manufacturer";	
 	
     $query = $this->db->query($sql);

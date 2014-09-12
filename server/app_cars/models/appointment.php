@@ -21,7 +21,7 @@ Class Appointment extends CI_Model {
       //$sql=$sql." where name like '%".$keyword."%' ";
     }
     
-	$sql=$sql." order by rtime desc";
+    $sql=$sql." order by rtime desc";
     $query = $this->db->query($sql);
     return $query->result_array();
   }
@@ -47,8 +47,8 @@ Class Appointment extends CI_Model {
     //var_dump($tasktype);    
     $data = array(
            'client'     => $item["client"],
-           'car'      => $item["car"],
-           'duration1' => $item["atime"],
+           'car'      	=> $item["car"],
+           'duration1' 	=> $item["atime"],
           );
     
 	if (isset($item["item_id"]) ) { // insert
@@ -84,43 +84,44 @@ Class Appointment extends CI_Model {
     return TRUE;
   }
   
-  public function onSubmit($json,$client_id) {
-    $apmts=json_decode($json,TRUE); //确认转化为数组
+  public function if_apmts() {
+    $content = $this->input->get_post('C');
+    $cid     = $this->input->get_post('U');
+
+    $apmts=json_decode($content,TRUE); //确认转化为数组
     
-	$list0="";
+    $list0="";
     // 插入或更新数据
     if ($apmts) foreach ($apmts as $item) {
       $acode = $item["acode"];
  
       $data1 = array(
 		'status'    => 1,
-		'userid'    => $client_id, //用户
+		'userid'    => $id, //用户
 		'rtime'     => date("Y-m-d H:i:s"), //计划时间
 		'ptime'     => $item["plan_at"], //计划时间
       );
       
       $data2 = array (
-		'client'    => $client_id,
+		'client'    => $cid,
 		'carnumber' => $item["car"],
 		'shop_code' => $item["shop"],
       );
 
       $query = $this->db->query("select 1 from ".self::TABLE_NAME." where acode=? limit 1",$acode);
       if ($query->num_rows()>0) {
-		
-        $this->db->where('acode', $acode);
-		
-        $this->db->update(self::TABLE_NAME,  $data1);
-        $this->db->update(self::TABLE_NAME2, $data2);		
+	  $this->db->where('acode', $acode);
+		  
+	  $this->db->update(self::TABLE_NAME,  $data1);
+	  $this->db->update(self::TABLE_NAME2, $data2);		
       } else {
-		$data1["acode"]=$acode;
-		$this->db->insert(self::TABLE_NAME, $data1); 
+	  $data1["acode"]=$acode;
+	  $this->db->insert(self::TABLE_NAME, $data1); 
 
-		$data2["acode"]=$acode;
-		$this->db->insert(self::TABLE_NAME2, $data2); 
-      }
-	  
-	  $list0.=strlen($list0)>0?",".$acode:$acode;
+	  $data2["acode"]=$acode;
+	  $this->db->insert(self::TABLE_NAME2, $data2); 
+      }	  
+      $list0.=strlen($list0)>0?",".$acode:$acode;
     }
     
 	// approved list

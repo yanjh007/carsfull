@@ -18,10 +18,13 @@ static NSString *const PKEY_USER=@"user_key";
 
 +(NSArray*) getToken;
 +(instancetype) currentUser;
+
 -(void) save;
 -(void) logout;
+-(void) updateCloud:(void (^)(int status)) completion;
 
 +(void) save:(int)uid token:(NSString*)token;
+
 
 @end
 

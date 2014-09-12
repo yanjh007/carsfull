@@ -7,6 +7,7 @@
 //
 
 #import "User.h"
+#import "JY_DBHelper.h"
 
 #pragma mark - 用户模型
 @interface User ()
@@ -51,6 +52,7 @@ static User *instance=nil;
                            @"userid"   :@(self.userid),
                            @"passwd"   :self.password?self.password:@"",
                            @"name"     :self.name?self.name:@"",
+                           @"contact"  :self.contact?self.contact:@"",
                            @"address"  :self.address?self.address:@"",
                            @"token"    :self.token?self.token:@"",
                            @"version"  :@(self.version)
@@ -73,6 +75,38 @@ static User *instance=nil;
 {
     [JY_Default removeOne:PKEY_USER];
     instance=nil;
+}
+
+-(NSString*) dataForUpdate
+{
+    NSDictionary *dic=@{
+                        @"name":self.name,
+                        @"address":self.contact,
+                        @"contact":self.contact
+                        };
+    return [dic jsonString];
+}
+
+-(void) updateCloud:(void (^)(int status)) completion
+{
+    
+    [JY_Request post:@{@"M":@"client",
+                       @"I":[JY_Helper fakeIMEI],
+                       @"S":[User currentUser].token,
+                       @"U":@([User currentUser].userid),
+                       @"C":[self dataForUpdate]
+                       }
+             withURL:URL_BASE_URL
+          completion:^(int status, NSString *result){
+              if (status==JY_STATUS_OK) {
+                  NSDictionary *json= [result jsonObject];
+                  if ([JVAL_RESULT_OK isEqualToString:json[JKEY_RESULT]]) {
+                      completion(1);
+                      return;
+                  }
+              }
+              completion(0);
+          }];
 }
 
 @end

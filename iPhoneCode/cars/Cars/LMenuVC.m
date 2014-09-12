@@ -17,11 +17,24 @@
 #import "UserVC.h"
 #import "CarVC.h"
 
+
+
 @interface LMenuVC ()
 
 @end
 
 @implementation LMenuVC
+static LMenuVC *instance=nil;
+
++(instancetype) sharedVC
+{
+    @synchronized(self) {
+        if (!instance) {
+            instance=[[LMenuVC alloc] init];
+        }
+        return instance;
+    }
+}
 
 - (id)init
 {
@@ -107,8 +120,7 @@ static NSArray *ary_titles;
             }
             break;
         case 2: //店铺
-            vc = [[ShopVC alloc] init];
-            break;
+            [self showVC:@"ShopVC"]; return;
         case 3: //预约
             vc = [[AppointmentListVC alloc] init];
             break;
@@ -136,8 +148,16 @@ static NSArray *ary_titles;
 
 }
 
-
-
+-(void) showVC:(NSString*)vcname
+{
+    UIViewController *vc=[NSClassFromString(vcname) new];
+    
+    UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:vc];
+    
+    [self.revealSideViewController popViewControllerWithNewCenterController:nvc
+                                                                   animated:YES];
+    
+}
 
 
 @end

@@ -1,7 +1,7 @@
 <?php
 class Client extends CI_Model {
-  const SQLQUERY  = "SELECT id,name,mobile,wechat,address,passwd FROM clients";
-  const TABLENAME = "clients";
+  const SQLQUERY   = "SELECT id,name,mobile,wechat,contact,address,passwd FROM clients";
+  const TABLE_NAME = "clients";
   
   public function __construct() {
     $this->load->database();
@@ -69,7 +69,12 @@ class Client extends CI_Model {
     } else {
       return 0;
     }	
-  }  
+  }
+  
+  public function get_by_login($login) {
+    $query = $this->db->query(self::SQLQUERY." where login=? or mobile=? limit 1",array($login,$login));      
+    return  ($query -> num_rows() > 0)?$query->row_array():NULL;
+  }
   
   public function link($client) {
     $car_number = $client["carnumber"];
@@ -118,14 +123,7 @@ class Client extends CI_Model {
     $this->db->insert(self::TABLENAME, $data); 
   }
   
-  public function get_by_login($login) {
-    $query = $this->db->query(self::SQLQUERY." where login=? or mobile=? limit 1",array($login,$login));
-    if($query -> num_rows() > 0) {
-      return $query->row_array();
-    } else {
-      return NULL;
-    }
-  }
+
   
   public function gen_vcode($login) {	
 	$vcode= rand(100000,999999);
@@ -148,28 +146,27 @@ class Client extends CI_Model {
   public function vsave($login,$passwd,$vcode) {
     $query = $this->db->query("select vcode,UNIX_TIMESTAMP(vtime) vtime from clients where login=? or mobile=? limit 1",array($login,$login));
     if($query -> num_rows() > 0) {
-      $row= $query->row_array();
-	  if ($row["vcode"]==$vcode) {
-		if (time()-$row["vtime"] >600) { //验证码超时		  
-		  return 2;
+	$row= $query->row_array();
+	if ($row["vcode"]==$vcode) {
+	      if (time()-$row["vtime"] >600) { //验证码超时		  
+		return 2;
+	      } else {
+		$this->db->set('passwd', $passwd);
+		$this->db->where('login', $login);
+		$this->db->update(self::TABLENAME);
+	
+		if ($this->db->affected_rows()>0) {
+		      return 10;  
 		} else {
-		  $this->db->set('passwd', $passwd);
-		  $this->db->where('login', $login);
-		  $this->db->update(self::TABLENAME);
-	  
-		  if ($this->db->affected_rows()>0) {
-			return 10;  
-		  } else {
-			return 4; //保存错误
-		  }		  
-		}
-	  } else { //验证码错误
-		return 1;
-	  }
+		      return 4; //保存错误
+		}		  
+	      }
+	} else { //验证码错误
+	      return 1;
+	}
     } else {
       return 3; //未找到记录
-    }
-		
+    }		
   }
   
   // 登录接口 login，getcode,recover
@@ -179,7 +176,7 @@ class Client extends CI_Model {
    * 21－密码错误 22-提交错误 23-验证码错误
   
   */
-  public function if_login() { //client登录服务 客户端提交sha1(password)+username 服务器响应session和错误
+  public function if_login() { //client登录服务接口 客户端提交sha1(password)+username 服务器响应session和错误
 	$hash  = $this->input->get_post('H');
 	if ($hash) { // Post
    		$login    = substr($hash,40);
@@ -188,12 +185,23 @@ class Client extends CI_Model {
 		
 		$this->load->model('zmsession');
 		
-		$this->load->model('client','',TRUE);
-		$client= $this->client->get_by_login($login);
+		$client= $this->get_by_login($login);
 		if ($client) { //有记录，验证密码和Device
 		  if ($client["passwd"]==$passwd) {
+			// Token
 			$token = $this->zmsession->save(Zmsession::SESSION_TYPE_CLIENT,$login,$device,$this->input->ip_address());
-			$data["content"] = json_encode(array("status"=>2,"token"=>$token,"cid"=>$client["id"]));
+			
+			// 客户信息
+			$info=array();
+			if ($client["name"]) 	$info["name"]	=$client["name"];
+			if ($client["contact"]) $info["contact"]=$client["contact"];
+			if ($client["name"]) 	$info["address"]=$client["address"];
+			
+			// 客户车辆信息
+			$this->load->model("car");
+			$cars= $this->car->get_cars_list();
+			
+			$data["content"] = json_encode(array("status"=>2,"token"=>$token,"cid"=>$client["id"],"info"=>$info,"cars"=>$cars));
 		  } else {
 			$data["result"] = "FALSE";
 			$data["content"] = json_encode(array("status"=>21,"error"=>"密码错误"));
@@ -211,36 +219,33 @@ class Client extends CI_Model {
 	return $data;
   }
   
-  public function if_getcode() { //密码恢复
+  public function if_getcode() { //验证码获取接口
 	$login  = $this->input->get_post('login');
 	if ($login) { // Post
-		$device= $this->input->get_post('I');
-		
-		$this->load->model('client','',TRUE);
-		$vcode= $this->client->gen_vcode($login);
-		if ($vcode>0) { //有记录，生成验证码
-		  $data["content"] = json_encode(array("status"=>12,"vcode"=>$vcode));
-		} else { //无记录，可能是新用户
-		  $data["content"] = json_encode(array("status"=>11));
-		}	  
+	    $device= $this->input->get_post('I');
+	    
+	    $vcode= $this->gen_vcode($login);
+	    if ($vcode>0) { //有记录，生成验证码
+	      $data["content"] = json_encode(array("status"=>12,"vcode"=>$vcode));
+	    } else { //无记录，可能是新用户
+	      $data["content"] = json_encode(array("status"=>11));
+	    }	  
 	} else {
-	  $data["result"]="FALSE"; //数据交付格式错误
-	  $data["content"] = json_encode(array("status"=>22,"error"=>"数据提交格式错误"));
+	    $data["result"]="FALSE"; //数据交付格式错误
+	    $data["content"] = json_encode(array("status"=>22,"error"=>"数据提交格式错误"));
 	}
 	return $data;
   }
   
-  public function if_recover() { //密码恢复
+  public function if_recover() { //密码恢复接口
 	$hash  = $this->input->get_post('H');
 	if ($hash) { // Post
 		$passwd   = substr($hash,0,40);
    		$vcode    = substr($hash,40,6);
 		$login    = substr($hash,46);
 		$device= $this->input->get_post('I');
-		//var_dump($passwd."-".$vcode."-".$login);
-		
-		$this->load->model('client','',TRUE);
-		$r=$this->client->vsave($login,$passwd,$vcode) ;
+
+		$r=$this->vsave($login,$passwd,$vcode) ;
 		if ($r==10) { //正常验证，保存
 		  $this->load->model('zmsession');	
 		  $token = $this->zmsession->save(Zmsession::SESSION_TYPE_CLIENT,$login,$device,$this->input->ip_address());
@@ -264,4 +269,31 @@ class Client extends CI_Model {
 	return $data;
   }
   
+  public function if_update() { //资料更新接口
+      $content  = $this->input->get_post('C');
+      if ($content) { // Post
+	  $client = json_decode($content);
+	  var_dump($client);
+	  if ($client) {
+	    $clientid= $this->input->get_post('U');    
+	    $data = array(
+		   //'wechat' => $client["im"],
+		   'name'    => $client->name,
+		   'address' => $client->address,
+		   'contact' => $client->contact,
+		  );
+	    $this->db->where('id', $clientid);
+	    $this->db->update(self::TABLE_NAME, $data); 
+
+	    $data["content"] = json_encode(array("status"=>1));	
+	  } else {
+	    $data["result"]="FALSE"; //数据交付格式错误
+	    $data["content"] = json_encode(array("status"=>22,"error"=>"数据提交格式错误"));		    
+	  }
+      } else {
+	$data["result"]="FALSE"; //数据交付格式错误
+	$data["content"] = json_encode(array("status"=>21,"error"=>"数据为空"));	
+      }
+      return $data;
+  }  
 }

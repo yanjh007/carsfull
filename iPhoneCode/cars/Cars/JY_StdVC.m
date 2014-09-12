@@ -40,8 +40,8 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    LMenuVC *menu = [[LMenuVC alloc] init];
-    [self.revealSideViewController preloadViewController:menu forSide:PPRevealSideDirectionLeft];
+
+    [self.revealSideViewController preloadViewController:[LMenuVC sharedVC] forSide:PPRevealSideDirectionLeft];
 }
 
 - (void)viewDidUnload
@@ -55,8 +55,6 @@
 {
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
-
-
 
 @end
 

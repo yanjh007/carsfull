@@ -85,21 +85,22 @@ class Shop extends CI_Model {
     return NULL;
   }
   
-  // 依据时间获取店铺列表
-  public function onSubmit($version) {
-	$this->load->model("zmversion");
-	$v2 = $this->zmversion->checkVersion("shop_version",$version?$version:0);
-	
-	if ($v2==0) {
-	  $data["result"] = "NULL";
-	} else {
-	  $query = $this->db->query(self::SQLQUERY." order by scode");	  
-	  if ($query->num_rows() > 0) {
-		$data["content"] = json_encode(array("version"=>$v2,"shops"=>($query->result())));
-	  } else {
-		$data["result"] = "NULL";
-	  }	  
-	}
+  // 依据时间获取店铺列表接口
+  public function if_shops() {
+    $version = $this->input->get_post('V');
+    $this->load->model("zmversion");
+    $v2 = $this->zmversion->checkVersion("shop_version",$version?$version:0);
+    
+    if ($v2==0) {
+      $data["result"] = "NULL";
+    } else {
+      $query = $this->db->query(self::SQLQUERY." order by scode");	  
+      if ($query->num_rows() > 0) {
+	    $data["content"] = json_encode(array("version"=>$v2,"shops"=>($query->result())));
+      } else {
+	    $data["result"] = "NULL";
+      }	  
+    }
 
     return $data;
   }
