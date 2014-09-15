@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="14A343f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1552" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -246,13 +246,13 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField appearanceType="aqua" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="9890459960" borderStyle="roundedRect" minimumFontSize="17" id="tfw-ES-Xhm">
-                                <rect key="frame" x="96" y="41" width="174" height="30"/>
+                                <rect key="frame" x="96" y="41" width="191" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Zkp-lj-1vS">
-                                <rect key="frame" x="96" y="81" width="174" height="30"/>
+                                <rect key="frame" x="96" y="81" width="191" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title=" 品牌系列" backgroundImage="cbg_green1">
@@ -274,7 +274,7 @@
                                 </connections>
                             </button>
                             <button appearanceType="aqua" opaque="NO" tag="52" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="4nQ-EV-n2N">
-                                <rect key="frame" x="233" y="124" width="37" height="30"/>
+                                <rect key="frame" x="243" y="124" width="44" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title=" 高" backgroundImage="cbg_green1">
@@ -285,7 +285,7 @@
                                 </connections>
                             </button>
                             <button appearanceType="aqua" opaque="NO" tag="55" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="bex-52-XUf">
-                                <rect key="frame" x="213" y="0.0" width="57" height="30"/>
+                                <rect key="frame" x="231" y="0.0" width="56" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title="白" backgroundImage="cbg_green1">
@@ -296,7 +296,7 @@
                                 </connections>
                             </button>
                             <button appearanceType="aqua" opaque="NO" tag="53" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Goc-Aa-tLE">
-                                <rect key="frame" x="96" y="165" width="174" height="30"/>
+                                <rect key="frame" x="96" y="165" width="191" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title=" 1.5L 直列四缸 涡轮增压" backgroundImage="cbg_green1">
@@ -307,7 +307,7 @@
                                 </connections>
                             </button>
                             <button appearanceType="aqua" opaque="NO" tag="54" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Mgm-Ji-qhk">
-                                <rect key="frame" x="96" y="205" width="174" height="30"/>
+                                <rect key="frame" x="96" y="205" width="191" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title=" 5速手动" backgroundImage="cbg_green1">
@@ -318,7 +318,7 @@
                                 </connections>
                             </button>
                             <label appearanceType="aqua" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="配置水平" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XEL-Lh-R0B">
-                                <rect key="frame" x="157" y="128" width="68" height="21"/>
+                                <rect key="frame" x="168" y="128" width="68" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -348,30 +348,8 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="pFA-rR-cLD">
-                        <rect key="frame" x="20" y="371" width="280" height="47"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <state key="normal" title="删 除" backgroundImage="cbg_red1">
-                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                        </state>
-                        <state key="highlighted" backgroundImage="cbg_red2"/>
-                        <connections>
-                            <action selector="do_delete:" destination="guR-LB-G4H" eventType="touchUpInside" id="4dE-v7-auQ"/>
-                        </connections>
-                    </button>
-                    <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="sxM-Sf-bms">
-                        <rect key="frame" x="20" y="316" width="280" height="47"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <state key="normal" title="保 存" backgroundImage="cbg_green1">
-                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                        </state>
-                        <state key="highlighted" backgroundImage="cbg_green2"/>
-                        <connections>
-                            <action selector="do_save:" destination="guR-LB-G4H" eventType="touchUpInside" id="zuC-ic-grI"/>
-                        </connections>
-                    </button>
                     <pickerView hidden="YES" appearanceType="aqua" contentMode="scaleToFill" id="KVd-Br-H1j">
-                        <rect key="frame" x="-5" y="406" width="320" height="162"/>
+                        <rect key="frame" x="0.0" y="406" width="320" height="162"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <connections>
@@ -391,7 +369,6 @@
                 <outlet property="bt_brand" destination="Zkp-lj-1vS" id="FXx-Xh-iEQ"/>
                 <outlet property="bt_color" destination="bex-52-XUf" id="wou-Ec-0es"/>
                 <outlet property="bt_config" destination="4nQ-EV-n2N" id="BJJ-MP-cET"/>
-                <outlet property="bt_delete" destination="pFA-rR-cLD" id="aSM-Sb-q8P"/>
                 <outlet property="bt_engine" destination="Goc-Aa-tLE" id="SsB-Sz-aue"/>
                 <outlet property="bt_trans" destination="Mgm-Ji-qhk" id="fnM-Xf-agh"/>
                 <outlet property="bt_year" destination="uGJ-Ia-HYP" id="0aU-jn-Gai"/>
@@ -477,14 +454,14 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label appearanceType="aqua" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt;新预约&gt;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fgv-bN-nuk">
+                            <label appearanceType="aqua" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt;新预约>" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fgv-bN-nuk">
                                 <rect key="frame" x="110" y="10" width="181" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label appearanceType="aqua" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt;编辑中&gt;" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="11a-pI-QLX">
+                            <label appearanceType="aqua" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt;编辑中>" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="11a-pI-QLX">
                                 <rect key="frame" x="179" y="210" width="72" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>

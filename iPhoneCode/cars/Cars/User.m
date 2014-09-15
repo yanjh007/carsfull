@@ -77,24 +77,19 @@ static User *instance=nil;
     instance=nil;
 }
 
--(NSString*) dataForUpdate
-{
-    NSDictionary *dic=@{
-                        @"name":self.name,
-                        @"address":self.contact,
-                        @"contact":self.contact
-                        };
-    return [dic jsonString];
-}
-
 -(void) updateCloud:(void (^)(int status)) completion
 {
+    NSString *content=[@{
+                        @"name":self.name,
+                        @"contact":self.contact,
+                        @"address":self.address
+                        } jsonString];
     
     [JY_Request post:@{MKEY_METHOD      :@"client",
                        MKEY_DEVICE_ID   :[JY_Helper fakeIMEI],
                        MKEY_TOKEN       :[User currentUser].token,
                        MKEY_USER        :@([User currentUser].userid),
-                       MKEY_CONTENT     :[self dataForUpdate]
+                       MKEY_CONTENT     :content
                        }
              withURL:URL_BASE_URL
           completion:^(int status, NSString *result){

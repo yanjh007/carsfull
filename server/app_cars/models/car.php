@@ -46,8 +46,7 @@ class Car extends CI_Model {
   }
 
   // 网络接口用方法
-  function get_cars_list() {
-    $clientid=$this->input->get_post("U");
+  function get_cars_list($clientid) {
     $sql= "select carnumber,manufacturer,brand,descp from v_carsofuser where uid =".$clientid;
 
     $query = $this->db->query($sql);
@@ -65,7 +64,7 @@ class Car extends CI_Model {
     $version2 = $this->zmversion->check_version("cars_user_".$clientid,$version);
     if ($version2>0) { 
       $content["version"] = $version2;
-      $content["cars"] = $this->get_cars_list();
+      $content["cars"] = $this->get_cars_list($clientid);
   
       $data["content"] = json_encode($content);      
     } else { //无更高版本

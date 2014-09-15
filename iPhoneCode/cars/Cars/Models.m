@@ -342,14 +342,45 @@
         self.carid=1;
         self.carnumber  = [rs stringForColumn:@"carnumber"];
         self.framenumber= [rs stringForColumn:@"framenumber"];
+        self.manufacturer  = [rs stringForColumn:@"manufacturer"];
+        self.brand= [rs stringForColumn:@"brand"];
     }
     return self;
+}
+
+-(NSString*) manufacturer
+{
+    if (!_manufacturer) {
+        _manufacturer=@"";
+    }
+    return _manufacturer;
+}
+
+-(NSString*) brand
+{
+    if (!_brand) _brand=@"";
+    return _brand;
+}
+
+-(NSString*) framenumber
+{
+    if (!_framenumber) {
+        _framenumber=@"";
+    }
+    return _framenumber;
+}
+-(NSString*) carnumber
+{
+    if (!_carnumber) {
+        _carnumber=@"";
+    }
+    return _carnumber;
 }
 
 +(NSArray*) getCars;
 {
     FMDatabase  *db=[JY_DBHelper openDB];
-    FMResultSet *s = [db executeQuery:@"SELECT carid,carnumber,framenumber FROM cars"];
+    FMResultSet *s = [db executeQuery:@"SELECT carid,carnumber,framenumber,manufacturer,brand FROM cars"];
     NSMutableArray *ary_cars=[NSMutableArray array];
     while ([s next]) {
         Car *item=[[Car alloc] initWithDbRow:s];
@@ -367,30 +398,64 @@
         sql = @"INSERT INTO cars (framenumber,manufacturer,brand,carnumber) values (?,?,?,?)";
         
     } else {
-        sql = @"UPDATE appointments set framenumber=?, manufacturer=?, brand=? where carnumber=?";
+        sql = @"UPDATE cars set framenumber=?, manufacturer=?, brand=? where carnumber=?";
     }
     
-    [db executeUpdate:sql,self.framenumber,self.manufactor,self.brand,self.carnumber ];
+    [db executeUpdate:sql,self.framenumber,self.manufacturer,self.brand,self.carnumber ];
     [db close];
-    
+    [Car version_update];
     return YES;
+}
+
++(void) version_update
+{
+    NSString *v=[JY_DBHelper metaValue:DBMKEY_CARS_VERSION];
+    NSString *v2;
+    if (!v) {
+        v2=@"1";
+    } else {
+        int iv=[v intValue]+1;
+        v2=[NSString stringWithFormat:@"%i",iv];
+    }
+    
+    [JY_DBHelper updateMeta:DBMKEY_CARS_VERSION value:v2];
 }
 
 
 -(BOOL) remove
 {
     FMDatabase  *db=[JY_DBHelper openDB];
+    [db executeUpdate:@"DELETE from cars where carnumber ISNULL"] ;
     [db executeUpdate:@"DELETE from cars where carnumber=?",self.carnumber] ;
     [db close];
+
+    [Car version_update];
     return YES;
 }
 
 
 +(void) updateCloud:(void (^)(int status)) completion
 {
-    NSArray *ary_cars= [Car getCars];
+    FMDatabase  *db=[JY_DBHelper openDB];
+    FMResultSet *s = [db executeQuery:@"SELECT carnumber,framenumber,manufacturer,brand FROM cars"];
+    NSMutableArray *ary_cars=[NSMutableArray array];
+    while ([s next]) {
+        [ary_cars addObject:@{
+                              @"carnumber"      :[s stringForColumn:@"carnumber"],
+                              @"framenumber"    :[s stringForColumn:@"framenumber"]?:@"",
+                              @"manufacturer"   :[s stringForColumn:@"manufacturer"]?:@"",
+                              @"brand"          :[s stringForColumn:@"brand"]?:@""
+                              } ];
+    }
+    [db close];
+    
+    NSString *content;
+    if ([ary_cars count]==0){
+        content = @"";
+    } else {
+        content = [ary_cars jsonString];
+    }
 
-    NSString *content=[ary_cars jsonString];
     NSString *version  =[JY_DBHelper metaValue:DBMKEY_CARS_VERSION]?:@"1";
     
     [JY_Request post:@{MKEY_METHOD      :@"cars_update",
@@ -405,8 +470,6 @@
               if (status==JY_STATUS_OK) {
                   NSDictionary *json= [result jsonObject];
                   if ([JVAL_RESULT_OK isEqualToString:json[JKEY_RESULT]]) {
-
-                      
                       
                       completion(1);
                       return;

@@ -73,7 +73,6 @@
     }
     
     [User currentUser].login=[self.tv_user.text copy];
-    [JY_Default saveString:self.tv_user.text forKey:PKEY_TOKEN_LOGIN];
 
     if  (self.verify_code) { //验证恢复模式
         int l=self.tv_code.text.length;
@@ -83,9 +82,9 @@
         
         self.verify_code = [self.tv_code.text substringFromIndex:l-6];
         
-        [JY_Request post:@{@"M":@"recover",
-                           @"I":[JY_Helper fakeIMEI],
-                           @"H":[NSString stringWithFormat:@"%@%@%@",[self.pass_code sha1],self.verify_code,self.tv_user.text]
+        [JY_Request post:@{MKEY_METHOD      :@"recover",
+                           MKEY_DEVICE_ID   :[JY_Helper fakeIMEI],
+                           MKEY_HASH        :[NSString stringWithFormat:@"%@%@%@",[self.pass_code sha1],self.verify_code,self.tv_user.text]
                            }
                  withURL:URL_BASE_URL
               completion:^(int status, NSString *result){
@@ -100,9 +99,10 @@
         self.pass_code=self.tv_code.text;
         [User currentUser].password=self.pass_code;
         
-        [JY_Request post:@{@"M":@"login",
-                           @"I":[JY_Helper fakeIMEI],
-                           @"H":[NSString stringWithFormat:@"%@%@",[self.tv_code.text sha1],self.tv_user.text]
+        [JY_Request post:@{
+                           MKEY_METHOD      :@"login",
+                           MKEY_DEVICE_ID   :[JY_Helper fakeIMEI],
+                           MKEY_HASH        :[NSString stringWithFormat:@"%@%@",[self.tv_code.text sha1],self.tv_user.text]
                            }
                  withURL:URL_BASE_URL
               completion:^(int status, NSString *result){
@@ -122,7 +122,7 @@
         return;
     }
 
-    [JY_Request post:@{@"M":@"getcode",
+    [JY_Request post:@{MKEY_METHOD:@"getcode",
                        @"login":self.tv_user.text}
              withURL:URL_BASE_URL
           completion:^(int status, NSString *result){

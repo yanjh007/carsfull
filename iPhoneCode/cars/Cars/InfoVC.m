@@ -138,7 +138,7 @@
             Car *item=self.info_cars[indexPath.row];
             
             cell.textLabel.text = item.carnumber;
-            cell.detailTextLabel.text =item.framenumber;
+            cell.detailTextLabel.text =[NSString stringWithFormat:@"%@-%@",item.manufacturer,item.brand];
         }
     }
     
@@ -280,6 +280,7 @@
         }
     } else if (act==DELE_ACTION_CAR_SAVE_BACK) {
         if (index==1) {
+            self.info_cars =  [[Car getCars] copy];
             [self.tb_info reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
             [Car updateCloud:^(int status) { }];
         }

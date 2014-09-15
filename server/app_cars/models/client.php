@@ -123,8 +123,6 @@ class Client extends CI_Model {
     $this->db->insert(self::TABLENAME, $data); 
   }
   
-
-  
   public function gen_vcode($login) {	
 	$vcode= rand(100000,999999);
 	$data = array(
@@ -199,7 +197,7 @@ class Client extends CI_Model {
 			
 			// 客户车辆信息
 			$this->load->model("car");
-			$cars= $this->car->get_cars_list();
+			$cars= $this->car->get_cars_list($client["id"]);
 			
 			$data["content"] = json_encode(array("status"=>2,"token"=>$token,"cid"=>$client["id"],"info"=>$info,"cars"=>$cars));
 		  } else {

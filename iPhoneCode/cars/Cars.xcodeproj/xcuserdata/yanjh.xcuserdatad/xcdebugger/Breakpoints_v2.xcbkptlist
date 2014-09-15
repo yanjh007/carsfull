@@ -100,11 +100,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cars/Models.m"
-            timestampString = "432466322.492594"
+            timestampString = "432489284.356699"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "396"
-            endingLineNumber = "396"
+            startingLineNumber = "461"
+            endingLineNumber = "461"
             landmarkName = "+updateCloud:"
             landmarkType = "5">
          </BreakpointContent>
@@ -115,13 +115,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Cars/CarVC.m"
-            timestampString = "432466287.477407"
+            filePath = "Cars/Models.m"
+            timestampString = "432487346.828957"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "150"
-            endingLineNumber = "150"
-            landmarkName = "-do_save:"
+            startingLineNumber = "397"
+            endingLineNumber = "397"
+            landmarkName = "-save"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cars/Models.m"
+            timestampString = "432490231.931545"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "470"
+            endingLineNumber = "470"
+            landmarkName = "+updateCloud:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

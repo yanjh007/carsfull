@@ -59,7 +59,7 @@ typedef NS_ENUM(NSInteger, AppointmentStatus) {
 #pragma mark - 车辆模型
 @class Carlog;
 @interface Car : NSObject
-@property (strong,nonatomic) NSString *carnumber,*framenumber,*cfglevel,*engine,*trans,*color,*manufactor,*brand;
+@property (strong,nonatomic) NSString *carnumber,*framenumber,*cfglevel,*engine,*trans,*color,*manufacturer,*brand;
 @property (assign) int carid,year;
 @property (strong,nonatomic) NSArray *colorList,*cfgList,*engineList,*transList,*yearList;
 

@@ -51,12 +51,13 @@
         
         self.mCar       = adata[0];
         self.mDelegate  = adata[1];
-        if (self.mCar.carnumber) {
+        if (self.mCar.carid>0) {
             self.showMode=1;
             [self.bt_delete setHidden:NO];
 
             self.tv_cnumber.text= self.mCar.carnumber;
             self.tv_fnumber.text= self.mCar.framenumber;
+            [self.bt_brand setTitle:[NSString stringWithFormat:@"%@-%@",self.mCar.manufacturer,self.mCar.brand] forState:UIControlStateNormal];
             
         } else { //新建
             self.showMode=0;
@@ -64,6 +65,7 @@
             
             self.tv_cnumber.text= @"";
             self.tv_fnumber.text=@"";
+            [self.bt_brand setTitle:@"请选择厂商品牌.." forState:UIControlStateNormal];
         }
         
         self.mCar.cfgList   =@[@"高",@"中",@"低"];
@@ -80,21 +82,6 @@
     return self;
 }
 
-- (IBAction) do_showmenu:(id)sender
-{
-    if (!self.as_edit) {
-        self.as_edit = [[UIActionSheet alloc] initWithTitle:@"车辆管理"
-                                                      delegate:self
-                                             cancelButtonTitle:@"取 消"
-                                        destructiveButtonTitle:@"保 存"
-                                             otherButtonTitles:@"删 除",nil];
-        
-    }
-    [self.as_edit setTag:index];
-    
-//    [self.as_edit setTitle:[NSString stringWithFormat:@"车辆管理:%@",[(Car*)self.info_cars[index] carnumber]]];
-    [self.as_edit showInView:self.view];
-}
 
 - (IBAction) do_back:(id)sender
 {
@@ -137,24 +124,11 @@
     [self.pv_config setHidden:NO];
     
     [self.pv_config reloadAllComponents];
-    
-    
 }
 
 - (IBAction) do_save:(id)sender
 {
     if (self.mCar) [self.mCar save];
-    
-    NSString *v=[JY_DBHelper metaValue:DBMKEY_CARS_VERSION];
-    NSString *v2;
-    if (!v) {
-        v2=@"1";
-    } else {
-        int iv=[v intValue]+1;
-        v2=[NSString stringWithFormat:@"%i",iv];
-    }
-    
-    [JY_DBHelper updateMeta:DBMKEY_CARS_VERSION value:v2];
     
     [self go_back:YES];
 }
@@ -169,14 +143,43 @@
     [actionSheet showInView:self.view];
 }
 
+
+- (IBAction) do_showmenu:(id)sender
+{
+    if (!self.as_edit) {
+        if (self.mCar.carid==0) {
+            self.as_edit = [[UIActionSheet alloc] initWithTitle:@"添加新车辆"
+                                                       delegate:self
+                                              cancelButtonTitle:@"取 消"
+                                         destructiveButtonTitle:@"添 加"
+                                              otherButtonTitles:nil];
+            
+        } else {
+            self.as_edit = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"车辆编辑:%@",self.mCar.carnumber]
+                                                       delegate:self
+                                              cancelButtonTitle:@"取 消"
+                                         destructiveButtonTitle:@"保 存"
+                                              otherButtonTitles:@"删 除",nil];
+        }
+    }
+    [self.as_edit showInView:self.view];
+}
+
 - (void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == actionSheet.destructiveButtonIndex) {
-        if (self.mCar.carnumber) {
-            [self.mCar remove];
+        if (actionSheet==self.as_edit) {
+            if (self.mCar.carid==0) {
+                self.mCar.carnumber= self.tv_cnumber.text;
+            }
+            self.mCar.framenumber  = self.tv_fnumber.text;
+            [self do_save:nil];
+        }
+    } else if (buttonIndex == actionSheet.firstOtherButtonIndex) { //删除
+        if (actionSheet==self.as_edit) {
+            if (self.mCar) [self.mCar remove];
             [self go_back:YES];
         }
-        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 
@@ -243,7 +246,7 @@
     } else if (pickerView.tag==54) { //传动
         self.mCar.trans=self.mCar.transList[row];
         [self.bt_config setTitle:self.mCar.transList[row] forState:UIControlStateNormal];
-    } else if (pickerView.tag==55) {
+    } else if (pickerView.tag==55) { //颜色
         self.mCar.color=self.mCar.colorList[row];
         [self.bt_color setTitle:self.mCar.colorList[row] forState:UIControlStateNormal];
     }
@@ -265,6 +268,8 @@
         
         [self.bt_brand setTitle:[NSString stringWithFormat:@"%@-%@",self.mCarserie[@"manufacturer"],self.mCarserie[@"brand"]]
                        forState:UIControlStateNormal];
+        self.mCar.manufacturer=self.mCarserie[@"manufacturer"];
+        self.mCar.brand =self.mCarserie[@"brand"];
     }
     
     return DELE_RESULT_VOID;
