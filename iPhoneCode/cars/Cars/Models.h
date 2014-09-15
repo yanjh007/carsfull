@@ -51,7 +51,7 @@ typedef NS_ENUM(NSInteger, AppointmentStatus) {
 +(NSString*) nameOf:(NSString*)shop;
 
 +(NSArray*) getList;
-+(void) syncShops;
++(void) sync;
 
 @end
 
@@ -59,20 +59,23 @@ typedef NS_ENUM(NSInteger, AppointmentStatus) {
 #pragma mark - 车辆模型
 @class Carlog;
 @interface Car : NSObject
-@property (strong,nonatomic) NSString *carnumber,*framenumber,*cfglevel,*engine,*trans,*color;
+@property (strong,nonatomic) NSString *carnumber,*framenumber,*cfglevel,*engine,*trans,*color,*manufactor,*brand;
 @property (assign) int carid,year;
 @property (strong,nonatomic) NSArray *colorList,*cfgList,*engineList,*transList,*yearList;
 
 +(NSArray*) getCars;
 
-+(BOOL) add:(NSString*)cnumber framenumber:(NSString*)fnumber;
-
--(BOOL) update:(NSString*)fnumber;
+-(BOOL) save;
 -(BOOL) remove;
+
+//接口同步和提交
++(void) sync;
++(void) updateCloud:(void (^)(int status)) completion;
 
 // 行车日志
 -(NSArray*) getLogs;
 -(BOOL) addLog:(Carlog*)log;
+
 
 @end
 

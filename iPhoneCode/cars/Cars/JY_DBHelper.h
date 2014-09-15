@@ -10,6 +10,7 @@ static NSString *const TB_BRANDS   = @"brands";
 static NSString *const TB_META     = @"_meta";
 
 static NSString *const DBMKEY_SHOP_VERSION  = @"shops_update_version";
+static NSString *const DBMKEY_CARS_VERSION  = @"cars_update_version";
 static NSString *const DBMKEY_BRAND_TIME = @"brands_update_time";
 
 @interface JY_DBHelper : NSObject 

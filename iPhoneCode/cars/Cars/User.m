@@ -32,14 +32,14 @@ static User *instance=nil;
             NSDictionary *duser=(NSDictionary*)[JY_Default get:PKEY_USER] ;
             instance = [[User alloc] init];
             
-            instance.login  = duser[@"login"] ?:@"";
-            instance.userid = duser[@"userid"]?[duser[@"userid"] intValue]:0;
-            instance.version  = duser[@"version"] ?[duser[@"version"] intValue]:0;
-            instance.token  = duser[@"token"] ?:@"";
+            instance.login      = duser[@"login"] ?:@"";
+            instance.userid     = duser[@"userid"]?[duser[@"userid"] intValue]:0;
+            instance.version    = duser[@"version"] ?[duser[@"version"] intValue]:0;
+            instance.token      = duser[@"token"] ?:@"";
 
-            instance.name  = duser[@"name"] ?:@"";
-            instance.address  = duser[@"address"] ?:@"";
-            instance.contact  = duser[@"contact"] ?:@"";
+            instance.name       = duser[@"name"] ?:@"";
+            instance.address    = duser[@"address"] ?:@"";
+            instance.contact    = duser[@"contact"] ?:@"";
         }
         
         return instance;
@@ -90,11 +90,11 @@ static User *instance=nil;
 -(void) updateCloud:(void (^)(int status)) completion
 {
     
-    [JY_Request post:@{@"M":@"client",
-                       @"I":[JY_Helper fakeIMEI],
-                       @"S":[User currentUser].token,
-                       @"U":@([User currentUser].userid),
-                       @"C":[self dataForUpdate]
+    [JY_Request post:@{MKEY_METHOD      :@"client",
+                       MKEY_DEVICE_ID   :[JY_Helper fakeIMEI],
+                       MKEY_TOKEN       :[User currentUser].token,
+                       MKEY_USER        :@([User currentUser].userid),
+                       MKEY_CONTENT     :[self dataForUpdate]
                        }
              withURL:URL_BASE_URL
           completion:^(int status, NSString *result){

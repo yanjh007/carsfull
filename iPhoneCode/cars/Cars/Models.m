@@ -281,12 +281,13 @@
     
 }
 
-+(void) syncShops
++(void) sync
 {
-    NSString *version  =[JY_DBHelper metaValue:DBMKEY_SHOP_VERSION];
+    NSString *version  =[JY_DBHelper metaValue:DBMKEY_SHOP_VERSION]?:@"0";
     
-    [JY_Request post:@{@"M":@"shops",
-                       @"V":version?version:@"0"
+    [JY_Request post:@{
+                       MKEY_METHOD  :@"shops",
+                       MKEY_VERSION :version
                        }
              withURL:URL_BASE_URL
           completion:^(int status, NSString *result){
@@ -298,15 +299,13 @@
                           
                           [Shop saveDic:(NSArray*)content[@"shops"]];
                           [JY_DBHelper updateMeta:DBMKEY_SHOP_VERSION value:content[@"version"]];
-                      } else {
-                          NSLog(@"内容错误或为空: %@",result);
+                          return;
+                      } else if ([JVAL_RESULT_NULL isEqualToString:json[JKEY_RESULT]]) {
+                          return;
                       }
-                  } else {
-                      NSLog(@"格式错误");
                   }
-              } else {
-                  NSLog(@"数据错误");
               }
+              NSLog(@"数据错误");
           }];
 }
 
@@ -336,19 +335,11 @@
 
 @implementation Car
 
-- (id)initWithNumber:(NSString*) carnumber
-{
-    self = [super init];
-    if (self) {
-        self.carnumber=carnumber;
-    }
-    return self;
-}
-
 - (id)initWithDbRow:(FMResultSet*) rs
 {
     self = [super init];
     if (self) {
+        self.carid=1;
         self.carnumber  = [rs stringForColumn:@"carnumber"];
         self.framenumber= [rs stringForColumn:@"framenumber"];
     }
@@ -368,19 +359,20 @@
     return [ary_cars copy];
 }
 
-+(BOOL) add:(NSString*)cnumber framenumber:(NSString*)fnumber
+-(BOOL) save
 {
     FMDatabase  *db=[JY_DBHelper openDB];
-    [db executeUpdate:@"INSERT INTO cars (carnumber,framenumber) VALUES (?,?)",cnumber,fnumber] ;
+    NSString *sql;
+    if (self.carid==0) {
+        sql = @"INSERT INTO cars (framenumber,manufacturer,brand,carnumber) values (?,?,?,?)";
+        
+    } else {
+        sql = @"UPDATE appointments set framenumber=?, manufacturer=?, brand=? where carnumber=?";
+    }
+    
+    [db executeUpdate:sql,self.framenumber,self.manufactor,self.brand,self.carnumber ];
     [db close];
-    return YES;
-}
-
--(BOOL) update:(NSString*)fnumber
-{
-    FMDatabase  *db=[JY_DBHelper openDB];
-    [db executeUpdate:@"UPDATE cars set framenumber=? where carnumber=?",fnumber,self.carnumber] ;
-    [db close];
+    
     return YES;
 }
 
@@ -394,9 +386,76 @@
 }
 
 
++(void) updateCloud:(void (^)(int status)) completion
+{
+    NSArray *ary_cars= [Car getCars];
+
+    NSString *content=[ary_cars jsonString];
+    NSString *version  =[JY_DBHelper metaValue:DBMKEY_CARS_VERSION]?:@"1";
+    
+    [JY_Request post:@{MKEY_METHOD      :@"cars_update",
+                       MKEY_DEVICE_ID   :[JY_Helper fakeIMEI],
+                       MKEY_TOKEN       :[User currentUser].token,
+                       MKEY_USER        :@([User currentUser].userid),
+                       MKEY_CONTENT     :content,
+                       MKEY_VERSION     :version
+                       }
+             withURL:URL_BASE_URL
+          completion:^(int status, NSString *result){
+              if (status==JY_STATUS_OK) {
+                  NSDictionary *json= [result jsonObject];
+                  if ([JVAL_RESULT_OK isEqualToString:json[JKEY_RESULT]]) {
+
+                      
+                      
+                      completion(1);
+                      return;
+                  }
+              }
+              completion(0);
+          }];
+}
+
++(void) sync
+{
+    if ([User currentUser].userid==0) {
+        NSLog(@"用户未登录");
+        return;
+    }
+
+    NSString *version  =[JY_DBHelper metaValue:DBMKEY_CARS_VERSION]?:@"0";
+    
+    [JY_Request post:@{
+                       MKEY_METHOD      :@"cars",
+                       MKEY_DEVICE_ID   :[JY_Helper fakeIMEI],
+                       MKEY_TOKEN       :[User currentUser].token,
+                       MKEY_USER        :@([User currentUser].userid),
+                       MKEY_VERSION     :version
+                       }
+             withURL:URL_BASE_URL
+          completion:^(int status, NSString *result){
+              if (status==JY_STATUS_OK) {
+                  NSDictionary *json=[result jsonObject];
+                  if (json) {
+                      if ([JVAL_RESULT_OK isEqualToString:json[JKEY_RESULT]]) {
+                          NSDictionary *content=json[JKEY_CONTENT] ;
+                          
+                          return;
+                      } else if ([JVAL_RESULT_NULL isEqualToString:json[JKEY_RESULT]]) {
+                           NSLog(@"无更新车辆信息");
+                          return;
+                      }
+                  }
+              }
+              NSLog(@"数据错误");
+          }];
+}
+
+// 车志
+
 -(NSArray*) getLogs;
 {
-    FMDatabase  *db=[JY_DBHelper openDB];
+    FMDatabase  *db= [JY_DBHelper openDB];
     FMResultSet *s = [db executeQuery:@"SELECT ltime,location,miles,descp FROM carlogs where ltype=0 and carnumber=? order by ltime desc",self.carnumber];
     NSMutableArray *ary_logs=[NSMutableArray array];
     while ([s next]) {

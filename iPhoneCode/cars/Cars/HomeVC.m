@@ -23,7 +23,8 @@
     if (self) {
         // Custom initialization
         self.title = @"主 页";
-        [Shop syncShops]; //同步店铺信息
+        [Shop sync]; //同步店铺信息
+        [Car  sync]; //同步店铺信息
     }
     return self;
 }

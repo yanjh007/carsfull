@@ -46,23 +46,19 @@ class Service extends CI_Controller {
 	      
 	      $this->load->model('client');
 	      $data = $this->client->if_update();	  
-	      break;
-	    
-	  case "cars": //获取客户车辆资料
-	      //if (!$this->_tokenCheck()) return;
+	      break;	    
+	  case "cars": //获取客户车辆资料,基于版本编号的列表管理
+	      //if (!$this->_tokenCheck()) return;　//Token验证
 	      
 	      $this->load->model('car');
-	      $data = $this->car->if_cars_list();
-	      
+	      $data = $this->car->if_cars_list();	      
 	      break;
-
-	  case "cars_update": //获取客户车辆资料
+	  case "cars_update": //提交更新后的用户车辆资料
 	      $this->_tokenCheck();
 	      
 	      $this->load->model('cars');
 	      $data = $this->car->if_cars_update();	  
 	      break;
-
 	  default:
 	      $data["result"] = "FALSE";
 	      $data["content"] = json_encode(array("status"=>404,"error"=>"Request Not Found"));

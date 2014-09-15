@@ -51,30 +51,17 @@ static int const INT_SDVIEW_MARGIN = 10;
 
 
 // 控制器名称
-static NSString *const VC_NAME_PRICE=@"SD_PriceVC";
-static NSString *const VC_NAME_INFO=@"SD_InfoVC";
-static NSString *const VC_NAME_INFO_DETAIL=@"SD_InfoDetailVC";
+static NSString *const VC_NAME_ABOUT    = @"AboutVC";
+static NSString *const VC_NAME_INFO     = @"InfoVC";
+static NSString *const VC_NAME_CAR      = @"CarVC";
+static NSString *const VC_NAME_SHOP     = @"ShopVC";
 
-static NSString *const VC_NAME_SIXDIM=@"SD_SixdimVC";
+static NSString *const VC_NAME_HOME     = @"HomeVC";
+static NSString *const VC_NAME_LMENU    = @"LMenuVC";
+static NSString *const VC_NAME_LOGIN    = @"LoginVC";
+static NSString *const VC_NAME_USER     = @"UserVC";
 
-static NSString *const VC_NAME_FAV=@"SD_MyStockVC";
-
-static NSString *const VC_NAME_RANK=@"SD_RankVC";
-
-static NSString *const VC_NAME_NEWS=@"SD_NewsVC";
-
-static NSString *const VC_NAME_ORGDIAG=@"SD_OrgdiagVC";
-
-static NSString *const VC_NAME_CLASS=@"SD_StockClassVC";
-
-static NSString *const VC_NAME_MORE =@"SD_MoreVC";
-
-static NSString *const VC_NAME_DIAGNOSE_PRO = @"SD_DiagProVC";
-static NSString *const VC_NAME_DIAGNOSE_STD = @"SD_DiagStdVC";
-
-static NSString *const VC_NAME_EXCHANGE=@"SD_ExchangeVC";
-static NSString *const VC_NAME_SEARCH_LIST=@"SD_SearchListVC";
-
+static NSString *const VC_NAME_APPIONTMENT  =@"AppointmentVC";
 
 // UUID key
 static NSString *const SD_UUID_DEVICE =@"sd_uuid_device";
@@ -116,11 +103,19 @@ static NSString *const UVAL_END=@"20";
 
 static NSString *const UVAL_APPID=@"1005";
 
+static NSString *const MKEY_METHOD      = @"M";
+static NSString *const MKEY_DEVICE_ID   = @"I";
+static NSString *const MKEY_USER        = @"U";
+static NSString *const MKEY_CONTENT     = @"C";
+static NSString *const MKEY_TOKEN       = @"S";
+static NSString *const MKEY_VERSION     = @"V";
+
 static NSString *const JKEY_RESULT  = @"R";
 static NSString *const JKEY_CONTENT = @"C";
 static NSString *const JKEY_USER    = @"U";
 static NSString *const JKEY_DEVICE  = @"I";
 static NSString *const JKEY_TIME    = @"T";
+static NSString *const JKEY_VERSION = @"V";
 
 static NSString *const JKEY_TITLE   = @"title";
 static NSString *const JKEY_ID      = @"id";
@@ -131,14 +126,13 @@ static NSString *const JVAL_RESULT_FALSE = @"FALSE";
 static NSString *const JVAL_RESULT_ERROR = @"ERROR";
 static NSString *const JVAL_RESULT_NULL  = @"NULL";
 
-static NSString *const UKEY_LAST_TIME=@"lastTime"; //
 
 //提示信息
 static NSString *const NEWS_SOURCE_GAOTIME    = @"港澳资讯";
 
 static NSString *const PMT_NOINTERNET         = @"哎哟，你的网络貌似有问题";
 static NSString *const PMT_NOINTERNET_CHECK   = @"该软件需要在网络状态下运行，请检查你的网络";
-static NSString *const PMT_INPUT_STOCK_CODE   = @"请输入代码或简称";
+static NSString *const PMT_INPUT_STsOCK_CODE   = @"请输入代码或简称";
 static NSString *const PMT_INPUT_KEYWORD      = @"请输入搜索关键字";
 static NSString *const PMT_INPUT_NODATA       = @"输入值为空";
 
@@ -160,3 +154,5 @@ static int const DELE_ACTION_APMT_SAVE_BACK = 5011;
 static int const DELE_ACTION_USER_SAVE_BACK = 5021;
 
 static int const DELE_ACTION_CARSERIE_CHOOSE_BACK = 5031;
+
+static int const DELE_ACTION_CAR_SAVE_BACK = 5041;

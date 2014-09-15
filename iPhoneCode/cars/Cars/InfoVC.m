@@ -156,7 +156,9 @@
             [self showCellAction:indexPath.row];
             item = self.info_cars[indexPath.row];
         } else {
-            [self go_edit:[[Car alloc]init]];
+            item =[Car new];
+            item.carid=0;
+            [self go_edit:item];
         }
     } else if (indexPath.section==0) {
         UIViewController *vc;
@@ -276,8 +278,11 @@
             [self.tb_info reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
             [[User currentUser] updateCloud:^(int status) { }];
         }
-        
-        
+    } else if (act==DELE_ACTION_CAR_SAVE_BACK) {
+        if (index==1) {
+            [self.tb_info reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [Car updateCloud:^(int status) { }];
+        }
     }
     return DELE_RESULT_VOID;
 }

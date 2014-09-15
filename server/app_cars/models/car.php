@@ -45,10 +45,9 @@ class Car extends CI_Model {
     return TRUE;
   }
 
-  
   // 网络接口用方法
   function get_cars_list() {
-    $clientid=$this->input->get_post("C");
+    $clientid=$this->input->get_post("U");
     $sql= "select carnumber,manufacturer,brand,descp from v_carsofuser where uid =".$clientid;
 
     $query = $this->db->query($sql);
@@ -56,8 +55,22 @@ class Car extends CI_Model {
   }
   
   function if_cars_list() {
-    $content = $this->get_cars_list();
-    $data["content"] = json_encode($content);
+    // 版本
+    $clientid= $this->input->get_post("U");
+    $version = $this->input->get_post("V");
+    
+    if (!$version) $version=0;
+      
+    $this->load->model("zmversion");
+    $version2 = $this->zmversion->check_version("cars_user_".$clientid,$version);
+    if ($version2>0) { 
+      $content["version"] = $version2;
+      $content["cars"] = $this->get_cars_list();
+  
+      $data["content"] = json_encode($content);      
+    } else { //无更高版本
+      $data["result"]="NULL"; 
+    }
     return $data;
   }
   

@@ -143,13 +143,19 @@
 
 - (IBAction) do_save:(id)sender
 {
-    if (self.mCar.carnumber) {
-        [self.mCar update:self.tv_fnumber.text];
+    if (self.mCar) [self.mCar save];
+    
+    NSString *v=[JY_DBHelper metaValue:DBMKEY_CARS_VERSION];
+    NSString *v2;
+    if (!v) {
+        v2=@"1";
     } else {
-        [Car add:self.tv_cnumber.text
-     framenumber:self.tv_fnumber.text];
+        int iv=[v intValue]+1;
+        v2=[NSString stringWithFormat:@"%i",iv];
     }
-
+    
+    [JY_DBHelper updateMeta:DBMKEY_CARS_VERSION value:v2];
+    
     [self go_back:YES];
 }
 
@@ -179,7 +185,7 @@
     if (bNotify
         && self.mDelegate
         && [self.mDelegate respondsToSelector:@selector(action:withIndex:)]) {
-        [self.mDelegate action:DELE_LIST_RELOAD withIndex:1];
+        [self.mDelegate action:DELE_ACTION_CAR_SAVE_BACK withIndex:1];
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -248,10 +254,14 @@
     if (act==DELE_ACTION_CARSERIE_CHOOSE_BACK) {
         self.mCarserie=(NSDictionary*)tag;
         NSString *list= self.mCarserie[@"engine_list"];
-        self.mCar.engineList =[list componentsSeparatedByString:@","];
+        if (![NSString isEmpty:list] ) {
+            self.mCar.engineList =[list componentsSeparatedByString:@","];
+        }
         
         list=self.mCarserie[@"trans_list"];
-        self.mCar.transList = [list componentsSeparatedByString:@","];
+        if (![NSString isEmpty:list]) {
+            self.mCar.transList = [list componentsSeparatedByString:@","];
+        }
         
         [self.bt_brand setTitle:[NSString stringWithFormat:@"%@-%@",self.mCarserie[@"manufacturer"],self.mCarserie[@"brand"]]
                        forState:UIControlStateNormal];
