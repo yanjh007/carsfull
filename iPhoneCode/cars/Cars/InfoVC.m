@@ -35,6 +35,7 @@
 
         // Custom initialization
         self.info_cars =  [[Car getCars] copy];
+        
     }
     return self;
 }
@@ -157,7 +158,7 @@
             item = self.info_cars[indexPath.row];
         } else {
             item =[Car new];
-            item.carid=0;
+            item.carid=-1;
             [self go_edit:item];
         }
     } else if (indexPath.section==0) {

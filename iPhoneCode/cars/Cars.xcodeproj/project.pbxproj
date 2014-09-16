@@ -97,7 +97,7 @@
 		D85FE77519A5B5DE0058E73E /* JY_FundationAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JY_FundationAdditions.m; sourceTree = "<group>"; };
 		D85FE77719A5B76B0058E73E /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		D85FE77819A5B76B0058E73E /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
-		D85FE77D19A5B8870058E73E /* App_Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = App_Controller.h; sourceTree = "<group>"; };
+		D85FE77D19A5B8870058E73E /* AppController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
 		D85FE77E19A5BA470058E73E /* Main.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Main.xib; sourceTree = "<group>"; };
 		D85FE78019A5BC470058E73E /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		D85FE78219A5BE100058E73E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -233,9 +233,9 @@
 				D8B6B9FD19B859BA0080FDD4 /* UserVC.h */,
 				D8B6B9FE19B859BA0080FDD4 /* UserVC.m */,
 				D8F9046619B59BF300FD3581 /* ShopVC.h */,
-				D84718C819AC632C000106EC /* CarVC.m */,
 				D8F9046719B59BF300FD3581 /* ShopVC.m */,
 				D84718C719AC632C000106EC /* CarVC.h */,
+				D84718C819AC632C000106EC /* CarVC.m */,
 				D8E0134719BFF2DA00FB40EC /* CarlogVC.h */,
 				D8E0134819BFF2DA00FB40EC /* CarlogVC.m */,
 				D8744DFA19AD71FB0015C32D /* AppointmentVC.h */,
@@ -291,7 +291,7 @@
 		D8700CE919A6E31900FBF0F9 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				D85FE77D19A5B8870058E73E /* App_Controller.h */,
+				D85FE77D19A5B8870058E73E /* AppController.h */,
 				E0865F7615875F9100B46B63 /* AppDelegate.h */,
 				E0865F7715875F9100B46B63 /* AppDelegate.m */,
 			);

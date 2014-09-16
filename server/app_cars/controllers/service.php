@@ -56,7 +56,7 @@ class Service extends CI_Controller {
 	  case "cars_update": //提交更新后的用户车辆资料
 	      $this->_tokenCheck();
 	      
-	      $this->load->model('cars');
+	      $this->load->model('car');
 	      $data = $this->car->if_cars_update();	  
 	      break;
 	  default:

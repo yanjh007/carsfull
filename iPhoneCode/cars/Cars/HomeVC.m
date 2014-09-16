@@ -24,7 +24,7 @@
         // Custom initialization
         self.title = @"主 页";
         [Shop sync]; //同步店铺信息
-        [Car  sync]; //同步店铺信息
+        [Car sync:^(int status){ }]; //同步车辆
     }
     return self;
 }

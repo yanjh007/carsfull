@@ -51,15 +51,15 @@
         
         self.mCar       = adata[0];
         self.mDelegate  = adata[1];
-        if (self.mCar.carid>0) {
+        if (self.mCar.carid>-1) {
             self.showMode=1;
             [self.bt_delete setHidden:NO];
 
             self.tv_cnumber.text= self.mCar.carnumber;
             self.tv_fnumber.text= self.mCar.framenumber;
-            [self.bt_brand setTitle:[NSString stringWithFormat:@"%@-%@",self.mCar.manufacturer,self.mCar.brand] forState:UIControlStateNormal];
+            [self.bt_brand setTitle:[NSString stringWithFormat:@" %@-%@",self.mCar.manufacturer,self.mCar.brand] forState:UIControlStateNormal];
             
-        } else { //新建
+        } else { //新建 -1
             self.showMode=0;
             [self.bt_delete setHidden:YES];
             
@@ -147,7 +147,7 @@
 - (IBAction) do_showmenu:(id)sender
 {
     if (!self.as_edit) {
-        if (self.mCar.carid==0) {
+        if (self.mCar.carid==-1) {
             self.as_edit = [[UIActionSheet alloc] initWithTitle:@"添加新车辆"
                                                        delegate:self
                                               cancelButtonTitle:@"取 消"
@@ -169,7 +169,7 @@
 {
     if (buttonIndex == actionSheet.destructiveButtonIndex) {
         if (actionSheet==self.as_edit) {
-            if (self.mCar.carid==0) {
+            if (self.mCar.carid==-1) {
                 self.mCar.carnumber= self.tv_cnumber.text;
             }
             self.mCar.framenumber  = self.tv_fnumber.text;

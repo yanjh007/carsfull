@@ -16,8 +16,14 @@ static NSString *const DBMKEY_BRAND_TIME = @"brands_update_time";
 @interface JY_DBHelper : NSObject 
 +(void) initDB;
 +(FMDatabase*) openDB;
-+(void) updateMeta:(NSString*)k value:(NSString*)v;
+
++(void) setMeta:(NSString*)k value:(NSString*)v;
 +(NSString*) metaValue:(NSString*)k;
+
+// SQLHelper
++ (int)  execSQL:(NSString*)sql;
++ (BOOL) execSQLWithData:(NSString*)sql, ...;
+
 @end
 
 @interface NSString(Database)

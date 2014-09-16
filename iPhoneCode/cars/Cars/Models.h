@@ -64,12 +64,13 @@ typedef NS_ENUM(NSInteger, AppointmentStatus) {
 @property (strong,nonatomic) NSArray *colorList,*cfgList,*engineList,*transList,*yearList;
 
 +(NSArray*) getCars;
++(void) resetCars:(NSArray*)cars;
 
 -(BOOL) save;
 -(BOOL) remove;
 
 //接口同步和提交
-+(void) sync;
++(void) sync:(void (^)(int status)) completion;
 +(void) updateCloud:(void (^)(int status)) completion;
 
 // 行车日志

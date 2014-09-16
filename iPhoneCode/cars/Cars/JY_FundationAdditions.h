@@ -4,7 +4,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "App_Controller.h"
+#import "AppController.h"
 
 #define iPHONE5 (([[UIScreen mainScreen] bounds].size.height-568)?NO:YES)
 #define iOS7 ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)

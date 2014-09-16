@@ -84,7 +84,7 @@ static int const DB_VERSION = 2;
     }
 }
 
-+(void) updateMeta:(NSString*)k value:(NSString*)v
++(void) setMeta:(NSString*)k value:(NSString*)v
 {
     FMDatabase *db = [JY_DBHelper openDB];
     
@@ -119,6 +119,31 @@ static int const DB_VERSION = 2;
 +(NSString*) tableSQL:(NSString*)sql table:(NSString*)table
 {
     return [NSString stringWithFormat:sql,table];
+}
+
++(int) execSQL:(NSString*)sql
+{
+    FMDatabase *db = [JY_DBHelper openDB];
+    
+    int result=[db executeStatements:sql];
+    
+    [db close];
+    
+    return  result;
+}
+
++ (BOOL)execSQLWithData:(NSString*)sql, ... {
+    va_list args;
+    va_start(args, sql);
+    
+    FMDatabase *db = [JY_DBHelper openDB];
+    
+    BOOL result = [db executeUpdate:sql withVAList:args];
+    
+    [db close];
+    va_end(args);
+
+    return result;
 }
 
 @end

@@ -8,7 +8,6 @@
 
 #import "JY_FundationAdditions.h"
 #import "Reachability.h"
-#import "App_Controller.h"
 
 #pragma mark - NSData 扩展
 static char encodingTable[64] = {

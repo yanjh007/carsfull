@@ -11,7 +11,7 @@
  Target Server Version : 50620
  File Encoding         : utf-8
 
- Date: 09/12/2014 17:00:28 PM
+ Date: 09/16/2014 16:54:40 PM
 */
 
 SET NAMES utf8;
@@ -108,6 +108,7 @@ DROP TABLE IF EXISTS `cars`;
 CREATE TABLE `cars` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `carnumber` varchar(20) NOT NULL DEFAULT '',
+  `framenumber` varchar(20) DEFAULT NULL,
   `brand` varchar(20) DEFAULT NULL,
   `ctype` varchar(10) DEFAULT NULL,
   `modelname` varchar(20) DEFAULT NULL,
@@ -129,13 +130,13 @@ CREATE TABLE `cars` (
   `edit_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `submodel` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`,`carnumber`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `cars`
 -- ----------------------------
 BEGIN;
-INSERT INTO `cars` VALUES ('1', '川A-BQ498', '蒙迪欧', 'B', '自动经典型', 'CA07408', null, '长安福特', '200612', '553', null, '4810-1800-1450-2754-1435', 'L6-2.0-143-185', 'CAF488Q1', 'FF', 'AT-4', '205-70-R18-88-H', '墨绿', '139087', 'http://www.xgo.com.cn/2650/2006/items.html', null, null), ('2', '川A-A1574', '雨燕', 'A0', '手动基本型', 'CA09987', null, '长安铃木', '200907', '552', null, '3765-1690-1510-2390-1040', 'L4-1.3-67-115', '4A91', 'FF', 'MT-5', '195-65-R15-88-H', '蓝', '65700', 'http://newcar.xcar.com.cn/176/2013/', null, null);
+INSERT INTO `cars` VALUES ('1', '川A-BQ498', null, '蒙迪欧', 'B', '自动经典型', 'CA07408', null, '长安福特', '200612', '553', null, '4810-1800-1450-2754-1435', 'L6-2.0-143-185', 'CAF488Q1', 'FF', 'AT-4', '205-70-R18-88-H', '墨绿', '139087', 'http://www.xgo.com.cn/2650/2006/items.html', null, null), ('6', 'CA-8765G', '123-45678', '雨燕', null, null, null, null, '长安铃木', null, null, null, null, null, null, null, null, null, null, null, null, '2014-09-16 11:49:10', null), ('7', 'CA-0987B', '666-7878', '天语SX4', null, null, null, null, '长安铃木', null, null, null, null, null, null, null, null, null, null, null, null, '2014-09-16 15:00:13', null), ('9', 'CB-675T4', '22-09', '伊兰特', null, null, null, null, '北京现代', null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 COMMIT;
 
 -- ----------------------------
@@ -186,7 +187,7 @@ CREATE TABLE `ci_sessions` (
 --  Records of `ci_sessions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `ci_sessions` VALUES ('7481cc2a0c0e185e9ae71b3f237fc7a6', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.15 (KHTML, like Gecko) Version/8.0 Safari/600.1.15', '1410508109', ''), ('f03f55216ff03b46ae306fe4b8fd9337', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1410502342', '');
+INSERT INTO `ci_sessions` VALUES ('11853be880428ecf8d9ce976af822b81', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1410851624', ''), ('b0ab637caa50dfeb815b3c77ceb93ebe', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1410851621', ''), ('b3fcb3073b78b9332bcbdf91f0f5db96', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1410851603', ''), ('ba56801efa751bb573ca04a54797c957', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1410851621', ''), ('f3b44e2ade7789fdd67b6caab1c70234', '127.0.0.1', 'Cars/1.0 CFNetwork/672.1.13 Darwin/14.0.0', '1410855451', '');
 COMMIT;
 
 -- ----------------------------
@@ -232,7 +233,7 @@ CREATE TABLE `dic` (
   `sname` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `did` (`dtype`,`did`)
-) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `dic`
@@ -281,7 +282,7 @@ CREATE TABLE `links` (
 --  Records of `links`
 -- ----------------------------
 BEGIN;
-INSERT INTO `links` VALUES ('1', '2', '颜建华', '2', '川A-A1574', null), ('1', '10', '陶莉', '1', '川A-BQ498', null), ('1', '10', '陶莉', '2', '川A-A1574', null), ('2', '1', '', '4', '更换轮胎', null), ('2', '1', '', '5', '常规检查', null), ('2', '1', '', '8', 'A0级日常保养', null), ('2', '2', '', '3', '更换发动机油滤', null), ('2', '2', '', '6', '高级检查', null), ('2', '3', '', '3', '更换发动机油滤', null), ('2', '3', '', '4', '更换轮胎', null), ('2', '3', '', '7', '更换空气滤清器', null), ('2', '5', '', '1', '洗车-小型', null), ('2', '5', '', '4', '更换轮胎', null), ('10', '1', '', '60', '主食', null), ('10', '1', '', '61', '配餐', null), ('10', '4', '', '61', '配餐', null), ('10', '5', '套餐配汤', '61', '配餐', null), ('10', '8', '', '58', '热炒', null), ('10', '15', '', '64', '面食', null), ('11', '3', '', '1', '麦辣鸡腿堡套餐', null), ('11', '3', '', '10', '双层吉士堡套餐', null), ('11', '5', '套餐配汤', '7', '辣子鸡丁套餐', null), ('11', '6', '', '7', '辣子鸡丁套餐', null), ('11', '6', '', '9', '回锅肉套餐', null), ('11', '8', '', '7', '辣子鸡丁套餐', null);
+INSERT INTO `links` VALUES ('1', '10', '陶莉', '1', '川A-BQ498', null), ('1', '10', '陶莉', '2', '川A-A1574', null), ('1', '11', '', '6', null, null), ('1', '11', '', '7', null, null), ('1', '11', '', '9', 'CB-675T4', null), ('2', '1', '', '4', '更换轮胎', null), ('2', '1', '', '5', '常规检查', null), ('2', '1', '', '8', 'A0级日常保养', null), ('2', '2', '', '3', '更换发动机油滤', null), ('2', '2', '', '6', '高级检查', null), ('2', '3', '', '3', '更换发动机油滤', null), ('2', '3', '', '4', '更换轮胎', null), ('2', '3', '', '7', '更换空气滤清器', null), ('2', '5', '', '1', '洗车-小型', null), ('2', '5', '', '4', '更换轮胎', null), ('10', '1', '', '60', '主食', null), ('10', '1', '', '61', '配餐', null), ('10', '4', '', '61', '配餐', null), ('10', '5', '套餐配汤', '61', '配餐', null), ('10', '8', '', '58', '热炒', null), ('10', '15', '', '64', '面食', null), ('11', '3', '', '1', '麦辣鸡腿堡套餐', null), ('11', '3', '', '10', '双层吉士堡套餐', null), ('11', '5', '套餐配汤', '7', '辣子鸡丁套餐', null), ('11', '6', '', '7', '辣子鸡丁套餐', null), ('11', '6', '', '9', '回锅肉套餐', null), ('11', '8', '', '7', '辣子鸡丁套餐', null);
 COMMIT;
 
 -- ----------------------------
@@ -454,7 +455,7 @@ CREATE TABLE `zm_versions` (
 --  Records of `zm_versions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `zm_versions` VALUES ('shop_version', '9');
+INSERT INTO `zm_versions` VALUES ('client_cars_11', '4'), ('shop_version', '9');
 COMMIT;
 
 -- ----------------------------
@@ -467,6 +468,6 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --  View structure for `v_carsofuser`
 -- ----------------------------
 DROP VIEW IF EXISTS `v_carsofuser`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_carsofuser` AS select `u`.`name` AS `name`,`c`.`carnumber` AS `carnumber`,`c`.`manufacturer` AS `manufacturer`,`c`.`brand` AS `brand`,`c`.`id` AS `cid`,`c`.`descp` AS `descp`,`u`.`id` AS `uid`,`c`.`mileage` AS `mileage`,`c`.`config` AS `config`,`c`.`engine` AS `engine`,`c`.`color` AS `color` from ((`links` `l` left join `clients` `u` on((`u`.`id` = `l`.`lid`))) left join `cars` `c` on((`c`.`id` = `l`.`rid`))) where (`l`.`ltype` = 1);
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_carsofuser` AS select `u`.`name` AS `name`,`c`.`carnumber` AS `carnumber`,`c`.`manufacturer` AS `manufacturer`,`c`.`brand` AS `brand`,`c`.`id` AS `cid`,`c`.`descp` AS `descp`,`u`.`id` AS `uid`,`c`.`mileage` AS `mileage`,`c`.`config` AS `config`,`c`.`engine` AS `engine`,`c`.`color` AS `color`,`c`.`framenumber` AS `framenumber` from ((`links` `l` left join `clients` `u` on((`u`.`id` = `l`.`lid`))) left join `cars` `c` on((`c`.`id` = `l`.`rid`))) where (`l`.`ltype` = 1);
 
 SET FOREIGN_KEY_CHECKS = 1;
