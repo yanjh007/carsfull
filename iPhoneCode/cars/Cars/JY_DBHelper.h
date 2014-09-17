@@ -11,7 +11,7 @@ static NSString *const TB_META     = @"_meta";
 
 static NSString *const DBMKEY_SHOP_VERSION  = @"shops_update_version";
 static NSString *const DBMKEY_CARS_VERSION  = @"cars_update_version";
-static NSString *const DBMKEY_BRAND_TIME = @"brands_update_time";
+static NSString *const DBMKEY_BRAND_TIME    = @"brands_update_time";
 
 @interface JY_DBHelper : NSObject 
 +(void) initDB;
@@ -23,6 +23,9 @@ static NSString *const DBMKEY_BRAND_TIME = @"brands_update_time";
 // SQLHelper
 + (int)  execSQL:(NSString*)sql;
 + (BOOL) execSQLWithData:(NSString*)sql, ...;
+
+// 数据维护
++(void) maintain;
 
 @end
 

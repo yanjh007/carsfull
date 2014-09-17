@@ -158,7 +158,8 @@
             item = self.info_cars[indexPath.row];
         } else {
             item =[Car new];
-            item.carid=-1;
+            item.carid  = -1;
+            item.status = CarStatusNew;
             [self go_edit:item];
         }
     } else if (indexPath.section==0) {

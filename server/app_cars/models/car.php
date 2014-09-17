@@ -89,17 +89,6 @@ class Car extends CI_Model {
     
     // 车辆信息处理
     $cars =$this->input->post("C");
-    if ($cars=="EMPTY") {
-      $del_list = $this->_remove_list($clientid,"");
-
-      // 设置版本
-      $this->load->model("zmversion");	
-      $version2 = $this->zmversion->set_version("client_cars_".$clientid);
-      
-      // 返回结果
-      $data["content"] = json_encode(array("version:"=>$version2,"deleted"=>$del_list));		
-    }
-    
     if ($cars) {
       $ary=json_decode($cars,TRUE);
       if ($ary) {
@@ -113,8 +102,15 @@ class Car extends CI_Model {
 	}
 	
 	$strupdate=""; $stradd="";
+	$strdel="";$slistdel="";
 	foreach ($ary as $item) {
 	  $carnumber=$item["carnumber"];
+
+	  if ($item["status"]==3) { //删除列表
+	    $slistdel.= ($slistdel=="")?$carnumber:",".$carnumber;
+	    $strdel  .= ($strdel=="")?$item["carid"]:",".$item["carid"];
+	    continue;
+	  }
 
 	  $carid=0;
 	  if ($ary_cars) foreach ($ary_cars as $car) {
@@ -130,7 +126,7 @@ class Car extends CI_Model {
 		  'brand' => $item["brand"],
 		  );
 	  $arr_add=array();
-	  if ($carid==0) {
+	  if ($carid==0) { //增加
 	      $data["carnumber"]=$carnumber;
               $this->db->insert(self::TABLE_NAME, $data);
 	      $carid = $this->db->insert_id();
@@ -141,7 +137,7 @@ class Car extends CI_Model {
 	    
 	      $stradd.= ($stradd=="")?$carnumber:",".$carnumber;
 	      $arr_add[$carnumber]=$carid;
-	  } else {	    
+	  } else { //修改
 	      $this->db->where('id', $carid);
 	      $this->db->update(self::TABLE_NAME, $data);
 	      
@@ -149,15 +145,21 @@ class Car extends CI_Model {
 	  }
 	}
 	
-	// 要删除的项目
-	$strdel = $this->_remove_list($clientid,",".$strupdate.",".$stradd.",");
-	
+	// 删除的项目
+	if ($strdel!="") {
+	    $this->db->where(" id in (".$strdel.")",NULL,FALSE);
+	    $this->db->delete(self::TABLE_NAME);
+	 
+	    $this->db->where(" ltype=1 and lid=".$clientid." and rid in (".$strdel.")",NULL,FALSE);
+	    $this->db->delete("links");
+	}
+
 	// 设置版本
 	$this->load->model("zmversion");	
 	$version2 = $this->zmversion->set_version("client_cars_".$clientid);
 	
 	// 返回结果
-	$data["content"] = json_encode(array("version:"=>$version2,"updated"=>$strupdate,"added"=>$arr_add,"deled"=>$strdel));		
+	$data["content"] = json_encode(array("version"=>$version2,"updated"=>$strupdate,"added"=>$arr_add,"deled"=>$slistdel));		
       }
     } else {
 	$data["result"]="FALSE"; //数据交付格式错误
@@ -166,28 +168,4 @@ class Car extends CI_Model {
     
     return $data;
   }
-  
-  function _remove_list($client,$list) {
-      $sql= "select cid,carnumber from v_carsofuser where uid =".$client;
-      $sdelete="0"; $slist="";
-      $query = $this->db->query($sql);
-      if ($query->num_rows() > 0) foreach ($query->result() as $row) {
-	  if (strpos($list,",".$row->carnumber.",")===FALSE) {
-	      $sdelete.=",".$row->cid;
-	      $slist .= ($slist=="")?$row->carnumber:",".$row->carnumber;
-	  }
-      }
-      if ($sdelete!="0") {
-	  $where = " id in (".$sdelete.")";
-	  $this->db->where($where);
-	  $this->db->delete(self::TABLE_NAME);
-
-	  $where = " ltype=1 and lid=".$client." and rid in (".$sdelete.")";
-	  $this->db->where($where);
-	  $this->db->delete("links");
-      }
-
-      return $slist;
-    
-  }  
 }

@@ -23,6 +23,8 @@
     if (self) {
         // Custom initialization
         self.title = @"主 页";
+        
+        // 程序初始化
         [Shop sync]; //同步店铺信息
         [Car sync:^(int status){ }]; //同步车辆
     }

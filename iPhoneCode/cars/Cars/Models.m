@@ -339,10 +339,11 @@
 {
     self = [super init];
     if (self) {
-        self.carid= [rs intForColumn:@"carid"]?:0;
-        self.carnumber  = [rs stringForColumn:@"carnumber"];
-        self.framenumber= [rs stringForColumn:@"framenumber"];
-        self.manufacturer  = [rs stringForColumn:@"manufacturer"];
+        self.carid          = [rs intForColumn:@"carid"]?:0;
+        self.status         = [rs intForColumn:@"status"]?:CarStatusNew;
+        self.carnumber      = [rs stringForColumn:@"carnumber"];
+        self.framenumber    = [rs stringForColumn:@"framenumber"];
+        self.manufacturer   = [rs stringForColumn:@"manufacturer"];
         self.brand= [rs stringForColumn:@"brand"];
     }
     return self;
@@ -380,7 +381,7 @@
 +(NSArray*) getCars;
 {
     FMDatabase  *db=[JY_DBHelper openDB];
-    FMResultSet *s = [db executeQuery:@"SELECT carid,carnumber,framenumber,manufacturer,brand FROM cars"];
+    FMResultSet *s = [db executeQuery:@"SELECT carid,status,carnumber,framenumber,manufacturer,brand FROM cars where status<?",@(CarStatusRemoved)];
     NSMutableArray *ary_cars=[NSMutableArray array];
     while ([s next]) {
         Car *item=[[Car alloc] initWithDbRow:s];
@@ -397,12 +398,12 @@
     FMDatabase  *db=[JY_DBHelper openDB];
     [db executeUpdate:@"Delete from cars"];
     
-    NSString *sql=@"INSERT INTO cars (framenumber,manufacturer,brand,carid,carnumber) values (?,?,?,?,?)";
+    NSString *sql=@"INSERT INTO cars (framenumber,manufacturer,brand,carid,carnumber,status) values (?,?,?,?,?,?)";
     
     for (int i=0; i<[cars count]; i++) {
         NSDictionary *dic=cars[i];
         [db executeUpdate:sql,
-            dic[@"framenumber"],dic[@"manufacturer"],dic[@"brand"],dic[@"cid"],dic[@"carnumber"]];
+            dic[@"framenumber"],dic[@"manufacturer"],dic[@"brand"],dic[@"cid"],dic[@"carnumber"],@(CarStatusSynced)];
     }
     
     [db close];
@@ -412,10 +413,17 @@
 -(BOOL) save
 {
     NSString *sql = (self.carid==-1)
-                ? @"INSERT INTO cars (framenumber,manufacturer,brand,carid,carnumber) values (?,?,?,?,?)"
-                : @"UPDATE cars set framenumber=?, manufacturer=?, brand=?, carid=? where carnumber=?";
+    ? @"INSERT INTO cars (framenumber,manufacturer,brand,carid,status,carnumber) values (?,?,?,?,?,?)"
+    : @"UPDATE cars set framenumber=?, manufacturer=?, brand=?, carid=?, status=? where carnumber=?";
+
+    if (self.carid==-1) { //编辑
+        self.carid=0;
+        self.status=CarStatusNew;
+    } else {
+        self.status=CarStatusEdited;
+    }
     
-    [JY_DBHelper execSQLWithData:sql,self.framenumber,self.manufacturer,self.brand,@(self.carid),self.carnumber];
+    [JY_DBHelper execSQLWithData:sql,self.framenumber,self.manufacturer,self.brand,@(self.carid),@(self.status),self.carnumber];
     [Car version_update];
     return YES;
 }
@@ -437,33 +445,41 @@
 
 -(BOOL) remove
 {
-//   @"DELETE from cars where carnumber ISNULL"] ;
-    [JY_DBHelper execSQLWithData:@"DELETE from cars where carnumber=?",self.carnumber];
+    [JY_DBHelper execSQLWithData:@"Update cars set status=? where carnumber=?",@(CarStatusRemoved),self.carnumber];
     [Car version_update];
+    return YES;
+}
+
++(BOOL) clear
+{
+    //　清除已删除同步的车辆信息
+    //   @"DELETE from cars where carnumber ISNULL"] ;
+    [JY_DBHelper execSQLWithData:@"DELETE from cars where status=?",@(CarStatusRemoveSynced)];
     return YES;
 }
 
 +(void) updateCloud:(void (^)(int status)) completion
 {
+    // 需要修改和删除的信息
     FMDatabase  *db=[JY_DBHelper openDB];
-    FMResultSet *s = [db executeQuery:@"SELECT carnumber,framenumber,manufacturer,brand FROM cars"];
+    FMResultSet *s =
+    [db executeQuery:@"SELECT carid,carnumber,framenumber,manufacturer,brand,status FROM cars where status in(?,?,?)",
+     @(CarStatusNew),@(CarStatusEdited),@(CarStatusRemoved)];
+    
     NSMutableArray *ary_cars=[NSMutableArray array];
     while ([s next]) {
         [ary_cars addObject:@{
+                              @"carid"          :@([s intForColumn:@"carid"]),
                               @"carnumber"      :[s stringForColumn:@"carnumber"],
                               @"framenumber"    :[s stringForColumn:@"framenumber"]?:@"",
                               @"manufacturer"   :[s stringForColumn:@"manufacturer"]?:@"",
-                              @"brand"          :[s stringForColumn:@"brand"]?:@""
+                              @"brand"          :[s stringForColumn:@"brand"]?:@"",
+                              @"status"         :@([s intForColumn:@"status"])
                               } ];
     }
     [db close];
     
-    NSString *content;
-    if ([ary_cars count]==0){
-        content = @"";
-    } else {
-        content = [ary_cars jsonString];
-    }
+    if ([ary_cars count]==0) return; //无需要更新的信息，退出
 
     NSString *version  =[JY_DBHelper metaValue:DBMKEY_CARS_VERSION]?:@"1";
     
@@ -471,7 +487,7 @@
                        MKEY_DEVICE_ID   :[JY_Helper fakeIMEI],
                        MKEY_TOKEN       :[User currentUser].token,
                        MKEY_USER        :@([User currentUser].userid),
-                       MKEY_CONTENT     :content,
+                       MKEY_CONTENT     :[ary_cars jsonString],
                        MKEY_VERSION     :version
                        }
              withURL:URL_BASE_URL
@@ -481,6 +497,36 @@
                   if ([JVAL_RESULT_OK isEqualToString:json[JKEY_RESULT]]) {
                       NSDictionary *content=json[JKEY_CONTENT];
                       if (content) {
+                          // 处理增加
+                          NSString *sql;
+                          NSArray *ary_add= content[@"added"];
+                          if (![NSArray isEmpty:ary_add]) {
+                              for (NSDictionary *item in ary_add) {
+                                  sql=[NSString stringWithFormat:@"update cars set status=?, where carnumber=?"];
+                                  [JY_DBHelper execSQLWithData:sql,@(CarStatusSynced),item[@"cid"],item[@"carnumber"]];
+                              }
+                              
+                          }
+                          
+                          // 处理修改
+                          sql= content[@"updated"];
+                          if (![NSString isEmpty:sql]) {
+                              sql = [sql stringByReplacingOccurrencesOfString:@"," withString:@"','"];
+                              sql = [NSString stringWithFormat:@"update cars set status=? where carnumber in('%@')",sql];
+
+                              [JY_DBHelper execSQLWithData:sql,@(CarStatusSynced)];
+                          }
+                          
+                          // 处理删除
+                          sql= content[@"deled"];
+                          if (![NSString isEmpty:sql]) {
+                              sql = [sql stringByReplacingOccurrencesOfString:@"," withString:@"','"];
+                              sql = [NSString stringWithFormat:@"update cars set status=? where carnumber in('%@')",sql];
+                              
+                              [JY_DBHelper execSQLWithData:sql,@(CarStatusRemoveSynced)];
+                          }
+                          
+                          // 版本
                           NSString *version=[content[@"version"] stringValue];
                           [JY_DBHelper setMeta:DBMKEY_CARS_VERSION value:version];
                       }
@@ -534,6 +580,7 @@
               NSLog(@"数据错误");
           }];
 }
+
 
 // 车志
 

@@ -44,7 +44,7 @@ static int const DB_VERSION = 2;
             }
             
             if (version==1) { //从1升级
-                //  车辆列表
+                //  车辆列表，和版本序号一起使用
                 [dataBase executeUpdate:@"CREATE TABLE cars (carid int, carnumber string PRIMARY KEY, framenumber string, enginenumber string, brand string, brand_sn string, color string, manufacturer string, engine string, trans string, cfglevel string,year int, status int)"];
 
                 // 预约列表
@@ -66,6 +66,17 @@ static int const DB_VERSION = 2;
         }
         [dataBase close];
     }
+}
+
+// 数据维护
++(void) maintain
+{
+//    FMDatabase *db = [JY_DBHelper openDB];
+//    // 删除已经移除的车辆信息
+//    [db executeUpdate:@"Delete from cars where status = 6"];
+//    
+//    [db close];
+    
 }
 
 +(FMDatabase*) openDB
