@@ -152,15 +152,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==1) {
-        Car *item;
         if (indexPath.row < [self.info_cars count]) {
             [self showCellAction:indexPath.row];
-            item = self.info_cars[indexPath.row];
         } else {
-            item =[Car new];
-            item.carid  = -1;
-            item.status = CarStatusNew;
-            [self go_edit:item];
+            [self go_edit:nil];
         }
     } else if (indexPath.section==0) {
         UIViewController *vc;
@@ -242,16 +237,18 @@
 // 编辑车辆
 -(void) do_add:(id)sender
 {
-    [self go_edit:[[Car alloc] init]];
+    [self go_edit:nil];
 }
 
 -(void) go_edit:(Car*) car
 {
-    CarVC *vc = [[CarVC alloc] initWithData:@[car,self]];
+    if (car==nil) {
+        car =[Car new];
+        car.carid=-1;
+        car.status=CarStatusNew;
+    }
     
-    // We don't want to be able to pan on nav bar to see the left side when we pushed a controller
-    [self.revealSideViewController unloadViewControllerForSide:PPRevealSideDirectionLeft];
-    [self.navigationController pushViewController:vc animated:YES];
+    [self push:VC_NAME_CAR WithData:@[car,self]];
 }
 
 // 车辆预约

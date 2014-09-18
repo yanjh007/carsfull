@@ -409,22 +409,40 @@
     [db close];
 }
 
-
 -(BOOL) save
 {
     NSString *sql = (self.carid==-1)
     ? @"INSERT INTO cars (framenumber,manufacturer,brand,carid,status,carnumber) values (?,?,?,?,?,?)"
     : @"UPDATE cars set framenumber=?, manufacturer=?, brand=?, carid=?, status=? where carnumber=?";
 
-    if (self.carid==-1) { //编辑
+    if (self.carid==-1 || self.carid==0) { //编辑,未同步过
         self.carid=0;
         self.status=CarStatusNew;
-    } else {
+    } else {   //已同步过
         self.status=CarStatusEdited;
     }
     
     [JY_DBHelper execSQLWithData:sql,self.framenumber,self.manufacturer,self.brand,@(self.carid),@(self.status),self.carnumber];
     [Car version_update];
+    return YES;
+}
+
+-(BOOL) remove
+{
+    if (self.carid==0) { //未同步，直接删除
+        [JY_DBHelper execSQLWithData:@"DELETE from cars where carnumber=?",self.carnumber];
+    } else {
+        [JY_DBHelper execSQLWithData:@"Update cars set status=? where carnumber=?",@(CarStatusRemoved),self.carnumber];
+        [Car version_update];
+    }
+    return YES;
+}
+
++(BOOL) clear
+{
+    //　清除已删除同步的车辆信息
+    //   @"DELETE from cars where carnumber ISNULL"] ;
+    [JY_DBHelper execSQLWithData:@"DELETE from cars where status=?",@(CarStatusRemoveSynced)];
     return YES;
 }
 
@@ -440,22 +458,6 @@
     }
     
     [JY_DBHelper setMeta:DBMKEY_CARS_VERSION value:v2];
-}
-
-
--(BOOL) remove
-{
-    [JY_DBHelper execSQLWithData:@"Update cars set status=? where carnumber=?",@(CarStatusRemoved),self.carnumber];
-    [Car version_update];
-    return YES;
-}
-
-+(BOOL) clear
-{
-    //　清除已删除同步的车辆信息
-    //   @"DELETE from cars where carnumber ISNULL"] ;
-    [JY_DBHelper execSQLWithData:@"DELETE from cars where status=?",@(CarStatusRemoveSynced)];
-    return YES;
 }
 
 +(void) updateCloud:(void (^)(int status)) completion
@@ -498,31 +500,27 @@
                       NSDictionary *content=json[JKEY_CONTENT];
                       if (content) {
                           // 处理增加
-                          NSString *sql;
-                          NSArray *ary_add= content[@"added"];
-                          if (![NSArray isEmpty:ary_add]) {
-                              for (NSDictionary *item in ary_add) {
-                                  sql=[NSString stringWithFormat:@"update cars set status=?, where carnumber=?"];
-                                  [JY_DBHelper execSQLWithData:sql,@(CarStatusSynced),item[@"cid"],item[@"carnumber"]];
+                          NSString *sql,*sadd=content[@"added"];
+                          if (![NSString isEmpty:sadd]) {
+                              NSArray *ary_add=[sadd componentsSeparatedByString:@","];
+                              sql=@"update cars set status=?,carid=? where carnumber=?";
+                              for (int i=0,count=ary_add.count;i<count; i++) {
+                                  [JY_DBHelper execSQLWithData:sql,@(CarStatusSynced),ary_add[i],ary_add[i+1]];
+                                  i++;
                               }
-                              
                           }
                           
                           // 处理修改
                           sql= content[@"updated"];
                           if (![NSString isEmpty:sql]) {
-                              sql = [sql stringByReplacingOccurrencesOfString:@"," withString:@"','"];
-                              sql = [NSString stringWithFormat:@"update cars set status=? where carnumber in('%@')",sql];
-
+                              sql = [NSString stringWithFormat:@"update cars set status=? where carid in(%@)",sql];
                               [JY_DBHelper execSQLWithData:sql,@(CarStatusSynced)];
                           }
                           
                           // 处理删除
                           sql= content[@"deled"];
                           if (![NSString isEmpty:sql]) {
-                              sql = [sql stringByReplacingOccurrencesOfString:@"," withString:@"','"];
-                              sql = [NSString stringWithFormat:@"update cars set status=? where carnumber in('%@')",sql];
-                              
+                              sql = [NSString stringWithFormat:@"update cars set status=? where carid in(%@)",sql];
                               [JY_DBHelper execSQLWithData:sql,@(CarStatusRemoveSynced)];
                           }
                           
@@ -561,6 +559,7 @@
                   NSDictionary *json=[result jsonObject];
                   if (json) {
                       if ([JVAL_RESULT_OK isEqualToString:json[JKEY_RESULT]]) {
+                          // 车辆信息列表
                           NSDictionary *content=json[JKEY_CONTENT] ;
                           [Car resetCars:content[@"cars"]];
                           

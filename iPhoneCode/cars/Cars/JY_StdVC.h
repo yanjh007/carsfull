@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface JY_StdMainVC : UIViewController
-
+- (void) push:(NSString*)vcname WithData:(NSObject*)data;
 @end
 
 @interface JY_StdPushVC : UIViewController

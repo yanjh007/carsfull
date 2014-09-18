@@ -224,7 +224,11 @@ static char encodingTable[64] = {
 +(BOOL) isEmpty:(NSString*)str
 {
     if ([str isKindOfClass:[NSNull class]]) return YES;
-    return !str || [str length]==0 || [@"(null)" isEqual:str] || [@"null" isEqualToString:str];
+    if ([str isKindOfClass:[NSString class]]) {
+        return !str || [str length]==0 || [@"(null)" isEqual:str] || [@"null" isEqualToString:str];
+    } else {
+        return YES;
+    }
 }
 
 -(int) indexInList:(NSArray*) slist

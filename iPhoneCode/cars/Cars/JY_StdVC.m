@@ -37,6 +37,20 @@
     [self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionLeft animated:YES];
 }
 
+- (void) push:(NSString*)vcname WithData:(NSObject*)data
+{
+    UIViewController *vc=[[NSClassFromString(vcname) alloc] init];
+    if ([vc respondsToSelector:@selector(setData:)]) {
+        [vc performSelector:@selector(setData:) withObject:data];
+    }
+    
+    // We don't want to be able to pan on nav bar to see the left side when we pushed a controller
+    [self.revealSideViewController unloadViewControllerForSide:PPRevealSideDirectionLeft];
+    [self.navigationController pushViewController:vc animated:YES];
+
+}
+
+
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];

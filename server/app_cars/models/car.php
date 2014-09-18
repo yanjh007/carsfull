@@ -92,32 +92,14 @@ class Car extends CI_Model {
     if ($cars) {
       $ary=json_decode($cars,TRUE);
       if ($ary) {
-	$sql= "select cid,carnumber from v_carsofuser where uid =".$clientid;
-
-	$query = $this->db->query($sql);
-	if ($query->num_rows() > 0) {
-	    $ary_cars = $query->result_array();
-	} else {
-	    $ary_cars=NULL;  
-	}
-	
-	$strupdate=""; $stradd="";
-	$strdel="";$slistdel="";
+	$stradd=""; $strupdate=""; $strdel="";
 	foreach ($ary as $item) {
 	  $carnumber=$item["carnumber"];
+	  $carid = $item["carid"];
 
 	  if ($item["status"]==3) { //删除列表
-	    $slistdel.= ($slistdel=="")?$carnumber:",".$carnumber;
-	    $strdel  .= ($strdel=="")?$item["carid"]:",".$item["carid"];
+	    $strdel .= ($strdel==""?"":",").$item["carid"];
 	    continue;
-	  }
-
-	  $carid=0;
-	  if ($ary_cars) foreach ($ary_cars as $car) {
-	      if ($carnumber==$car["carnumber"]) {
-		$carid = $car["cid"];
-		break;
-	      }
 	  }
 	  
 	  $data = array(
@@ -125,7 +107,6 @@ class Car extends CI_Model {
 		  'manufacturer' => $item["manufacturer"],
 		  'brand' => $item["brand"],
 		  );
-	  $arr_add=array();
 	  if ($carid==0) { //增加
 	      $data["carnumber"]=$carnumber;
               $this->db->insert(self::TABLE_NAME, $data);
@@ -134,14 +115,11 @@ class Car extends CI_Model {
 	      // 客户端连接
 	      $this->load->model("link");	      
 	      $this->link->link(Link::TYPE_CLIENT_CARS,$clientid,"",$carid,$carnumber);
-	    
-	      $stradd.= ($stradd=="")?$carnumber:",".$carnumber;
-	      $arr_add[$carnumber]=$carid;
+	      $stradd.= ($stradd==""?"":",").$carid.",".$carnumber;
 	  } else { //修改
 	      $this->db->where('id', $carid);
 	      $this->db->update(self::TABLE_NAME, $data);
-	      
-	      $strupdate.= ($strupdate=="")?$carnumber:",".$carnumber;
+	      $strupdate.= ($strupdate==""?"":",").$carid;
 	  }
 	}
 	
@@ -159,7 +137,7 @@ class Car extends CI_Model {
 	$version2 = $this->zmversion->set_version("client_cars_".$clientid);
 	
 	// 返回结果
-	$data["content"] = json_encode(array("version"=>$version2,"updated"=>$strupdate,"added"=>$arr_add,"deled"=>$slistdel));		
+	$data["content"] = json_encode(array("version"=>$version2,"updated"=>$strupdate,"added"=>$stradd,"deled"=>$strdel));		
       }
     } else {
 	$data["result"]="FALSE"; //数据交付格式错误
@@ -168,4 +146,7 @@ class Car extends CI_Model {
     
     return $data;
   }
+  
+  
+  
 }

@@ -10,7 +10,7 @@
 #import "JY_StdVC.h"
 
 @interface CarVC : JY_StdPushVC
-- (id)initWithData:(NSArray*)adata;
+-(void) setData:(NSObject*)data;
 @end
 
 

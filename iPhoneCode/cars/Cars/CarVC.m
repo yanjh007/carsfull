@@ -38,7 +38,7 @@
 
 @implementation CarVC
 
-- (id)initWithData:(NSArray*)adata; //0-car 1-delegate
+- (id)init
 {
     self = [JY_Helper loadNib:NIB_MAIN atIndex:5];
     if (self) {
@@ -48,13 +48,21 @@
                                                                                   style:UIBarButtonItemStylePlain
                                                                                  target:self
                                                                                  action:@selector(do_showmenu:)];
+    }
+    return self;
+}
+
+-(void) setData:(NSObject*)data //0-car 1-delegate
+{
+    if ([data isKindOfClass:[NSArray class]]) {
+        NSArray *adata=(NSArray*)data;
         
         self.mCar       = adata[0];
         self.mDelegate  = adata[1];
         if (self.mCar.carid>-1) {
             self.showMode=1;
             [self.bt_delete setHidden:NO];
-
+            
             self.tv_cnumber.text= self.mCar.carnumber;
             self.tv_fnumber.text= self.mCar.framenumber;
             [self.bt_brand setTitle:[NSString stringWithFormat:@" %@-%@",self.mCar.manufacturer,self.mCar.brand] forState:UIControlStateNormal];
@@ -77,11 +85,9 @@
             [ary_years addObject:@(iyear-i)];
         }
         self.mCar.yearList=[ary_years copy];
-        
     }
-    return self;
+    
 }
-
 
 - (IBAction) do_back:(id)sender
 {
