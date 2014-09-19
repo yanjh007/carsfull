@@ -17,3 +17,9 @@
 @interface CarseriesVC : JY_StdPushVC
 - (id)initWithData:(NSArray*)adata;
 @end
+
+@interface CarlogVC : JY_StdMainVC
+@end
+@interface CarlogEditVC : JY_StdPushVC
+- (id)initWithData:(NSArray*)adata;
+@end

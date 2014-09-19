@@ -53,7 +53,11 @@ static int const INT_SDVIEW_MARGIN = 10;
 // 控制器名称
 static NSString *const VC_NAME_ABOUT    = @"AboutVC";
 static NSString *const VC_NAME_INFO     = @"InfoVC";
-static NSString *const VC_NAME_CAR      = @"CarVC";
+
+static NSString *const VC_NAME_CAR          = @"CarVC";
+static NSString *const VC_NAME_CAR_SERIES   = @"CarseriesVC";
+static NSString *const VC_NAME_CAR_LOG      = @"CarlogVC";
+
 static NSString *const VC_NAME_SHOP     = @"ShopVC";
 
 static NSString *const VC_NAME_HOME     = @"HomeVC";
@@ -61,7 +65,11 @@ static NSString *const VC_NAME_LMENU    = @"LMenuVC";
 static NSString *const VC_NAME_LOGIN    = @"LoginVC";
 static NSString *const VC_NAME_USER     = @"UserVC";
 
+static NSString *const VC_NAME_APPIONTMENT_LIST  =@"AppointmentListVC";
 static NSString *const VC_NAME_APPIONTMENT  =@"AppointmentVC";
+
+static NSString *const VC_NAME_LINK  =@"LinkVC";
+
 
 // UUID key
 static NSString *const SD_UUID_DEVICE =@"sd_uuid_device";

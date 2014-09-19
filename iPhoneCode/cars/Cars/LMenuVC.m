@@ -18,7 +18,6 @@
 #import "CarVC.h"
 
 
-
 @interface LMenuVC ()
 
 @end
@@ -100,12 +99,9 @@ static NSArray *ary_titles;
 {
     UIViewController *vc;
     switch (indexPath.row) {
-        case 0: //主页
-            vc = [[HomeVC alloc] init];
-            break;
         case 1: //我的
             if ([User currentUser].token.length>0) {
-                vc = [[InfoVC alloc] init];
+                [self showVC:VC_NAME_INFO];
             } else {
                 [self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionLeft animated:YES];
                 
@@ -116,36 +112,24 @@ static NSArray *ary_titles;
                 else
                     [self.revealSideViewController presentModalViewController:n animated:YES];
                 
-                return;
             }
-            break;
-        case 2: //店铺
-            [self showVC:@"ShopVC"]; return;
-        case 3: //预约
-            vc = [[AppointmentListVC alloc] init];
-            break;
-        case 4: //设置
-            vc = [[HomeVC alloc] init];
-            break;
-        case 5: //关于
-            vc = [[AboutVC alloc] init];
-            break;
-        case 6: //行车日志
-            vc = [[NSClassFromString(@"CarlogVC") alloc] init];
-            break;
-        case 7: //连线游戏
-            vc = [[NSClassFromString(@"LinkVC") alloc] init];
-            break;
-            
-        default:
             return;
-            break;
+        case 2: //店铺
+            [self showVC:VC_NAME_SHOP]; return;
+        case 3: //预约
+            [self showVC:VC_NAME_APPIONTMENT_LIST]; return;
+        case 4: //设置
+            [self showVC:VC_NAME_HOME]; return;
+        case 5: //关于
+            [self showVC:VC_NAME_SHOP]; return;
+        case 6: //行车日志
+            [self showVC:VC_NAME_CAR_LOG]; return;
+        case 7: //连线游戏
+            [self showVC:VC_NAME_LINK]; return;
+        default:
+            [self showVC:VC_NAME_HOME]; return;
+            return;
     }
-    
-    UINavigationController *n = [[UINavigationController alloc] initWithRootViewController:vc];
-    [self.revealSideViewController popViewControllerWithNewCenterController:n
-                                                                   animated:YES];
-
 }
 
 -(void) showVC:(NSString*)vcname
