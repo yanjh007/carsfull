@@ -24,6 +24,46 @@ function hex_ip($ip) // 转成16进制字符串
    return $ip2;
 }
 
+function check_session()
+{
+   $CI=&get_instance();
+   $user = $CI->session->userdata('logged_in'); 
+
+   if (!$user) {
+      redirect('/login', 'refresh');
+   } 
+}
+
+// 显示内容视图
+function show_view($viewname,$data,$navid=0) // 转成16进制字符串  
+{
+   $CI=&get_instance();
+      
+   $CI->load->view('_common/header');
+   show_nav($navid);
+   
+   $CI->load->view($viewname, $data);
+   
+   $CI->load->view('_common/footer');	
+}
+
+// 导航栏
+function show_nav($current_tab)
+{   
+   $CI=&get_instance();
+   $user = $CI->session->userdata('logged_in'); 
+   if (!$user) {
+      redirect('/login', 'refresh');
+   } 
+
+   $navdata['username'] = $user['name']; 
+   $navdata['userrole'] = $user['role']; // 将title中的第一个字符大写
+   
+   $CI->load->helper('url');      
+   $CI->load->view('_common/navbar',$navdata);
+}
+
+
 
 
 

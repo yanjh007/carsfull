@@ -1,8 +1,10 @@
 <div class="form-group">
   <label ><?= $title ?></label>
-  <?= form_input(array( 'name'  => $name,
-                        'id'    => $name,
-                        'class' => 'form-control',
-                        'value' => $value."",
-                            )); ?>
+    <select class="form-control" name="<?=$name ?>" id="<?=$name ?>">
+      <?php for ($i=0;$i < count($list);$i++): $kv= explode(":",$list[$i]); ?>
+        <option value="<?= $kv[0] ?>" <?php if ($select==$kv[0]) echo "selected";?> >
+          <?= $kv[1] ?>
+        </option>
+      <?php endfor ?>
+    </select>
 </div>
