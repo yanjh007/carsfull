@@ -26,23 +26,25 @@ function zm_form_hidden($name,$value)
 function zm_form_select($ftype,$title,$name,$list,$select="")
 {
    $CI=&get_instance();
+   $form_data["ftype"]    = $ftype;
    $form_data["title"]    = $title;
    $form_data["name"]     = $name;
    $form_data["list"]     = $list;
    $form_data["select"]   = $select;
-   $CI->load->view('_form/select_'.$ftype,$form_data);   
+   $CI->load->view('_form/select',$form_data);   
 }
 
 
 function zm_form_radio($ftype,$title,$name,$list,$select="")
 {
    $CI=&get_instance();
+   $form_data["ftype"]    = $ftype;
    $form_data["title"]    = $title;
    $form_data["name"]     = $name;
    $form_data["list"]     = $list;
    $form_data["select"]   = $select;
 
-   $CI->load->view('_form/radio_'.$ftype,$form_data);   
+   $CI->load->view('_form/radio',$form_data);   
 }
 
 function zm_form_check($title,$name,$checked="")

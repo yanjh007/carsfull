@@ -46,7 +46,8 @@
 				      <td><?php echo  $item['gyear']; ?></td>
 				      <td><?php echo  $item['address']; ?></td>
 				      <td align=right>
-				      <?php link_to_edit("sclasses/".$item["id"]."/edit"); ?> |
+				      <?php echo anchor("sclasses/".$item["id"]."/member","人员"); ?> |
+				      <?php echo anchor("sclasses/".$item["id"]."/edit","编辑"); ?> |
 				      <?php link_to_jdelete("confirm_del(\"".$item["id"]."/delete\",\"".$item["name"]."\")"); ?>
 				      </td>
 				</tr>

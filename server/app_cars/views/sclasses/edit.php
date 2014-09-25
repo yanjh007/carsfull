@@ -19,9 +19,9 @@
                 zm_form_input(0,"编 码","scode",  $item["scode"]);
                 zm_form_input(0,"名 称","name",   $item["name"]);
                 if (!$is_school) {
+                    zm_form_select(0,"学 校","school",$schools,$item["pid"]);
                     zm_form_input(0,"毕业年份","gyear",$item["gyear"]);
                 }
-                
 
                 zm_form_input(0,"联系方式","contact",  $item["contact"]);
                 zm_form_textarea(0,"地 址","address",  $item["address"]);

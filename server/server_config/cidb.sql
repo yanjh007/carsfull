@@ -11,7 +11,7 @@
  Target Server Version : 50620
  File Encoding         : utf-8
 
- Date: 09/24/2014 16:56:03 PM
+ Date: 09/25/2014 16:59:22 PM
 */
 
 SET NAMES utf8;
@@ -187,7 +187,7 @@ CREATE TABLE `ci_sessions` (
 --  Records of `ci_sessions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `ci_sessions` VALUES ('355f6b0e63843218f70b56c98711ad76', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.22 (KHTML, like Gecko) Version/8.0 Safari/600.1.22', '1411548596', 'a:2:{s:9:\"user_data\";s:0:\"\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}');
+INSERT INTO `ci_sessions` VALUES ('561f43ec760b17cd4649c6018e1b94db', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.22 (KHTML, like Gecko) Version/8.0 Safari/600.1.22', '1411635082', 'a:2:{s:9:\"user_data\";s:0:\"\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}');
 COMMIT;
 
 -- ----------------------------
@@ -218,6 +218,48 @@ CREATE TABLE `clients` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `clients` VALUES ('1', null, 'shixc', 'a5b09e5b217127812c3f0e778dd1098404ce1fd4', null, '施磊', null, null, '18602802121', 'X_shileixc', null, '1', '2014-08-14 16:04:33', null, null), ('2', null, 'yanjh', null, null, '颜建华', null, null, '13808077242', 'X_hahar006', null, '0', null, null, null), ('4', null, null, null, null, '周琪', null, null, '13880735908', 'Q8990099', null, '0', null, null, null), ('10', null, null, null, null, '陶莉', null, null, '13882189728', 'Q89960707', null, '0', '2014-08-15 15:21:08', null, null), ('11', null, '13908077242', 'aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d', '8C1AF92C-CDBC-4791-B', 'John Yan', 'Tianfu', 'yanjh@sina.com', '13908077242', null, null, '0', '2014-09-19 17:00:15', null, null);
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `cmodules`
+-- ----------------------------
+DROP TABLE IF EXISTS `cmodules`;
+CREATE TABLE `cmodules` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) DEFAULT NULL,
+  `course` int(11) DEFAULT NULL COMMENT '课程',
+  `morder` smallint(6) DEFAULT NULL COMMENT '次序',
+  `mtype` smallint(6) DEFAULT NULL COMMENT '课程模块类型 0-简介 1-章节 2-测验 3-调查 ',
+  `content` varchar(2048) DEFAULT NULL,
+  `status` smallint(6) DEFAULT '0' COMMENT '状态',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `cmodules`
+-- ----------------------------
+BEGIN;
+INSERT INTO `cmodules` VALUES ('1', '序言', '1', '1', '0', '序言', '0'), ('2', '一. 认识数字', '1', '2', '1', '第一章', '0'), ('3', '1.1 整数', '1', '3', '2', null, '0'), ('4', '小测验', '1', '4', '3', null, '0'), ('5', '单元测试', '1', '5', '4', null, '0'), ('6', '期中考试', '1', '6', '5', null, '0'), ('7', '期末考试', '1', '80', '5', null, '0'), ('8', '自学内容', '1', '15', '6', null, '0'), ('9', '作业1', '1', '12', '7', null, '0');
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `courses`
+-- ----------------------------
+DROP TABLE IF EXISTS `courses`;
+CREATE TABLE `courses` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ccode` varchar(12) DEFAULT NULL,
+  `name` varchar(20) DEFAULT NULL,
+  `ccata` int(11) DEFAULT NULL COMMENT '科目',
+  `descp` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `courses`
+-- ----------------------------
+BEGIN;
+INSERT INTO `courses` VALUES ('1', 'MA01', '初中一年级语文(北师大)', '1', null), ('2', null, '初二语文', '2', null), ('3', 'CB02', '初二语文(下)', '2', null);
 COMMIT;
 
 -- ----------------------------
@@ -313,13 +355,13 @@ CREATE TABLE `sclasses` (
   `contact` varchar(50) DEFAULT NULL,
   `descp` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `sclasses`
 -- ----------------------------
 BEGIN;
-INSERT INTO `sclasses` VALUES ('1', 'CDNSMS', '0', '0', '成都七中', '1980', '天府大道', null, null), ('2', 'CSNNMS', '0', '0', '成都九中', '1987', '天府广场', '', null), ('3', 'P201501', '1', '2', '初2015级1班', '2015', '教三202', null, null), ('4', 'P201502', '0', '2', '初2015级1班', '2015', '', '', null), ('6', 'CDSSMS', '0', '0', '石室中学1', null, '陕西街', '', null), ('7', 'P201503', '0', '2', '初2015级3班', '2015', '主楼503', '', null);
+INSERT INTO `sclasses` VALUES ('1', 'CDNSMS', '0', '0', '成都七中', '1980', '天府大道', null, null), ('2', 'CSNNMS', '0', '0', '成都九中', '1987', '天府广场', '', null), ('3', 'P201501', '1', '2', '初2015级1班', '2015', '教三202', null, null), ('4', 'P201502', '0', '2', '初2015级1班', '2015', '', '', null), ('6', 'CDSSMS', '0', '0', '石室中学1', null, '陕西街', '', null), ('7', 'P201503', '0', '2', '初2015级3班', '2015', '主楼503', '', null), ('8', 'SSH2016A', '6', '2', '高2016级B班', '2016', '', '', null), ('9', 'SSH2017C', '6', '2', '高2017级C班', '2017', '', '', null);
 COMMIT;
 
 -- ----------------------------
@@ -361,20 +403,13 @@ CREATE TABLE `slinks` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Records of `slinks`
--- ----------------------------
-BEGIN;
-INSERT INTO `slinks` VALUES ('1', '10', '陶莉', '1', '川A-BQ498', null), ('1', '10', '陶莉', '2', '川A-A1574', null), ('1', '11', '', '6', null, null), ('1', '11', '', '23', 'CA-1668H', null), ('2', '1', '', '4', '更换轮胎', null), ('2', '1', '', '5', '常规检查', null), ('2', '1', '', '8', 'A0级日常保养', null), ('2', '2', '', '3', '更换发动机油滤', null), ('2', '2', '', '6', '高级检查', null), ('2', '3', '', '3', '更换发动机油滤', null), ('2', '3', '', '4', '更换轮胎', null), ('2', '3', '', '7', '更换空气滤清器', null), ('2', '5', '', '1', '洗车-小型', null), ('2', '5', '', '4', '更换轮胎', null), ('10', '1', '', '60', '主食', null), ('10', '1', '', '61', '配餐', null), ('10', '4', '', '61', '配餐', null), ('10', '5', '套餐配汤', '61', '配餐', null), ('10', '8', '', '58', '热炒', null), ('10', '15', '', '64', '面食', null), ('11', '3', '', '1', '麦辣鸡腿堡套餐', null), ('11', '3', '', '10', '双层吉士堡套餐', null), ('11', '5', '套餐配汤', '7', '辣子鸡丁套餐', null), ('11', '6', '', '7', '辣子鸡丁套餐', null), ('11', '6', '', '9', '回锅肉套餐', null), ('11', '8', '', '7', '辣子鸡丁套餐', null);
-COMMIT;
-
--- ----------------------------
 --  Table structure for `susers`
 -- ----------------------------
 DROP TABLE IF EXISTS `susers`;
 CREATE TABLE `susers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `stype` smallint(6) DEFAULT '0' COMMENT '类型 0-学生 1-教师',
-  `snumber` varchar(8) DEFAULT NULL COMMENT '学号或工号',
+  `snumber` varchar(12) DEFAULT NULL COMMENT '学号或工号',
   `sclass` int(11) DEFAULT NULL,
   `name` varchar(20) DEFAULT NULL,
   `bdate` varchar(8) DEFAULT NULL,
@@ -382,7 +417,14 @@ CREATE TABLE `susers` (
   `descp` varchar(128) DEFAULT NULL,
   `status` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `susers`
+-- ----------------------------
+BEGIN;
+INSERT INTO `susers` VALUES ('1', '1', 'T003', '3', '颜建华', null, '0', null, null), ('2', null, null, null, '张三', null, '0', null, null), ('3', '2', 'S20150101', '3', '萧峰', null, '0', null, null), ('4', '2', 'S20150104', '3', '欧阳锋', null, '0', null, null), ('5', '2', 'A', null, '张三', null, '0', null, null), ('6', '0', 'T189', '3', '张老师', null, '0', null, null), ('7', '2', 'S20150111', null, '欧阳锋', null, '0', null, null), ('8', '2', 'S20150103', '3', '洪七公', null, '0', null, null), ('9', '2', 'S20150109', '3', '黄药师', null, '0', null, null);
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `taskgroups`
