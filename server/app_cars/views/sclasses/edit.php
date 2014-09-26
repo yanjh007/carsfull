@@ -1,5 +1,5 @@
 <?php
-    $module="sclasses";
+    $MODULE_NAME ="sclasses";
     $is_school=($item["utype"]==0);
 ?>
 <div class="container">
@@ -15,7 +15,7 @@
         <div class="panel-heading">编辑信息</div>
         <div class="panel-body">
             <?php
-                echo form_open($module."/".$item["id"].($is_school?"/save_school":"/save"),array('class' => 'form-horizontal', 'role' => 'form'));
+                echo form_open($MODULE_NAME."/".$item["id"].($is_school?"/save_school":"/save"),array('class' => 'form-horizontal', 'role' => 'form'));
                 zm_form_input(0,"编 码","scode",  $item["scode"]);
                 zm_form_input(0,"名 称","name",   $item["name"]);
                 if (!$is_school) {
@@ -31,7 +31,7 @@
               <div class="col-sm-offset-1 col-sm-6">
                 <button type="submit" class="btn btn-primary">保 存</button>&nbsp&nbsp&nbsp
                 <button class="btn btn-danger">删 除</button>&nbsp&nbsp&nbsp
-                <?php zm_btn_back($module) ?>
+                <?php zm_btn_back($MODULE_NAME) ?>
               </div>
             </div>
           </form>

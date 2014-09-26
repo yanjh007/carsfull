@@ -13,9 +13,13 @@
  * CDN'ized content.
  */
 
-function zm_form_open($path,$option=array("role"=>"form"))
+function zm_form_open($ftype,$path)
 {
-   echo form_open($path,$option);
+   if ($ftype==0) {
+      echo form_open($path,array('class' => 'form-horizontal', 'role' => 'form'));
+   } else {
+      echo form_open($path,array('role' => 'form'));
+   }
 }
 
 function zm_form_hidden($name,$value)

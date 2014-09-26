@@ -5,7 +5,7 @@
       <select class="form-control" name="<?=$name ?>" id="<?=$name ?>">
         <?php foreach  ($list as $item): ?>
           <option value="<?php echo $item["id"] ?>"
-            <?php echo ($item["id"]==$select)?"selected>":">".$item["value"]; ?>
+            <?php echo ($item["id"]==$select?"selected>":">").$item["value"]; ?>
           </option>
         <?php endforeach ?>
       </select>
@@ -15,7 +15,7 @@
       <select class="form-control" name="<?php echo $name ?>" id="<?php echo $name ?>">
         <?php foreach  ($list as $item): ?>
           <option value="<?php echo $item["id"];?>"
-            <?php echo ($item["id"]==$select)?"selected>":">".$item["value"]; ?>
+            <?php echo ($item["id"]==$select?"selected>":">").$item["value"]; ?>
           </option>
         <?php endforeach ?>
       </select>  

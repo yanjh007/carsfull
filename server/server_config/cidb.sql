@@ -11,7 +11,7 @@
  Target Server Version : 50620
  File Encoding         : utf-8
 
- Date: 09/25/2014 16:59:22 PM
+ Date: 09/26/2014 16:59:11 PM
 */
 
 SET NAMES utf8;
@@ -187,7 +187,7 @@ CREATE TABLE `ci_sessions` (
 --  Records of `ci_sessions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `ci_sessions` VALUES ('561f43ec760b17cd4649c6018e1b94db', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.22 (KHTML, like Gecko) Version/8.0 Safari/600.1.22', '1411635082', 'a:2:{s:9:\"user_data\";s:0:\"\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}');
+INSERT INTO `ci_sessions` VALUES ('d75ce2a7957b530aa89e230f031f4b3f', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.22 (KHTML, like Gecko) Version/8.0 Safari/600.1.22', '1411720664', 'a:2:{s:9:\"user_data\";s:0:\"\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}');
 COMMIT;
 
 -- ----------------------------
@@ -233,13 +233,13 @@ CREATE TABLE `cmodules` (
   `content` varchar(2048) DEFAULT NULL,
   `status` smallint(6) DEFAULT '0' COMMENT '状态',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `cmodules`
 -- ----------------------------
 BEGIN;
-INSERT INTO `cmodules` VALUES ('1', '序言', '1', '1', '0', '序言', '0'), ('2', '一. 认识数字', '1', '2', '1', '第一章', '0'), ('3', '1.1 整数', '1', '3', '2', null, '0'), ('4', '小测验', '1', '4', '3', null, '0'), ('5', '单元测试', '1', '5', '4', null, '0'), ('6', '期中考试', '1', '6', '5', null, '0'), ('7', '期末考试', '1', '80', '5', null, '0'), ('8', '自学内容', '1', '15', '6', null, '0'), ('9', '作业1', '1', '12', '7', null, '0');
+INSERT INTO `cmodules` VALUES ('1', '序言', '1', '1', '0', '序言', '0'), ('2', '一. 认识数字', '1', '2', '1', '第一章', '0'), ('3', '1.1 整数', '1', '3', '2', null, '0'), ('4', '小测验', '1', '4', '3', null, '0'), ('5', '单元测试', '1', '5', '4', null, '0'), ('6', '期中考试', '1', '6', '5', null, '0'), ('7', '期末考试', '1', '80', '5', null, '0'), ('8', '自学内容', '1', '15', '6', null, '0'), ('9', '作业1', '1', '12', '7', null, '0'), ('10', '二. 小数', null, null, '9', '', '0'), ('11', '三. 分数', '1', '81', '9', '', '0');
 COMMIT;
 
 -- ----------------------------
@@ -253,13 +253,13 @@ CREATE TABLE `courses` (
   `ccata` int(11) DEFAULT NULL COMMENT '科目',
   `descp` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `courses`
 -- ----------------------------
 BEGIN;
-INSERT INTO `courses` VALUES ('1', 'MA01', '初中一年级语文(北师大)', '1', null), ('2', null, '初二语文', '2', null), ('3', 'CB02', '初二语文(下)', '2', null);
+INSERT INTO `courses` VALUES ('1', 'MA01', '初中一年级数学(北师大)', '1', null), ('2', 'CB01', '初二语文(上)', '1', null), ('3', 'CB02', '初二语文(下)', '2', null), ('4', 'E901', '初三英语(上)', '4', null);
 COMMIT;
 
 -- ----------------------------
@@ -355,13 +355,13 @@ CREATE TABLE `sclasses` (
   `contact` varchar(50) DEFAULT NULL,
   `descp` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `sclasses`
 -- ----------------------------
 BEGIN;
-INSERT INTO `sclasses` VALUES ('1', 'CDNSMS', '0', '0', '成都七中', '1980', '天府大道', null, null), ('2', 'CSNNMS', '0', '0', '成都九中', '1987', '天府广场', '', null), ('3', 'P201501', '1', '2', '初2015级1班', '2015', '教三202', null, null), ('4', 'P201502', '0', '2', '初2015级1班', '2015', '', '', null), ('6', 'CDSSMS', '0', '0', '石室中学1', null, '陕西街', '', null), ('7', 'P201503', '0', '2', '初2015级3班', '2015', '主楼503', '', null), ('8', 'SSH2016A', '6', '2', '高2016级B班', '2016', '', '', null), ('9', 'SSH2017C', '6', '2', '高2017级C班', '2017', '', '', null);
+INSERT INTO `sclasses` VALUES ('1', 'CDNSMS', '0', '0', '成都七中', '1980', '天府大道', null, null), ('2', 'CSNNMS', '0', '0', '成都九中', '1987', '天府广场', '', null), ('3', 'P201501', '1', '2', '初2015级1班', '2015', '教三202', null, null), ('4', 'P201502', '1', '2', '初2015级2班', '2015', '', '', null), ('6', 'CDSSMS', '0', '0', '石室中学1', null, '陕西街', '', null), ('7', 'P201603', '1', '2', '初2016级3班', '2016', '主楼503', '', null), ('8', 'SSH2016A', '6', '2', '高2016级B班', '2016', '', '', null), ('9', 'SSH2017C', '6', '2', '高2017级C班', '2017', '教4-503', '', null), ('10', 'NMP2016A', '2', '2', '初2016级A班', '2016', '', '', null);
 COMMIT;
 
 -- ----------------------------
@@ -401,6 +401,13 @@ CREATE TABLE `slinks` (
   `lorder` int(11) DEFAULT NULL,
   PRIMARY KEY (`ltype`,`lid`,`rid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `slinks`
+-- ----------------------------
+BEGIN;
+INSERT INTO `slinks` VALUES ('111', '3', '初2015级1班', '4', '初三英语(上)', null), ('111', '4', '初2015级2班', '4', '初三英语(上)', null), ('111', '7', '初2016级3班', '2', '初二语文(上)', null), ('111', '10', '初2016级A班', '2', '初二语文(上)', null);
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `susers`
@@ -542,5 +549,11 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- ----------------------------
 DROP VIEW IF EXISTS `v_carsofuser`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_carsofuser` AS select `u`.`name` AS `name`,`c`.`carnumber` AS `carnumber`,`c`.`manufacturer` AS `manufacturer`,`c`.`brand` AS `brand`,`c`.`id` AS `cid`,`c`.`descp` AS `descp`,`u`.`id` AS `uid`,`c`.`mileage` AS `mileage`,`c`.`config` AS `config`,`c`.`engine` AS `engine`,`c`.`color` AS `color`,`c`.`framenumber` AS `framenumber` from ((`links` `l` left join `clients` `u` on((`u`.`id` = `l`.`lid`))) left join `cars` `c` on((`c`.`id` = `l`.`rid`))) where ((`l`.`ltype` = 1) and (`c`.`id` is not null) and (`u`.`id` is not null));
+
+-- ----------------------------
+--  View structure for `v_sclasses`
+-- ----------------------------
+DROP VIEW IF EXISTS `v_sclasses`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_sclasses` AS select `c1`.`id` AS `id`,`c1`.`scode` AS `scode`,`c1`.`name` AS `name`,`c1`.`address` AS `address`,`c1`.`gyear` AS `gyear`,`c1`.`pid` AS `pid`,`c2`.`name` AS `sname` from (`sclasses` `c1` left join `sclasses` `c2` on((`c1`.`pid` = `c2`.`id`))) where (`c1`.`utype` = 2);
 
 SET FOREIGN_KEY_CHECKS = 1;

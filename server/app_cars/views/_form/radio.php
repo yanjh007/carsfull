@@ -5,7 +5,7 @@
     <?php foreach ($list as $item):?>      
       <label class="radio-inline">
       <input type="radio" name="<?php echo $name ?>"  id="<?php echo $name.$i ?>" value="<?php echo $item["id"] ?>"
-            <?php echo ($select==$item["id"])?" checked>":">".$item["value"]; ?>;
+            <?php echo (($select==$item["id"])?" checked>":">").$item["value"]; ?>
       </label>
     <?php endforeach ?>
   </div>

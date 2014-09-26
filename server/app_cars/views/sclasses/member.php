@@ -1,3 +1,6 @@
+<?php
+    $MODULE_NAME ="sclasses";
+?>
 <div class="container">
     <div class="page-header">
       <h1>班级成员管理  <small><?php echo $class_name ?></small></h1>
@@ -20,7 +23,7 @@
 				      <td><?php echo  $item["name"]; ?></td>
 				      <td><?php echo  $item['stype']; ?></td>
 				      <td align=right>
-				      <?php link_to_edit("sclasses/".$item["id"]."/edit_member"); ?> |
+				      <?php link_to_edit($MODULE_NAME."/".$item["id"]."/edit_member"); ?> |
 				      <?php link_to_jdelete("confirm_del(\"".$item["id"]."/delete\",\"".$item["name"]."\")"); ?>
 				      </td>
 				</tr>
@@ -44,7 +47,7 @@
 				  <td><?php echo  $item['name']; ?></td>
 				  <td><?php echo  $item['stype']; ?></td>
 				  <td align=right>
-				  <?php echo anchor("sclasses/".$item["id"]."/edit_member","编辑"); ?> |
+				  <?php echo anchor($MODULE_NAME."/".$item["id"]."/edit_member","编辑"); ?> |
 				  <?php link_to_jdelete("confirm_del(\"".$item["id"]."/delete\",\"".$item["name"]."\")"); ?>
 				  </td>
 			    </tr>
@@ -60,7 +63,7 @@
 		<div class="panel-heading">增加成员</div>				
 		<div class="panel-body">
 			<?php
-			    zm_form_open("sclasses/".$class_id."/save_member");
+			    zm_form_open(1,$MODULE_NAME."/".$class_id."/save_member");
 			    zm_form_hidden("item_id",0);
 			    zm_form_hidden("sclass",$class_id);
 			    zm_form_radio(1,"成员类型","stype",array(array("id"=>0,"value"=>"教师"),array("id"=>1,"value"=>"管理员"),array("id"=>2,"value"=>"学生")),2);
@@ -74,7 +77,8 @@
 
 	</div>
     </div>
-    <?php zm_dlg_delete(array("path" => base_url("sclasses"),  "title1"  => "确认删除",  "title2"  => "删除内容: ")); ?>
+    <?php zm_btn_back($MODULE_NAME) ?>
+    <?php zm_dlg_delete(array("path" => base_url($MODULE_NAME),  "title1"  => "确认删除",  "title2"  => "删除内容: ")); ?>
 
 </div>
 

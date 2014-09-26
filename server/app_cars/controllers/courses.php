@@ -1,5 +1,7 @@
 <?php
 class Courses extends CI_Controller {
+  const MODULE_NAME = 'courses';
+
   public function __construct() {
     parent::__construct();
     $this->load->model('course');
@@ -8,11 +10,15 @@ class Courses extends CI_Controller {
 
   public function index(){
     $this->load->helper(array('form','zmform'));
-    $data['itemlist'] = $this->course->get_course(0);
-//    $data["school"] = 0;
-//    $data["schools"]= $this->course->school_list();
+    $data['itemlist']  = $this->course->get_course(0);
+    $list =  $this->course->get_sclass(0,2);
+    $countmap=array();
+    foreach ($list as $item) {
+        $countmap[$item["rid"]]=$item["count"];
+    }
+    $data["countlist"] =$countmap;
     
-    show_view("courses/list",$data); 
+    show_view(self::MODULE_NAME."/list",$data); 
   }
 
   public function view($id){
@@ -26,19 +32,19 @@ class Courses extends CI_Controller {
     }
   }
 
-  public function member($id) {	
+  public function sclass($id) {	
     $this->load->helper(array('form','zmform'));
-    $course = $this->course->get_course(0,$id);
+    $course = $this->course->get_course($id);
     if (empty($course)) {
       show_404();
     } else {
-      $data["class_id"] =$id;
-      $data["class_name"] =$course["name"];
+      $data["course_id"] =$id;
+      $data["course_name"] =$course["name"];
       
-      $data['itemlist']  = $this->course->get_members($id,0);
-      $data['itemlist2'] = $this->course->get_members($id,1);
+      $data['links1'] = $this->course->get_sclass($id,0);
+      $data['links2'] = $this->course->get_sclass($id,1);
       
-      show_view("courses/member",$data); 
+      show_view(self::MODULE_NAME."/sclass",$data); 
     }
   }
   
@@ -49,25 +55,34 @@ class Courses extends CI_Controller {
       show_404();
     } else {
       //$data["schools"]= $this->course->school_list();
-      show_view("courses/edit",$data); 
+      show_view(self::MODULE_NAME."/edit",$data); 
     }
   }
   
-  public function edit_member($id) {	
+  public function content($id) { //课程模块管理	
     $this->load->helper(array('form','zmform'));
-    $data['item'] = $this->course->get_member($id);
-    if (empty($data['item'])) {
+    $course = $this->course->get_course($id);
+    if (empty($course)) {
       show_404();
     } else {
-      show_view("courses/edit_member",$data); 
+      $data["course_id"] =$id;
+      $data["course_name"] =$course["name"];
+      
+      $data['itemlist'] = $this->course->get_content($id,0);
+      
+      show_view(self::MODULE_NAME."/content",$data); 
     }
   }
   
   public function save($id) {	
     $this->course->save($this->input->post(),$id);
-    redirect('courses');
+    redirect(self::MODULE_NAME);
   }
-
+  
+  public function save_module($id) {	
+    $this->course->save_module($id);
+    redirect(self::MODULE_NAME."/".$id."/content");
+  }
   
   public function delete($id) {	
     if ($this->input->server('REQUEST_METHOD')==="DELETE") {
@@ -77,14 +92,19 @@ class Courses extends CI_Controller {
     }
   }
   
-  public function link() {
-	$courseid=$this->input->post("course_id");
-	if ($courseid) {
-	  $this->course->link($this->input->post());
-	  redirect('courses/'.$courseid);
-	} else {
-	  redirect('courses');
-	}	
+  public function link($course_id) {
+    $this->load->model("slink");
+    $lid	= $this->input->get("lid");
+    $lname = $this->input->get("lname");
+    $rname = $this->input->get("rname");
+    
+    $action=$this->input->get("action");
+    if ($action==0) { //link
+      $this->slink->link(Slink::TYPE_CLASS_COURSE,$lid,$lname,$course_id,$rname);
+    } else { //unlink
+      $this->slink->unlink(Slink::TYPE_CLASS_COURSE,$lid,$course_id);
+    }
+    redirect(self::MODULE_NAME."/".$course_id."/sclass");
   }  
 
 }

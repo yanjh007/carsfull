@@ -3,17 +3,17 @@
 ?>
 <div class="container">
     <div class="page-header">
-      <h1>课程管理 <small><?php echo $item["name"] ?></small></h1>
+      <h1>课程内容 <small><?php echo $item["name"] ?></small></h1>
     </div>
     <div class="panel panel-default">
         <!-- Default panel contents -->
         <div class="panel-heading">编辑课程</div>
         <div class="panel-body">
             <?php
-                echo form_open($MODULE_PATH.$item["id"]."/save",array('class' => 'form-horizontal', 'role' => 'form'));
+                zm_form_open (0,$MODULE_PATH.$item["id"]."/save");
                 zm_form_input(0,"编 码","ccode",  $item["ccode"]);
                 zm_form_input(0,"名 称","name",   $item["name"]);
-                zm_form_input(0,"科 目","ccata",$item["ccode"]);
+                zm_form_input(0,"科 目","ccata",$item["ccata"]);
             ?>
             
             <div class="form-group">

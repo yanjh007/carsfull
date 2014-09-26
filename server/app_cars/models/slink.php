@@ -7,6 +7,7 @@ class Slink extends Link {
   const TYPE_CLASS_ADMIN   = 101;
   const TYPE_CLASS_TEACHER = 102;
   const TYPE_CLASS_STUDENT = 103;
+  const TYPE_CLASS_COURSE  = 111;
   
   public function __construct() {
     parent::__construct();

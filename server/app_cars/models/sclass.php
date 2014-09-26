@@ -36,9 +36,9 @@ class Sclass extends CI_Model {
   public function get_sclass($pid,$id=0){
     if ($id==0) { //输入列表
       if ($pid==0) {
-	$sql= self::STD_SQL_QUERY." where utype=2 order by scode,gyear";
+	$sql= "select * from v_sclasses";
       } else {
-	$sql= self::STD_SQL_QUERY." where utype=2 and pid =".$pid." order by gyear";
+	$sql= "select * from v_sclasses where pid=".$pid;
       }
       
       $query = $this->db->query($sql);
@@ -79,6 +79,19 @@ class Sclass extends CI_Model {
     $sql="select id,stype,snumber,sclass,name from susers where id=".$id;
     $query = $this->db->query($sql);
     return $query->row_array();
+  }
+  
+  public function get_courses($id,$stype) { //0 已关联课程  1未关联课程
+    $this->load->model("slink");
+    
+    if ($stype==0) { //获取列表
+      $sql = "select rid id,rname name from slinks where lid=".$id." and ltype=".Slink::TYPE_CLASS_COURSE;
+    } else {
+      $sql= "select id,name from courses where id not in (select rid from ".Slink::TABLE_NAME." where ltype=".Slink::TYPE_CLASS_COURSE." and lid= ".$id.") ";  
+    }
+    
+    $query = $this->db->query($sql);
+    return $query->result_array(); 
   }
   
   public function save($item,$id,$utype) {

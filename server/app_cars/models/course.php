@@ -32,6 +32,42 @@ class Course extends CI_Model {
       return $query->row_array();
     }
   }
+  
+  public function get_sclass($id,$stype) { //0 已关联班级  1未关联班级
+    $this->load->model("slink");
+    
+    if ($stype==0) { //已关联班级
+      $sql = "select lid id,lname name from slinks where rid=".$id." and ltype=".Slink::TYPE_CLASS_COURSE;
+    } else if($stype==1) { //未关联班级
+      $sql= "select id,name from sclasses where utype=2 and id not in (select lid from ".Slink::TABLE_NAME." where ltype=".Slink::TYPE_CLASS_COURSE." and rid= ".$id.") ";  
+    } else { //关联班级数量
+      $sql=" select rid,rname,count(1) count from slinks where ltype=".Slink::TYPE_CLASS_COURSE." group by rid ";
+    }
+    
+    $query = $this->db->query($sql);
+    return $query->result_array(); 
+  }
+  
+  public function get_sclass_counts($id,$stype) { //0 已关联班级  1未关联班级
+    $this->load->model("slink");
+    
+    if ($stype==0) { //获取列表
+      $sql = "select lid id,lname name from slinks where rid=".$id." and ltype=".Slink::TYPE_CLASS_COURSE;
+    } else {
+      $sql= "select id,name from sclasses where utype=2 and id not in (select lid from ".Slink::TABLE_NAME." where ltype=".Slink::TYPE_CLASS_COURSE." and rid= ".$id.") ";  
+    }
+    
+    $query = $this->db->query($sql);
+    return $query->result_array(); 
+  }
+  
+  public function get_content($id,$ctype=0) {
+    $sql =  "select id,name,mtype,morder,status from cmodules where course=".$id." order by morder";
+
+    $query = $this->db->query($sql);
+    return $query->result_array();
+  }
+ 
     
   public function save($item,$id) {
       $data = array(
@@ -46,6 +82,33 @@ class Course extends CI_Model {
 	$this->db->where('id', $id);
 	$this->db->update(self::TABLE_NAME, $data); 
       }
+    return TRUE;
+  }
+  
+  public function save_module($course_id) {
+    $table="cmodules";
+    $item   = $this->input->post();
+    $id = $item["item_id"];
+    $data = array(
+		'mtype'	=> $item["mtype"],
+		'name' 	=> $item["name"],
+		'content' => $item["content"],
+	    );
+    
+    if ($id==0) { // insert
+      $sql = "select max(morder)+1 morder from ".$table." where course=".$course_id;
+      $query = $this->db->query($sql);
+      $order = $query->row()->morder;
+      
+      if (!isset($order)) $order =1; 
+      
+      $data["morder"] = $order;
+      $data["course"] = $course_id;
+      $this->db->insert($table, $data);
+    } else {
+      $this->db->where('id', $id);
+      $this->db->update($table, $data); 
+    }
     return TRUE;
   }
   
