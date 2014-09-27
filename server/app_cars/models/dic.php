@@ -1,18 +1,29 @@
 <?php
 class Dic extends CI_Model {
-  const SQLQUERY  = 'SELECT id,dtype,did,name FROM dic  ';
+  const DIC_TYPE_ALL=0;
+  const DIC_TYPE_COURSE=10;
+  
+  const STD_SQL_QUERY  = 'SELECT id,dtype,did,dcode,name FROM dic ';
   const TABLE_NAME = 'dic';
   
   public function __construct() {
     $this->load->database();
   }
 
-  public function get_list($dtype=FALSE) {
-    if($dtype) {
-      $sql="select id,did,name,sname,sdesc from dic where dtype='".$dtype."' and did>0 and did<100 order by did " ;
+  public function get_list($dtype=self::DIC_TYPE_ALL) {
+    $sql=self::STD_SQL_QUERY;
+    if($dtype==self::DIC_TYPE_ALL) {
+      $sql .= " order by dtype,did " ;	  
     } else {
-      $sql="select id,did,name,sname,sdesc from dic order by dtype,did " ;	  
+      $sql .= " where dtype='".$dtype."' and did>0 and did<100 order by did " ;
     }
+    $query = $this->db->query($sql);
+    return $query->result_array();
+  }
+  
+  public function get_select_list($dtype) {
+    $sql= "select did id,name value from ".self::TABLE_NAME." where dtype=".$dtype." and did>0 and did<100 order by did " ;
+
     $query = $this->db->query($sql);
     return $query->result_array();
   }

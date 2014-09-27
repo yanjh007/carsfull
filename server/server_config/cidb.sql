@@ -3,15 +3,15 @@
 
  Source Server         : localdb
  Source Server Type    : MySQL
- Source Server Version : 50620
+ Source Server Version : 50538
  Source Host           : localhost
  Source Database       : cidb
 
  Target Server Type    : MySQL
- Target Server Version : 50620
+ Target Server Version : 50538
  File Encoding         : utf-8
 
- Date: 09/26/2014 16:59:11 PM
+ Date: 09/28/2014 01:14:53 AM
 */
 
 SET NAMES utf8;
@@ -187,7 +187,7 @@ CREATE TABLE `ci_sessions` (
 --  Records of `ci_sessions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `ci_sessions` VALUES ('d75ce2a7957b530aa89e230f031f4b3f', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.22 (KHTML, like Gecko) Version/8.0 Safari/600.1.22', '1411720664', 'a:2:{s:9:\"user_data\";s:0:\"\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}');
+INSERT INTO `ci_sessions` VALUES ('de70364a95c515c0a4a29288263df52b', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.78.2 (KHTML, like Gecko) Version/7.0.6 Safari/537.78.2', '1411836528', 'a:2:{s:9:\"user_data\";s:0:\"\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}');
 COMMIT;
 
 -- ----------------------------
@@ -233,13 +233,13 @@ CREATE TABLE `cmodules` (
   `content` varchar(2048) DEFAULT NULL,
   `status` smallint(6) DEFAULT '0' COMMENT '状态',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `cmodules`
 -- ----------------------------
 BEGIN;
-INSERT INTO `cmodules` VALUES ('1', '序言', '1', '1', '0', '序言', '0'), ('2', '一. 认识数字', '1', '2', '1', '第一章', '0'), ('3', '1.1 整数', '1', '3', '2', null, '0'), ('4', '小测验', '1', '4', '3', null, '0'), ('5', '单元测试', '1', '5', '4', null, '0'), ('6', '期中考试', '1', '6', '5', null, '0'), ('7', '期末考试', '1', '80', '5', null, '0'), ('8', '自学内容', '1', '15', '6', null, '0'), ('9', '作业1', '1', '12', '7', null, '0'), ('10', '二. 小数', null, null, '9', '', '0'), ('11', '三. 分数', '1', '81', '9', '', '0');
+INSERT INTO `cmodules` VALUES ('1', '序言', '1', '1', '10', '共9个课时，5个自学模块，4个测验，5个作业', '0'), ('2', '一. 数一数与乘法', '1', '2', null, '第一章', '0'), ('3', '二. 乘法口诀1', '1', '4', null, '', '0'), ('4', '小测验', '1', '3', '13', '', '0'), ('5', '四. 分一分与除法', '1', '7', null, '', '0'), ('6', '整理与复习1', '1', '8', null, '', '0'), ('7', '总复习', '1', '100', null, '', '0'), ('8', '节日广场', '1', '6', null, '', '0'), ('9', '五. 方向与位置', '1', '9', null, '', '0'), ('10', '二. 小数', null, null, '9', '', '0'), ('11', '三. 观察物体', '1', '5', null, '', '0'), ('12', '一. 数一数与乘法', '2', '1', null, '第一章', '0'), ('13', '七. 乘法口诀2', '1', '12', null, '', '0'), ('14', '六. 时、分、秒', '1', '10', null, '', '0'), ('15', '月球旅行', '1', '11', null, '', '0'), ('18', '整理与复习2', '1', '84', '0', '', '0'), ('19', '八. 除法', '1', '85', '0', '', '0'), ('20', '九. 统计与猜测', '1', '86', '0', '', '0'), ('21', '趣味运动会', '1', '87', '0', '', '0'), ('22', '期末考试', '1', '101', '13', '', '0'), ('23', '一、声母', '3', '1', '9', '', '0');
 COMMIT;
 
 -- ----------------------------
@@ -270,18 +270,18 @@ CREATE TABLE `dic` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `dtype` smallint(6) DEFAULT NULL,
   `did` smallint(6) DEFAULT NULL,
+  `dcode` varchar(10) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `sdesc` varchar(10) DEFAULT NULL,
-  `sname` varchar(10) DEFAULT NULL,
+  `descp` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `did` (`dtype`,`did`)
-) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `dic`
 -- ----------------------------
 BEGIN;
-INSERT INTO `dic` VALUES ('1', '1', '0', '乘用车辆类型', null, null), ('2', '2', '0', '变速箱类型', null, null), ('3', '1', '1', 'A00-微型车', null, null), ('4', '1', '2', 'A0-小型车', '小型车', 'A0'), ('5', '1', '3', 'A-紧凑级', null, 'A'), ('6', '1', '4', 'B-中级车', null, 'B'), ('7', '1', '5', 'C-豪华级', null, 'C'), ('8', '1', '6', 'D-大型豪华级', null, 'D'), ('9', '1', '7', 'S0-小型SUV', null, 'S0'), ('10', '1', '8', 'SA-紧凑型SUV', '紧凑型SUV', 'SA'), ('11', '1', '9', 'MPV', '商务车', 'MPV'), ('12', '1', '100', '其他', null, null), ('13', '2', '1', 'MT4-4速手动', null, null), ('14', '2', '2', 'MT5-5速手动', null, null), ('15', '2', '3', 'MT6-6速手动', null, null), ('16', '2', '4', 'AT4-4速自动', null, null), ('17', '2', '5', 'AT5-5速自动', null, null), ('18', '2', '6', 'AT6-6速自动', null, null), ('19', '2', '7', 'CVT', null, null), ('20', '2', '8', 'DT', null, null), ('21', '3', '0', '车身结构', null, null), ('22', '1', '20', 'SB-中型SUV', null, 'SB'), ('23', '1', '21', 'SF-大型SUV', null, 'SF'), ('24', '1', '22', 'SC-跑车', null, 'SC'), ('25', '1', '23', 'SSC-超级跑车', null, 'SSC'), ('26', '3', '1', '552-5门5座2箱', null, null), ('27', '3', '2', '552-5门5座3箱', null, null), ('28', '3', '3', '553-3门5座2箱', null, null), ('29', '4', '0', '驱动形式', null, null), ('30', '4', '1', 'FF-前置前驱', null, null), ('31', '4', '2', 'FR-前置后驱', null, null), ('32', '4', '3', 'F4-前置四驱', null, null), ('33', '4', '4', 'RR-后置后驱', null, null), ('34', '4', '5', 'MR-中置后驱', null, null), ('35', '4', '6', 'M4-中置四驱', null, null), ('36', '2', '100', '其他', null, null), ('37', '3', '100', null, null, null), ('38', '4', '100', null, null, null), ('40', '5', '0', '预约和服务状态', null, null), ('41', '5', '100', null, null, null), ('42', '6', '0', '客户类型', null, null), ('43', '6', '100', null, null, null), ('44', '5', '1', '客户预约', null, null), ('45', '5', '2', '预约确认', null, null), ('46', '5', '10', '预约完成', null, null), ('47', '5', '11', '预约取消', null, null), ('48', '5', '3', '服务进行中', null, null), ('49', '7', '0', '客户账号状态', null, null), ('50', '7', '100', null, null, null), ('51', '7', '50', '正常', null, null), ('52', '7', '1', '未激活', null, null), ('53', '7', '2', '验证中', null, null), ('54', '7', '10', '已禁用', null, null), ('55', '8', '0', '菜品类别', null, null), ('56', '8', '100', 'END', null, null), ('58', '8', '13', '热炒', null, null), ('59', '8', '14', '凉菜', null, null), ('60', '8', '43', '主食', null, null), ('61', '8', '44', '配餐', null, null), ('62', '8', '45', '饮料', null, null), ('63', '8', '46', '甜品', null, null), ('64', '8', '15', '面食', null, null), ('65', '8', '16', '汤煲', null, null);
+INSERT INTO `dic` VALUES ('1', '1', '0', null, '乘用车辆类型', null), ('2', '2', '0', null, '变速箱类型', null), ('3', '1', '1', null, 'A00-微型车', null), ('4', '1', '2', 'A0', 'A0-小型车', '小型车'), ('5', '1', '3', 'A', 'A-紧凑级', null), ('6', '1', '4', 'B', 'B-中级车', null), ('7', '1', '5', 'C', 'C-豪华级', null), ('8', '1', '6', 'D', 'D-大型豪华级', null), ('9', '1', '7', 'S0', 'S0-小型SUV', null), ('10', '1', '8', 'SA', 'SA-紧凑型SUV', '紧凑型SUV'), ('11', '1', '9', 'MPV', 'MPV', '商务车'), ('12', '1', '100', null, '其他', null), ('13', '2', '1', null, 'MT4-4速手动', null), ('14', '2', '2', null, 'MT5-5速手动', null), ('15', '2', '3', null, 'MT6-6速手动', null), ('16', '2', '4', null, 'AT4-4速自动', null), ('17', '2', '5', null, 'AT5-5速自动', null), ('18', '2', '6', null, 'AT6-6速自动', null), ('19', '2', '7', null, 'CVT', null), ('20', '2', '8', null, 'DT', null), ('21', '3', '0', null, '车身结构', null), ('22', '1', '20', 'SB', 'SB-中型SUV', null), ('23', '1', '21', 'SF', 'SF-大型SUV', null), ('24', '1', '22', 'SC', 'SC-跑车', null), ('25', '1', '23', 'SSC', 'SSC-超级跑车', null), ('26', '3', '1', null, '552-5门5座2箱', null), ('27', '3', '2', null, '552-5门5座3箱', null), ('28', '3', '3', null, '553-3门5座2箱', null), ('29', '4', '0', null, '驱动形式', null), ('30', '4', '1', null, 'FF-前置前驱', null), ('31', '4', '2', null, 'FR-前置后驱', null), ('32', '4', '3', null, 'F4-前置四驱', null), ('33', '4', '4', null, 'RR-后置后驱', null), ('34', '4', '5', null, 'MR-中置后驱', null), ('35', '4', '6', null, 'M4-中置四驱', null), ('36', '2', '100', null, '其他', null), ('37', '3', '100', null, null, null), ('38', '4', '100', null, null, null), ('40', '5', '0', null, '预约和服务状态', null), ('41', '5', '100', null, null, null), ('42', '6', '0', null, '客户类型', null), ('43', '6', '100', null, null, null), ('44', '5', '1', null, '客户预约', null), ('45', '5', '2', null, '预约确认', null), ('46', '5', '10', null, '预约完成', null), ('47', '5', '11', null, '预约取消', null), ('48', '5', '3', null, '服务进行中', null), ('49', '7', '0', null, '客户账号状态', null), ('50', '7', '100', null, null, null), ('51', '7', '50', null, '正常', null), ('52', '7', '1', null, '未激活', null), ('53', '7', '2', null, '验证中', null), ('54', '7', '10', null, '已禁用', null), ('55', '8', '0', null, '菜品类别', null), ('56', '8', '100', null, 'END', null), ('58', '8', '13', null, '热炒', null), ('59', '8', '14', null, '凉菜', null), ('60', '8', '43', null, '主食', null), ('61', '8', '44', null, '配餐', null), ('62', '8', '45', null, '饮料', null), ('63', '8', '46', null, '甜品', null), ('64', '8', '15', null, '面食', null), ('65', '8', '16', null, '汤煲', null), ('66', '9', '0', null, '科目', null), ('67', '9', '1000', null, null, null), ('68', '10', '0', null, '课程模块类型', null), ('69', '10', '10', null, '序言', null), ('70', '10', '1000', null, null, null), ('71', '10', '11', null, '普通课程', null), ('72', '10', '12', null, '自学课程', null), ('73', '10', '9', null, '章节', null), ('74', '10', '13', null, '课程测验', null), ('75', '10', '14', null, '课程作业', null), ('76', '10', '15', null, '调查反馈', null), ('77', '9', '10', 'MH', '数学', null), ('78', '9', '11', 'CL', '语文', null), ('79', '9', '2', 'EN', '英语', null), ('80', '11', '0', null, '课程模块状态', null), ('81', '11', '100', null, null, null), ('82', '11', '1', null, '关闭', null), ('83', '11', '2', null, '开启', null), ('84', '11', '3', null, '定时开启', null), ('85', '11', '4', null, '定时关闭', null), ('86', '11', '5', null, '定时', null);
 COMMIT;
 
 -- ----------------------------
@@ -399,6 +399,7 @@ CREATE TABLE `slinks` (
   `rid` int(11) NOT NULL DEFAULT '0',
   `rname` varchar(20) DEFAULT NULL,
   `lorder` int(11) DEFAULT NULL,
+  `content` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`ltype`,`lid`,`rid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -406,7 +407,7 @@ CREATE TABLE `slinks` (
 --  Records of `slinks`
 -- ----------------------------
 BEGIN;
-INSERT INTO `slinks` VALUES ('111', '3', '初2015级1班', '4', '初三英语(上)', null), ('111', '4', '初2015级2班', '4', '初三英语(上)', null), ('111', '7', '初2016级3班', '2', '初二语文(上)', null), ('111', '10', '初2016级A班', '2', '初二语文(上)', null);
+INSERT INTO `slinks` VALUES ('111', '3', '初2015级1班', '1', '初中一年级数学(北师大)', null, null), ('111', '3', '初2015级1班', '4', '初三英语(上)', null, null), ('111', '4', '初2015级2班', '1', '初中一年级数学(北师大)', null, null), ('111', '4', '初2015级2班', '4', '初三英语(上)', null, null), ('111', '7', '初2016级3班', '2', '初二语文(上)', null, null), ('111', '10', '初2016级A班', '2', '初二语文(上)', null, null);
 COMMIT;
 
 -- ----------------------------

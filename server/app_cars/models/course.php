@@ -62,12 +62,20 @@ class Course extends CI_Model {
   }
   
   public function get_content($id,$ctype=0) {
-    $sql =  "select id,name,mtype,morder,status from cmodules where course=".$id." order by morder";
-
-    $query = $this->db->query($sql);
-    return $query->result_array();
+    if ($ctype==0) {
+      $sql =  "select id,name,mtype,morder,status from cmodules where course=".$id." order by morder";
+  
+      $query = $this->db->query($sql);
+      return $query->result_array();
+      
+    } else {
+      $sql =  "select id,name,mtype,morder,status,course,content from cmodules where id=".$id;
+  
+      $query = $this->db->query($sql);
+      return $query->row_array();
+    }
   }
- 
+  
     
   public function save($item,$id) {
       $data = array(
@@ -95,14 +103,34 @@ class Course extends CI_Model {
 		'content' => $item["content"],
 	    );
     
-    if ($id==0) { // insert
+    // 老位置    
+    if ($id==0) {
       $sql = "select max(morder)+1 morder from ".$table." where course=".$course_id;
+    } else {
+      $sql = "select morder from ".$table." where id=".$id;
+    }
+    
+    $query = $this->db->query($sql);
+    $order = $query->row()->morder;
+    if (!isset($order)) $order =1; 
+    
+    // 插入位置
+    $morder=$item["morder"];
+    if (!isset($morder) ||$morder=="") $morder=$order;
+    
+    if ($morder!=$order) { //次序变化
+      //当前位置是否已被占有
+      $sql="select 1 from ".$table." where morder=".$morder." and course=".$course_id;
       $query = $this->db->query($sql);
-      $order = $query->row()->morder;
       
-      if (!isset($order)) $order =1; 
-      
-      $data["morder"] = $order;
+      if ($query->num_rows()>0) {
+	$sql="update ".$table." set morder=morder+1 where morder>=".$morder." and morder<".$order;
+	$this->db->query($sql);      
+      }
+    }    
+    
+    $data["morder"] = $morder;
+    if ($id==0) { // insert      
       $data["course"] = $course_id;
       $this->db->insert($table, $data);
     } else {
@@ -120,6 +148,13 @@ class Course extends CI_Model {
     return TRUE;
   }
   
+  public function remove_module($item_id) {
+    
+    $this->db->where('id', $item_id);
+    $this->db->delete("cmodules");
+    
+    return TRUE;
+  }
   
   //用于接口
   public function if_tag() {

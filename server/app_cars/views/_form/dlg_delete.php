@@ -16,7 +16,7 @@
 		})
 		.done(function( msg ) {
 			if (msg == "OK"){
-				document.location.href = "<?php echo $path ?>";
+				document.location.href = "<?php echo isset($path_back)?$path_back:$path ?>";
 			} else {
 				alert( "处理错误:" + msg );
 			}

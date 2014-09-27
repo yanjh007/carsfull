@@ -1,8 +1,8 @@
 <div class="form-group">
   <?php if($ftype==0): ?>
-    <label class="col-sm-1 control-label"><?= $title ?></label>
+    <label class="col-sm-1 control-label"><?php echo $title ?></label>
     <div class="col-sm-6">
-      <select class="form-control" name="<?=$name ?>" id="<?=$name ?>">
+      <select class="form-control" name="<?php echo $name ?>" id="<?php echo $name ?>">
         <?php foreach  ($list as $item): ?>
           <option value="<?php echo $item["id"] ?>"
             <?php echo ($item["id"]==$select?"selected>":">").$item["value"]; ?>

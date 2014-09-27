@@ -3,7 +3,7 @@
 ?>
 <div class="container">
     <div class="page-header">
-      <h1>课程内容 <small><?php echo $item["name"] ?></small></h1>
+      <h1>课程编辑 <small><?php echo $item["name"] ?></small></h1>
     </div>
     <div class="panel panel-default">
         <!-- Default panel contents -->
@@ -19,11 +19,28 @@
             <div class="form-group">
               <div class="col-sm-offset-1 col-sm-6">
                 <button type="submit" class="btn btn-primary">保 存</button>&nbsp&nbsp&nbsp
-                <button class="btn btn-danger">删 除</button>&nbsp&nbsp&nbsp
-                <?php zm_btn_back($MODULE_PATH) ?>
               </div>
             </div>
           </form>
         </div>
     </div>
+
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">删除课程 (请输入"Y"确认删除课程<?php echo $item["name"] ?>)</div>
+        <div class="panel-body">
+            <?php
+                zm_form_open (0,"");
+                zm_form_input(0,"确 认","ccode");
+            ?>
+            <div class="form-group">
+              <div class="col-sm-offset-1 col-sm-6">
+                <button class="btn btn-danger">删 除</button>&nbsp&nbsp&nbsp
+              </div>
+            </div>
+          </form>
+        </div>
+    </div>
+    <?php zm_btn_back($MODULE_PATH) ?>
+
 </div>

@@ -8,7 +8,7 @@
     </div>
 
     <div class="panel panel-default">
-        <div class="panel-heading">单品分类</div>
+        <div class="panel-heading">班级设置</div>
         <div class="panel-body">
         <div class="row">
             <div class="col-md-4">已关联班级<br>

@@ -58,30 +58,10 @@ class Courses extends CI_Controller {
       show_view(self::MODULE_NAME."/edit",$data); 
     }
   }
-  
-  public function content($id) { //课程模块管理	
-    $this->load->helper(array('form','zmform'));
-    $course = $this->course->get_course($id);
-    if (empty($course)) {
-      show_404();
-    } else {
-      $data["course_id"] =$id;
-      $data["course_name"] =$course["name"];
-      
-      $data['itemlist'] = $this->course->get_content($id,0);
-      
-      show_view(self::MODULE_NAME."/content",$data); 
-    }
-  }
-  
+    
   public function save($id) {	
     $this->course->save($this->input->post(),$id);
     redirect(self::MODULE_NAME);
-  }
-  
-  public function save_module($id) {	
-    $this->course->save_module($id);
-    redirect(self::MODULE_NAME."/".$id."/content");
   }
   
   public function delete($id) {	
@@ -105,6 +85,70 @@ class Courses extends CI_Controller {
       $this->slink->unlink(Slink::TYPE_CLASS_COURSE,$lid,$course_id);
     }
     redirect(self::MODULE_NAME."/".$course_id."/sclass");
-  }  
+  }
+  
+  /*
+   * 内容管理
+   */
+  public function content($id) { //课程模块管理	
+    $this->load->helper(array('form','zmform'));
+    $course = $this->course->get_course($id);
+    if (empty($course)) {
+      show_404();
+    } else {
+      $data["course_id"] =$id;
+      $data["course_name"] =$course["name"];
+      
+      $data['itemlist'] = $this->course->get_content($id,0);
+
+      $this->load->model("dic");
+      $data["list1"] =$this->dic->get_select_list(Dic::DIC_TYPE_COURSE);
+
+      show_view(self::MODULE_NAME."/content",$data); 
+    }
+  }
+  
+  public function module($id) { //课程模块班级管理	
+    $this->load->helper(array('form','zmform'));
+    $item=$this->course->get_content($id,1);
+    if (empty($item)) {
+      show_404();
+    } else {      
+      $data["module_id"]  =$item["id"];
+      $data["module_name"]  =$item["name"];
+      $data["course_id"]  =$item["course"];
+
+      $this->load->model("slink");
+      $data["class_list"] =$this->slink->llist(SLink::TYPE_CLASS_COURSE,$data["course_id"]);
+
+      show_view(self::MODULE_NAME."/module",$data); 
+    }
+  }
+  
+  public function edit_module($id) {	
+    $this->load->helper(array('form','zmform'));
+    $data['item'] = $this->course->get_content($id,1);
+    if (empty($data['item'])) {
+      show_404();
+    } else {
+      $this->load->model("dic");
+      $data["list1"] =$this->dic->get_select_list(Dic::DIC_TYPE_COURSE);
+
+      show_view(self::MODULE_NAME."/edit_module",$data); 
+    }
+  }
+  
+  public function save_module($id) {
+    $this->course->save_module($id);
+    redirect(self::MODULE_NAME."/".$id."/content");
+  }
+  
+  public function delete_module($id) {	
+    if ($this->input->server('REQUEST_METHOD')==="DELETE") {
+      $this->course->remove_module($id);
+      echo "OK";
+      return;
+    }
+  }
 
 }
