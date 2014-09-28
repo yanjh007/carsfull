@@ -12,7 +12,7 @@
         <div class="panel-heading">基本信息</div>
         <div class="panel-body">
             <?php
-                zm_form_open (0,$MODULE_PATH."/".$course_id."/save_module");
+                zm_form_open (0,$MODULE_PATH.$course_id."/save_module");
                 zm_form_hidden("item_id",$item["id"]);
                 zm_form_select(0,"类 型","mtype",$list1,$item["mtype"]);
                 zm_form_input(0,"次 序","morder", $item["morder"]);
@@ -32,7 +32,8 @@
         <div class="panel-heading">模块内容</div>
         <div class="panel-body">
             <?php
-                zm_form_open (0,$MODULE_PATH."/".$course_id."/save_module_content");
+                zm_form_open (0,$MODULE_PATH.$course_id."/save_module_content");
+                zm_form_hidden("item_id",$item["id"]);
                 zm_form_textarea(0,"内 容","content",$item["content"]);
             ?>
             

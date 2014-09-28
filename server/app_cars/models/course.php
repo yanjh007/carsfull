@@ -62,22 +62,30 @@ class Course extends CI_Model {
   }
   
   public function get_content($id,$ctype=0) {
-    if ($ctype==0) {
+    if ($ctype==0) { //获取特定课程的所有模块
       $sql =  "select id,name,mtype,morder,status from cmodules where course=".$id." order by morder";
   
       $query = $this->db->query($sql);
-      return $query->result_array();
-      
-    } else {
+      return $query->result_array();      
+    } else if($ctype==1) { //获取模块内容
       $sql =  "select id,name,mtype,morder,status,course,content from cmodules where id=".$id;
   
       $query = $this->db->query($sql);
       return $query->row_array();
-    }
-  }
+    } else if ($ctype==2) { //获取模块对应的活跃课程状态
+      $sql =  "select id,lcode,sclass,status,stime,etime from lessons where module=".$id;
   
+      $query = $this->db->query($sql);
+      $ary_status=array();
+      if ($query->num_rows() > 0) foreach ($query->result_array() as $row){
+	$ary_status[$row["sclass"]] = $row;
+      }
     
-  public function save($item,$id) {
+      return $ary_status;            
+    }
+  }  
+    
+  public function save($item,$id) {  
       $data = array(
 		  'ccode'	=> $item["ccode"],
 		  'name' 	=> $item["name"],
@@ -100,7 +108,6 @@ class Course extends CI_Model {
     $data = array(
 		'mtype'	=> $item["mtype"],
 		'name' 	=> $item["name"],
-		'content' => $item["content"],
 	    );
     
     // 老位置    
@@ -140,6 +147,19 @@ class Course extends CI_Model {
     return TRUE;
   }
   
+  // 模块内容
+  public function save_module_content($course_id) {
+    $table="cmodules";
+    $item   = $this->input->post();
+    $id = $item["item_id"];
+    $data = array(
+		'content' => $item["content"],
+		);
+
+    $this->db->where('id', $id);
+    $this->db->update($table, $data); 
+    return TRUE;
+  }
   
   public function remove($item_id) {
     $this->db->where('id', $item_id);
@@ -155,6 +175,34 @@ class Course extends CI_Model {
     
     return TRUE;
   }
+  
+  // 保存课堂
+  public function save_lesson($id) { //模块id
+    $item=$this->input->post();
+ 
+    $stime= strtotime($item["stime"])/60;
+    $etime= strtotime($item["etime"])/60;
+      
+    $lesson_id=$item["lesson_id"];
+    $data = array(
+		'sclass'	=> $item["class_id"],
+		'status' 	=> $item["status"],
+		'lcode'  	=> $item["lcode"],
+		'module'  	=> $id,
+		'stime'		=> $stime,
+		'etime'		=> $etime,
+	    );
+    
+    $table="lessons";
+    if ($lesson_id==0) { // insert
+      $this->db->insert($table, $data); 
+    } else {
+      $this->db->where('id', $lesson_id);
+      $this->db->update($table, $data); 
+    }
+    return TRUE;
+  }
+  
   
   //用于接口
   public function if_tag() {

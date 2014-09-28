@@ -3,15 +3,15 @@
 
  Source Server         : localdb
  Source Server Type    : MySQL
- Source Server Version : 50538
+ Source Server Version : 50620
  Source Host           : localhost
  Source Database       : cidb
 
  Target Server Type    : MySQL
- Target Server Version : 50538
+ Target Server Version : 50620
  File Encoding         : utf-8
 
- Date: 09/28/2014 01:14:53 AM
+ Date: 09/28/2014 17:09:51 PM
 */
 
 SET NAMES utf8;
@@ -187,7 +187,7 @@ CREATE TABLE `ci_sessions` (
 --  Records of `ci_sessions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `ci_sessions` VALUES ('de70364a95c515c0a4a29288263df52b', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.78.2 (KHTML, like Gecko) Version/7.0.6 Safari/537.78.2', '1411836528', 'a:2:{s:9:\"user_data\";s:0:\"\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}');
+INSERT INTO `ci_sessions` VALUES ('f92582829f2663ff03b9d1753035d01d', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.22 (KHTML, like Gecko) Version/8.0 Safari/600.1.22', '1411891922', 'a:2:{s:9:\"user_data\";s:0:\"\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}');
 COMMIT;
 
 -- ----------------------------
@@ -233,13 +233,13 @@ CREATE TABLE `cmodules` (
   `content` varchar(2048) DEFAULT NULL,
   `status` smallint(6) DEFAULT '0' COMMENT '状态',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `cmodules`
 -- ----------------------------
 BEGIN;
-INSERT INTO `cmodules` VALUES ('1', '序言', '1', '1', '10', '共9个课时，5个自学模块，4个测验，5个作业', '0'), ('2', '一. 数一数与乘法', '1', '2', null, '第一章', '0'), ('3', '二. 乘法口诀1', '1', '4', null, '', '0'), ('4', '小测验', '1', '3', '13', '', '0'), ('5', '四. 分一分与除法', '1', '7', null, '', '0'), ('6', '整理与复习1', '1', '8', null, '', '0'), ('7', '总复习', '1', '100', null, '', '0'), ('8', '节日广场', '1', '6', null, '', '0'), ('9', '五. 方向与位置', '1', '9', null, '', '0'), ('10', '二. 小数', null, null, '9', '', '0'), ('11', '三. 观察物体', '1', '5', null, '', '0'), ('12', '一. 数一数与乘法', '2', '1', null, '第一章', '0'), ('13', '七. 乘法口诀2', '1', '12', null, '', '0'), ('14', '六. 时、分、秒', '1', '10', null, '', '0'), ('15', '月球旅行', '1', '11', null, '', '0'), ('18', '整理与复习2', '1', '84', '0', '', '0'), ('19', '八. 除法', '1', '85', '0', '', '0'), ('20', '九. 统计与猜测', '1', '86', '0', '', '0'), ('21', '趣味运动会', '1', '87', '0', '', '0'), ('22', '期末考试', '1', '101', '13', '', '0'), ('23', '一、声母', '3', '1', '9', '', '0');
+INSERT INTO `cmodules` VALUES ('1', '序言', '1', '1', '10', '共9个课时，5个自学模块，4个测验，5个作业', '0'), ('2', '一. 数一数与乘法', '1', '2', null, '{\n	\"ctype\":\"jpg_txt\",\n	\"total\":4,\n	\"descp1\":\"两个黄鹂鸣翠柳\",\n	\"descp2\":\"一行白鹭上青天\",\n	\"descp3\":\"三人行必有我师\",\n	\"descp4\":\"四面边声连角起，千嶂里，长烟落日孤城闭\",\n}', '0'), ('3', '二. 乘法口诀1', '1', '4', null, '', '0'), ('4', '小测验', '1', '3', '13', '', '0'), ('5', '四. 分一分与除法', '1', '7', null, '', '0'), ('6', '整理与复习1', '1', '8', null, '', '0'), ('7', '总复习', '1', '100', null, '', '0'), ('8', '节日广场', '1', '6', null, '', '0'), ('9', '五. 方向与位置', '1', '9', null, '', '0'), ('10', '二. 小数', null, null, '9', '', '0'), ('11', '三. 观察物体', '1', '5', null, '', '0'), ('12', '一. 数一数与乘法', '2', '1', null, '第一章', '0'), ('13', '七. 乘法口诀2', '1', '12', null, '', '0'), ('14', '六. 时、分、秒', '1', '10', null, '', '0'), ('15', '月球旅行', '1', '11', null, '', '0'), ('18', '整理与复习2', '1', '84', '0', '', '0'), ('19', '八. 除法', '1', '85', '0', '', '0'), ('20', '九. 统计与猜测', '1', '86', '0', '', '0'), ('21', '趣味运动会', '1', '87', '0', '', '0'), ('22', '期末考试', '1', '101', '13', '', '0'), ('23', '一、声母', '3', '1', '9', '', '0'), ('24', '一. 现代完成时', '4', '1', '9', '', '0');
 COMMIT;
 
 -- ----------------------------
@@ -304,6 +304,30 @@ CREATE TABLE `dishes` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `dishes` VALUES ('1', 'S0011', '1', '麦辣鸡腿堡套餐', null, '18', '麦辣鸡腿堡，中可乐，中薯条'), ('2', 'W0011', '0', '麦辣鸡腿堡', null, '10', ''), ('3', 'D0004', '0', '中可乐', null, '6', '500ml'), ('4', 'A0003', '0', '中薯条', null, '6', '100g'), ('5', 'S1002', '0', '套餐配汤', null, '3', ''), ('6', 'S1001', '0', '套餐米饭', null, '1', ''), ('7', 'S1021', '1', '辣子鸡丁套餐', null, '16', ''), ('8', null, '0', '辣子鸡丁', null, '14', null), ('9', 'S1022', '1', '回锅肉套餐', null, '16', ''), ('10', 'S0012', '1', '双层吉士堡套餐', null, '18', ''), ('15', 'N0011', '0', '牛肉拉面(大)', null, '9', '');
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `lessons`
+-- ----------------------------
+DROP TABLE IF EXISTS `lessons`;
+CREATE TABLE `lessons` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `lcode` varchar(20) DEFAULT NULL,
+  `name` varchar(30) DEFAULT NULL,
+  `module` int(11) DEFAULT NULL,
+  `sclass` int(11) DEFAULT NULL,
+  `status` smallint(6) DEFAULT NULL,
+  `stime` int(11) DEFAULT NULL,
+  `etime` int(11) DEFAULT NULL,
+  `cur_pos` smallint(6) DEFAULT '0' COMMENT '当前位置',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `lessons`
+-- ----------------------------
+BEGIN;
+INSERT INTO `lessons` VALUES ('2', 'P201501-T01', null, '4', '3', '2', '23544060', '23544120', '0'), ('3', null, null, '4', '4', '1', '23551260', '23551320', '0'), ('4', null, null, '24', '3', '1', '23534187', '23534247', '0');
 COMMIT;
 
 -- ----------------------------
@@ -407,7 +431,7 @@ CREATE TABLE `slinks` (
 --  Records of `slinks`
 -- ----------------------------
 BEGIN;
-INSERT INTO `slinks` VALUES ('111', '3', '初2015级1班', '1', '初中一年级数学(北师大)', null, null), ('111', '3', '初2015级1班', '4', '初三英语(上)', null, null), ('111', '4', '初2015级2班', '1', '初中一年级数学(北师大)', null, null), ('111', '4', '初2015级2班', '4', '初三英语(上)', null, null), ('111', '7', '初2016级3班', '2', '初二语文(上)', null, null), ('111', '10', '初2016级A班', '2', '初二语文(上)', null, null);
+INSERT INTO `slinks` VALUES ('102', '3', '', '12', '曹操', null, null), ('111', '3', '初2015级1班', '1', '初中一年级数学(北师大)', null, null), ('111', '3', '初2015级1班', '4', '初三英语(上)', null, null), ('111', '4', '初2015级2班', '1', '初中一年级数学(北师大)', null, null), ('111', '4', '初2015级2班', '4', '初三英语(上)', null, null), ('111', '7', '初2016级3班', '2', '初二语文(上)', null, null), ('111', '10', '初2016级A班', '2', '初二语文(上)', null, null);
 COMMIT;
 
 -- ----------------------------
@@ -425,13 +449,13 @@ CREATE TABLE `susers` (
   `descp` varchar(128) DEFAULT NULL,
   `status` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `susers`
 -- ----------------------------
 BEGIN;
-INSERT INTO `susers` VALUES ('1', '1', 'T003', '3', '颜建华', null, '0', null, null), ('2', null, null, null, '张三', null, '0', null, null), ('3', '2', 'S20150101', '3', '萧峰', null, '0', null, null), ('4', '2', 'S20150104', '3', '欧阳锋', null, '0', null, null), ('5', '2', 'A', null, '张三', null, '0', null, null), ('6', '0', 'T189', '3', '张老师', null, '0', null, null), ('7', '2', 'S20150111', null, '欧阳锋', null, '0', null, null), ('8', '2', 'S20150103', '3', '洪七公', null, '0', null, null), ('9', '2', 'S20150109', '3', '黄药师', null, '0', null, null);
+INSERT INTO `susers` VALUES ('1', '1', 'A003', '1', '颜建华', null, '0', null, null), ('2', null, null, null, '张三', null, '0', null, null), ('3', '2', 'S20150101', '3', '萧峰', null, '0', null, null), ('4', '2', 'S20150104', '3', '欧阳锋', null, '0', null, null), ('5', '2', 'A', null, '张三', null, '0', null, null), ('6', '0', 'T189', '3', '张老师', null, '0', null, null), ('7', '2', 'S20150111', null, '欧阳锋', null, '0', null, null), ('8', '2', 'S20150103', '3', '洪七公', null, '0', null, null), ('9', '2', 'S20150109', '3', '黄药师', null, '0', null, null), ('10', '0', 'T006', '1', '苏轼', null, '0', null, null), ('11', '1', 'A008', '1', '赵匡胤', null, '0', null, null), ('12', '0', 'T110', '1', '曹操', null, '0', null, null), ('13', '2', 'S20150113', '3', '段智兴', null, '0', null, null);
 COMMIT;
 
 -- ----------------------------
@@ -550,6 +574,12 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- ----------------------------
 DROP VIEW IF EXISTS `v_carsofuser`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_carsofuser` AS select `u`.`name` AS `name`,`c`.`carnumber` AS `carnumber`,`c`.`manufacturer` AS `manufacturer`,`c`.`brand` AS `brand`,`c`.`id` AS `cid`,`c`.`descp` AS `descp`,`u`.`id` AS `uid`,`c`.`mileage` AS `mileage`,`c`.`config` AS `config`,`c`.`engine` AS `engine`,`c`.`color` AS `color`,`c`.`framenumber` AS `framenumber` from ((`links` `l` left join `clients` `u` on((`u`.`id` = `l`.`lid`))) left join `cars` `c` on((`c`.`id` = `l`.`rid`))) where ((`l`.`ltype` = 1) and (`c`.`id` is not null) and (`u`.`id` is not null));
+
+-- ----------------------------
+--  View structure for `v_lessons`
+-- ----------------------------
+DROP VIEW IF EXISTS `v_lessons`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_lessons` AS select concat(`c`.`name`,'-',`m`.`name`) AS `name`,`l`.`module` AS `module`,`l`.`sclass` AS `sclass`,`l`.`status` AS `status`,`l`.`stime` AS `stime`,`l`.`etime` AS `etime`,`s`.`name` AS `class_name`,`m`.`mtype` AS `mtype`,`l`.`id` AS `lesson_id` from (((`lessons` `l` left join `cmodules` `m` on((`m`.`id` = `l`.`module`))) left join `sclasses` `s` on((`s`.`id` = `l`.`sclass`))) left join `courses` `c` on((`c`.`id` = `m`.`course`)));
 
 -- ----------------------------
 --  View structure for `v_sclasses`

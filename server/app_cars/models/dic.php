@@ -1,7 +1,8 @@
 <?php
 class Dic extends CI_Model {
-  const DIC_TYPE_ALL=0;
-  const DIC_TYPE_COURSE=10;
+  const DIC_TYPE_ALL		= 0;
+  const DIC_TYPE_COURSE		= 10;
+  const DIC_LESSON_STATUS	= 11;
   
   const STD_SQL_QUERY  = 'SELECT id,dtype,did,dcode,name FROM dic ';
   const TABLE_NAME = 'dic';
@@ -26,6 +27,18 @@ class Dic extends CI_Model {
 
     $query = $this->db->query($sql);
     return $query->result_array();
+  }
+
+  public function get_dic_list($dtype) {
+    $sql= "select did id,name value from ".self::TABLE_NAME." where dtype=".$dtype." and did>0 and did<100 order by did " ;
+
+    $query = $this->db->query($sql);
+    $ary_dic=array();
+    if ($query->num_rows()>0) foreach($query->result() as $row) {
+      $ary_dic[$row->id]=$row->value;
+    }
+    
+    return $ary_dic;
   }
 
   public function add_item($dtype,$name,$pos=100){

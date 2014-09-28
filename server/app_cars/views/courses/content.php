@@ -17,17 +17,17 @@
 		    <?php echo zm_table_header("次序,类型,名称,状态","操作") ?>
 		    <tbody>
 		    <?php foreach ($itemlist as $item): ?>
-			    <tr>
-				  <td><?php echo  $item["morder"]; ?></td>
-				  <td><?php echo  $item['mtype']; ?></td>
-				  <td><?php echo  $item["name"]; ?></td>
-				  <td><?php echo  $item["status"]; ?></td>
-				  <td align=right>
-				  <?php echo anchor($MODULE_PATH.$item["id"]."/module","设置"); ?> |
-				  <?php echo anchor($MODULE_PATH.$item["id"]."/edit_module","编辑"); ?> |
-				  <?php link_to_jdelete("confirm_del(\"".$item["id"]."/delete_module\",\"".$item["name"]."\")"); ?>
-				  </td>
-			    </tr>
+                        <tr>
+                        <td><?php echo  $item["morder"]; ?></td>
+                        <td><?php echo  $item['mtype']; ?></td>
+                        <td><?php echo  $item["name"]; ?></td>
+                        <td><?php echo  $item["status"]; ?></td>
+                        <td align=right>
+                        <?php echo anchor($MODULE_PATH.$item["id"]."/lesson","课堂"); ?> |
+                        <?php echo anchor($MODULE_PATH.$item["id"]."/edit_module","编辑"); ?> |
+                        <?php link_to_jdelete("confirm_del(\"".$item["id"]."/delete_module\",\"".$item["name"]."\")"); ?>
+                        </td>
+                        </tr>
 		    <?php endforeach ?>
 		</tbody>
 	      </table>

@@ -1,5 +1,5 @@
 <?php
-    $MODULE_NAME ="sclasses";
+    $MODULE_PATH ="sclasses/";
 ?>
 <div class="container">
     <div class="page-header">
@@ -24,7 +24,8 @@
 				      <td><?php echo  $item['address']; ?></td>
 				      <td><?php echo  $item['gyear']; ?></td>
 				      <td align=right>
-				      <?php link_to_edit($MODULE_NAME."/".$item["id"]."/edit"); ?> |
+				      <?php echo anchor($MODULE_PATH.$item["id"]."/member","人员"); ?> |
+				      <?php echo anchor($MODULE_PATH.$item["id"]."/edit","编辑"); ?> |
 				      <?php link_to_jdelete("confirm_del(\"".$item["id"]."/delete\",\"".$item["name"]."\")"); ?>
 				      </td>
 				</tr>
@@ -55,9 +56,9 @@
 			  <td><?php echo  $item['gyear']; ?></td>
 			  <td><?php echo  $item['address']; ?></td>
 			  <td align=right>
-			  <?php echo anchor($MODULE_NAME."/".$item["id"]."/course","课程"); ?> |
-			  <?php echo anchor($MODULE_NAME."/".$item["id"]."/member","人员"); ?> |
-			  <?php echo anchor($MODULE_NAME."/".$item["id"]."/edit","编辑"); ?> |
+			  <?php echo anchor($MODULE_PATH.$item["id"]."/course","课程"); ?> |
+			  <?php echo anchor($MODULE_PATH.$item["id"]."/member","人员"); ?> |
+			  <?php echo anchor($MODULE_PATH.$item["id"]."/edit","编辑"); ?> |
 			  <?php link_to_jdelete("confirm_del(\"".$item["id"]."/delete\",\"".$item["name"]."\")"); ?>
 			  </td>
 		    </tr>
@@ -76,7 +77,7 @@
 		<div class="panel-heading">增加学校</div>				
 		<div class="panel-body">
 			<?php
-			    zm_form_open(1,$MODULE_NAME."/0/save_school");
+			    zm_form_open(1,$MODULE_PATH."0/save_school");
 			    zm_form_input(1,"代 码","scode");
 			    zm_form_input(1,"名 称","name");
 			    zm_form_input(1,"联系方式","contact");
@@ -91,7 +92,7 @@
 		<div class="panel-heading">增加班级</div>				
 		<div class="panel-body">
 			<?php
-			    zm_form_open(1,$MODULE_NAME."/0/save");
+			    zm_form_open(1,$MODULE_PATH."0/save");
 			    zm_form_select(1,"学 校","school",$schools,$school);
 			    zm_form_input(1,"代 码","scode");
 			    zm_form_input(1,"名 称","name");
@@ -105,7 +106,7 @@
 	    </div>
 	</div>
     </div>
-    <?php zm_dlg_delete(array("path" => base_url($MODULE_NAME),  "title1"  => "确认删除",  "title2"  => "删除内容: ")); ?>
+    <?php zm_dlg_delete(array("path" => base_url($MODULE_PATH),  "title1"  => "确认删除",  "title2"  => "删除内容: ")); ?>
 
 </div>
 

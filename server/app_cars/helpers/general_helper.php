@@ -63,6 +63,17 @@ function show_nav($current_tab)
    $CI->load->view('_common/navbar',$navdata);
 }
 
+// 时间转化
+function date_to_int($dif,$strdate="") // 转成16进制字符串  
+{
+   if ($strdate=="") {
+      
+   } else {
+      
+   }
+   
+}
+
 
 
 

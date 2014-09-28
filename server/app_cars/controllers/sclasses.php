@@ -41,8 +41,18 @@ class Sclasses extends CI_Controller {
       $data["class_id"] =$id;
       $data["class_name"] =$sclass["name"];
       
-      $data['itemlist']  = $this->sclass->get_members($id,0);
-      $data['itemlist2'] = $this->sclass->get_members($id,1);
+      $data["mtype_list"] =array(0=>"教师",1=>"管理员");
+      
+      if ($sclass["utype"]==2) { //班级，显示相关教员和学员
+	$data["is_school"] = FALSE;
+	$data["school_id"] =$sclass["pid"];
+	$data['itemlist']  = $this->sclass->get_members($id,0);
+	$data['itemlist2'] = $this->sclass->get_members($id,1);
+	
+      } else { //学校，显示所有教员
+	$data["is_school"] = TRUE;
+	$data['itemlist']  = $this->sclass->get_members($id,2);
+      }
       
       show_view(self::MODULE_NAME."/member",$data); 
     }
@@ -58,9 +68,16 @@ class Sclasses extends CI_Controller {
       $data["class_id"] =$id;
       $data["class_name"] =$sclass["name"];
       
+      // 课程设置和选择
       $data['links1'] = $this->sclass->get_courses($id,0);
       $data['links2'] = $this->sclass->get_courses($id,1);
       
+      // 状态列表
+      $this->load->model("dic");
+      $data["status_list"]=$this->dic->get_dic_list(Dic::DIC_LESSON_STATUS);
+      
+      // 课程计划,id 为班级id
+      $data["lesson_list"] = $this->sclass->get_courses($sclass["id"],2);
       show_view(self::MODULE_NAME."/course",$data); 
     }
   }
@@ -96,8 +113,14 @@ class Sclasses extends CI_Controller {
     redirect(self::MODULE_NAME);
   }
 
-  public function save_member($id) {
+  public function save_member($id) { //id是class_id
     $this->sclass->save_member($this->input->post(),$id);
+    redirect(self::MODULE_NAME."/".$id."/member");
+  }
+  
+  public function add_member($id) { //id是class_id
+    $this->sclass->add_member($id);
+    
     redirect(self::MODULE_NAME."/".$id."/member");
   }
   

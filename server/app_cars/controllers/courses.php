@@ -108,8 +108,8 @@ class Courses extends CI_Controller {
     }
   }
   
-  public function module($id) { //课程模块班级管理	
-    $this->load->helper(array('form','zmform'));
+  public function lesson($id) { //课程模块班级管理	
+    $this->load->helper(array("form","zmform","date"));
     $item=$this->course->get_content($id,1);
     if (empty($item)) {
       show_404();
@@ -118,10 +118,26 @@ class Courses extends CI_Controller {
       $data["module_name"]  =$item["name"];
       $data["course_id"]  =$item["course"];
 
+      // 状态列表
+      $this->load->model("dic");
+      $data["status_list"]=$this->dic->get_select_list(Dic::DIC_LESSON_STATUS);
+
+      // 班级列表
       $this->load->model("slink");
       $data["class_list"] =$this->slink->llist(SLink::TYPE_CLASS_COURSE,$data["course_id"]);
 
-      show_view(self::MODULE_NAME."/module",$data); 
+      // 课程列表
+      $stime=(now()+2*86400)/60;
+      $etime=$stime+60;
+      
+      $data["new_lesson"]  = array("id"=>0,
+				   "stime"=>$stime,
+				   "etime"=>$etime,
+				   "lcode"=>$data["module_name"],
+				   "status"=>0);
+      $data["lesson_list"] = $this->course->get_content($id,2);
+      
+      show_view(self::MODULE_NAME."/lesson",$data); 
     }
   }
   
@@ -143,6 +159,11 @@ class Courses extends CI_Controller {
     redirect(self::MODULE_NAME."/".$id."/content");
   }
   
+  public function save_module_content($id) { //保存模块内容
+    $this->course->save_module_content($id);
+    redirect(self::MODULE_NAME."/".$id."/content");
+  }
+  
   public function delete_module($id) {	
     if ($this->input->server('REQUEST_METHOD')==="DELETE") {
       $this->course->remove_module($id);
@@ -150,5 +171,16 @@ class Courses extends CI_Controller {
       return;
     }
   }
+    
+  /*
+   * 课堂管理
+   */
+  public function save_lesson($id) { //id为模块id
+    $this->load->helper('date');
+    $course_id=$this->input->post("course_id");
+    $this->course->save_lesson($id);
+    redirect(self::MODULE_NAME."/".$course_id."/content");
+  }
+  
 
 }
