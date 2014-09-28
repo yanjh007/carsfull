@@ -148,7 +148,7 @@ class Courses extends CI_Controller {
       show_404();
     } else {
       $this->load->model("dic");
-      $data["list1"] =$this->dic->get_select_list(Dic::DIC_TYPE_COURSE);
+      $data["mtype_list"] =$this->dic->get_select_list(Dic::DIC_TYPE_COURSE);
 
       show_view(self::MODULE_NAME."/edit_module",$data); 
     }

@@ -3,15 +3,15 @@
 
  Source Server         : localdb
  Source Server Type    : MySQL
- Source Server Version : 50620
+ Source Server Version : 50538
  Source Host           : localhost
  Source Database       : cidb
 
  Target Server Type    : MySQL
- Target Server Version : 50620
+ Target Server Version : 50538
  File Encoding         : utf-8
 
- Date: 09/28/2014 17:09:51 PM
+ Date: 09/29/2014 00:46:24 AM
 */
 
 SET NAMES utf8;
@@ -187,7 +187,7 @@ CREATE TABLE `ci_sessions` (
 --  Records of `ci_sessions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `ci_sessions` VALUES ('f92582829f2663ff03b9d1753035d01d', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.22 (KHTML, like Gecko) Version/8.0 Safari/600.1.22', '1411891922', 'a:2:{s:9:\"user_data\";s:0:\"\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}');
+INSERT INTO `ci_sessions` VALUES ('95eed04e79f8e33fa7daeb0703cb7cd0', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/600.1.17 (KHTML, like Gecko) Version/7.1 Safari/537.85.10', '1411922025', 'a:2:{s:9:\"user_data\";s:0:\"\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}');
 COMMIT;
 
 -- ----------------------------
@@ -239,7 +239,7 @@ CREATE TABLE `cmodules` (
 --  Records of `cmodules`
 -- ----------------------------
 BEGIN;
-INSERT INTO `cmodules` VALUES ('1', '序言', '1', '1', '10', '共9个课时，5个自学模块，4个测验，5个作业', '0'), ('2', '一. 数一数与乘法', '1', '2', null, '{\n	\"ctype\":\"jpg_txt\",\n	\"total\":4,\n	\"descp1\":\"两个黄鹂鸣翠柳\",\n	\"descp2\":\"一行白鹭上青天\",\n	\"descp3\":\"三人行必有我师\",\n	\"descp4\":\"四面边声连角起，千嶂里，长烟落日孤城闭\",\n}', '0'), ('3', '二. 乘法口诀1', '1', '4', null, '', '0'), ('4', '小测验', '1', '3', '13', '', '0'), ('5', '四. 分一分与除法', '1', '7', null, '', '0'), ('6', '整理与复习1', '1', '8', null, '', '0'), ('7', '总复习', '1', '100', null, '', '0'), ('8', '节日广场', '1', '6', null, '', '0'), ('9', '五. 方向与位置', '1', '9', null, '', '0'), ('10', '二. 小数', null, null, '9', '', '0'), ('11', '三. 观察物体', '1', '5', null, '', '0'), ('12', '一. 数一数与乘法', '2', '1', null, '第一章', '0'), ('13', '七. 乘法口诀2', '1', '12', null, '', '0'), ('14', '六. 时、分、秒', '1', '10', null, '', '0'), ('15', '月球旅行', '1', '11', null, '', '0'), ('18', '整理与复习2', '1', '84', '0', '', '0'), ('19', '八. 除法', '1', '85', '0', '', '0'), ('20', '九. 统计与猜测', '1', '86', '0', '', '0'), ('21', '趣味运动会', '1', '87', '0', '', '0'), ('22', '期末考试', '1', '101', '13', '', '0'), ('23', '一、声母', '3', '1', '9', '', '0'), ('24', '一. 现代完成时', '4', '1', '9', '', '0');
+INSERT INTO `cmodules` VALUES ('1', '序言', '1', '1', '10', '共9个课时，5个自学模块，4个测验，5个作业', '0'), ('2', '一. 数一数与乘法', '1', '2', null, '{\n	\"ctype\":\"jpg_txt\",\n	\"total\":4,\n	\"descp1\":\"两个黄鹂鸣翠柳\",\n	\"descp2\":\"一行白鹭上青天\",\n	\"descp3\":\"三人行必有我师\",\n	\"descp4\":\"四面边声连角起，千嶂里，长烟落日孤城闭\",\n}', '0'), ('3', '二. 乘法口诀1', '1', '4', null, '', '0'), ('4', '小测验1', '1', '3', '13', '', '0'), ('5', '四. 分一分与除法', '1', '7', null, '', '0'), ('6', '整理与复习1', '1', '8', null, '', '0'), ('7', '总复习', '1', '100', null, '', '0'), ('8', '节日广场', '1', '6', null, '', '0'), ('9', '五. 方向与位置', '1', '9', null, '', '0'), ('10', '二. 小数', null, null, '9', '', '0'), ('11', '三. 观察物体', '1', '5', null, '', '0'), ('12', '一. 数一数与乘法', '2', '1', null, '第一章', '0'), ('13', '七. 乘法口诀2', '1', '12', null, '', '0'), ('14', '六. 时、分、秒', '1', '10', null, '', '0'), ('15', '月球旅行', '1', '11', null, '', '0'), ('18', '整理与复习2', '1', '84', '0', '', '0'), ('19', '八. 除法', '1', '85', '0', '', '0'), ('20', '九. 统计与猜测', '1', '86', '0', '', '0'), ('21', '趣味运动会', '1', '87', '0', '', '0'), ('22', '期末考试', '1', '101', '13', '', '0'), ('23', '一、声母', '3', '1', '9', '', '0'), ('24', '一. 现代完成时', '4', '1', '9', '', '0');
 COMMIT;
 
 -- ----------------------------
@@ -253,7 +253,7 @@ CREATE TABLE `courses` (
   `ccata` int(11) DEFAULT NULL COMMENT '科目',
   `descp` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `courses`
@@ -379,13 +379,13 @@ CREATE TABLE `sclasses` (
   `contact` varchar(50) DEFAULT NULL,
   `descp` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `sclasses`
 -- ----------------------------
 BEGIN;
-INSERT INTO `sclasses` VALUES ('1', 'CDNSMS', '0', '0', '成都七中', '1980', '天府大道', null, null), ('2', 'CSNNMS', '0', '0', '成都九中', '1987', '天府广场', '', null), ('3', 'P201501', '1', '2', '初2015级1班', '2015', '教三202', null, null), ('4', 'P201502', '1', '2', '初2015级2班', '2015', '', '', null), ('6', 'CDSSMS', '0', '0', '石室中学1', null, '陕西街', '', null), ('7', 'P201603', '1', '2', '初2016级3班', '2016', '主楼503', '', null), ('8', 'SSH2016A', '6', '2', '高2016级B班', '2016', '', '', null), ('9', 'SSH2017C', '6', '2', '高2017级C班', '2017', '教4-503', '', null), ('10', 'NMP2016A', '2', '2', '初2016级A班', '2016', '', '', null);
+INSERT INTO `sclasses` VALUES ('1', 'CDNSMS', '0', '0', '成都七中', '1980', '天府大道', null, null), ('2', 'CSNNMS', '0', '0', '成都九中', '1987', '天府广场', '', null), ('3', 'P201501', '1', '2', '初2015级1班', '2015', '教三202', null, null), ('4', 'P201502', '1', '2', '初2015级2班', '2015', '', '', null), ('6', 'CDSSMS', '0', '0', '石室中学1', null, '陕西街', '', null), ('7', 'P201603', '1', '2', '初2016级3班', '2016', '主楼503', '', null), ('8', 'SSH2016A', '6', '2', '高2016级B班', '2016', '', '', null), ('9', 'SSH2017C', '6', '2', '高2017级C班', '2017', '教4-503', '', null), ('10', 'NMP2016A', '2', '2', '初2016级A班', '2016', '', '', null), ('11', 'XDXJPS', '0', '0', '新都西街小学', '0', '新都桂湖', '028-86009898', null), ('12', 'P201703', '11', '2', '小2017级3班', '2017', '', '', null);
 COMMIT;
 
 -- ----------------------------
@@ -431,7 +431,7 @@ CREATE TABLE `slinks` (
 --  Records of `slinks`
 -- ----------------------------
 BEGIN;
-INSERT INTO `slinks` VALUES ('102', '3', '', '12', '曹操', null, null), ('111', '3', '初2015级1班', '1', '初中一年级数学(北师大)', null, null), ('111', '3', '初2015级1班', '4', '初三英语(上)', null, null), ('111', '4', '初2015级2班', '1', '初中一年级数学(北师大)', null, null), ('111', '4', '初2015级2班', '4', '初三英语(上)', null, null), ('111', '7', '初2016级3班', '2', '初二语文(上)', null, null), ('111', '10', '初2016级A班', '2', '初二语文(上)', null, null);
+INSERT INTO `slinks` VALUES ('102', '3', '', '12', '曹操', null, null), ('102', '12', '', '15', '唐老师', null, null), ('111', '3', '初2015级1班', '1', '初中一年级数学(北师大)', null, null), ('111', '3', '初2015级1班', '4', '初三英语(上)', null, null), ('111', '4', '初2015级2班', '1', '初中一年级数学(北师大)', null, null), ('111', '4', '初2015级2班', '4', '初三英语(上)', null, null), ('111', '7', '初2016级3班', '2', '初二语文(上)', null, null), ('111', '10', '初2016级A班', '2', '初二语文(上)', null, null);
 COMMIT;
 
 -- ----------------------------
@@ -449,13 +449,13 @@ CREATE TABLE `susers` (
   `descp` varchar(128) DEFAULT NULL,
   `status` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `susers`
 -- ----------------------------
 BEGIN;
-INSERT INTO `susers` VALUES ('1', '1', 'A003', '1', '颜建华', null, '0', null, null), ('2', null, null, null, '张三', null, '0', null, null), ('3', '2', 'S20150101', '3', '萧峰', null, '0', null, null), ('4', '2', 'S20150104', '3', '欧阳锋', null, '0', null, null), ('5', '2', 'A', null, '张三', null, '0', null, null), ('6', '0', 'T189', '3', '张老师', null, '0', null, null), ('7', '2', 'S20150111', null, '欧阳锋', null, '0', null, null), ('8', '2', 'S20150103', '3', '洪七公', null, '0', null, null), ('9', '2', 'S20150109', '3', '黄药师', null, '0', null, null), ('10', '0', 'T006', '1', '苏轼', null, '0', null, null), ('11', '1', 'A008', '1', '赵匡胤', null, '0', null, null), ('12', '0', 'T110', '1', '曹操', null, '0', null, null), ('13', '2', 'S20150113', '3', '段智兴', null, '0', null, null);
+INSERT INTO `susers` VALUES ('1', '1', 'A003', '1', '颜建华', null, '0', null, null), ('2', null, null, null, '张三', null, '0', null, null), ('3', '2', 'S20150101', '3', '萧峰', null, '0', null, null), ('4', '2', 'S20150104', '3', '欧阳锋', null, '0', null, null), ('5', '2', 'A', null, '张三', null, '0', null, null), ('6', '0', 'T189', '3', '张老师', null, '0', null, null), ('7', '2', 'S20150111', null, '欧阳锋', null, '0', null, null), ('8', '2', 'S20150103', '3', '洪七公', null, '0', null, null), ('9', '2', 'S20150109', '3', '黄药师', null, '0', null, null), ('10', '0', 'T006', '1', '苏轼', null, '0', null, null), ('11', '1', 'A008', '1', '赵匡胤', null, '0', null, null), ('12', '0', 'T110', '1', '曹操', null, '0', null, null), ('13', '2', 'S20150113', '3', '段智兴', null, '0', null, null), ('14', '0', 'T002', '6', '刘备', null, '0', null, null), ('15', '0', 'T005', '11', '唐老师', null, '0', null, null), ('16', '1', 'A005', '11', '胡主任', null, '0', null, null);
 COMMIT;
 
 -- ----------------------------

@@ -97,6 +97,22 @@ function zm_btn_delete($title,$onclick,$option="")
    echo "<button type='button' class='btn btn-danger' onclick='".$onclick."' >".$title."</button>&nbsp&nbsp";
 }
 
+function zm_btn_delete2($ftype,$ponclick,$option="")
+{
+   echo "<button type='button' class='btn btn-danger' onclick='".$onclick."' >".$title."</button>&nbsp&nbsp";
+}
+
+function zm_form_delete($ftype,$path_delete,$path)
+{
+   $CI=&get_instance();
+   $form_data["ftype"] = $ftype;
+   $form_data["path_delete"]  = base_url($path_delete);
+   $form_data["path"]  = base_url($path);
+
+   $CI->load->view('_form/form_delete',$form_data);   
+}
+
+
 function zm_dlg_delete($form_data)
 {
    $CI=&get_instance();

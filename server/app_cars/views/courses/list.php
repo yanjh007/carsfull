@@ -25,8 +25,7 @@
 				  <td align=right>
 				  <?php echo anchor($MODULE_PATH.$item["id"]."/content","内容"); ?> |
 				  <?php echo anchor($MODULE_PATH.$item["id"]."/sclass","班级(".(isset($countlist[$item["id"]])?$countlist[$item["id"]]:0).")"); ?> |
-				  <?php echo anchor($MODULE_PATH.$item["id"]."/edit","编辑"); ?> |
-				  <?php link_to_jdelete("confirm_del(\"".$item["id"]."/delete\",\"".$item["name"]."\")"); ?>
+				  <?php echo anchor($MODULE_PATH.$item["id"]."/edit","编辑"); ?>
 				  </td>
 			    </tr>
 		    <?php endforeach ?>
@@ -53,7 +52,6 @@
 	    </div>
 	</div>
     </div>
-    <?php zm_dlg_delete(array("path" => base_url($MODULE_PATH),  "title1"  => "确认删除",  "title2"  => "删除内容: ")); ?>
 
 </div>
 

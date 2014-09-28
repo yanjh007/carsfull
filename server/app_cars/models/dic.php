@@ -23,10 +23,14 @@ class Dic extends CI_Model {
   }
   
   public function get_select_list($dtype) {
-    $sql= "select did id,name value from ".self::TABLE_NAME." where dtype=".$dtype." and did>0 and did<100 order by did " ;
+    $sql= "select did,name from ".self::TABLE_NAME." where dtype=".$dtype." and did>0 and did<100 order by did " ;
 
     $query = $this->db->query($sql);
-    return $query->result_array();
+    $ary=array();
+    if ($query->num_rows()>0) foreach ($query->result() as $row) {
+	$ary[$row->did]=$row->name;
+    }
+    return $ary;
   }
 
   public function get_dic_list($dtype) {

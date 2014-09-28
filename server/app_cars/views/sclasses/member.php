@@ -24,7 +24,14 @@
 				      <td><?php echo  $item["name"]; ?></td>
 				      <td><?php echo  $mtype_list[$item['stype']]; ?></td>
 				      <td align=right>
-				      <?php echo anchor($MODULE_PATH.$item["id"]."/remove_member","移除"); ?>
+				      <?php
+					if ($is_school) {
+					    echo anchor($MODULE_PATH.$item["id"]."/edit_member","编辑");
+					} else {
+					    echo anchor($MODULE_PATH.$item["id"]."/remove_member","移除");
+					}
+					
+				      ?>
 				      </td>
 				</tr>
 			<?php endforeach ?>

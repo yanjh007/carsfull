@@ -14,7 +14,7 @@
             <?php
                 zm_form_open (0,$MODULE_PATH.$course_id."/save_module");
                 zm_form_hidden("item_id",$item["id"]);
-                zm_form_select(0,"类 型","mtype",$list1,$item["mtype"]);
+                zm_form_select(0,"类 型","mtype",$mtype_list,$item["mtype"]);
                 zm_form_input(0,"次 序","morder", $item["morder"]);
                 zm_form_input(0,"标 题","name",   $item["name"]);
             ?>

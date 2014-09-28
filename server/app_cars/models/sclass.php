@@ -129,8 +129,14 @@ class Sclass extends CI_Model {
   // 选择用列表
   public function school_list() {
     $sql="select id,CONCAT(scode,'-',name) value from ".self::TABLE_NAME." where utype=0 and pid=0 order by scode";
+    
     $query = $this->db->query($sql);
-    return $query->result_array();
+    $ary_dic=array();
+    if ($query->num_rows()>0) foreach($query->result() as $row) {
+      $ary_dic[$row->id]=$row->value;
+    }
+    
+    return $ary_dic;
   }
   
   public function save_member($item,$classid) {
