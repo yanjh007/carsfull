@@ -35,11 +35,8 @@ class Sclass extends CI_Model {
   //班级列表
   public function get_sclass($pid,$id=0){
     if ($id==0) { //输入列表
-      if ($pid==0) {
-	$sql= "select * from v_sclasses";
-      } else {
-	$sql= "select * from v_sclasses where pid=".$pid;
-      }
+      $sql= "select * from v_sclasses";
+      if ($pid>0) $sql.= " where pid=".$pid;
       
       $query = $this->db->query($sql);
       return $query->result_array();
@@ -117,8 +114,6 @@ class Sclass extends CI_Model {
     }	
   }
   
-  
-  
   public function remove($item_id) {
     $this->db->where('id', $item_id);
     $this->db->delete(self::TABLE_NAME); 
@@ -127,7 +122,7 @@ class Sclass extends CI_Model {
   }
   
   // 选择用列表
-  public function school_list() {
+  public function school_select_list() {
     $sql="select id,CONCAT(scode,'-',name) value from ".self::TABLE_NAME." where utype=0 and pid=0 order by scode";
     
     $query = $this->db->query($sql);

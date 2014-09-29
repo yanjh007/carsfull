@@ -51,14 +51,16 @@ function zm_form_radio($ftype,$title,$name,$list,$select="")
    $CI->load->view('_form/radio',$form_data);   
 }
 
-function zm_form_check($title,$name,$checked="")
+function zm_form_check($ftype,$title,$name,$list,$value="")
 {
    $CI=&get_instance();
+   $form_data["ftype"]    = $ftype;
    $form_data["title"]    = $title;
    $form_data["name"]     = $name;
-   $form_data["checked"]   = $checked;
+   $form_data["list"]     = $list;
+   $form_data["value"]     = $value;
 
-   $CI->load->view('_form/check_0',$form_data);   
+   $CI->load->view('_form/check',$form_data);   
 }
 
 function zm_form_input($ftype,$title,$name,$value="")
@@ -100,6 +102,16 @@ function zm_btn_delete($title,$onclick,$option="")
 function zm_btn_delete2($ftype,$ponclick,$option="")
 {
    echo "<button type='button' class='btn btn-danger' onclick='".$onclick."' >".$title."</button>&nbsp&nbsp";
+}
+
+function zm_btn_menu($ftype,$title,$list) //带菜单的按钮 类型－标题-列表(类型-标题-连接/方法)
+{
+   $CI=&get_instance();
+   $form_data["ftype"] = $ftype;
+   $form_data["title"] =$title;
+   $form_data["list"]  = $list;
+
+   $CI->load->view('_form/btn_menu',array("ftype"=>$ftype,"title"=>$title,"list"=>$list));
 }
 
 function zm_form_delete($ftype,$path_delete,$path)

@@ -14,8 +14,7 @@ class Sclasses extends CI_Controller {
     $data['itemlist']  = $this->sclass->get_schools();
     $data['itemlist2'] = $this->sclass->get_sclass(0,0);
     
-    $data["school"] = 0;
-    $data["schools"]= $this->sclass->school_list();
+    $data["school_list"]= $this->sclass->school_select_list();
     
     show_view(self::MODULE_NAME."/list",$data); 
   }
@@ -88,7 +87,7 @@ class Sclasses extends CI_Controller {
     if (empty($data['item'])) {
       show_404();
     } else {
-      $data["schools"]= $this->sclass->school_list();
+      $data["school_list"]= $this->sclass->school_select_list();
       show_view(self::MODULE_NAME."/edit",$data); 
     }
   }

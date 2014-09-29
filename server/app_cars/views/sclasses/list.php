@@ -14,21 +14,20 @@
 		  
 		    <!-- Table -->
 		    <table class="table">
-			<?php echo zm_table_header("#,编号,名称,地址,班级数量","操作") ?>
+			<?php echo zm_table_header("#,编号,名称,地址,联系方式","操作") ?>
 			<tbody>
 			<?php foreach ($itemlist as $item): ?>
-				<tr>
-				      <td><?php echo  $item["id"]; ?></td>
-				      <td><?php echo  $item['scode']; ?></td>
-				      <td><a href="<?php echo "#sclass_".$item["id"] ?>"><?php echo $item["name"] ?></a></td>
-				      <td><?php echo  $item['address']; ?></td>
-				      <td><?php echo  $item['gyear']; ?></td>
-				      <td align=right>
-				      <?php echo anchor($MODULE_PATH.$item["id"]."/member","人员"); ?> |
-				      <?php echo anchor($MODULE_PATH.$item["id"]."/edit","编辑"); ?> |
-				      <?php link_to_jdelete("confirm_del(\"".$item["id"]."/delete\",\"".$item["name"]."\")"); ?>
-				      </td>
-				</tr>
+			    <tr>
+			    <td><?php echo  $item["id"]; ?></td>
+			    <td><?php echo  $item['scode']; ?></td>
+			    <td><a href="<?php echo "#sclass_".$item["id"] ?>"><?php echo $item["name"] ?></a></td>
+			    <td><?php echo  $item['address']; ?></td>
+			    <td><?php echo  $item['contact']; ?></td>
+			    <td align=right>
+			    <?php echo anchor($MODULE_PATH.$item["id"]."/member","人员"); ?> |
+			    <?php echo anchor($MODULE_PATH.$item["id"]."/edit","编辑"); ?>
+			    </td>
+			    </tr>
 			<?php endforeach ?>
 		    </tbody>
 		  </table>
@@ -56,10 +55,14 @@
 			  <td><?php echo  $item['gyear']; ?></td>
 			  <td><?php echo  $item['address']; ?></td>
 			  <td align=right>
-			  <?php echo anchor($MODULE_PATH.$item["id"]."/course","课程"); ?> |
-			  <?php echo anchor($MODULE_PATH.$item["id"]."/member","人员"); ?> |
-			  <?php echo anchor($MODULE_PATH.$item["id"]."/edit","编辑"); ?> |
-			  <?php link_to_jdelete("confirm_del(\"".$item["id"]."/delete\",\"".$item["name"]."\")"); ?>
+			  <?php
+				$url_link=$MODULE_PATH.$item["id"];
+				$menu=array(array("mtype"=>0,"mtitle"=>"编 辑","mlink"=>$url_link."/edit"),
+					    array("mtype"=>0,"mtitle"=>"人 员","mlink"=>$url_link."/member"),
+					    array("mtype"=>0,"mtitle"=>"课 程","mlink"=>$url_link."/course"),
+					    );  
+				zm_btn_menu(0,"编辑",$menu);
+			    ?>
 			  </td>
 		    </tr>
 		<?php endforeach ?>
@@ -93,7 +96,7 @@
 		<div class="panel-body">
 			<?php
 			    zm_form_open(1,$MODULE_PATH."0/save");
-			    zm_form_select(1,"学 校","school",$schools,$school);
+			    zm_form_select(1,"学 校","school",$school_list,0);
 			    zm_form_input(1,"代 码","scode");
 			    zm_form_input(1,"名 称","name");
 			    zm_form_input(1,"毕业年份","gyear");

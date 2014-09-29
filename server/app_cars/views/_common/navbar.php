@@ -27,7 +27,7 @@
                   nav_menu(array("系统管理","用户管理","users","店铺管理","shops",
                            "","任务类型","tasktypes","任务组管理","taskgroups",
                            "","车系管理","carseries","型号管理","carmodels",
-                           "","字典管理","dics","系统设置","syssettings"));
+                           "","字典管理","dics","系统设置","settings"));
                 }
                 
                 nav_menu(array("当前用户:".$username,"用户设置","usersettings","通知信息","notifys","","注销","logout"));

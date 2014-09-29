@@ -11,9 +11,9 @@
         <div class="panel-body">
             <?php
                 zm_form_open (0,$MODULE_PATH.$item["id"]."/save");
+                zm_form_select(0,"科 目","ccata",$ccata_list,$item["ccata"]);
                 zm_form_input(0,"编 码","ccode",  $item["ccode"]);
                 zm_form_input(0,"名 称","name",   $item["name"]);
-                zm_form_input(0,"科 目","ccata",$item["ccata"]);
             ?>
             
             <div class="form-group">

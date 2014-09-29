@@ -11,12 +11,18 @@ class Courses extends CI_Controller {
   public function index(){
     $this->load->helper(array('form','zmform'));
     $data['itemlist']  = $this->course->get_course(0);
+    
+    // 班级数量
     $list =  $this->course->get_sclass(0,2);
     $countmap=array();
     foreach ($list as $item) {
         $countmap[$item["rid"]]=$item["count"];
     }
     $data["countlist"] =$countmap;
+    
+    // 科目列表
+    $this->load->model("dic");
+    $data["ccata_list"]=$this->dic->get_select_list(Dic::DIC_COURSE_CATA);
     
     show_view(self::MODULE_NAME."/list",$data); 
   }
@@ -54,7 +60,10 @@ class Courses extends CI_Controller {
     if (empty($data['item'])) {
       show_404();
     } else {
-      //$data["schools"]= $this->course->school_list();
+      // 科目列表
+      $this->load->model("dic");
+      $data["ccata_list"]=$this->dic->get_select_list(Dic::DIC_COURSE_CATA);
+
       show_view(self::MODULE_NAME."/edit",$data); 
     }
   }
@@ -99,10 +108,15 @@ class Courses extends CI_Controller {
       $data["course_id"] =$id;
       $data["course_name"] =$course["name"];
       
+
       $data['itemlist'] = $this->course->get_content($id,0);
 
+      // 模块课程状态列表
+      $data["sclass_list"] =$this->course->get_sclass($id,10);
+      
+      // 模块类型
       $this->load->model("dic");
-      $data["list1"] =$this->dic->get_select_list(Dic::DIC_TYPE_COURSE);
+      $data["mtype_list"] =$this->dic->get_select_list(Dic::DIC_TYPE_COURSE);
 
       show_view(self::MODULE_NAME."/content",$data); 
     }

@@ -34,15 +34,56 @@ class Course extends CI_Model {
   }
   
   public function get_sclass($id,$stype) { //0 已关联班级  1未关联班级
+    if ($stype==10) { //已开启班级 $id为课程 以lesson为key
+      $sql="select * from v_lesson_classes where course=".$id;
+      $ary=array(); 
+      $key=0; $str_list;
+      $query = $this->db->query($sql);
+      foreach ($query->result_array() as $row) {
+		if ($row["module"]!=$key ) {
+		  if ($key!=0) $ary[$key]=$str_list;
+		  $ary_list=array();
+		  $str_list=$row["class_name"];
+		  $key=$row["module"];
+		} else {
+		  $str_list.="<br>".$row["class_name"];  
+		}
+	  
+		$stime=date("m-d H:i",$row["stime"]*60);
+		$etime=date("m-d H:i",$row["etime"]*60);
+	  
+		if ($row["status"]==1) {
+		  $status="(关闭)";
+		} else if ($row["status"]==2) {
+		  $status="(开启)";
+		} else if ($row["status"]==3) {
+		  $status="(定时开启 ".$stime.")";
+		} else if ($row["status"]==4) {
+		  $status="(定时关闭 ".$etime.")";
+		} else if ($row["status"]==5) {
+		  $status="(".$stime."~".$etime.")";
+		} else {
+		  $status="";
+		}
+		$str_list.=" ".$status;
+      }
+	  
+      if ($key!=0) { //最后一个
+		$ary[$key]=$str_list;	
+      }
+      
+      return $ary;
+    }
+    
     $this->load->model("slink");
     
     if ($stype==0) { //已关联班级
       $sql = "select lid id,lname name from slinks where rid=".$id." and ltype=".Slink::TYPE_CLASS_COURSE;
     } else if($stype==1) { //未关联班级
       $sql= "select id,name from sclasses where utype=2 and id not in (select lid from ".Slink::TABLE_NAME." where ltype=".Slink::TYPE_CLASS_COURSE." and rid= ".$id.") ";  
-    } else { //关联班级数量
+    } else if($stype==2) { //关联班级数量
       $sql=" select rid,rname,count(1) count from slinks where ltype=".Slink::TYPE_CLASS_COURSE." group by rid ";
-    }
+    } 
     
     $query = $this->db->query($sql);
     return $query->result_array(); 

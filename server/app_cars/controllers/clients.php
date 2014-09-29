@@ -8,22 +8,13 @@ class Clients extends CI_Controller {
   }
 
   public function index(){
-	$this->load->helper(array('form','zmform'));
-	
-	if ($this->input->get("search")) {
-	  $keyword=$this->input->get("search");
-	  $data['clients'] = $this->client->search($keyword);
-	} else {
-	  $data['clients'] = $this->client->search();
-	}
-
-    $this->load->view('_common/header');
+    $this->load->helper(array('form','zmform'));
+    $data['itemlist']  = $this->sclass->get_schools();
+    $data['itemlist2'] = $this->sclass->get_sclass(0,0);
     
-    show_nav(11);
-
-    $this->load->view('clients/list', $data);
-
-    $this->load->view('_common/footer');
+    $data["school_list"]= $this->sclass->school_select_list();
+    
+    show_view(self::MODULE_NAME."/list",$data); 
   }
 
   public function view($cid){

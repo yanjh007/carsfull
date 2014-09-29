@@ -1,8 +1,10 @@
 <?php
 class Dic extends CI_Model {
   const DIC_TYPE_ALL		= 0;
-  const DIC_TYPE_COURSE		= 10;
-  const DIC_LESSON_STATUS	= 11;
+  
+  const DIC_COURSE_CATA         = 9; //课程科目
+  const DIC_TYPE_COURSE		= 10; //课程类型
+  const DIC_LESSON_STATUS	= 11; //课堂状态
   
   const STD_SQL_QUERY  = 'SELECT id,dtype,did,dcode,name FROM dic ';
   const TABLE_NAME = 'dic';
