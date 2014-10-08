@@ -5,13 +5,6 @@
  * CodeIgniter includes.
 */
 
-/**
- * asset_url
- *
- * This function OVERRIDES the current
- * CodeIgniter base_url function to support
- * CDN'ized content.
- */
 
 function zm_form_open($ftype,$path)
 {
@@ -66,21 +59,23 @@ function zm_form_check($ftype,$title,$name,$list,$value="")
 function zm_form_input($ftype,$title,$name,$value="")
 {  
    $CI=&get_instance();
+   $form_data["ftype"]    = $ftype;
    $form_data["title"] = $title;
    $form_data["name"]  = $name;
    $form_data["value"] = $value;
 
-   $CI->load->view('_form/input_'.$ftype,$form_data);   
+   $CI->load->view('_form/input',$form_data);   
 }
 
 function zm_form_textarea($ftype,$title,$name,$value="")
 {   
    $CI=&get_instance();
+   $form_data["ftype"]    = $ftype;
    $form_data["title"] = $title;
    $form_data["name"]  = $name;
    $form_data["value"] = $value;
 
-   $CI->load->view('_form/textarea_'.$ftype,$form_data);   
+   $CI->load->view('_form/textarea',$form_data);   
 }
 
 function zm_btn_back($address)
