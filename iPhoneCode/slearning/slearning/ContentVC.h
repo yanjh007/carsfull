@@ -10,10 +10,11 @@
 
 
 @interface ContentVC : UIViewController
-
+-(void) setMData:(id)data;
 @end
 
 
 @interface ContentPageView : UIView
 -(instancetype) initWithData:(NSDictionary*) data;
+-(void) show:(BOOL)bShow;
 @end
