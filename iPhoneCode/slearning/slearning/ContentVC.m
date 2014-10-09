@@ -9,18 +9,16 @@
 #import "ContentVC.h"
 #import "AppController.h"
 #import "AsyncImageView.h"
-#import "FSAudioController.h"
+#import <MediaPlayer/MediaPlayer.h>
 
 #pragma mark - 内容页面控制器
 @interface ContentVC ()<UIScrollViewDelegate>
-//@property (retain,nonatomic) NSArray *mAryContent;
+
 @property (retain,nonatomic) NSMutableArray *mAryContentViews;
+@property (strong,nonatomic) ContentPageView *cp_current;;
 
 @property (strong, nonatomic) IBOutlet UIScrollView *sv_content;
 @property (strong, nonatomic) IBOutlet UIView *tbar,*bbar;
-@property (strong, nonatomic) IBOutlet ContentPageView *cp_current;;
-
-@property (assign) int iCurrent_page;
 
 @end
 
@@ -157,14 +155,35 @@
             [self.cp_current show:YES];
         }
     }
-    if (self.cp_current && self.cp_current.tag!=page) { //当前页面改变
-        [self.cp_current show:NO];
-    }
     
     //加载前后页面
     [self loadContentAt:page-1];
     [self loadContentAt:page+1];
 }
+- (IBAction)do_go_prev:(UIButton *)sender {
+    [self goPage:-2];
+}
+- (IBAction)do_go_next:(UIButton *)sender {
+    [self goPage:-1];
+}
+
+-(void) goPage:(int) page
+{
+    if (page>=(int)self.mAryContentViews.count || page<(-2)) return;
+
+    int p=self.cp_current.tag;
+    
+    if (page==-1) { //向后
+        [self goPage:p+1];
+    } else if (page==-2) { // 向前
+        if (p==0) return;
+        [self goPage:p-1];
+    } else {
+        [self.sv_content setContentOffset:CGPointMake(self.sv_content.frame.size.width*page, 0) animated:YES];
+        [self showPage:page];
+    }
+}
+
 
 @end
 
@@ -173,7 +192,8 @@
 @interface ContentPageView()
 @property (retain,nonatomic) NSDictionary *mData;
 
-@property (nonatomic,retain)  FSAudioController *ac_content;
+@property (nonatomic,retain) MPMoviePlayerController *mpc_content;
+@property (nonatomic,retain) UIWebView *wv_content;
 @end
 
 @implementation ContentPageView
@@ -192,15 +212,18 @@
 {
     if (bShow) {
         [self setPageContent:self.mData];
-        if (self.ac_content && self.ac_content.url) {
-            [self.ac_content play];
-            NSLog(@"begin play:%@",self.ac_content.url);
+        if (self.mpc_content) {
+            [self.mpc_content play];
+            NSLog(@"begin play:%@",self.mpc_content.contentURL);
+        }
+        
+        if (self.wv_content) {
+            [self.wv_content loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.mData[DKEY_CONTENT]]]];
         }
     } else {
-        NSLog(@"hide Page:%@",self.mData[DKEY_ID]);
-        if (self.ac_content) {
-            [self.ac_content stop];
-            NSLog(@"end play:%@",self.ac_content.url);
+        if (self.mpc_content) {
+            [self.mpc_content stop];
+            NSLog(@"end play:%@",self.mpc_content.contentURL);
         }
     }
 }
@@ -247,20 +270,35 @@
     }
     
     if ([mtype rangeOfString:@"A"].location != NSNotFound) { //带音频
-        if (!self.ac_content) {
-            self.ac_content = [[FSAudioController alloc] init];
+        if (!self.mpc_content && content[DKEY_CONTENT]) {
+            self.mpc_content = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@.mp3",path,sno]]];
+            [self.mpc_content.view setFrame:CGRectZero];
+            [self.mpc_content.view setHidden:YES];
+            [self addSubview:self.mpc_content.view];
         }
-        self.ac_content.url=[NSURL URLWithString:[NSString stringWithFormat:@"%@%@.mp3",path,sno]];
-        //[self.ac_content setUrl:[NSURL URLWithString:[U] content[@"content"]];
     }
     
     if ([mtype rangeOfString:@"V"].location != NSNotFound) { //带视频
-        if (content[@"content"]) { //外部视频
-            
+        if (!self.mpc_content && content[DKEY_CONTENT]) { //外部视频
+            self.mpc_content = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@.mp4",path,sno]]];
+            [self.mpc_content.view setFrame:CGRectMake(0, 0, self.frame.size.width,self.frame.size.height) ];
+            self.mpc_content.controlStyle=MPMovieControlStyleDefault;
+            [self addSubview:self.mpc_content.view];
+            [self sendSubviewToBack:self.mpc_content.view];
         } else { //默认视频
             
         }
-        
+    }
+    
+    if ([mtype contain:@"W"]) { //WebView
+        if (content[DKEY_CONTENT]) { //外部视频
+            self.wv_content=[[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width,self.frame.size.height)];
+
+            [self addSubview:self.wv_content];
+            [self sendSubviewToBack:self.wv_content];
+        } else { //默认视频
+            
+        }
     }
     
 }

@@ -151,6 +151,8 @@ static int const DELE_ACTION_PAY_RECOVER = 2104;
 -(NSString*) formatDateInLong:(float)timesec;
 -(void) drawAtX:(float)x Y:(float)y withFont:font align:(int)align;
 
+//包含子字符串
+-(BOOL) contain:(NSString*)subStr;
 @end
 
 #pragma mark - NSDictionay 扩展

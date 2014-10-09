@@ -430,6 +430,14 @@ static char encodingTable[64] = {
         [self drawAtPoint:pt withFont:font];
     }
 }
+
+
+-(BOOL) contain:(NSString*)subStr
+{
+    if (!subStr) return NO;
+
+    return [self rangeOfString:subStr].location != NSNotFound;
+}
 @end
 
 #pragma mark - NSArray扩展

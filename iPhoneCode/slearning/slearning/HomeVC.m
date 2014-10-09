@@ -74,8 +74,8 @@
             NSDictionary *data= @{@"data":@[
                                           @{DKEY_ID:@(1),DKEY_TITLE:@"第一页",DKEY_TYPE:@"TP",@"content":@"两个黄鹂鸣翠柳"}, //文字加图片
                                           @{DKEY_ID:@(2),DKEY_TITLE:@"第二页",DKEY_TYPE:@"TPA",@"content":@"一行白鹭上青天"}, //文字、图片、音频
-                                          @{DKEY_ID:@(3),DKEY_TITLE:@"第三页",DKEY_TYPE:@"TALI",@"content":@"三人行必有我师"}, //链接+提示信息
-                                          @{DKEY_ID:@(4),DKEY_TITLE:@"第四页",DKEY_TYPE:@"W",DKEY_CONTENT:@"baidu.com"} //Web内容
+                                          @{DKEY_ID:@(3),DKEY_TITLE:@"第三页",DKEY_TYPE:@"W",@"content":@"http://baidu.com"}, //链接+提示信息
+                                          @{DKEY_ID:@(4),DKEY_TITLE:@"第四页",DKEY_TYPE:@"V",DKEY_CONTENT:@"http://apple.com/v.mp4"}, //视频内容
                                           ]};
             
             [vc performSelector:@selector(setMData:)withObject:data];
