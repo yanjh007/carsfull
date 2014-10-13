@@ -10,9 +10,11 @@
 #import "ContentVC.h"
 #import "AppController.h"
 #import "LoginVC.h"
+#import "JY_Request.h"
 
 @interface HomeVC ()<UITableViewDataSource,UITableViewDelegate>
 @property (strong, nonatomic) IBOutlet UITableView *tb_lessons;
+@property (strong, nonatomic) IBOutlet UITextView *tv_content;
 @property (retain, nonatomic) NSArray *ary_lesson;
 @end
 
@@ -21,13 +23,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.ary_lesson=@[@"预习－整数",@"整数与分数"];
+    //self.ary_lesson=@[@"预习－整数",@"整数与分数"];
     // Do any additional setup after loading the view, typically from a nib.
 }
 
 -(void) viewDidAppear:(BOOL)animated
 {
     //if (![User isLogin]) [LoginView showIn:self.view At:self.view.center];
+    [self do_refresh:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -48,7 +51,7 @@
         cell=[[ UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:id_cell];
 
     }
-    [cell.textLabel setText:self.ary_lesson[indexPath.row]];
+    [cell.textLabel setText:self.ary_lesson[indexPath.row][@"name"]];
     return cell;
 
 }
@@ -57,7 +60,9 @@
 {
 //    ContentVC *vc=[[ContentVC alloc] init];
 //    self.navigationController pu
-    [self performSegueWithIdentifier:@"sg_home_content"  sender:nil];
+//    [self performSegueWithIdentifier:@"sg_home_content"  sender:nil];
+    
+    [self.tv_content setText:self.ary_lesson[indexPath.row][@"content"]];
 }
 
 - (IBAction)do_go_lesson:(UIButton *)sender {
@@ -94,6 +99,35 @@
 //    }
 }
 
+-(void) do_update_lessons
+{
+    
+    
+}
+
+- (IBAction)do_refresh:(id)sender {
+    [JY_Request post:@{
+                       MKEY_USER:@"8",
+                       MKEY_TOKEN :@"hello",
+                       MKEY_METHOD:@"slesson"
+                    }
+             withURL:@"http://localhost/cars/s"
+          completion:^(int status,NSString* result) {
+              NSDictionary *dic=[result jsonObject];
+              if (dic && [JVAL_RESULT_OK isEqualToString:dic[JKEY_RESULT]]) {
+//                  NSDictionary *list= dic[JKEY_CONTENT];
+//                  for (NSDictionary *item in ary_lessons) {
+//                      
+//                  }
+                  self.ary_lesson=dic[JKEY_CONTENT];
+                  [self.tb_lessons reloadData];
+              }
+              
+              NSLog(@"result:%@",result);
+          }];
+    
+    
+}
 
 
 @end

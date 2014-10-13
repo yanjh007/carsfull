@@ -6,15 +6,19 @@
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>53E39E74-6B28-4617-ACC9-3DE0ED8AC1CF</string>
+	<key>IDESourceControlProjectName</key>
+	<string>slearning</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>259D539452E1FC836CB476A08771EA7D2F4A5F79</key>
 		<string>https://github.com/yanjh007/carsfull.git</string>
 	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>iPhoneCode/slearning/slearning.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>259D539452E1FC836CB476A08771EA7D2F4A5F79</key>
-		<string>carsfull</string>
+		<string>../../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/yanjh007/carsfull.git</string>
@@ -30,7 +34,7 @@
 			<key>IDESourceControlWCCIdentifierKey</key>
 			<string>259D539452E1FC836CB476A08771EA7D2F4A5F79</string>
 			<key>IDESourceControlWCCName</key>
-			<string>carsfull</string>
+			<string>cars</string>
 		</dict>
 	</array>
 </dict>

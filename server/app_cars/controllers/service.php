@@ -59,6 +59,11 @@ class Service extends CI_Controller {
 	      $this->load->model('car');
 	      $data = $this->car->if_cars_update();	  
 	      break;
+	  case "slesson": //获取学生课程资料
+	      //if (!$this->_tokenCheck()) return;　//Token验证
+	      $this->load->model('course');
+	      $data = $this->course->if_slessons();	      
+	      break;
 	  default:
 	      $data["result"] = "FALSE";
 	      $data["content"] = json_encode(array("status"=>404,"error"=>"Request Not Found"));

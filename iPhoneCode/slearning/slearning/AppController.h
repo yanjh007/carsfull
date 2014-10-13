@@ -71,6 +71,7 @@ static NSString *const JKEY_USER    = @"U";
 static NSString *const JKEY_DEVICE  = @"I";
 static NSString *const JKEY_TIME    = @"T";
 static NSString *const JKEY_VERSION = @"V";
+static NSString *const JKEY_TOKEN   = @"K";
 
 static NSString *const JKEY_TITLE   = @"title";
 static NSString *const JKEY_ID      = @"id";

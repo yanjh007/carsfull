@@ -246,17 +246,28 @@ class Course extends CI_Model {
   
   
   //用于接口
-  public function if_tag() {
-    $tag = $this->input->get_post('K');
-    $sql="select id,manufacturer,brand,tags,engine_list,trans_list,descp from ".self::TABLE_NAME." where tags like '%".$tag."%' order by manufacturer";	
+  public function if_slessons() { //学生课堂列表
+    $user = $this->input->get_post('U');
 	
+	$sql = "select sclass from susers where id=".$user;
     $query = $this->db->query($sql);
 
     if ($query->num_rows() > 0) {
-      $data["content"] = json_encode($query->result_array());
+		$sclass=$query->row()->sclass;
+		
+		$sql="select * from v_lessons where sclass=".$sclass;	
+		
+		$query = $this->db->query($sql);
+	
+		if ($query->num_rows() > 0) {
+		  $data["content"] = json_encode($query->result_array());
+		} else {
+		  $data["result"] = "NULL";
+		}	
     } else {
       $data["result"] = "NULL";
-    }	
+    }		
+	
 
     return $data;  
   }
