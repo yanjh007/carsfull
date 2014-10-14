@@ -38,7 +38,7 @@ class Courses extends CI_Controller {
     }
   }
 
-  public function sclass($id) {	
+  public function sclass($id) {	 //课程和班级的关联页面 id为课程id
     $this->load->helper(array('form','zmform'));
     $course = $this->course->get_course($id);
     if (empty($course)) {
@@ -54,7 +54,7 @@ class Courses extends CI_Controller {
     }
   }
   
-  public function edit($id) {	
+  public function edit($id) { // 课程编辑
     $this->load->helper(array('form','zmform'));
     $data['item'] = $this->course->get_course($id);
     if (empty($data['item'])) {
@@ -68,12 +68,12 @@ class Courses extends CI_Controller {
     }
   }
     
-  public function save($id) {	
+  public function save($id) { // 课程保存
     $this->course->save($this->input->post(),$id);
     redirect(self::MODULE_NAME);
   }
   
-  public function delete($id) {	
+  public function delete($id) {	 //课程删除
     if ($this->input->server('REQUEST_METHOD')==="DELETE") {
       $this->course->remove($id);
       echo "OK";
@@ -99,7 +99,7 @@ class Courses extends CI_Controller {
   /*
    * 内容管理
    */
-  public function content($id) { //课程模块管理	
+  public function content($id) { //课程内容和模块管理	
     $this->load->helper(array('form','zmform'));
     $course = $this->course->get_course($id);
     if (empty($course)) {
@@ -108,7 +108,6 @@ class Courses extends CI_Controller {
       $data["course_id"] =$id;
       $data["course_name"] =$course["name"];
       
-
       $data['itemlist'] = $this->course->get_content($id,0);
 
       // 模块课程状态列表
@@ -122,7 +121,7 @@ class Courses extends CI_Controller {
     }
   }
   
-  public function lesson($id) { //课程模块班级管理	
+  public function lesson($id) { //课堂管理	
     $this->load->helper(array("form","zmform","date"));
     $item=$this->course->get_content($id,1);
     if (empty($item)) {
@@ -189,11 +188,38 @@ class Courses extends CI_Controller {
   /*
    * 课堂管理
    */
-  public function save_lesson($id) { //id为模块id
+  public function save_lesson($id) { //课堂保存 id为模块id
     $this->load->helper('date');
     $course_id=$this->input->post("course_id");
     $this->course->save_lesson($id);
     redirect(self::MODULE_NAME."/".$course_id."/content");
+  }
+  
+  
+  /*
+   * 课堂报表
+   */
+  public function report($id) { //课堂报告 id为课堂id
+    $this->load->helper(array('form','zmform'));
+    $data['item'] = $this->course->get_content($id,1);
+    if (empty($data['item'])) {
+      show_404();
+    } else {
+      $this->load->model("dic");
+      $data["mtype_list"] =$this->dic->get_select_list(Dic::DIC_TYPE_COURSE);
+
+      show_view(self::MODULE_NAME."/edit_module",$data); 
+    }
+  }
+  
+    /*
+   * 课堂日志
+   */
+  public function log($id) {//课堂报告 id为课堂id或者课程id
+    $this->load->helper(array('form','zmform'));
+    $data= $this->course->get_logs($id,$this->input->get());
+    
+    show_view(self::MODULE_NAME."/logs",$data); 
   }
   
 

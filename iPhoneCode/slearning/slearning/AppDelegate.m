@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "JY_DBHelper.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +18,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    [JY_DBHelper initDB];
     return YES;
 }
 

@@ -14,14 +14,44 @@
 	      
 		<!-- Table -->
 		<table class="table">
-		    <?php echo zm_table_header("次序,类型,名称,开启班级","操作") ?>
+		    <?php echo zm_table_header("次序,类型,名称,班级和状态","操作") ?>
 		    <tbody>
 		    <?php foreach ($itemlist as $item): ?>
                         <tr>
                         <td><?php echo  $item["morder"]; ?></td>
                         <td><?php if (isset($mtype_list[$item["mtype"]])) echo $mtype_list[$item["mtype"]]; ?></td>
                         <td><?php echo  $item["name"]; ?></td>
-                        <td><?php if (isset($sclass_list[$item["id"]])) echo $sclass_list[$item["id"]]; ?></td>
+                        <td><?php
+                            $lesson_id=$item["id"];
+                            if (isset($sclass_list[$lesson_id])) {
+                                    $list=$sclass_list[$lesson_id];
+                                    $i=0;
+                                    foreach ($list as $row) {
+                                        $stime=date("m-d H:i",$row["stime"]*60);
+                                        $etime=date("m-d H:i",$row["etime"]*60);
+                                         
+                                        if ($row["status"]==1) {
+                                         $status="(关闭)";
+                                        } else if ($row["status"]==2) {
+                                         $status="(开启)";
+                                        } else if ($row["status"]==3) {
+                                         $status="(定时开启 ".$stime.")";
+                                        } else if ($row["status"]==4) {
+                                         $status="(定时关闭 ".$etime.")";
+                                        } else if ($row["status"]==5) {
+                                         $status="(".$stime."~".$etime.")";
+                                        } else {
+                                         $status="";
+                                        }
+
+                                        if ($i>0) echo "<br>";
+                                        echo anchor ($MODULE_PATH.$row["lid"]."/report?sclass=".$row["sclass"]."&course=".$course_id,$row["class_name"]);
+                                        echo $status."&nbsp";
+                                        echo anchor($MODULE_PATH.$row["lid"]."/log?sclass=".$row["sclass"]."&course=".$course_id."&class_name=".$row["class_name"]."&lesson_name=".$item["name"],"(日志)");
+                                        $i++;
+                                    }
+                                  }
+                        ?></td>
 
                         <td align=right>
                         <?php echo anchor($MODULE_PATH.$item["id"]."/lesson","状态"); ?> |

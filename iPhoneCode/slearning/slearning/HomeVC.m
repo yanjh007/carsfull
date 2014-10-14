@@ -11,6 +11,7 @@
 #import "AppController.h"
 #import "LoginVC.h"
 #import "JY_Request.h"
+#import "Models.h"
 
 @interface HomeVC ()<UITableViewDataSource,UITableViewDelegate>
 @property (strong, nonatomic) IBOutlet UITableView *tb_lessons;
@@ -25,6 +26,8 @@
     
     //self.ary_lesson=@[@"预习－整数",@"整数与分数"];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    
 }
 
 -(void) viewDidAppear:(BOOL)animated
@@ -115,17 +118,14 @@
           completion:^(int status,NSString* result) {
               NSDictionary *dic=[result jsonObject];
               if (dic && [JVAL_RESULT_OK isEqualToString:dic[JKEY_RESULT]]) {
-//                  NSDictionary *list= dic[JKEY_CONTENT];
-//                  for (NSDictionary *item in ary_lessons) {
-//                      
-//                  }
-                  self.ary_lesson=dic[JKEY_CONTENT];
+                  [JY_Lesson saveList:dic[JKEY_CONTENT]];
+                  
+                  self.ary_lesson=[JY_Lesson getLessons];
                   [self.tb_lessons reloadData];
               }
               
               NSLog(@"result:%@",result);
           }];
-    
     
 }
 

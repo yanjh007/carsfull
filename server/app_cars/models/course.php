@@ -33,43 +33,25 @@ class Course extends CI_Model {
     }
   }
   
-  public function get_sclass($id,$stype) { //0 已关联班级  1未关联班级
+  public function get_sclass($id,$stype) { //0 已关联班级  1未关联班级 10 已关联班级和状态信息
     if ($stype==10) { //已开启班级 $id为课程 以lesson为key
       $sql="select * from v_lesson_classes where course=".$id;
       $ary=array(); 
-      $key=0; $str_list;
+      $key=0;
+	  $sclass_list; // lesson对于的班级列表
       $query = $this->db->query($sql);
       foreach ($query->result_array() as $row) {
 		if ($row["module"]!=$key ) {
-		  if ($key!=0) $ary[$key]=$str_list;
-		  $ary_list=array();
-		  $str_list=$row["class_name"];
+		  if ($key!=0) $ary[$key]=$sclass_list;
+		  $sclass_list=array();
 		  $key=$row["module"];
-		} else {
-		  $str_list.="<br>".$row["class_name"];  
 		}
 	  
-		$stime=date("m-d H:i",$row["stime"]*60);
-		$etime=date("m-d H:i",$row["etime"]*60);
-	  
-		if ($row["status"]==1) {
-		  $status="(关闭)";
-		} else if ($row["status"]==2) {
-		  $status="(开启)";
-		} else if ($row["status"]==3) {
-		  $status="(定时开启 ".$stime.")";
-		} else if ($row["status"]==4) {
-		  $status="(定时关闭 ".$etime.")";
-		} else if ($row["status"]==5) {
-		  $status="(".$stime."~".$etime.")";
-		} else {
-		  $status="";
-		}
-		$str_list.=" ".$status;
+		array_push($sclass_list,$row);
       }
 	  
       if ($key!=0) { //最后一个
-		$ary[$key]=$str_list;	
+		$ary[$key]=$sclass_list;	
       }
       
       return $ary;
@@ -119,11 +101,48 @@ class Course extends CI_Model {
       $query = $this->db->query($sql);
       $ary_status=array();
       if ($query->num_rows() > 0) foreach ($query->result_array() as $row){
-	$ary_status[$row["sclass"]] = $row;
+		$ary_status[$row["sclass"]] = $row;
       }
     
       return $ary_status;            
     }
+  }
+  
+  public function get_logs($lesson_id,$input) { //获取班级课程日志
+	//var_dump($input);
+	$class_id  = $input["sclass"];
+	$course_id = $input["course"];
+	
+	$sql="select * from v_course_logs where sclass=".$class_id;
+	if ($lesson_id>0) { //课堂对应
+		$sql.=" and lesson =".$lesson_id;
+	} else {
+		$course_id=isset($input["course"])?$input["course"]:0;
+		if($course_id==0) { //获取课程对应日志
+			$sql.=" and course =".$course_id;
+		} else { //获取课程日志
+		}	
+	}
+	  
+	$sql.=" order by ltime desc";
+	$query = $this->db->query($sql);
+	
+//	if ($query->num_rows()>0)
+	$data["list"] = $query->result_array();
+
+	// 课程	
+	$data["course_id"]  = $course_id;
+//	$data["course_name"]= "课程";
+
+	//相关章节
+	$data["lesson_id"]  = $lesson_id;
+	$data["lesson_name"]= $input["lesson_name"];
+
+	//相关班级
+	$data["class_id"]  = $class_id;
+	$data["class_name"]=  $input["class_name"];
+
+	return $data;
   }  
     
   public function save($item,$id) {  
@@ -149,6 +168,7 @@ class Course extends CI_Model {
     $data = array(
 		'mtype'	=> $item["mtype"],
 		'name' 	=> $item["name"],
+		'edit_at' => time()/60
 	    );
     
     // 老位置    
@@ -195,6 +215,7 @@ class Course extends CI_Model {
     $id = $item["item_id"];
     $data = array(
 		'content' => $item["content"],
+		'edit_at' => time()/60
 		);
 
     $this->db->where('id', $id);
@@ -236,11 +257,38 @@ class Course extends CI_Model {
     
     $table="lessons";
     if ($lesson_id==0) { // insert
-      $this->db->insert($table, $data); 
+      $this->db->insert($table, $data);
+	  $lesson_id-$this->db->insert_id;
     } else {
       $this->db->where('id', $lesson_id);
       $this->db->update($table, $data); 
     }
+	
+	$sql="select course from cmodules where id=$id";
+	$query = $this->db->query($sql);
+	$course_id =($query->num_rows() > 0)?$query->row()->course:0;
+	$content="修改了课堂状态";
+	
+    $log = array(
+		'course'	=> $course_id,
+		'sclass' 	=> $item["class_id"],
+		'lesson'  	=> $lesson_id,
+		'ltype'  	=> 1,
+		'content'	=> $content,
+		'ltime'		=> time(),
+	    );
+
+//	var_dump($log);
+	$this->save_log($log);	
+	
+    return TRUE;
+  }
+  
+    // 保存日志
+  public function save_log($log) { //模块id    
+    $table="clogs";
+    $this->db->insert($table, $log); 
+
     return TRUE;
   }
   
@@ -268,7 +316,6 @@ class Course extends CI_Model {
       $data["result"] = "NULL";
     }		
 	
-
     return $data;  
   }
 
