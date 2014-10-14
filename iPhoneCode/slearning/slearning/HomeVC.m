@@ -7,16 +7,19 @@
 //
 
 #import "HomeVC.h"
-#import "ContentVC.h"
+#import "LessonVC.h"
 #import "AppController.h"
 #import "LoginVC.h"
 #import "JY_Request.h"
 #import "Models.h"
+#import "JY_DbHelper.h"
 
 @interface HomeVC ()<UITableViewDataSource,UITableViewDelegate>
 @property (strong, nonatomic) IBOutlet UITableView *tb_lessons;
 @property (strong, nonatomic) IBOutlet UITextView *tv_content;
 @property (retain, nonatomic) NSArray *ary_lesson;
+@property (retain, nonatomic) JY_Lesson *cur_lesson;
+
 @end
 
 @implementation HomeVC
@@ -24,16 +27,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    //self.ary_lesson=@[@"预习－整数",@"整数与分数"];
-    // Do any additional setup after loading the view, typically from a nib.
-    
-    
+    self.ary_lesson=[JY_Lesson getLessons];
 }
 
 -(void) viewDidAppear:(BOOL)animated
 {
     //if (![User isLogin]) [LoginView showIn:self.view At:self.view.center];
-    [self do_refresh:nil];
+    [self.tb_lessons reloadData];
+    //[self do_refresh:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -54,18 +55,19 @@
         cell=[[ UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:id_cell];
 
     }
-    [cell.textLabel setText:self.ary_lesson[indexPath.row][@"name"]];
+    JY_Lesson *item=self.ary_lesson[indexPath.row];
+    [cell.textLabel setText:item.name];
     return cell;
 
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    ContentVC *vc=[[ContentVC alloc] init];
-//    self.navigationController pu
-//    [self performSegueWithIdentifier:@"sg_home_content"  sender:nil];
+
+    JY_Lesson *item=self.ary_lesson[indexPath.row];
     
-    [self.tv_content setText:self.ary_lesson[indexPath.row][@"content"]];
+    [self.tv_content setText:item.content];
+    self.cur_lesson= item;
 }
 
 - (IBAction)do_go_lesson:(UIButton *)sender {
@@ -77,7 +79,7 @@
 {
     UIViewController *vc=[segue destinationViewController];
     
-    if ([[segue identifier] isEqualToString:@"sg_home_content"]) {
+    if ([[segue identifier] isEqualToString:SGI_HOME_LESSON_PAGE]) {
         if ([vc respondsToSelector:@selector(setMData:)]) {
             NSDictionary *data= @{@"data":@[
                                           @{DKEY_ID:@(1),DKEY_TITLE:@"第一页",DKEY_TYPE:@"TP",@"content":@"两个黄鹂鸣翠柳"}, //文字加图片
@@ -91,21 +93,20 @@
         return;
     }
     
-//    if ([[segue identifier] isEqualToString:SEGUE_IDENTIFIER_HISTORY]) {
-//        // ...
-//        return;
-//    }
-//    
-//    if ([[segue identifier] isEqualToString:SEGUE_IDENTIFIER_FAVORITE]) {
-//        // ...
-//        return;
-//    }
+    if ([[segue identifier] isEqualToString:SGI_HOME_LESSON]) {
+        if ([vc respondsToSelector:@selector(setLesson:)]) {
+            [vc performSelector:@selector(setLesson:)withObject:self.cur_lesson];
+        }
+        return;
+    }
+    
 }
 
--(void) do_update_lessons
+-(IBAction) do_clear_db
 {
-    
-    
+    [JY_DBHelper execSQL:@"drop table if exists lessons"];
+    [JY_DBHelper execSQL:@"drop table if exists _meta"];
+    [JY_DBHelper initDB];
 }
 
 - (IBAction)do_refresh:(id)sender {
@@ -114,7 +115,7 @@
                        MKEY_TOKEN :@"hello",
                        MKEY_METHOD:@"slesson"
                     }
-             withURL:@"http://localhost/cars/s"
+             withURL:URL_BASE_SERVICE
           completion:^(int status,NSString* result) {
               NSDictionary *dic=[result jsonObject];
               if (dic && [JVAL_RESULT_OK isEqualToString:dic[JKEY_RESULT]]) {
@@ -129,5 +130,15 @@
     
 }
 
+- (IBAction)do_lesson:(UIButton *)sender {
+    if (self.cur_lesson) {
+        if (self.cur_lesson.mtype==11) { //同步课程
+            [self performSegueWithIdentifier:SGI_HOME_LESSON_PAGE  sender:nil];
+        } else {
+            [self performSegueWithIdentifier:SGI_HOME_LESSON  sender:nil];
+        }
+    }
+    
+}
 
 @end

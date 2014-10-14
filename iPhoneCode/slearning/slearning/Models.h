@@ -10,7 +10,7 @@
 
 @interface JY_Lesson : NSObject
 
-@property (assign) int cid,lid,stime,etime,status;
+@property (assign) int cid,lid,mtype,stime,etime,status;
 @property (strong,nonatomic) NSString *content,*name,*course_name;
 //@property (assign) int carid,status,year;
 //@property (strong,nonatomic) NSArray *colorList,*cfgList,*engineList,*transList,*yearList;

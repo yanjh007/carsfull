@@ -3,15 +3,15 @@
 
  Source Server         : localdb
  Source Server Type    : MySQL
- Source Server Version : 50620
+ Source Server Version : 50538
  Source Host           : localhost
  Source Database       : cidb
 
  Target Server Type    : MySQL
- Target Server Version : 50620
+ Target Server Version : 50538
  File Encoding         : utf-8
 
- Date: 10/14/2014 16:58:59 PM
+ Date: 10/15/2014 01:34:52 AM
 */
 
 SET NAMES utf8;
@@ -187,7 +187,7 @@ CREATE TABLE `ci_sessions` (
 --  Records of `ci_sessions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `ci_sessions` VALUES ('45f3f96221b819e8575aa106bffed361', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.25 (KHTML, like Gecko) Version/8.0 Safari/600.1.25', '1413276842', 'a:2:{s:9:\"user_data\";s:0:\"\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}'), ('48eeaff3a55e7dcefce8f072b934a419', '127.0.0.1', 'slearning/1 CFNetwork/711.1.12 Darwin/14.0.0', '1413273912', '');
+INSERT INTO `ci_sessions` VALUES ('c040b0350289af01fe0b22a76be8ca92', '127.0.0.1', 'VisualJSON/1.6.0 CFNetwork/673.4 Darwin/13.4.0 (x86_64) (MacBookPro3%2C1)', '1413298059', ''), ('ca388e220960178b555db70bc1c6c65b', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/600.1.17 (KHTML, like Gecko) Version/7.1 Safari/537.85.10', '1413297686', 'a:2:{s:9:\"user_data\";s:0:\"\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}'), ('d77e0daf2008fecfe0333ff2f6c3ae4e', '127.0.0.1', 'slearning/1 CFNetwork/711.0.6 Darwin/13.4.0', '1413300555', '');
 COMMIT;
 
 -- ----------------------------
@@ -348,6 +348,7 @@ CREATE TABLE `lessons` (
   `stime` int(11) DEFAULT NULL,
   `etime` int(11) DEFAULT NULL,
   `cur_pos` smallint(6) DEFAULT '0' COMMENT '当前位置',
+  `update_at` int(11) DEFAULT '0' COMMENT '课堂内容或者状态修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
@@ -355,7 +356,7 @@ CREATE TABLE `lessons` (
 --  Records of `lessons`
 -- ----------------------------
 BEGIN;
-INSERT INTO `lessons` VALUES ('2', 'P201501-T01', null, '4', '3', '2', '23544060', '23544120', '0'), ('3', null, null, '4', '4', '1', '23551260', '23551320', '0'), ('4', null, null, '24', '3', '1', '23534187', '23534247', '0'), ('5', '序言', null, '1', '3', '3', '23505120', '23623394', '0'), ('6', '一. 数一数与乘法', null, '2', '3', '5', '23554311', '23554371', '0'), ('7', '小作业', null, '26', '3', '4', '23535596', '23563260', '0'), ('8', '序言', null, '1', '4', '2', '23535612', '23535672', '0');
+INSERT INTO `lessons` VALUES ('2', 'P201501-T01', null, '4', '3', '2', '23544060', '23544120', '0', '0'), ('3', null, null, '4', '4', '1', '23551260', '23551320', '0', '0'), ('4', null, null, '24', '3', '1', '23534187', '23534247', '0', '0'), ('5', '序言', null, '1', '3', '3', '23505120', '23623394', '0', '0'), ('6', '一. 数一数与乘法', null, '2', '3', '5', '23554311', '23554371', '0', '0'), ('7', '小作业', null, '26', '3', '4', '23535596', '23563260', '0', '0'), ('8', '序言', null, '1', '4', '2', '23535612', '23535672', '0', '0');
 COMMIT;
 
 -- ----------------------------
@@ -636,7 +637,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --  View structure for `v_lessons`
 -- ----------------------------
 DROP VIEW IF EXISTS `v_lessons`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_lessons` AS select `m`.`name` AS `name`,`l`.`module` AS `module`,`l`.`sclass` AS `sclass`,`l`.`status` AS `status`,`l`.`stime` AS `stime`,`l`.`etime` AS `etime`,`s`.`name` AS `class_name`,`m`.`mtype` AS `mtype`,`l`.`id` AS `lesson_id`,`s`.`id` AS `sclass_id`,`m`.`content` AS `content`,`m`.`morder` AS `morder`,`c`.`name` AS `cname`,`m`.`edit_at` AS `edit_at` from (((`lessons` `l` left join `cmodules` `m` on((`m`.`id` = `l`.`module`))) left join `sclasses` `s` on((`s`.`id` = `l`.`sclass`))) left join `courses` `c` on((`c`.`id` = `m`.`course`))) order by `m`.`course`,`m`.`morder`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_lessons` AS select `m`.`name` AS `name`,`l`.`module` AS `module`,`l`.`sclass` AS `sclass`,`l`.`status` AS `status`,`l`.`stime` AS `stime`,`l`.`etime` AS `etime`,`s`.`name` AS `class_name`,`m`.`mtype` AS `mtype`,`l`.`id` AS `lesson_id`,`m`.`content` AS `content`,`m`.`morder` AS `morder`,`c`.`name` AS `cname`,`l`.`update_at` AS `update_at`,`l`.`cur_pos` AS `cur_pos` from (((`lessons` `l` left join `cmodules` `m` on((`m`.`id` = `l`.`module`))) left join `sclasses` `s` on((`s`.`id` = `l`.`sclass`))) left join `courses` `c` on((`c`.`id` = `m`.`course`))) order by `m`.`course`,`m`.`morder`;
 
 -- ----------------------------
 --  View structure for `v_sclasses`

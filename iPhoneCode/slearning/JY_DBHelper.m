@@ -45,7 +45,7 @@ static int const DB_VERSION = 1;
             
             if (version==1) { //从1升级
                 //  课堂列表
-                [dataBase executeUpdate:@"CREATE TABLE lessons (id int PRIMARY KEY, name string, course_id int, course_name string, content text, feedback text, status int, stime int, etime int,  edit_at int)"];
+                [dataBase executeUpdate:@"CREATE TABLE lessons (id int PRIMARY KEY, name string, course_id int, course_name string, mtype int,morder int, content text, feedback text, status int, stime int, etime int,  edit_at int)"];
 
                 version++;
             }

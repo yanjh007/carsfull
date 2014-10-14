@@ -1,5 +1,5 @@
 <?php
-class Service extends CI_Controller {
+class _Service extends CI_Controller {
   public function __construct()
   { parent::__construct(); }
 
@@ -68,7 +68,7 @@ class Service extends CI_Controller {
 	      $data["result"] = "FALSE";
 	      $data["content"] = json_encode(array("status"=>404,"error"=>"Request Not Found"));
       }
-      $this->load->view('service/json_std', $data);
+      $this->load->view('_service/json_std', $data);
   }  
 
   // 检查Token
@@ -92,7 +92,7 @@ class Service extends CI_Controller {
 
       $data["result"] = "FALSE";
       $data["content"] = json_encode(array("status"=>25,"error"=>$check));
-      $this->load->view('service/json_std', $data);
+      $this->load->view('_service/json_std', $data);
       //var_dump($data);
       return FALSE;
   }

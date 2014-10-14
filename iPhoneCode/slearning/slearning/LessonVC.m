@@ -6,23 +6,83 @@
 //  Copyright (c) 2014年 cn.yanjh. All rights reserved.
 //
 
-#import "ContentVC.h"
+#import "LessonVC.h"
 #import "AppController.h"
 #import "AsyncImageView.h"
 #import <MediaPlayer/MediaPlayer.h>
 
-#pragma mark - 内容页面控制器
-@interface ContentVC ()<UIScrollViewDelegate>
+#pragma mark - 普通课堂控制器，普通滚动视图
+@interface LessonVC ()<UIScrollViewDelegate>
+@property (strong, nonatomic) IBOutlet UIScrollView *sv_content;
+@property (strong,nonatomic) JY_Lesson *mLesson;
+@property (assign) float cy;
+@end
+
+@implementation LessonVC
+-(void) setLesson:(JY_Lesson*)lesson
+{
+    if (lesson) {
+        self.mLesson= lesson;
+    }
+    
+    self.cy=0;
+}
+
+-(void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    if (self.cy==0) {
+        [self loadContent];
+    }
+
+    [self.sv_content setContentSize: CGSizeMake(self.sv_content.frame.size.width,self.cy)];
+    
+}
+
+- (IBAction)do_back:(UIButton *)sender {
+        [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void) loadContent
+{
+    if (!self.mLesson.content || self.mLesson.content.length==0) return;
+
+    NSDictionary *dic_content=[self.mLesson.content jsonObject];
+    NSArray *ary_content=dic_content[@"content"];
+    LessonItem *lv;
+    
+    int y=10;
+    
+    for (NSDictionary *item in ary_content) {
+        lv=[[LessonItem alloc] initWithData:item];
+        [lv setFrame:CGRectMake(0, y, self.sv_content.frame.size.width, 50)];
+        [lv setBackgroundColor:[UIColor yellowColor]];
+        [lv setTag:[item[@"id"] intValue]];
+        
+        [self.sv_content addSubview:lv];
+        
+        y+=60;
+    }
+    
+    self.cy=y;
+    
+}
+
+@end
+
+#pragma mark - 课堂页面控制器
+@interface LessonPageVC ()<UIScrollViewDelegate>
 
 @property (retain,nonatomic) NSMutableArray *mAryContentViews;
-@property (strong,nonatomic) ContentPageView *cp_current;;
+@property (strong,nonatomic) LessonPage *lp_current;
 
 @property (strong, nonatomic) IBOutlet UIScrollView *sv_content;
 @property (strong, nonatomic) IBOutlet UIView *tbar,*bbar;
 
 @end
 
-@implementation ContentVC
+@implementation LessonPageVC
 
 //-(id) init
 //{
@@ -77,14 +137,14 @@
     if (page < 0 || page >= self.mAryContentViews.count) return;
     
     // replace the placeholder if necessary
-    ContentPageView *cv;
+    LessonPage *cv;
     NSObject *o = self.mAryContentViews[page];
     if ([o isKindOfClass:[NSDictionary class]]) { //还没有视图
-        cv = [[ContentPageView alloc] initWithData:(NSDictionary*)o];
+        cv = [[LessonPage alloc] initWithData:(NSDictionary*)o];
         cv.tag=page;
         [self.mAryContentViews replaceObjectAtIndex:page withObject:cv];
     } else {
-        cv=(ContentPageView*)o;
+        cv=(LessonPage*)o;
     }
     
     // add the controller's view to the scroll view
@@ -145,14 +205,14 @@
 {
     [self loadContentAt:page];
     
-    if (!self.cp_current) { //
-        self.cp_current = self.mAryContentViews[page];
-        [self.cp_current show:YES];
+    if (!self.lp_current) { //
+        self.lp_current = self.mAryContentViews[page];
+        [self.lp_current show:YES];
     } else {
-        if (self.cp_current.tag!=page) { //变换页面
-            [self.cp_current show:NO];
-            self.cp_current = self.mAryContentViews[page];
-            [self.cp_current show:YES];
+        if (self.lp_current.tag!=page) { //变换页面
+            [self.lp_current show:NO];
+            self.lp_current = self.mAryContentViews[page];
+            [self.lp_current show:YES];
         }
     }
     
@@ -171,7 +231,7 @@
 {
     if (page>=(int)self.mAryContentViews.count || page<(-2)) return;
 
-    int p=self.cp_current.tag;
+    int p=self.lp_current.tag;
     
     if (page==-1) { //向后
         [self goPage:p+1];
@@ -189,18 +249,18 @@
 
 #pragma mark - 内容页面视图
 
-@interface ContentPageView()
+@interface LessonPage()
 @property (retain,nonatomic) NSDictionary *mData;
 
 @property (nonatomic,retain) MPMoviePlayerController *mpc_content;
 @property (nonatomic,retain) UIWebView *wv_content;
 @end
 
-@implementation ContentPageView
+@implementation LessonPage
 
 -(instancetype) initWithData:(NSDictionary*) data
 {
-    self= [[ContentPageView alloc] initWithFrame:CGRectZero];
+    self= [[LessonPage alloc] initWithFrame:CGRectZero];
     //self =[[NSBundle mainBundle] loadNibNamed:@"Content" owner:self options:nil][0];
     if (self) {
         [self setMData:data];
@@ -304,3 +364,34 @@
 }
 
 @end
+
+
+@interface LessonItem()
+@property (retain,nonatomic) NSDictionary* mData;
+
+@end
+@implementation LessonItem
+
+-(instancetype) initWithData:(NSDictionary*) data;
+{
+    self= [super initWithFrame:CGRectZero];
+    if (self) {
+        self.mData=data;
+    }
+    return self;
+}
+
+-(void) drawRect:(CGRect)rect
+{
+    int dtype=[self.mData[@"type"] intValue];
+//    if (dtype==0) {
+        NSString *text=self.mData[@"title"];
+        if (text && text.length>0) {
+            [text drawAtX:5 Y:5 withFont:[UIFont systemFontOfSize:14.0] align:1];
+        }
+        
+//    }
+}
+
+@end
+

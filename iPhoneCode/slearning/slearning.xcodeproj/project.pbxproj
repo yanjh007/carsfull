@@ -16,7 +16,7 @@
 		D874DCB519DB030B00EF4290 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D874DCB319DB030B00EF4290 /* Main.storyboard */; };
 		D874DCB719DB030B00EF4290 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D874DCB619DB030B00EF4290 /* Images.xcassets */; };
 		D874DCBA19DB030C00EF4290 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D874DCB819DB030B00EF4290 /* LaunchScreen.xib */; };
-		D874DCD119DB075E00EF4290 /* ContentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D874DCD019DB075E00EF4290 /* ContentVC.m */; };
+		D874DCD119DB075E00EF4290 /* LessonVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D874DCD019DB075E00EF4290 /* LessonVC.m */; };
 		D874DCD419DBA38D00EF4290 /* LoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D874DCD319DBA38D00EF4290 /* LoginVC.m */; };
 		D874DCD919DBA6DC00EF4290 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = D874DCD819DBA6DC00EF4290 /* User.m */; };
 		D8A5A85E19DC6B7200B386A0 /* AsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A5A85D19DC6B7200B386A0 /* AsyncImageView.m */; };
@@ -55,8 +55,8 @@
 		D874DCB419DB030B00EF4290 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D874DCB619DB030B00EF4290 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D874DCB919DB030B00EF4290 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		D874DCCF19DB075E00EF4290 /* ContentVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentVC.h; sourceTree = "<group>"; };
-		D874DCD019DB075E00EF4290 /* ContentVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContentVC.m; sourceTree = "<group>"; };
+		D874DCCF19DB075E00EF4290 /* LessonVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LessonVC.h; sourceTree = "<group>"; };
+		D874DCD019DB075E00EF4290 /* LessonVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonVC.m; sourceTree = "<group>"; };
 		D874DCD219DBA38D00EF4290 /* LoginVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginVC.h; sourceTree = "<group>"; };
 		D874DCD319DBA38D00EF4290 /* LoginVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginVC.m; sourceTree = "<group>"; };
 		D874DCD719DBA6DC00EF4290 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
@@ -163,8 +163,8 @@
 				D874DCB119DB030B00EF4290 /* HomeVC.m */,
 				D874DCD219DBA38D00EF4290 /* LoginVC.h */,
 				D874DCD319DBA38D00EF4290 /* LoginVC.m */,
-				D874DCCF19DB075E00EF4290 /* ContentVC.h */,
-				D874DCD019DB075E00EF4290 /* ContentVC.m */,
+				D874DCCF19DB075E00EF4290 /* LessonVC.h */,
+				D874DCD019DB075E00EF4290 /* LessonVC.m */,
 			);
 			name = "VV&Views";
 			sourceTree = "<group>";
@@ -343,7 +343,7 @@
 				D874DCD419DBA38D00EF4290 /* LoginVC.m in Sources */,
 				D8E258C719DBD98700BFB6C9 /* JY_FundationAdditions.m in Sources */,
 				D84C787D19ED124900C36CC6 /* JY_DBHelper.m in Sources */,
-				D874DCD119DB075E00EF4290 /* ContentVC.m in Sources */,
+				D874DCD119DB075E00EF4290 /* LessonVC.m in Sources */,
 				D84C787A19ED11B200C36CC6 /* Models.m in Sources */,
 				D8E258BD19DBD4E000BFB6C9 /* FMResultSet.m in Sources */,
 				D874DCAC19DB030B00EF4290 /* main.m in Sources */,

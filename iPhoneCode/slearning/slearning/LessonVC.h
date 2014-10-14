@@ -7,14 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Models.h"
+
+@interface LessonVC : UIViewController
+-(void) setLesson:(JY_Lesson*)lesson;
+@end
 
 
-@interface ContentVC : UIViewController
+@interface LessonPageVC : UIViewController
 -(void) setMData:(id)data;
 @end
 
 
-@interface ContentPageView : UIView
+@interface LessonPage : UIView
 -(instancetype) initWithData:(NSDictionary*) data;
 -(void) show:(BOOL)bShow;
+@end
+
+@interface LessonItem : UIView
+-(instancetype) initWithData:(NSDictionary*) data;
 @end

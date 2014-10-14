@@ -11,6 +11,11 @@
 #import "JY_FundationAdditions.h"
 
 
+#pragma mark - 背景和图片
+static NSString *const URL_BASE_SERVICE  = @"http://localhost/cars/s";
+
+static NSString *const SGI_HOME_LESSON  = @"sg_home_lesson";
+static NSString *const SGI_HOME_LESSON_PAGE  = @"sg_home_lesson_page";
 
 #pragma mark - 背景和图片
 static NSString *const BG_IMG_TITLE_BAR    = @"bg_nav";

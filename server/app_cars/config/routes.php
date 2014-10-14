@@ -2,15 +2,16 @@
 
 // 默认和特别路由
 $route['default_controller'] = "home";
+
 $route['login']  = 'home/login';
 $route['logout'] = 'home/logout';
+
 // 服务
-$route['s'] = 'service';
-$route['s/([a-z]+)/([a-z]+)'] = 'service/$1/$2';
+$route['s'] = '_service';
+$route['s/([a-z]+)/([a-z]+)'] = '_service/$1/$2';
 
 // 404
 $route['404_override'] = '';
-
 
 // 通用控制器
 $route['([a-z]+s)'] = '$1';

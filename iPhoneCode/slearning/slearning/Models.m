@@ -15,26 +15,47 @@
 {
     self = [super init];
     if (self) {
-        self.lid  = [rs intForColumn:@"lid"]?:0;
+        self.lid       = [rs intForColumn:@"id"]?:0;
         self.name      = [rs stringForColumn:@"name"];
+        self.mtype     = [rs intForColumn:@"mtype"];
         self.content   = [rs stringForColumn:@"content"];
+        self.status    = [rs intForColumn:@"status"]; //课程状态
+        self.stime     = [rs intForColumn:@"stime"];
+        self.etime     = [rs intForColumn:@"etime"];
     }
     return self;
 }
 
-+(void) save:(NSDictionary*)dic;
-{
-    
-}
-
 +(void) saveList:(NSArray*)ary;
 {
-    NSString *sql;
+    NSString
+    *sqlDel = @"delete from lessons where id=?",
+    *sql    = @"insert into lessons (id,name,mtype,content,status,stime,etime) values (?,?,?,?,?,?,?)";
+    
+    //        sql=@"insert into lessons (id,course_id,course_name,name,content,status,stime,etime) values (?,?,?,?,?)";
+    
+    int update_at=0;
+    
     FMDatabase *db=[JY_DBHelper openDB];
     for (NSDictionary *item in ary) {
-        sql=@"insert into tb_lessons (id,course_id,course_name,name,content,status,stime,etime) values (?,?,?,?,?)";
-        
-        [JY_DBHelper execSQLWithData:sql,item[@"lesson_id"],item[@"name"],item[@"content"]];
+        if (update_at<[item[@"update_at"] intValue]) {
+            update_at=[item[@"update_at"] intValue];
+        }
+        [db executeUpdate:[NSString stringWithFormat:sqlDel,item[@"lesson_id"]]];
+        [db executeUpdate:sql
+     withArgumentsInArray:@[item[@"lesson_id"],
+                            item[@"name"],
+                            item[@"mtype"],
+                            item[@"content"],
+                            item[@"status"],
+                            item[@"stime"],
+                            item[@"etime"]
+                            ]];
+    }
+    
+    if (update_at>0) {
+        [JY_DBHelper setMeta:DBMKEY_LESSON_VERSION
+                       value:[NSString stringWithFormat:@"%i",update_at]];
     }
     
     [db close];
@@ -43,7 +64,7 @@
 
 +(NSArray*) getLessons;
 {
-    NSString *sql=@"select from tb_lessons order by course, morder";
+    NSString *sql=@"select id,name,mtype,content,status,stime,etime from lessons order by course_id, morder";
     FMDatabase *db=[JY_DBHelper openDB];
     
     FMResultSet *s = [db executeQuery:sql];
