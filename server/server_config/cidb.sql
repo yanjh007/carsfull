@@ -11,7 +11,7 @@
  Target Server Version : 50620
  File Encoding         : utf-8
 
- Date: 10/13/2014 17:05:15 PM
+ Date: 10/14/2014 16:58:59 PM
 */
 
 SET NAMES utf8;
@@ -187,7 +187,7 @@ CREATE TABLE `ci_sessions` (
 --  Records of `ci_sessions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `ci_sessions` VALUES ('465572291b703d9d82a4ac50f0ffae13', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.25 (KHTML, like Gecko) Version/8.0 Safari/600.1.25', '1413187399', 'a:2:{s:9:\"user_data\";s:0:\"\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}'), ('dd7fc624076912d11b164f5e42c002a3', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.101 Safari/537.3', '1413189121', ''), ('ef7d5965c8b7fceca71a1d9656e5ea43', '127.0.0.1', 'slearning/1 CFNetwork/672.1.13 Darwin/14.0.0', '1413189658', '');
+INSERT INTO `ci_sessions` VALUES ('45f3f96221b819e8575aa106bffed361', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.25 (KHTML, like Gecko) Version/8.0 Safari/600.1.25', '1413276842', 'a:2:{s:9:\"user_data\";s:0:\"\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}'), ('48eeaff3a55e7dcefce8f072b934a419', '127.0.0.1', 'slearning/1 CFNetwork/711.1.12 Darwin/14.0.0', '1413273912', '');
 COMMIT;
 
 -- ----------------------------
@@ -221,6 +221,33 @@ INSERT INTO `clients` VALUES ('1', null, 'shixc', 'a5b09e5b217127812c3f0e778dd10
 COMMIT;
 
 -- ----------------------------
+--  Table structure for `clogs`
+-- ----------------------------
+DROP TABLE IF EXISTS `clogs`;
+CREATE TABLE `clogs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `course` int(11) DEFAULT NULL COMMENT '课程编号',
+  `sclass` int(11) DEFAULT NULL COMMENT '班级编号',
+  `lesson` int(11) DEFAULT '0' COMMENT '课堂编号',
+  `ltype` tinyint(4) DEFAULT '0' COMMENT '日志类型 0-系统 1-课程状态 2-教师 3-学生',
+  `rid` int(11) DEFAULT NULL COMMENT '来源id',
+  `rname` varchar(30) DEFAULT NULL COMMENT '来源名称',
+  `ltime` int(11) DEFAULT NULL COMMENT '记录时间',
+  `content` varchar(256) DEFAULT NULL COMMENT '日志内容',
+  `flag` int(11) DEFAULT '0' COMMENT '标志位，保留',
+  `tid` int(11) DEFAULT NULL,
+  `tname` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `clogs`
+-- ----------------------------
+BEGIN;
+INSERT INTO `clogs` VALUES ('1', '1', '3', '5', '1', null, null, '1413269564', '修改了课堂状态', '0', null, null), ('2', '1', '3', '5', '1', null, null, '1413269604', '修改了课堂状态', '0', null, null);
+COMMIT;
+
+-- ----------------------------
 --  Table structure for `cmodules`
 -- ----------------------------
 DROP TABLE IF EXISTS `cmodules`;
@@ -231,7 +258,8 @@ CREATE TABLE `cmodules` (
   `morder` smallint(6) DEFAULT NULL COMMENT '次序',
   `mtype` smallint(6) DEFAULT NULL COMMENT '课程模块类型 0-简介 1-章节 2-测验 3-调查 ',
   `content` varchar(2048) DEFAULT NULL,
-  `status` smallint(6) DEFAULT '0' COMMENT '状态',
+  `status` smallint(6) DEFAULT '0' COMMENT '状态，0-正常， 10-删除',
+  `edit_at` int(11) DEFAULT NULL COMMENT '按分钟计算的最后编辑时间，用于离线请求',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
@@ -239,7 +267,7 @@ CREATE TABLE `cmodules` (
 --  Records of `cmodules`
 -- ----------------------------
 BEGIN;
-INSERT INTO `cmodules` VALUES ('1', '序言', '1', '1', '10', '共9个课时，5个自学模块，4个测验，5个作业\n9月10日作业\n阅读课本P15~55\n9月12日作业\n搜索网络相关资料\n', '0'), ('2', '一. 数一数与乘法', '1', '2', '11', '{\n	\"ctype\":\"jpg_txt\",\n	\"total\":4,\n	\"descp1\":\"两个黄鹂鸣翠柳\",\n	\"descp2\":\"一行白鹭上青天\",\n	\"descp3\":\"三人行必有我师\",\n	\"descp4\":\"四面边声连角起，千嶂里，长烟落日孤城闭\",\n}', '0'), ('3', '二. 乘法口诀1', '1', '5', null, '', '0'), ('4', '小测验', '1', '4', '13', '{\n\"title\":\"第一单元小测验\",\n\"scoretype\":0\n\"content\":\n[\n{\n\"id\":1,\"type\":\"S\",\"title\":\"年份\",\"content\":\"中华人民共和国成立于哪一年?\",\n\"Q\":\"1921 ,, 1949 ,, 1966 ,, 1978\",\n\"A\":\"B\"\n\"score\":\"3\"\n},\n{\n\"id\":2,\"type\":\"M\",\"title\":\"国家\",\"content\":\"下列那些国家属于亚洲?\",\n\"Q\":\"中国 ,, 美国 ,, 日本 ,,  韩国\",\n\"A\":\"ACD\"\n\"score\":\"5\"\n},\n{\n\"id\":3,\"type\":\"A\",\"title\":\"国家\",\"content\":\"中国的英文简称是\",\n\"A\":\"CHN ,, CN\"\n\"score\":\"5\"\n},\n{\n\"id\":4,\"type\":\"A\",\"title\":\"国家\",\"content\":\"请简要说明香港发展的历史\",\n\"score\":\"10\"\n}\n\n]\n\n\n\n}', '0'), ('5', '四. 分一分与除法', '1', '8', null, '', '0'), ('6', '整理与复习1', '1', '9', null, '', '0'), ('7', '总复习', '1', '101', null, '', '0'), ('8', '节日广场', '1', '7', null, '', '0'), ('9', '五. 方向与位置', '1', '10', null, '', '0'), ('10', '二. 小数', '2', '1', '9', '', '0'), ('11', '三. 观察物体', '1', '6', null, '', '0'), ('12', '一. 数一数与乘法', '2', '1', null, '第一章', '0'), ('13', '七. 乘法口诀2', '1', '13', null, '', '0'), ('14', '六. 时、分、秒', '1', '11', null, '', '0'), ('15', '月球旅行', '1', '12', null, '', '0'), ('18', '整理与复习2', '1', '85', '0', '', '0'), ('19', '八. 除法', '1', '86', '0', '', '0'), ('20', '九. 统计与猜测', '1', '87', '0', '', '0'), ('21', '趣味运动会', '1', '88', '0', '', '0'), ('22', '期末考试', '1', '102', '13', '', '0'), ('23', '一、声母', '3', '1', '9', '', '0'), ('24', '一. 现代完成时', '4', '1', '9', '', '0'), ('25', '简介', '7', '1', '10', null, '0'), ('26', '小作业', '1', '3', '14', '{\n\"content\":\n[\n{\n\"id\":1,\"type\":0,\"title\":\"材料阅读\",\"content\":\"材料....\"\n},\n{\n\"id\":2,\"type\":1,\"title\":\"参考文件-讲义\",\"content\":\"jy.ppt\"\n},\n{\n\"id\":3,\"type\":1,\"title\":\"参考链接-Wiki条目\",\"content\":\"http://zh.wikipedia.org/wiki/Wikipedia\"\n}\n]\n}', '0');
+INSERT INTO `cmodules` VALUES ('1', '课程说明', '1', '1', '10', '共9个课时，5个自学模块，4个测验，5个作业\n9月10日作业\n阅读课本P15~55\n9月12日作业\n搜索网络相关资料\n', '0', '23554489'), ('2', '一. 数一数与乘法', '1', '2', '11', '{\n	\"ctype\":\"jpg_txt\",\n	\"total\":4,\n	\"descp1\":\"两个黄鹂鸣翠柳\",\n	\"descp2\":\"一行白鹭上青天\",\n	\"descp3\":\"三人行必有我师\",\n	\"descp4\":\"四面边声连角起，千嶂里，长烟落日孤城闭\",\n}', '0', '23554140'), ('3', '二. 乘法口诀1', '1', '5', '11', '', '0', '23554278'), ('4', '小测验', '1', '4', '13', '{\n\"title\":\"第一单元小测验\",\n\"scoretype\":0\n\"content\":\n[\n{\n\"id\":1,\"type\":\"S\",\"title\":\"年份\",\"content\":\"中华人民共和国成立于哪一年?\",\n\"Q\":\"1921 ,, 1949 ,, 1966 ,, 1978\",\n\"A\":\"B\"\n\"score\":\"3\"\n},\n{\n\"id\":2,\"type\":\"M\",\"title\":\"国家\",\"content\":\"下列那些国家属于亚洲?\",\n\"Q\":\"中国 ,, 美国 ,, 日本 ,,  韩国\",\n\"A\":\"ACD\"\n\"score\":\"5\"\n},\n{\n\"id\":3,\"type\":\"A\",\"title\":\"国家\",\"content\":\"中国的英文简称是\",\n\"A\":\"CHN ,, CN\"\n\"score\":\"5\"\n},\n{\n\"id\":4,\"type\":\"A\",\"title\":\"国家\",\"content\":\"请简要说明香港发展的历史\",\n\"score\":\"10\"\n}\n\n]\n\n\n\n}', '0', null), ('5', '四. 分一分与除法', '1', '8', null, '', '0', null), ('6', '整理与复习1', '1', '9', null, '', '0', null), ('7', '总复习', '1', '101', null, '', '0', null), ('8', '节日广场', '1', '7', null, '', '0', null), ('9', '五. 方向与位置', '1', '10', null, '', '0', null), ('10', '二. 小数', '2', '1', '9', '', '0', null), ('11', '三. 观察物体', '1', '6', null, '', '0', null), ('12', '一. 数一数与乘法', '2', '1', null, '第一章', '0', null), ('13', '七. 乘法口诀2', '1', '13', null, '', '0', null), ('14', '六. 时、分、秒', '1', '11', null, '', '0', null), ('15', '月球旅行', '1', '12', null, '', '0', null), ('18', '整理与复习2', '1', '85', '0', '', '0', null), ('19', '八. 除法', '1', '86', '0', '', '0', null), ('20', '九. 统计与猜测', '1', '87', '0', '', '0', null), ('21', '趣味运动会', '1', '88', '0', '', '0', null), ('22', '期末考试', '1', '102', '13', '', '0', null), ('23', '一、声母', '3', '1', '9', '', '0', null), ('24', '一. 现代完成时', '4', '1', '9', '', '0', null), ('25', '简介', '7', '1', '10', null, '0', null), ('26', '小作业', '1', '3', '14', '{\n\"content\":\n[\n{\n\"id\":1,\"type\":0,\"title\":\"材料阅读\",\"content\":\"材料....\"\n},\n{\n\"id\":2,\"type\":1,\"title\":\"参考文件-讲义\",\"content\":\"jy.ppt\"\n},\n{\n\"id\":3,\"type\":1,\"title\":\"参考链接-Wiki条目\",\"content\":\"http://zh.wikipedia.org/wiki/Wikipedia\"\n}\n]\n}', '0', null);
 COMMIT;
 
 -- ----------------------------
@@ -327,7 +355,7 @@ CREATE TABLE `lessons` (
 --  Records of `lessons`
 -- ----------------------------
 BEGIN;
-INSERT INTO `lessons` VALUES ('2', 'P201501-T01', null, '4', '3', '2', '23544060', '23544120', '0'), ('3', null, null, '4', '4', '1', '23551260', '23551320', '0'), ('4', null, null, '24', '3', '1', '23534187', '23534247', '0'), ('5', '序言', null, '1', '3', '2', '23547014', '23623394', '0'), ('6', '一. 数一数与乘法', null, '2', '3', '5', '23554311', '23554371', '0'), ('7', '小作业', null, '26', '3', '2', '23535596', '23535656', '0'), ('8', '序言', null, '1', '4', '2', '23535612', '23535672', '0');
+INSERT INTO `lessons` VALUES ('2', 'P201501-T01', null, '4', '3', '2', '23544060', '23544120', '0'), ('3', null, null, '4', '4', '1', '23551260', '23551320', '0'), ('4', null, null, '24', '3', '1', '23534187', '23534247', '0'), ('5', '序言', null, '1', '3', '3', '23505120', '23623394', '0'), ('6', '一. 数一数与乘法', null, '2', '3', '5', '23554311', '23554371', '0'), ('7', '小作业', null, '26', '3', '4', '23535596', '23563260', '0'), ('8', '序言', null, '1', '4', '2', '23535612', '23535672', '0');
 COMMIT;
 
 -- ----------------------------
@@ -593,16 +621,22 @@ DROP VIEW IF EXISTS `v_carsofuser`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_carsofuser` AS select `u`.`name` AS `name`,`c`.`carnumber` AS `carnumber`,`c`.`manufacturer` AS `manufacturer`,`c`.`brand` AS `brand`,`c`.`id` AS `cid`,`c`.`descp` AS `descp`,`u`.`id` AS `uid`,`c`.`mileage` AS `mileage`,`c`.`config` AS `config`,`c`.`engine` AS `engine`,`c`.`color` AS `color`,`c`.`framenumber` AS `framenumber` from ((`links` `l` left join `clients` `u` on((`u`.`id` = `l`.`lid`))) left join `cars` `c` on((`c`.`id` = `l`.`rid`))) where ((`l`.`ltype` = 1) and (`c`.`id` is not null) and (`u`.`id` is not null));
 
 -- ----------------------------
+--  View structure for `v_course_logs`
+-- ----------------------------
+DROP VIEW IF EXISTS `v_course_logs`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_course_logs` AS select `clogs`.`id` AS `id`,`clogs`.`sclass` AS `sclass`,`sclasses`.`name` AS `sname`,`clogs`.`lesson` AS `lesson`,`lessons`.`name` AS `lname`,`clogs`.`ltype` AS `ltype`,`clogs`.`rid` AS `rid`,`clogs`.`rname` AS `rname`,`clogs`.`ltime` AS `ltime`,`clogs`.`content` AS `content`,`clogs`.`course` AS `course`,`clogs`.`tid` AS `tid`,`clogs`.`tname` AS `tname`,`clogs`.`flag` AS `flag` from ((`clogs` join `sclasses` on((`clogs`.`sclass` = `sclasses`.`id`))) join `lessons` on((`clogs`.`lesson` = `lessons`.`id`)));
+
+-- ----------------------------
 --  View structure for `v_lesson_classes`
 -- ----------------------------
 DROP VIEW IF EXISTS `v_lesson_classes`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_lesson_classes` AS select `m`.`course` AS `course`,`l`.`module` AS `module`,`l`.`sclass` AS `sclass`,`c`.`name` AS `class_name`,`l`.`status` AS `status`,`l`.`stime` AS `stime`,`l`.`etime` AS `etime` from ((`lessons` `l` left join `sclasses` `c` on((`c`.`id` = `l`.`sclass`))) left join `cmodules` `m` on((`m`.`id` = `l`.`module`))) order by `l`.`module`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_lesson_classes` AS select `m`.`course` AS `course`,`l`.`module` AS `module`,`l`.`sclass` AS `sclass`,`c`.`name` AS `class_name`,`l`.`status` AS `status`,`l`.`stime` AS `stime`,`l`.`etime` AS `etime`,`l`.`id` AS `lid`,`l`.`name` AS `lname` from ((`lessons` `l` left join `sclasses` `c` on((`c`.`id` = `l`.`sclass`))) left join `cmodules` `m` on((`m`.`id` = `l`.`module`))) order by `l`.`module`;
 
 -- ----------------------------
 --  View structure for `v_lessons`
 -- ----------------------------
 DROP VIEW IF EXISTS `v_lessons`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_lessons` AS select `m`.`name` AS `name`,`l`.`module` AS `module`,`l`.`sclass` AS `sclass`,`l`.`status` AS `status`,`l`.`stime` AS `stime`,`l`.`etime` AS `etime`,`s`.`name` AS `class_name`,`m`.`mtype` AS `mtype`,`l`.`id` AS `lesson_id`,`s`.`id` AS `sclass_id`,`m`.`content` AS `content`,`m`.`morder` AS `morder`,`c`.`name` AS `cname` from (((`lessons` `l` left join `cmodules` `m` on((`m`.`id` = `l`.`module`))) left join `sclasses` `s` on((`s`.`id` = `l`.`sclass`))) left join `courses` `c` on((`c`.`id` = `m`.`course`))) order by `m`.`course`,`m`.`morder`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_lessons` AS select `m`.`name` AS `name`,`l`.`module` AS `module`,`l`.`sclass` AS `sclass`,`l`.`status` AS `status`,`l`.`stime` AS `stime`,`l`.`etime` AS `etime`,`s`.`name` AS `class_name`,`m`.`mtype` AS `mtype`,`l`.`id` AS `lesson_id`,`s`.`id` AS `sclass_id`,`m`.`content` AS `content`,`m`.`morder` AS `morder`,`c`.`name` AS `cname`,`m`.`edit_at` AS `edit_at` from (((`lessons` `l` left join `cmodules` `m` on((`m`.`id` = `l`.`module`))) left join `sclasses` `s` on((`s`.`id` = `l`.`sclass`))) left join `courses` `c` on((`c`.`id` = `m`.`course`))) order by `m`.`course`,`m`.`morder`;
 
 -- ----------------------------
 --  View structure for `v_sclasses`
