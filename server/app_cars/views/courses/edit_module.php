@@ -34,7 +34,7 @@
             <?php
                 zm_form_open (0,$MODULE_PATH.$course_id."/save_module_content");
                 zm_form_hidden("item_id",$item["id"]);
-                zm_form_textarea(0,"内 容","content",$item["content"]);
+                zm_form_textarea(2,"内 容","content",$item["content"]);
             ?>
             
             <div class="form-group">

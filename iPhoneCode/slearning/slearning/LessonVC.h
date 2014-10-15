@@ -25,5 +25,5 @@
 @end
 
 @interface LessonItem : UIView
--(instancetype) initWithData:(NSDictionary*) data;
+-(instancetype) initWithData:(NSDictionary*) data andWidth:(float)width;
 @end

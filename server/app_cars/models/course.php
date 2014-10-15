@@ -192,8 +192,8 @@ class Course extends CI_Model {
       $query = $this->db->query($sql);
       
       if ($query->num_rows()>0) {
-	$sql="update ".$table." set morder=morder+1 where morder>=".$morder." and morder<".$order;
-	$this->db->query($sql);      
+		$sql="update ".$table." set morder=morder+1 where morder>=".$morder." and morder<".$order;
+		$this->db->query($sql);      
       }
     }    
     
@@ -204,8 +204,14 @@ class Course extends CI_Model {
     } else {
       $this->db->where('id', $id);
       $this->db->update($table, $data); 
+
+	  // 更新相关课堂
+	  $sql="update lessons set update_at=".(time()/60)." where module=".$id;
+	  $this->db->query($sql);
     }
-    return TRUE;
+    
+	
+	return TRUE;
   }
   
   // 模块内容
@@ -219,7 +225,14 @@ class Course extends CI_Model {
 		);
 
     $this->db->where('id', $id);
-    $this->db->update($table, $data); 
+    $this->db->update($table, $data);
+	
+	
+	// 更新相关课堂
+	$sql="update lessons set update_at=".(time()/60)." where module=".$id;
+	$this->db->query($sql);
+	
+	
     return TRUE;
   }
   

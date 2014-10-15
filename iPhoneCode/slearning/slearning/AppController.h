@@ -11,14 +11,18 @@
 #import "JY_FundationAdditions.h"
 
 
-#pragma mark - 背景和图片
+#pragma mark - URL
 static NSString *const URL_BASE_SERVICE  = @"http://localhost/cars/s";
 
+#pragma mark - Segue Identity
 static NSString *const SGI_HOME_LESSON  = @"sg_home_lesson";
 static NSString *const SGI_HOME_LESSON_PAGE  = @"sg_home_lesson_page";
 
+#define FONT_STD_TITLE   [UIFont systemFontOfSize:18.0]
+#define FONT_STD_CONTENT [UIFont systemFontOfSize:14.0]
+
 #pragma mark - 背景和图片
-static NSString *const BG_IMG_TITLE_BAR    = @"bg_nav";
+static NSString *const BG_IMG_TITLE_BAR    =  @"bg_nav";
 static NSString *const BG_IMG_NORMAL_PAGE  = @"bg_main";
 
 static NSString *const BG_BUTTON_BACK1 = @"bt_back1";

@@ -12,8 +12,9 @@
 #define iOS_VERSION  [[[UIDevice currentDevice] systemVersion] floatValue]
 #define is_RETINA ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] && ([UIScreen mainScreen].scale == 2.0)
 
-
 // 通用字符串常量
+static NSString *const TRI_SPACE=@"   ";
+
 static NSString *const STRING_DATE_YMDHM=@"yyyy-MM-dd HH:mm";
 static NSString *const STRING_DATE_YMDHMS=@"yyyy-MM-dd HH:mm:ss";
 static NSString *const STRING_DATE_YMDTHMS=@"yyyy-MM-dd'T'HH:mm:ss";

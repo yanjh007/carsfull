@@ -255,8 +255,12 @@ static char encodingTable[64] = {
 
 -(NSDictionary*) jsonObject
 {
+    NSString *str=[self stringByReplacingOccurrencesOfString:@"\r\n" withString:TRI_SPACE];
+    str=[str stringByReplacingOccurrencesOfString:@"\n" withString:TRI_SPACE];
+    str=[str stringByReplacingOccurrencesOfString:@"\t" withString:@""];
+    
     NSError *e;
-    NSData *jsonData = [self dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *jsonData = [str dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&e];
     
 //    if (e) NSLog(@"JSON Error:%@",[e userInfo] );
@@ -265,6 +269,10 @@ static char encodingTable[64] = {
 
 -(NSArray*) jsonArray
 {
+    NSString *str=[self stringByReplacingOccurrencesOfString:@"\r\n" withString:TRI_SPACE];
+    str=[str stringByReplacingOccurrencesOfString:@"\r" withString:TRI_SPACE];
+    str=[str stringByReplacingOccurrencesOfString:@"\t" withString:@""];
+    
     NSData *jsonData = [self dataUsingEncoding:NSUTF8StringEncoding];
     NSError *e;
     NSArray *array = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&e];

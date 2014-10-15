@@ -55,18 +55,15 @@
     int y=10;
     
     for (NSDictionary *item in ary_content) {
-        lv=[[LessonItem alloc] initWithData:item];
-        [lv setFrame:CGRectMake(0, y, self.sv_content.frame.size.width, 50)];
-        [lv setBackgroundColor:[UIColor yellowColor]];
-        [lv setTag:[item[@"id"] intValue]];
-        
+        lv=[[LessonItem alloc] initWithData:item andWidth:self.sv_content.frame.size.width-20];
         [self.sv_content addSubview:lv];
+
+        [lv moveToX:10 andY:y];
         
-        y+=60;
+        y+=lv.frame.size.height+10;
     }
     
     self.cy=y;
-    
 }
 
 @end
@@ -365,32 +362,131 @@
 
 @end
 
+#pragma mark - 普通内容面板
 
 @interface LessonItem()
 @property (retain,nonatomic) NSDictionary* mData;
+@property (assign) int mWidth,mHeight;
 
 @end
 @implementation LessonItem
 
--(instancetype) initWithData:(NSDictionary*) data;
+-(instancetype) initWithData:(NSDictionary*) data andWidth:(float)width;
 {
     self= [super initWithFrame:CGRectZero];
     if (self) {
         self.mData=data;
+        self.mWidth=width;
+        [self setViews];
     }
     return self;
 }
 
--(void) drawRect:(CGRect)rect
+-(void) setViews
 {
+    UILabel *lb; UIButton *bt;
+    CGSize strSize = CGSizeZero;
+    int y=5;
     int dtype=[self.mData[@"type"] intValue];
-//    if (dtype==0) {
-        NSString *text=self.mData[@"title"];
-        if (text && text.length>0) {
-            [text drawAtX:5 Y:5 withFont:[UIFont systemFontOfSize:14.0] align:1];
+    
+    // title
+    NSString *title=self.mData[@"title"];
+    
+    lb = [[UILabel alloc] initWithFrame:CGRectMake(5, y, self.mWidth-10, 40)];
+    [lb setBackgroundColor:[UIColor clearColor]];
+    [lb setFont:FONT_STD_TITLE];
+    [lb setTextColor:[UIColor blackColor]];
+    [lb setNumberOfLines:1];
+    [lb setText:title];
+    
+    [self addSubview:lb];
+    y+=40+5;
+    
+    //content
+    NSString *content=self.mData[@"content"];
+    
+    if (dtype==0) {
+        content = [content stringByReplacingOccurrencesOfString:TRI_SPACE withString:@"\n"];
+        strSize = [content sizeWithFont:FONT_STD_CONTENT constrainedToSize:CGSizeMake(self.mWidth,400)];
+        
+        lb = [[UILabel alloc] initWithFrame:CGRectMake(5, y,self.mWidth-10,strSize.height)];
+        [lb setBackgroundColor:[UIColor clearColor]];
+        [lb setFont:FONT_STD_CONTENT];
+        [lb setTextColor:[UIColor blueColor]];
+        [lb setNumberOfLines:0];
+        [lb setLineBreakMode:NSLineBreakByWordWrapping];
+        [lb setText:content];
+        
+        [self addSubview:lb];
+        
+        y+=strSize.height;
+        
+        y+=5;
+    } else if (dtype==1) { //附件,逗号分割
+        content = [content stringByReplacingOccurrencesOfString:TRI_SPACE withString:@""];
+        NSArray *list=[content componentsSeparatedByString:@","];
+        
+        
+        
+    } else if (dtype==2) { //链接
+        content = [content stringByReplacingOccurrencesOfString:TRI_SPACE withString:@""];
+        NSArray *list=[content componentsSeparatedByString:@","];
+        for (int i=0,count=list.count; i<count; i++) {
+            NSString *text=list[i];
+            NSString *link=list[i+1];
+            
+            bt=[[UIButton alloc] initWithFrame:CGRectMake(5, y, 200, 40)];
+            [bt setTitle:text forState:UIControlStateNormal];
+            [bt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [bt setBackgroundColor:[UIColor blueColor]];
+            
+            [bt setTag:i];
+            [bt setObjectTag:link];
+            
+            [bt addTarget:self
+                   action:@selector(do_link:)
+         forControlEvents:UIControlEventTouchUpInside];
+         
+            [self addSubview:bt];
+            
+            y+=45;
+            i++;
         }
         
-//    }
+    } else if (dtype==11) { //单选题
+        
+    }
+
+    // 视图设置
+    [self setFrame:CGRectMake(0, 0, self.mWidth, y)];
+    [self setBackgroundColor:[UIColor yellowColor]];
+    [self setTag:[self.mData[@"id"] intValue]];
+    self.mHeight = y;
+}
+
+-(void) do_link:(UIButton*)sender
+{
+    NSString *link=(NSString*)[sender objectTag];
+    if (link) {
+        if ([link rangeOfString:@"http"].location==NSNotFound) {
+            link=[NSString stringWithFormat:@"http://%@",link];
+        }
+        
+        NSLog(@"link:%@",link);
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:link]];
+    }
+}
+
+-(void) drawRect:(CGRect)rect
+{
+//    int dtype=[self.mData[@"type"] intValue];
+////    if (dtype==0) {
+//        NSString *text=self.mData[@"title"];
+//        if (text && text.length>0) {
+//            [text drawAtX:5 Y:5 withFont:[UIFont systemFontOfSize:14.0] align:1];
+//        }
+//        
+////    }
 }
 
 @end
