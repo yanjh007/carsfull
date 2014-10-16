@@ -27,3 +27,9 @@
 @interface LessonItem : UIView
 -(instancetype) initWithData:(NSDictionary*) data andWidth:(float)width;
 @end
+
+@interface ExamGroup : UIView
+-(instancetype) initWithConfig:(NSDictionary*)cfg;
+-(NSString*) getValue;
+@end
+

@@ -404,6 +404,7 @@
     
     //content
     NSString *content=self.mData[@"content"];
+    NSString *option;
     
     if (dtype==0) {
         content = [content stringByReplacingOccurrencesOfString:TRI_SPACE withString:@"\n"];
@@ -425,8 +426,6 @@
     } else if (dtype==1) { //附件,逗号分割
         content = [content stringByReplacingOccurrencesOfString:TRI_SPACE withString:@""];
         NSArray *list=[content componentsSeparatedByString:@","];
-        
-        
         
     } else if (dtype==2) { //链接
         content = [content stringByReplacingOccurrencesOfString:TRI_SPACE withString:@""];
@@ -453,7 +452,48 @@
             i++;
         }
         
-    } else if (dtype==11) { //单选题
+    } else if (dtype==10) { //题型分割
+
+    } else if (dtype==11 || dtype==12) { //单选题
+        // 内容
+        lb = [self textLabel:content width:self.mWidth-10];
+        [lb setFrame:CGRectMake(5, y, lb.frame.size.width, lb.frame.size.height)];
+        
+        [self addSubview:lb];
+        
+        y+=lb.frame.size.height+5;
+        
+        // 选项
+        option= self.mData[@"option"];
+        NSString *clist=@"ABCDEFGH",*c,*str,*v;
+//        NSMutableString *v; //正确答案
+        NSArray *optionList= [option componentsSeparatedByString:@",,"];
+        
+        for (int i=0,count=optionList.count; i<count; i++) {
+            c=[clist substringWithRange:NSMakeRange(i, 1)];
+            str =optionList[i];
+            if ([[str substringToIndex:1] isEqualToString:@"A"]) {
+                v=c;
+                str = [str substringFromIndex:1];
+            }
+            
+            str = [NSString stringWithFormat:@"%@. %@",c,str];
+
+            lb = [self textLabel:str width:self.mWidth-10];
+            [lb setFrame:CGRectMake(5, y, lb.frame.size.width, lb.frame.size.height)];
+            
+            [self addSubview:lb];
+            
+            y+=lb.frame.size.height+2;
+            
+        }
+        
+        ExamGroup *gp1=[[ExamGroup alloc] initWithConfig:@{@"type":@(dtype),@"width":@(self.mWidth-10)}];
+        [gp1 setFrame:CGRectMake(5, y, gp1.frame.size.width, gp1.frame.size.height)];
+        [self addSubview:gp1];
+        y+=gp1.frame.size.height+5;
+        
+    } else if (dtype==13) { //多选题
         
     }
 
@@ -489,5 +529,124 @@
 ////    }
 }
 
+-(UILabel*) textLabel:(NSString*)content width:(float)width
+{
+    content = [content stringByReplacingOccurrencesOfString:TRI_SPACE withString:@"\n"]; //换行
+    CGSize strSize = [content sizeWithFont:FONT_STD_CONTENT constrainedToSize:CGSizeMake(width,400)];
+    
+    UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(0, 0,width,strSize.height)];
+    [lb setBackgroundColor:[UIColor clearColor]];
+    [lb setFont:FONT_STD_CONTENT];
+    [lb setTextColor:[UIColor blueColor]];
+    [lb setNumberOfLines:0];
+    [lb setLineBreakMode:NSLineBreakByWordWrapping];
+    [lb setText:content];
+    
+    return lb;
+}
+
 @end
+
+#pragma mark - 普通测试选项组
+@interface ExamGroup()
+@property (retain,nonatomic) NSDictionary* mConfig;
+@property (retain,nonatomic) NSArray  *mValues;
+@property (retain,nonatomic) NSString *vlabel;
+@property (assign) int vtype,vcount;
+@property (retain,nonatomic) UIButton *curItem;
+@end
+
+@implementation ExamGroup
+
+-(instancetype) initWithConfig:(NSDictionary*)cfg
+{
+    float w=cfg[@"width"]?[cfg[@"width"] floatValue]:240, h=30;
+    self=[super initWithFrame:CGRectMake(0, 0, w, h)];
+    
+    if (self) {
+        self.mConfig = cfg;
+        [self setBackgroundColor:[UIColor redColor]];
+        
+        self.vtype  = cfg[@"type"]?[cfg[@"type"] intValue]:11;
+        //self.vcount = cfg[@"count"]?[cfg[@"count"] intValue]:4;
+        self.vlabel = cfg[@"label"]? cfg[@"label"] :@"A,B,C,D";
+        
+        self.mValues =[self.vlabel componentsSeparatedByString:@","];
+        self.vcount = self.mValues.count;
+        
+        UIButton *bt;
+        UILabel *lb;
+        UIImageView *iv;
+        NSString *iname1,*iname2;
+        
+        float w1= w/self.vcount;
+        
+        if (self.vtype==11) {  //单选
+            iname1=@"r1"; iname2=@"r2";
+        } else {
+            iname1=@"c1"; iname2=@"c2";
+        }
+        
+        for (int i=0; i<self.vcount; i++) {
+            bt=[[UIButton alloc] initWithFrame:CGRectMake(i*w1, 0, w1, h)];
+            lb=[[UILabel alloc]  initWithFrame:CGRectMake(4,0,20,h)];
+            
+            [lb setFont:[UIFont systemFontOfSize:14]];
+            [lb setText:self.mValues[i]];
+            [bt addSubview:lb];
+            
+            iv=[[UIImageView alloc] initWithImage  :[UIImage imageNamed:iname1]
+                                   highlightedImage:[UIImage imageNamed:iname2]];
+            
+            [iv setFrame:CGRectMake(16, 2, h-4, h-4)];
+            [iv setTag:20];
+            [bt addSubview:iv];
+            
+            [bt addTarget:self action:@selector(do_toggle:) forControlEvents:UIControlEventTouchUpInside];
+            [bt setTag:100+i];
+            [self addSubview:bt];
+            
+        }
+    }
+    return self;
+}
+
+
+-(void) do_toggle:(UIButton*)sender
+{
+    if (self.vtype==12) {
+        [sender setSelected:!sender.isSelected];
+        [(UIImageView*)[sender viewWithTag:20] setHighlighted:sender.isSelected];
+    } else if (self.vtype==11) { //单选
+        if (sender.isSelected) return; //已选择
+        if (self.curItem) {
+            [self.curItem setSelected:NO];
+            [(UIImageView*)[self.curItem viewWithTag:20] setHighlighted:NO];
+        }
+        
+        [sender setSelected:YES];
+        [(UIImageView*)[sender viewWithTag:20] setHighlighted:YES];
+        
+        self.curItem=sender;
+    }
+}
+
+-(NSString*) getValue
+{
+    NSMutableString *str=[NSMutableString stringWithString:@""];
+    for (int i=0; i<self.vcount; i++) {
+        if ([((UIButton*)[self viewWithTag:100+i]) isSelected]) {
+            if (self.vtype==11) {
+                return self.mValues[i];
+            } else if (self.vtype==12){
+                [str appendString:self.mValues[i]];
+            }
+        }
+    }
+    return [str copy];
+}
+
+
+@end
+
 

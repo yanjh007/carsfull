@@ -47,6 +47,9 @@ static int const DB_VERSION = 1;
                 //  课堂列表
                 [dataBase executeUpdate:@"CREATE TABLE lessons (id int PRIMARY KEY, name string, course_id int, course_name string, mtype int,morder int, content text, feedback text, status int, stime int, etime int,  edit_at int)"];
 
+                //  反馈信息
+                [dataBase executeUpdate:@"CREATE TABLE lesson_data (id int PRIMARY KEY, name string, content text, status int, update_at int)"];
+
                 version++;
             }
             
