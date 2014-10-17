@@ -17,5 +17,8 @@
 
 +(void) save:(NSDictionary*)dic;
 +(void) saveList:(NSArray*)ary;
++(void ) saveFeedback:(NSDictionary*)feedback forLesson:(int)lid;
+
 +(NSArray*) getLessons;
++(NSArray*) getFeedback:(int)lesson id:(int)sid;
 @end

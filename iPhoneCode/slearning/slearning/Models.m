@@ -79,4 +79,21 @@
 }
 
 
++(void ) saveFeedback:(NSDictionary*)feedback forLesson:(int)lid;
+{
+//    NSString *sql=@"select id,name,mtype,content,status,stime,etime from lessons order by course_id, morder";
+//    FMDatabase *db=[JY_DBHelper openDB];
+//    
+//    FMResultSet *s = [db executeQuery:sql];
+//    NSMutableArray *ary=[NSMutableArray array];
+//    while ([s next]) {
+//        JY_Lesson *item=[[JY_Lesson alloc] initWithDbRow:s];
+//        [ary addObject:item];
+//    }
+//    
+//    [db close];
+    
+    NSLog(@"lesson:%i \n result:%@",lid,feedback);
+}
+
 @end

@@ -26,10 +26,11 @@
 
 @interface LessonItem : UIView
 -(instancetype) initWithData:(NSDictionary*) data andWidth:(float)width;
+-(NSDictionary*) getResult;
 @end
 
 @interface ExamGroup : UIView
 -(instancetype) initWithConfig:(NSDictionary*)cfg;
--(NSString*) getValue;
+-(NSDictionary*) getResult;
 @end
 

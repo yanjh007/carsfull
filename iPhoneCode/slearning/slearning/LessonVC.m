@@ -16,6 +16,7 @@
 @property (strong, nonatomic) IBOutlet UIScrollView *sv_content;
 @property (strong,nonatomic) JY_Lesson *mLesson;
 @property (assign) float cy;
+@property (assign) int vtag;
 @end
 
 @implementation LessonVC
@@ -44,6 +45,20 @@
         [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (IBAction)do_save:(UIButton *)sender {
+    UIView *v; NSDictionary *feedback;
+    for (int i=501;i<600;i++) {
+        v=[self.sv_content viewWithTag:i];
+        if (!v) break;
+        if ([v isKindOfClass:[LessonItem class]]) {
+            feedback=[(LessonItem*)v getResult];
+            [JY_Lesson saveFeedback:feedback forLesson:self.mLesson.lid];
+        }
+    }
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 -(void) loadContent
 {
     if (!self.mLesson.content || self.mLesson.content.length==0) return;
@@ -52,14 +67,16 @@
     NSArray *ary_content=dic_content[@"content"];
     LessonItem *lv;
     
-    int y=10;
+    int y=10,itag=501;
     
     for (NSDictionary *item in ary_content) {
         lv=[[LessonItem alloc] initWithData:item andWidth:self.sv_content.frame.size.width-20];
+        [lv setTag:itag];
         [self.sv_content addSubview:lv];
 
         [lv moveToX:10 andY:y];
         
+        itag++;
         y+=lv.frame.size.height+10;
     }
     
@@ -366,7 +383,8 @@
 
 @interface LessonItem()
 @property (retain,nonatomic) NSDictionary* mData;
-@property (assign) int mWidth,mHeight;
+@property (retain,nonatomic) NSString *vanswer; //答案
+@property (assign) int mWidth,mHeight,vtype,vcount;
 
 @end
 @implementation LessonItem
@@ -377,6 +395,7 @@
     if (self) {
         self.mData=data;
         self.mWidth=width;
+        self.vanswer=@"";
         [self setViews];
     }
     return self;
@@ -384,124 +403,27 @@
 
 -(void) setViews
 {
-    UILabel *lb; UIButton *bt;
-    CGSize strSize = CGSizeZero;
+    self.vtype =[self.mData[@"type"] intValue];
+    self.vcount =[self.mData[@"type"] intValue];
+    
     int y=5;
-    int dtype=[self.mData[@"type"] intValue];
+    // 标题
+    y+= [self setTitle:y];
     
-    // title
-    NSString *title=self.mData[@"title"];
-    
-    lb = [[UILabel alloc] initWithFrame:CGRectMake(5, y, self.mWidth-10, 40)];
-    [lb setBackgroundColor:[UIColor clearColor]];
-    [lb setFont:FONT_STD_TITLE];
-    [lb setTextColor:[UIColor blackColor]];
-    [lb setNumberOfLines:1];
-    [lb setText:title];
-    
-    [self addSubview:lb];
-    y+=40+5;
-    
-    //content
-    NSString *content=self.mData[@"content"];
-    NSString *option;
-    
-    if (dtype==0) {
-        content = [content stringByReplacingOccurrencesOfString:TRI_SPACE withString:@"\n"];
-        strSize = [content sizeWithFont:FONT_STD_CONTENT constrainedToSize:CGSizeMake(self.mWidth,400)];
-        
-        lb = [[UILabel alloc] initWithFrame:CGRectMake(5, y,self.mWidth-10,strSize.height)];
-        [lb setBackgroundColor:[UIColor clearColor]];
-        [lb setFont:FONT_STD_CONTENT];
-        [lb setTextColor:[UIColor blueColor]];
-        [lb setNumberOfLines:0];
-        [lb setLineBreakMode:NSLineBreakByWordWrapping];
-        [lb setText:content];
-        
-        [self addSubview:lb];
-        
-        y+=strSize.height;
-        
-        y+=5;
-    } else if (dtype==1) { //附件,逗号分割
-        content = [content stringByReplacingOccurrencesOfString:TRI_SPACE withString:@""];
-        NSArray *list=[content componentsSeparatedByString:@","];
-        
-    } else if (dtype==2) { //链接
-        content = [content stringByReplacingOccurrencesOfString:TRI_SPACE withString:@""];
-        NSArray *list=[content componentsSeparatedByString:@","];
-        for (int i=0,count=list.count; i<count; i++) {
-            NSString *text=list[i];
-            NSString *link=list[i+1];
-            
-            bt=[[UIButton alloc] initWithFrame:CGRectMake(5, y, 200, 40)];
-            [bt setTitle:text forState:UIControlStateNormal];
-            [bt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            [bt setBackgroundColor:[UIColor blueColor]];
-            
-            [bt setTag:i];
-            [bt setObjectTag:link];
-            
-            [bt addTarget:self
-                   action:@selector(do_link:)
-         forControlEvents:UIControlEventTouchUpInside];
-         
-            [self addSubview:bt];
-            
-            y+=45;
-            i++;
-        }
-        
-    } else if (dtype==10) { //题型分割
+    // 内容
+    y+= [self setContent:y];
 
-    } else if (dtype==11 || dtype==12) { //单选题
-        // 内容
-        lb = [self textLabel:content width:self.mWidth-10];
-        [lb setFrame:CGRectMake(5, y, lb.frame.size.width, lb.frame.size.height)];
-        
-        [self addSubview:lb];
-        
-        y+=lb.frame.size.height+5;
-        
-        // 选项
-        option= self.mData[@"option"];
-        NSString *clist=@"ABCDEFGH",*c,*str,*v;
-//        NSMutableString *v; //正确答案
-        NSArray *optionList= [option componentsSeparatedByString:@",,"];
-        
-        for (int i=0,count=optionList.count; i<count; i++) {
-            c=[clist substringWithRange:NSMakeRange(i, 1)];
-            str =optionList[i];
-            if ([[str substringToIndex:1] isEqualToString:@"A"]) {
-                v=c;
-                str = [str substringFromIndex:1];
-            }
-            
-            str = [NSString stringWithFormat:@"%@. %@",c,str];
-
-            lb = [self textLabel:str width:self.mWidth-10];
-            [lb setFrame:CGRectMake(5, y, lb.frame.size.width, lb.frame.size.height)];
-            
-            [self addSubview:lb];
-            
-            y+=lb.frame.size.height+2;
-            
-        }
-        
-        ExamGroup *gp1=[[ExamGroup alloc] initWithConfig:@{@"type":@(dtype),@"width":@(self.mWidth-10)}];
-        [gp1 setFrame:CGRectMake(5, y, gp1.frame.size.width, gp1.frame.size.height)];
-        [self addSubview:gp1];
-        y+=gp1.frame.size.height+5;
-        
-    } else if (dtype==13) { //多选题
-        
-    }
+    // 选项 附件、链接、单选、多选
+    y+= [self setOption:y];
+    
+    // 响应区域
+    y+= [self setFeedBack:y];
 
     // 视图设置
     [self setFrame:CGRectMake(0, 0, self.mWidth, y)];
     [self setBackgroundColor:[UIColor yellowColor]];
     [self setTag:[self.mData[@"id"] intValue]];
-    self.mHeight = y;
+    self.mHeight = y+10;
 }
 
 -(void) do_link:(UIButton*)sender
@@ -519,16 +441,146 @@
 
 -(void) drawRect:(CGRect)rect
 {
-//    int dtype=[self.mData[@"type"] intValue];
-////    if (dtype==0) {
-//        NSString *text=self.mData[@"title"];
-//        if (text && text.length>0) {
-//            [text drawAtX:5 Y:5 withFont:[UIFont systemFontOfSize:14.0] align:1];
-//        }
-//        
-////    }
+
 }
 
+-(int)  setTitle:(float) y // 标题
+{
+    if (self.mData[@"title"]) {
+        NSString *title=self.mData[@"title"];
+        
+        UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(5, y, self.mWidth-10, 36)];
+        [lb setBackgroundColor:[UIColor clearColor]];
+        [lb setFont:FONT_STD_TITLE];
+        [lb setTextColor:[UIColor blackColor]];
+        [lb setNumberOfLines:1];
+        [lb setText:title];
+        
+        [self addSubview:lb];
+        return 40;
+    } else {
+        return 0;
+    }
+
+}
+
+-(int)  setFeedBack:(float) y // 标题
+{
+    if (self.vtype == 11 || self.vtype == 12 || self.vtype == 13 || self.vtype == 14) {
+        ExamGroup *fv=[[ExamGroup alloc] initWithConfig:@{
+                                                          @"lid"  :self.mData[@"lid"]?self.mData[@"lid"]:@(0),
+                                                          @"vid"  :self.mData[@"id"]?self.mData[@"id"]:@(0),
+                                                          @"width"  :@(self.mWidth-10),
+                                                          @"type"   :@(self.vtype),
+                                                          @"answer" :self.vanswer,
+                                                          @"score"  :self.mData[@"score"]?self.mData[@"score"]:@(1),
+                                                          @"count"  :@(self.vcount)
+                                                          }];
+        
+        [fv setFrame:CGRectMake(5, y, fv.frame.size.width, fv.frame.size.height)];
+        [fv setTag:600];
+        
+        [self addSubview:fv];
+        return fv.frame.size.height+5;
+        
+    } else {
+        return 0;
+    }
+}
+
+-(float) setOption:(float) y
+{
+    UILabel *lb;
+    float height=0;
+    NSArray *oplist;
+    if  (self.mData[@"option"]) {
+        NSString *clist=@"ABCDEFGH",*c,*str;
+        NSMutableString *answer=[NSMutableString stringWithString:@""];
+        if (self.vtype==11 || self.vtype==12 ) { //单选多选 填空
+            oplist = [self.mData[@"option"] componentsSeparatedByString:@",,"];
+            self.vcount=oplist.count;
+            for (int i=0; i<self.vcount; i++) {
+                c=[clist substringWithRange:NSMakeRange(i, 1)];
+                str =oplist[i];
+                if ([[str substringToIndex:1] isEqualToString:@"#"]) {
+                    [answer appendString:c];
+                    str = [str substringFromIndex:1];
+                }
+                
+                str = [NSString stringWithFormat:@"%@. %@",c,str];
+                
+                lb = [self textLabel:str width:self.mWidth-10];
+                [lb setFrame:CGRectMake(5, y+height, lb.frame.size.width, lb.frame.size.height)];
+                
+                [self addSubview:lb];
+                
+                height+=lb.frame.size.height+2;
+            }
+            
+            self.vanswer=[answer copy];
+            
+        } else if (self.vtype==13) {
+            oplist = [self.mData[@"option"] componentsSeparatedByString:@"#"];
+            self.vanswer = self.mData[@"option"];
+            self.vcount=oplist.count;
+            
+        } else if (self.vtype==14) {
+            self.vcount=1;
+        } else if (self.vtype==1) {
+
+        } else if (self.vtype==2) { //链接按钮
+            //        content = [content stringByReplacingOccurrencesOfString:TRI_SPACE withString:@""];
+            //        NSArray *list=[content componentsSeparatedByString:@","];
+            //        for (int i=0,count=list.count; i<count; i++) {
+            //            NSString *text=list[i];
+            //            NSString *link=list[i+1];
+            //
+            //            bt=[[UIButton alloc] initWithFrame:CGRectMake(5, y, 200, 40)];
+            //            [bt setTitle:text forState:UIControlStateNormal];
+            //            [bt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            //            [bt setBackgroundColor:[UIColor blueColor]];
+            //
+            //            [bt setTag:i];
+            //            [bt setObjectTag:link];
+            //
+            //            [bt addTarget:self
+            //                   action:@selector(do_link:)
+            //         forControlEvents:UIControlEventTouchUpInside];
+            //         
+            //            [self addSubview:bt];
+            //            
+            //            y+=45;
+            //            i++;
+            //        }
+        }
+    }
+    return height;
+}
+
+-(float)  setContent:(float) y
+{
+    if (self.mData[@"content"]) {
+        NSString *content=self.mData[@"content"];
+        content = [content stringByReplacingOccurrencesOfString:TRI_SPACE withString:@"\n"];
+        CGSize strSize = [content sizeWithFont:FONT_STD_CONTENT constrainedToSize:CGSizeMake(self.mWidth-10,400)];
+        
+        UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(5, y, self.mWidth-10,strSize.height)];
+        
+        [lb setBackgroundColor:[UIColor clearColor]];
+        [lb setFont:FONT_STD_CONTENT];
+        [lb setTextColor:[UIColor blueColor]];
+        [lb setNumberOfLines:0];
+        [lb setLineBreakMode:NSLineBreakByWordWrapping];
+        [lb setText:content];
+        
+        [self addSubview:lb];
+        
+        return lb.frame.size.height+5;
+    } else {
+        return 0;
+    }
+    
+}
 -(UILabel*) textLabel:(NSString*)content width:(float)width
 {
     content = [content stringByReplacingOccurrencesOfString:TRI_SPACE withString:@"\n"]; //换行
@@ -545,68 +597,120 @@
     return lb;
 }
 
+
+-(NSDictionary*) getResult;
+{
+    if ([self viewWithTag:600]) {
+        ExamGroup *g=(ExamGroup*)[self viewWithTag:600];
+        return [g getResult];
+    } else {
+        return nil;
+    }
+}
+
 @end
 
 #pragma mark - 普通测试选项组
 @interface ExamGroup()
 @property (retain,nonatomic) NSDictionary* mConfig;
-@property (retain,nonatomic) NSArray  *mValues;
-@property (retain,nonatomic) NSString *vlabel;
-@property (assign) int vtype,vcount;
+@property (retain,nonatomic) NSArray  *lheaders;
+@property (retain,nonatomic) NSString *vlabel,*vanswer;
+@property (assign) int vid,vtype,vcount,vscore,vhight;
 @property (retain,nonatomic) UIButton *curItem;
+
 @end
 
 @implementation ExamGroup
 
 -(instancetype) initWithConfig:(NSDictionary*)cfg
 {
-    float w=cfg[@"width"]?[cfg[@"width"] floatValue]:240, h=30;
-    self=[super initWithFrame:CGRectMake(0, 0, w, h)];
+    float w=cfg[@"width"]?[cfg[@"width"] floatValue]:240;
+    self=[super initWithFrame:CGRectZero];
     
     if (self) {
         self.mConfig = cfg;
-        [self setBackgroundColor:[UIColor redColor]];
+//        [self setBackgroundColor:[UIColor redColor]];
         
-        self.vtype  = cfg[@"type"]?[cfg[@"type"] intValue]:11;
-        //self.vcount = cfg[@"count"]?[cfg[@"count"] intValue]:4;
-        self.vlabel = cfg[@"label"]? cfg[@"label"] :@"A,B,C,D";
+        self.vid  = cfg[@"vid"]     ?[cfg[@"vid"] intValue]:0;
+        self.vtype   = cfg[@"type"]     ?[cfg[@"type"] intValue]:11;
+        self.vlabel  = cfg[@"label"]    ? cfg[@"label"] :@"A,B,C,D";
+        self.vanswer = cfg[@"answer"]   ? cfg[@"answer"] :@""; //参考答案
+        self.vcount  = cfg[@"count"]    ?[cfg[@"count"] intValue]:1;
+        self.vscore  = cfg[@"score"]    ?[cfg[@"score"] intValue]:1;
         
-        self.mValues =[self.vlabel componentsSeparatedByString:@","];
-        self.vcount = self.mValues.count;
+        self.lheaders =[self.vlabel componentsSeparatedByString:@","];
         
         UIButton *bt;
         UILabel *lb;
         UIImageView *iv;
+        UITextField *tf;
+        UITextView  *tv;
         NSString *iname1,*iname2;
         
-        float w1= w/self.vcount;
+        float w1= 50; // w/self.vcount;
+        self.vhight=30;
         
-        if (self.vtype==11) {  //单选
-            iname1=@"r1"; iname2=@"r2";
-        } else {
-            iname1=@"c1"; iname2=@"c2";
+        if (self.vtype <=12) {
+            
+            if (self.vtype==11) {  //单选
+                iname1=@"r1"; iname2=@"r2";
+            } else if (self.vtype==12) {
+                iname1=@"c1"; iname2=@"c2";
+            } else {
+                
+            }
+            
+            for (int i=0; i<self.vcount; i++) {
+                bt=[[UIButton alloc] initWithFrame:CGRectMake(i*w1, 0, w1, self.vhight)];
+                lb=[[UILabel alloc]  initWithFrame:CGRectMake(4,0,20,self.vhight)];
+                
+                [lb setFont:[UIFont systemFontOfSize:14]];
+                [lb setText:self.lheaders[i]];
+                [bt addSubview:lb];
+                
+                iv=[[UIImageView alloc] initWithImage  :[UIImage imageNamed:iname1]
+                                       highlightedImage:[UIImage imageNamed:iname2]];
+                
+                [iv setFrame:CGRectMake(16, 2, self.vhight-4, self.vhight-4)];
+                [iv setTag:20];
+                [bt addSubview:iv];
+                
+                [bt addTarget:self action:@selector(do_toggle:) forControlEvents:UIControlEventTouchUpInside];
+                [bt setTag:100+i];
+                [self addSubview:bt];
+                
+            }
+            
+        } else if (self.vtype==13) {
+            for (int i=0;i<self.vcount;i++) {
+                // 标题
+                lb=[[UILabel alloc]  initWithFrame:CGRectMake(4,self.vhight*i+2,20,self.vhight-4)];
+                
+                [lb setFont:[UIFont systemFontOfSize:14]];
+                [lb setText:self.lheaders[i]];
+                [self addSubview:lb];
+                
+                // 编辑框
+                tf=[[UITextField  alloc] initWithFrame:CGRectMake(30,self.vhight*i+2,120, self.vhight-4)];
+                [tf setBorderStyle:UITextBorderStyleLine];
+                [tf setTag:100+i];
+                
+                [self addSubview:tf];
+            }
+            
+            self.vhight=self.vhight*self.vcount;
+        } else if (self.vtype==14) {
+            tv=[[UITextView alloc] initWithFrame:CGRectMake(0, 0, w, 80)];
+            [tv setBackgroundColor:[UIColor lightGrayColor]];
+            [tv setTag:100];
+            
+            [self addSubview:tv];
+            
+            self.vhight=80;
         }
         
-        for (int i=0; i<self.vcount; i++) {
-            bt=[[UIButton alloc] initWithFrame:CGRectMake(i*w1, 0, w1, h)];
-            lb=[[UILabel alloc]  initWithFrame:CGRectMake(4,0,20,h)];
-            
-            [lb setFont:[UIFont systemFontOfSize:14]];
-            [lb setText:self.mValues[i]];
-            [bt addSubview:lb];
-            
-            iv=[[UIImageView alloc] initWithImage  :[UIImage imageNamed:iname1]
-                                   highlightedImage:[UIImage imageNamed:iname2]];
-            
-            [iv setFrame:CGRectMake(16, 2, h-4, h-4)];
-            [iv setTag:20];
-            [bt addSubview:iv];
-            
-            [bt addTarget:self action:@selector(do_toggle:) forControlEvents:UIControlEventTouchUpInside];
-            [bt setTag:100+i];
-            [self addSubview:bt];
-            
-        }
+        // 位置和大小
+        [self setFrame:CGRectMake(0, 0, w, self.vhight)];
     }
     return self;
 }
@@ -631,19 +735,77 @@
     }
 }
 
--(NSString*) getValue
+-(NSDictionary*) getResult
 {
+    NSString
+    *keya=@"answer", //用户答案
+    *keyr=@"result", //当前结果 0-未完成 1-错 2-对 3-待批复 4-批复
+    *keys=@"score"; // 当前得分
+
+    NSMutableDictionary *dic=[[NSMutableDictionary alloc]initWithDictionary:@{
+                                                                              @"vid" :@(self.vid),
+                                                                              @"type":@(self.vtype),
+                                                                              keyr:@(0),
+                                                                              keys:@(0)}];
+    
+    // 客户答案
     NSMutableString *str=[NSMutableString stringWithString:@""];
-    for (int i=0; i<self.vcount; i++) {
-        if ([((UIButton*)[self viewWithTag:100+i]) isSelected]) {
-            if (self.vtype==11) {
-                return self.mValues[i];
-            } else if (self.vtype==12){
-                [str appendString:self.mValues[i]];
+    NSArray *alist=[self.vanswer componentsSeparatedByString:@"#"],*l; //填空题答案列表
+    int j=0; //正确累计
+    if (self.vtype==14) {
+        dic[keya] =[(UITextView*)[self viewWithTag:100] text];
+    } else {
+        for (int i=0; i<self.vcount; i++) {
+            if (self.vtype==11) { //单选
+                if ([((UIButton*)[self viewWithTag:100+i]) isSelected]) {
+                    [str appendString:self.lheaders[i]];
+                    break;
+                }
+            } else if (self.vtype==12) { //多选
+                if ([((UIButton*)[self viewWithTag:100+i]) isSelected]) {
+                    [str appendString:self.lheaders[i]];
+                }
+            } else if (self.vtype==13) {
+                if (i>0) [str appendString:@"#"];
+                if ([self viewWithTag:100+i]) {
+                    NSString *r=[(UITextField*)[self viewWithTag:100+i] text];
+                    if (alist[i]) {
+                        NSString *a=alist[i];
+                        l= [a componentsSeparatedByString:@",,"];
+                        for (NSString *item in l) {
+                            if ([item isEqualToString:r ]) {
+                                j++;
+                                break;
+                            }
+                        }
+                    }
+                    [str appendString: r];
+                }
+                
             }
         }
+        dic[keya] = [str copy];
     }
-    return [str copy];
+
+    // 得分判断
+    if (self.vtype==12 || self.vtype==11) { //多选答案验证
+        if ([str isEqualToString:self.vanswer]) {
+            dic[keyr]= @(2);
+            dic[keys]= @(self.vscore);
+        } else {
+            dic[keyr]= @(1);
+        }
+    } else if (self.vtype==13) { //填空题
+        if (j==self.vcount) {
+            dic[keyr]= @(2);
+        } else {
+            dic[keyr]= @(1);
+        }
+    } else if (self.vtype==14) {
+        dic[keyr]= @(3);
+    }
+    
+    return [dic copy];
 }
 
 
