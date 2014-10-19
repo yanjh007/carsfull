@@ -97,9 +97,9 @@ class Courses extends CI_Controller {
   }
   
   /*
-   * 内容管理
+   * 课程计划管理
    */
-  public function content($id) { //课程内容和模块管理	
+  public function plan($id) { //课程内容和模块管理	
     $this->load->helper(array('form','zmform'));
     $course = $this->course->get_course($id);
     if (empty($course)) {
@@ -117,7 +117,7 @@ class Courses extends CI_Controller {
       $this->load->model("dic");
       $data["mtype_list"] =$this->dic->get_select_list(Dic::DIC_TYPE_COURSE);
 
-      show_view(self::MODULE_NAME."/content",$data); 
+      show_view(self::MODULE_NAME."/plan",$data); 
     }
   }
   
@@ -154,7 +154,7 @@ class Courses extends CI_Controller {
     }
   }
   
-  public function edit_module($id) {	
+  public function edit_plan($id) {	
     $this->load->helper(array('form','zmform'));
     $data['item'] = $this->course->get_content($id,1);
     if (empty($data['item'])) {
@@ -162,8 +162,19 @@ class Courses extends CI_Controller {
     } else {
       $this->load->model("dic");
       $data["mtype_list"] =$this->dic->get_select_list(Dic::DIC_TYPE_COURSE);
-
-      show_view(self::MODULE_NAME."/edit_module",$data); 
+      $content=$data["item"]["content"];
+      $json=json_decode($content,true);
+      
+      //var_dump($json);
+      
+      if ($json && $json["content"]) {
+        $data["list"] = $json["content"];
+        //$data["contentlist"] = $content;
+      } else {
+        $data["list"] = array();
+        $data["contentlist"] = "";
+      }
+      show_view(self::MODULE_NAME."/edit_plan",$data); 
     }
   }
   
@@ -172,9 +183,14 @@ class Courses extends CI_Controller {
     redirect(self::MODULE_NAME."/".$id."/content");
   }
   
-  public function save_module_content($id) { //保存模块内容
-    $this->course->save_module_content($id);
-    redirect(self::MODULE_NAME."/".$id."/content");
+  public function save_content($id) { //id 为 moduleid
+    $this->course->save_content($id);
+    redirect(self::MODULE_NAME."/".$id."/edit_plan");
+  }
+
+  public function remove_content($id) { //id 为 moduleid
+    $this->course->remove_content($id);
+    redirect(self::MODULE_NAME."/".$id."/edit_plan");
   }
   
   public function delete_module($id) {	

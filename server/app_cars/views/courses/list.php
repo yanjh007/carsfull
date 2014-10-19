@@ -23,8 +23,8 @@
 				  <td><?php if (isset($ccata_list[$item["ccata"]])) echo $ccata_list[$item["ccata"]]; ?></td>
 				  <td><?php echo  $item["name"]; ?></td>
 				  <td align=right>
-				  <?php echo anchor($MODULE_PATH.$item["id"]."/content","内容"); ?> |
 				  <?php echo anchor($MODULE_PATH.$item["id"]."/sclass","班级(".(isset($countlist[$item["id"]])?$countlist[$item["id"]]:0).")"); ?> |
+				  <?php echo anchor($MODULE_PATH.$item["id"]."/plan","计划"); ?> |
 				  <?php echo anchor($MODULE_PATH.$item["id"]."/edit","编辑"); ?>
 				  </td>
 			    </tr>

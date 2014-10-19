@@ -215,12 +215,40 @@ class Course extends CI_Model {
   }
   
   // 模块内容
-  public function save_module_content($course_id) {
+  public function save_content($id) {
     $table="cmodules";
     $item   = $this->input->post();
-    $id = $item["item_id"];
+	
+	$contentlist=$item["contentlist"];
+	
+	$order=$item["qorder"]!=""?$item["qorder"]-1:1000; 
+	
+	if ($item["score"]=="" ||$item["score"]==0) {
+	    $itemcontent=array("type"=>10,"title"=>$item["qcode"]);  //分隔
+	} else {
+		$itemcontent=array("type"=>11,"title"=>$item["qcode"],"qcode"=>$item["qcode"],"content"=>$item["qcode"],"score"=>$item["score"]);  
+	}
+	
+	if ($contentlist=="") { //没有内容
+	  $contentlist=array($itemcontent);	
+	} else {
+	  $contentlist=json_decode($contentlist);
+
+	  if ($order>count($contentlist)) {
+		$contentlist[]=$itemcontent;
+	  } else {
+		$count=count($contentlist);
+		for ($i=$count;$i>=$order;$i--) {
+		  $contentlist[$i]=$contentlist[$i-1];
+		}
+		
+		$contentlist[$order]=$itemcontent;
+	  }
+	}
+	
+	$content=json_encode(array("content"=>$contentlist,"count"=>5,"score"=>100));
     $data = array(
-		'content' => $item["content"],
+		'content' => $content,
 		'edit_at' => time()/60
 		);
 
@@ -235,6 +263,48 @@ class Course extends CI_Model {
 	
     return TRUE;
   }
+  
+    // 模块内容
+  public function remove_content($id) {
+    $table="cmodules";
+    $order = $this->input->get("order")-1;
+	
+	$sql="select content from ".$table." where id=".$id;
+	
+	$query = $this->db->query($sql);
+    if ($query->num_rows() > 0) {
+	  $content =$query->row()->content;
+	  $json=json_decode($content,true);
+	  
+	  if ($json) {
+		$contentlist=$json["content"];
+
+		$count=count($contentlist);
+		for ($i=$order;$i<$count;$i++) {
+		  $contentlist[$i]=$contentlist[$i+1];
+		}
+		
+		array_pop($contentlist);		
+	  }
+    }
+
+	$content=json_encode(array("content"=>$contentlist,"count"=>5,"score"=>100));
+    $data = array(
+		'content' => $content,
+		'edit_at' => time()/60
+		);
+
+    $this->db->where('id', $id);
+    $this->db->update($table, $data);
+	
+	
+	// 更新相关课堂
+	$sql="update lessons set update_at=".(time()/60)." where module=".$id;
+	$this->db->query($sql);	
+	
+    return TRUE;
+  }
+
   
   public function remove($item_id) {
     $this->db->where('id', $item_id);

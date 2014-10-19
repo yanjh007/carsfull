@@ -16,7 +16,7 @@
       <ul class="nav navbar-nav">
         <li><a href="#">知识管理</a></li>        
         <?php
-          nav_menu(array("教学管理","学校管理","sclasses","教师管理","smembers","","课程管理","courses","课件管理","cwares")); 
+          nav_menu(array("教学管理","学校管理","sclasses","教师管理","smembers","","课程管理","courses","课件管理","cwares","","题库管理","questions","试卷管理","exampapers")); 
           nav_menu(array("服务管理","菜单管理","dishes","","订单管理","dorders")); 
           nav_menu(array("客户管理","客户管理","clients","车辆管理","cars","维修计划","plans","","预约管理","appointments","报价管理","prices"));
         ?> 

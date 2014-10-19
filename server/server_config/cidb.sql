@@ -3,15 +3,15 @@
 
  Source Server         : localdb
  Source Server Type    : MySQL
- Source Server Version : 50620
+ Source Server Version : 50538
  Source Host           : localhost
  Source Database       : cidb
 
  Target Server Type    : MySQL
- Target Server Version : 50620
+ Target Server Version : 50538
  File Encoding         : utf-8
 
- Date: 10/17/2014 17:08:20 PM
+ Date: 10/20/2014 02:27:11 AM
 */
 
 SET NAMES utf8;
@@ -187,7 +187,7 @@ CREATE TABLE `ci_sessions` (
 --  Records of `ci_sessions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `ci_sessions` VALUES ('47959bf3ff4d11b222130eb8f570bfa1', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.25 (KHTML, like Gecko) Version/8.0 Safari/600.1.25', '1413533233', 'a:2:{s:9:\"user_data\";s:0:\"\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}'), ('4a12b06857b5e8e2fc2f1223c2d09c86', '127.0.0.1', 'slearning/1 CFNetwork/711.1.12 Darwin/14.0.0', '1413519280', ''), ('4fb627ed0c6e76ebbae6a3ba4c864ffc', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.25 (KHTML, like Gecko) Version/8.0 Safari/600.1.25', '1413519271', 'a:2:{s:9:\"user_data\";s:0:\"\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}');
+INSERT INTO `ci_sessions` VALUES ('875d0d8034805b5dde4b766a1ec56aeb', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/600.1.17 (KHTML, like Gecko) Version/7.1 Safari/537.85.10', '1413739525', 'a:2:{s:9:\"user_data\";s:0:\"\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}');
 COMMIT;
 
 -- ----------------------------
@@ -211,13 +211,13 @@ CREATE TABLE `clients` (
   `login_at` datetime DEFAULT NULL,
   `status` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `clients`
 -- ----------------------------
 BEGIN;
-INSERT INTO `clients` VALUES ('1', null, 'shixc', 'a5b09e5b217127812c3f0e778dd1098404ce1fd4', null, '施磊', null, null, '18602802121', 'X_shileixc', null, '1', '2014-08-14 16:04:33', null, null), ('2', null, 'yanjh', null, null, '颜建华', null, null, '13808077242', 'X_hahar006', null, '0', null, null, null), ('4', null, null, null, null, '周琪', null, null, '13880735908', 'Q8990099', null, '0', null, null, null), ('10', null, null, null, null, '陶莉', null, null, '13882189728', 'Q89960707', null, '0', '2014-08-15 15:21:08', null, null), ('11', null, '13908077242', 'aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d', '8C1AF92C-CDBC-4791-B', 'John Yan', 'Tianfu', 'yanjh@sina.com', '13908077242', null, null, '0', '2014-09-19 17:00:15', null, null);
+INSERT INTO `clients` VALUES ('1', null, 'shixc', 'a5b09e5b217127812c3f0e778dd1098404ce1fd4', null, '施磊', null, null, '18602802121', 'X_shileixc', null, '1', '2014-08-14 16:04:33', null, null), ('2', null, 'yanjh', null, null, '颜建华', null, null, '13808077242', 'X_hahar006', null, '0', null, null, null), ('4', null, null, null, null, '周琪', null, null, '13880735908', 'Q8990099', null, '0', null, null, null), ('10', null, null, null, null, '陶莉', null, null, '13882189728', 'Q89960707', null, '0', '2014-08-15 15:21:08', null, null), ('11', null, '13908077242', 'aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d', '8C1AF92C-CDBC-4791-B', 'John Yan', 'Tianfu', 'yanjh@sina.com', '13908077242', null, null, '0', '2014-09-19 17:00:15', null, null), ('12', null, null, null, null, null, null, null, null, null, null, '0', null, null, null);
 COMMIT;
 
 -- ----------------------------
@@ -267,7 +267,7 @@ CREATE TABLE `cmodules` (
 --  Records of `cmodules`
 -- ----------------------------
 BEGIN;
-INSERT INTO `cmodules` VALUES ('1', '课程说明', '1', '1', '10', '共9个课时，5个自学模块，4个测验，5个作业\n9月10日作业\n阅读课本P15~55\n9月12日作业\n搜索网络相关资料\n', '0', '23554489'), ('2', '一. 数一数与乘法', '1', '2', '11', '{\n	\"ctype\":\"jpg_txt\",\n	\"total\":4,\n	\"descp1\":\"两个黄鹂鸣翠柳\",\n	\"descp2\":\"一行白鹭上青天\",\n	\"descp3\":\"三人行必有我师\",\n	\"descp4\":\"四面边声连角起，千嶂里，长烟落日孤城闭\",\n}', '0', '23554140'), ('3', '二. 乘法口诀1', '1', '5', '11', '', '0', '23554278'), ('4', '小测验', '1', '4', '13', '{\n\"title\":\"第一单元小测验\",\n\"scoretype\":0,\n\"content\":\n[\n{\n\"id\":1,\"type\":\"10\",\"title\":\"单选题 共10题 20分\"\n},\n{\n\"id\":1,\"type\":\"11\",\"title\":\"单选题\",\"content\":\"中华人民共和国成立于哪一年?\",\n\"option\":\"1921,,#1949,,1966,,1978\",\n\"score\":5\n},\n{\n\"id\":2,\"type\":\"12\",\"title\":\"多选题\",\"content\":\"下列那些国家属于亚洲?\",\n\"option\":\"#中国,,美国,,#日本,,#韩国\",\n\"score\":5\n},\n{\n\"id\":3,\"type\":\"13\",\"title\":\"填空题\",\"content\":\"中国的英文简称是____,美国的英文简称是____\",\"count\":2,\n\"option\":\"CHN,,CN#US,,USA\",\n\"score\":5\n},\n{\n\"id\":4,\"type\":\"14\",\"title\":\"简答题\",\"content\":\"请简要说明香港发展的历史\",\n\"score\":10\n}\n]\n}', '0', '23558655'), ('5', '四. 分一分与除法', '1', '8', null, '', '0', null), ('6', '整理与复习1', '1', '9', null, '', '0', null), ('7', '总复习', '1', '101', null, '', '0', null), ('8', '节日广场', '1', '7', null, '', '0', null), ('9', '五. 方向与位置', '1', '10', null, '', '0', null), ('10', '二. 小数', '2', '1', '9', '', '0', null), ('11', '三. 观察物体', '1', '6', null, '', '0', null), ('12', '一. 数一数与乘法', '2', '1', null, '第一章', '0', null), ('13', '七. 乘法口诀2', '1', '13', null, '', '0', null), ('14', '六. 时、分、秒', '1', '11', null, '', '0', null), ('15', '月球旅行', '1', '12', null, '', '0', null), ('18', '整理与复习2', '1', '85', '0', '', '0', null), ('19', '八. 除法', '1', '86', '0', '', '0', null), ('20', '九. 统计与猜测', '1', '87', '0', '', '0', null), ('21', '趣味运动会', '1', '88', '0', '', '0', null), ('22', '期末考试', '1', '102', '13', '', '0', null), ('23', '一、声母', '3', '1', '9', '', '0', null), ('24', '一. 现代完成时', '4', '1', '9', '', '0', null), ('25', '简介', '7', '1', '10', null, '0', null), ('26', '小作业', '1', '3', '14', '{\n\"content\":\n[\n{\n\"id\":1,\"type\":0,\"title\":\"材料阅读\",\"content\":\n\"他们是\n不合主流的怪才，叛逆传统的勇士\n制造麻烦的一小撮\n方凿圆纳，特立独行\n他们观察问题，与众不同\n他们不喜欢条条框框，更不把正统放在眼里\n你可以赞扬他们，也可以辩驳他们\n你可以引用他们，也可以非议他们\n但是只有一条你不能做也做不到-那就是漠视他们\n因为他们改变世界，他们将人类社会向前推进\n虽然有人把他们当作疯子，我们看见的却是天才\n因为只有那些足够疯狂 认为可以改造世界的人才是真的可以改造世界的人。 \"\n},\n{\n\"id\":2,\"type\":1,\"title\":\"参考文件-讲义\",\"content\":\"jy.ppt,fg.mp3,1.jpg\"\n},\n{\n\"id\":3,\"type\":2,\"title\":\"参考链接-Wiki条目\",\"content\":\"\n维基百科,zh.wikipedia.org/wiki/Wikipedia,百度,baidu.com\"\n}\n]\n}', '0', '23555893');
+INSERT INTO `cmodules` VALUES ('1', '课程说明', '1', '1', '10', '共9个课时，5个自学模块，4个测验，5个作业\n9月10日作业\n阅读课本P15~55\n9月12日作业\n搜索网络相关资料\n', '0', '23554489'), ('2', '一. 数一数与乘法', '1', '2', '11', '{\n	\"ctype\":\"jpg_txt\",\n	\"total\":4,\n	\"descp1\":\"两个黄鹂鸣翠柳\",\n	\"descp2\":\"一行白鹭上青天\",\n	\"descp3\":\"三人行必有我师\",\n	\"descp4\":\"四面边声连角起，千嶂里，长烟落日孤城闭\",\n}', '0', '23554140'), ('3', '二. 乘法口诀1', '1', '5', '11', '', '0', '23554278'), ('4', '小测验', '1', '4', '13', '{\"content\":[{\"type\":10,\"title\":\"\\u5355\\u9009\\u9898\\uff0c\\u517110\\u9898\\uff0c20\\u5206\"},{\"type\":11,\"title\":\"G000005\",\"qcode\":\"G000005\",\"content\":\"G000005\",\"score\":\"10\"},{\"type\":10,\"title\":\"AA\"},{\"type\":10,\"title\":\"BB\"}],\"count\":5,\"score\":100}', '0', '23562382'), ('5', '四. 分一分与除法', '1', '8', null, '', '0', null), ('6', '整理与复习1', '1', '9', null, '', '0', null), ('7', '总复习', '1', '101', null, '', '0', null), ('8', '节日广场', '1', '7', null, '', '0', null), ('9', '五. 方向与位置', '1', '10', null, '', '0', null), ('10', '二. 小数', '2', '1', '9', '', '0', null), ('11', '三. 观察物体', '1', '6', null, '', '0', null), ('12', '一. 数一数与乘法', '2', '1', null, '第一章', '0', null), ('13', '七. 乘法口诀2', '1', '13', null, '', '0', null), ('14', '六. 时、分、秒', '1', '11', null, '', '0', null), ('15', '月球旅行', '1', '12', null, '', '0', null), ('18', '整理与复习2', '1', '85', '0', '', '0', null), ('19', '八. 除法', '1', '86', '0', '', '0', null), ('20', '九. 统计与猜测', '1', '87', '0', '', '0', null), ('21', '趣味运动会', '1', '88', '0', '', '0', null), ('22', '期末考试', '1', '102', '13', '', '0', null), ('23', '一、声母', '3', '1', '9', '', '0', null), ('24', '一. 现代完成时', '4', '1', '9', '', '0', null), ('25', '简介', '7', '1', '10', null, '0', null), ('26', '小作业', '1', '3', '14', '{\n\"content\":\n[\n{\n\"id\":1,\"type\":0,\"title\":\"材料阅读\",\"content\":\"材料....\"\n},\n{\n\"id\":2,\"type\":1,\"title\":\"参考文件-讲义\",\"content\":\"jy.ppt\"\n},\n{\n\"id\":3,\"type\":1,\"title\":\"参考链接-Wiki条目\",\"content\":\"http://zh.wikipedia.org/wiki/Wikipedia\"\n}\n]\n}', '0', null);
 COMMIT;
 
 -- ----------------------------
@@ -356,7 +356,7 @@ CREATE TABLE `lessons` (
 --  Records of `lessons`
 -- ----------------------------
 BEGIN;
-INSERT INTO `lessons` VALUES ('2', 'P201501-T01', null, '4', '3', '2', '23544060', '23544120', '0', '23558655'), ('3', null, null, '4', '4', '1', '23551260', '23551320', '0', '23558655'), ('4', null, null, '24', '3', '1', '23534187', '23534247', '0', '0'), ('5', '序言', null, '1', '3', '3', '23505120', '23623394', '0', '0'), ('6', '一. 数一数与乘法', null, '2', '3', '5', '23554311', '23554371', '0', '0'), ('7', '小作业', null, '26', '3', '4', '23535596', '23563260', '0', '23555893'), ('8', '序言', null, '1', '4', '2', '23535612', '23535672', '0', '0');
+INSERT INTO `lessons` VALUES ('2', 'P201501-T01', null, '4', '3', '2', '23544060', '23544120', '0', '23562382'), ('3', null, null, '4', '4', '1', '23551260', '23551320', '0', '23562382'), ('4', null, null, '24', '3', '1', '23534187', '23534247', '0', '0'), ('5', '序言', null, '1', '3', '3', '23505120', '23623394', '0', '0'), ('6', '一. 数一数与乘法', null, '2', '3', '5', '23554311', '23554371', '0', '0'), ('7', '小作业', null, '26', '3', '4', '23535596', '23563260', '0', '0'), ('8', '序言', null, '1', '4', '2', '23535612', '23535672', '0', '0');
 COMMIT;
 
 -- ----------------------------
@@ -392,6 +392,33 @@ CREATE TABLE `news` (
   PRIMARY KEY (`id`),
   KEY `slug` (`slug`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Table structure for `questions`
+-- ----------------------------
+DROP TABLE IF EXISTS `questions`;
+CREATE TABLE `questions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `qcode` varchar(18) DEFAULT NULL,
+  `subject` varbinary(4) DEFAULT NULL,
+  `qtype` int(11) DEFAULT NULL,
+  `title` varchar(50) DEFAULT NULL,
+  `content` varchar(1024) DEFAULT NULL,
+  `qoption` varchar(1024) DEFAULT NULL,
+  `grade` smallint(6) DEFAULT NULL,
+  `difficulty` smallint(6) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `edit_at` int(11) DEFAULT NULL COMMENT '编辑时间',
+  `tag` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `questions`
+-- ----------------------------
+BEGIN;
+INSERT INTO `questions` VALUES ('1', 'M00001', 0x4d, '11', null, '三角形的内角之和为:', '90度\n#180度\n270度\n360度', '6', '5', null, '23560932', null), ('2', 'G000003', 0x47, '13', null, '美国首都是', '华盛顿\n纽约\n洛杉矶\n芝加哥', '8', '5', null, '23560942', null), ('3', 'G000004', 0x47, '12', null, '下列那些国家是欧洲国家', '摩洛哥\n#土耳其\n伊朗\n#乌克兰', '9', '5', null, '23560945', null), ('4', 'G000005', 0x47, '13', null, '中国的英文简称为__A__，美国的英文简称为__B__。', 'CN,CHN\nUS,USA', '1', '5', null, '23560948', null);
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `sclasses`

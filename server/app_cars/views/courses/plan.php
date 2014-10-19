@@ -55,7 +55,7 @@
 
                         <td align=right>
                         <?php echo anchor($MODULE_PATH.$item["id"]."/lesson","状态"); ?> |
-                        <?php echo anchor($MODULE_PATH.$item["id"]."/edit_module","编辑"); ?>
+                        <?php echo anchor($MODULE_PATH.$item["id"]."/edit_plan","编辑"); ?>
                         </td>
                         </tr>
 		    <?php endforeach ?>
