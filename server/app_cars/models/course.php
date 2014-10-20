@@ -105,7 +105,11 @@ class Course extends CI_Model {
       }
     
       return $ary_status;            
-    }
+    } else if ($ctype==3) { //课程对应的内容项目列表
+	  $sql="select question,qorder,q.qcode,m.content,m.qtype,m.score from moduleitems m  left join questions q on q.id=m.question where module= ".$id." order by qorder";
+	  $query = $this->db->query($sql);
+	  return $query->result_array();   
+	}
   }
   
   public function get_logs($lesson_id,$input) { //获取班级课程日志
@@ -209,100 +213,143 @@ class Course extends CI_Model {
 	  $sql="update lessons set update_at=".(time()/60)." where module=".$id;
 	  $this->db->query($sql);
     }
-    
-	
 	return TRUE;
   }
   
-  // 模块内容
-  public function save_content($id) {
+  // 发布模块内容, 1 更新 module条目状态 2 用json字符串填充module content 字段，用于
+  public function pub_content($id) {
     $table="cmodules";
-    $item   = $this->input->post();
 	
-	$contentlist=$item["contentlist"];
+    $sql = "select qorder,m.qtype,question,q.qcode,q.content,m.content scontent,q.qoption,m.score from moduleitems m  left join questions q on m.question=q.id where module=".$id." order by qorder";
 	
-	$order=$item["qorder"]!=""?$item["qorder"]-1:1000; 
-	
-	if ($item["score"]=="" ||$item["score"]==0) {
-	    $itemcontent=array("type"=>10,"title"=>$item["qcode"]);  //分隔
-	} else {
-		$itemcontent=array("type"=>11,"title"=>$item["qcode"],"qcode"=>$item["qcode"],"content"=>$item["qcode"],"score"=>$item["score"]);  
-	}
-	
-	if ($contentlist=="") { //没有内容
-	  $contentlist=array($itemcontent);	
-	} else {
-	  $contentlist=json_decode($contentlist);
+	$query = $this->db->query($sql);
 
-	  if ($order>count($contentlist)) {
-		$contentlist[]=$itemcontent;
-	  } else {
-		$count=count($contentlist);
-		for ($i=$count;$i>=$order;$i--) {
-		  $contentlist[$i]=$contentlist[$i-1];
+	$contentlist=array();
+	$count=0;$score=0;
+	if ($query->num_rows() > 0) foreach ($query->result_array() as $row){
+		$qtype=$row["qtype"];
+		$data=array(
+					"qorder"=>$row["qorder"],
+					"qtype" =>$qtype
+					);
+	  
+		if ($qtype==10 || $qtype=="") { //题目
+		  $data["content"]=$row["scontent"];
+		} else {
+		  $count++;
+		  $score+=$row["score"];
+		  
+		  $data["content"]=$row["content"];
+		  $data["qoption"]=$row["qoption"];
+		  $data["score"]  =$row["score"];
 		}
 		
-		$contentlist[$order]=$itemcontent;
-	  }
-	}
-	
-	$content=json_encode(array("content"=>$contentlist,"count"=>5,"score"=>100));
-    $data = array(
-		'content' => $content,
-		'edit_at' => time()/60
-		);
+		$contentlist[]=$data;
+		$jsonstr=json_encode(array("count"=>$count,"score"=>$score,"content"=>$contentlist));
+		$data = array(
+			'content' => $jsonstr,
+			'status'  => 1,
+			'edit_at' => time()/60
+			);
+    } else {
+		$data = array(
+			'content' => "",
+			'edit_at' => time()/60
+			);
+    }
 
     $this->db->where('id', $id);
     $this->db->update($table, $data);
-	
 	
 	// 更新相关课堂
 	$sql="update lessons set update_at=".(time()/60)." where module=".$id;
 	$this->db->query($sql);
+		
+    return TRUE;
+  }
+
+  // 数据库增加模块条目
+  public function add_section($id) {
+    $table="moduleitems";
+    $item = $this->input->post();
+	$qorder=$item["qorder"];
+	
+	//更新次序	
+	$this->_reorder($id,$qorder);
+	  
+	$data = array(
+		"module"   => $id,
+		"qtype"    => $item["qtype"],
+		"question" => 0,
+		"qorder"   => $qorder,
+		"content"  => $item["title"],
+	);
+
+	$this->db->insert($table, $data);
+  }
+  
+  // 数据库增加模块条目
+  public function add_content($id) {
+    $table="moduleitems";
+    $item   = $this->input->post();
+	
+	$sql="select id,qtype,substring(content,1,8) scontent from questions where qcode='".$item["qcode"]."'";		
+	$query = $this->db->query($sql);
+    if ($query->num_rows() > 0) { //找到题目
+	  $row=$query->row_array();
+	  
+	  $qid   =$row["id"];
+	  $qorder=$item["qorder"];
+	  
+	
+	  //更新次序
+	  $this->_reorder($id,$qorder);
+
+	  // 删除已有记录
+	  $sql="delete from  ".$table." where module=".$id." and question=".$qid;
+	  $this->db->query($sql);
+
+	  $data = array(
+		"module"   => $id,
+		"question" => $qid,
+		"qorder"   => $qorder,
+		"qtype"    => $row["qtype"],
+		"score"    => $item["score"],
+		"content"  => $row["scontent"],
+	  );
+
+	  $this->db->insert($table, $data);
+	  
+	}
+	
+	// 更新相关课堂
+	//$sql="update lessons set update_at=".(time()/60)." where module=".$id;
+	//$this->db->query($sql);
 	
 	
     return TRUE;
-  }
+  }  
   
     // 模块内容
-  public function remove_content($id) {
-    $table="cmodules";
-    $order = $this->input->get("order")-1;
+  public function remove_content($id,$qorder) {
+    $sql="delete from moduleitems where module=".$id." and qorder=".$qorder;	
+	$this->db->query($sql);
 	
-	$sql="select content from ".$table." where id=".$id;
-	
-	$query = $this->db->query($sql);
-    if ($query->num_rows() > 0) {
-	  $content =$query->row()->content;
-	  $json=json_decode($content,true);
-	  
-	  if ($json) {
-		$contentlist=$json["content"];
-
-		$count=count($contentlist);
-		for ($i=$order;$i<$count;$i++) {
-		  $contentlist[$i]=$contentlist[$i+1];
-		}
-		
-		array_pop($contentlist);		
-	  }
-    }
-
-	$content=json_encode(array("content"=>$contentlist,"count"=>5,"score"=>100));
-    $data = array(
-		'content' => $content,
-		'edit_at' => time()/60
-		);
-
-    $this->db->where('id', $id);
-    $this->db->update($table, $data);
-	
+	$sql="update moduleitems set qorder=qorder-1 where qorder>".$qorder;
+	$this->db->query($sql);
 	
 	// 更新相关课堂
 	$sql="update lessons set update_at=".(time()/60)." where module=".$id;
 	$this->db->query($sql);	
 	
     return TRUE;
+  }
+  
+  private function _reorder($id,$qorder) {
+	  $sql= "update moduleitems set qorder=qorder+1 where module=".$id." and qorder >= ".$qorder." and (select TRUE from (select 1 from moduleitems where  module=".$id." and qorder=".$qorder." limit 1) as t)";
+	  $this->db->query($sql);
+	  
+	  //$this->db->call_function('p_mitem_order',$id,$qorder);
   }
 
   

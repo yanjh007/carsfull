@@ -162,18 +162,9 @@ class Courses extends CI_Controller {
     } else {
       $this->load->model("dic");
       $data["mtype_list"] =$this->dic->get_select_list(Dic::DIC_TYPE_COURSE);
-      $content=$data["item"]["content"];
-      $json=json_decode($content,true);
       
-      //var_dump($json);
-      
-      if ($json && $json["content"]) {
-        $data["list"] = $json["content"];
-        //$data["contentlist"] = $content;
-      } else {
-        $data["list"] = array();
-        $data["contentlist"] = "";
-      }
+      //内容项目列表      
+      $data["contentlist"] = $this->course->get_content($id,3);
       show_view(self::MODULE_NAME."/edit_plan",$data); 
     }
   }
@@ -183,13 +174,23 @@ class Courses extends CI_Controller {
     redirect(self::MODULE_NAME."/".$id."/content");
   }
   
-  public function save_content($id) { //id 为 moduleid
-    $this->course->save_content($id);
+  public function add_content($id) { //id 为 moduleid
+    $this->course->add_content($id);
+    redirect(self::MODULE_NAME."/".$id."/edit_plan");
+  }
+
+  public function add_section($id) { //id 为 moduleid
+    $this->course->add_section($id);
     redirect(self::MODULE_NAME."/".$id."/edit_plan");
   }
 
   public function remove_content($id) { //id 为 moduleid
-    $this->course->remove_content($id);
+    $this->course->remove_content($id,$this->input->get("order"));
+    redirect(self::MODULE_NAME."/".$id."/edit_plan");
+  }
+  
+  public function pub_content($id) { //发布课堂内容，id 为 moduleid
+    $this->course->pub_content($id);
     redirect(self::MODULE_NAME."/".$id."/edit_plan");
   }
   

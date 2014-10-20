@@ -3,15 +3,15 @@
 
  Source Server         : localdb
  Source Server Type    : MySQL
- Source Server Version : 50538
+ Source Server Version : 50620
  Source Host           : localhost
  Source Database       : cidb
 
  Target Server Type    : MySQL
- Target Server Version : 50538
+ Target Server Version : 50620
  File Encoding         : utf-8
 
- Date: 10/20/2014 02:27:11 AM
+ Date: 10/20/2014 17:03:57 PM
 */
 
 SET NAMES utf8;
@@ -187,7 +187,7 @@ CREATE TABLE `ci_sessions` (
 --  Records of `ci_sessions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `ci_sessions` VALUES ('875d0d8034805b5dde4b766a1ec56aeb', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/600.1.17 (KHTML, like Gecko) Version/7.1 Safari/537.85.10', '1413739525', 'a:2:{s:9:\"user_data\";s:0:\"\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}');
+INSERT INTO `ci_sessions` VALUES ('06d7bf590c25bf0ae59ed3ddf3f92867', '127.0.0.1', 'VisualJSON/1.6.0 CFNetwork/720.0.9 Darwin/14.0.0 (x86_64)', '1413792761', ''), ('11339206185bc2993c292451ad449090', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.25 (KHTML, like Gecko) Version/8.0 Safari/600.1.25', '1413773661', 'a:2:{s:9:\"user_data\";s:0:\"\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}'), ('ab670e894e902d1c5be06a0c0ae55357', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.25 (KHTML, like Gecko) Version/8.0 Safari/600.1.25', '1413795622', 'a:2:{s:9:\"user_data\";s:0:\"\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}');
 COMMIT;
 
 -- ----------------------------
@@ -258,7 +258,7 @@ CREATE TABLE `cmodules` (
   `morder` smallint(6) DEFAULT NULL COMMENT '次序',
   `mtype` smallint(6) DEFAULT NULL COMMENT '课程模块类型 0-简介 1-章节 2-测验 3-调查 ',
   `content` varchar(2048) DEFAULT NULL,
-  `status` smallint(6) DEFAULT '0' COMMENT '状态，0-正常， 10-删除',
+  `status` smallint(6) DEFAULT '0' COMMENT '状态，0-编辑中，1-已发布 10-删除',
   `edit_at` int(11) DEFAULT NULL COMMENT '按分钟计算的最后编辑时间，用于离线请求',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
@@ -267,7 +267,7 @@ CREATE TABLE `cmodules` (
 --  Records of `cmodules`
 -- ----------------------------
 BEGIN;
-INSERT INTO `cmodules` VALUES ('1', '课程说明', '1', '1', '10', '共9个课时，5个自学模块，4个测验，5个作业\n9月10日作业\n阅读课本P15~55\n9月12日作业\n搜索网络相关资料\n', '0', '23554489'), ('2', '一. 数一数与乘法', '1', '2', '11', '{\n	\"ctype\":\"jpg_txt\",\n	\"total\":4,\n	\"descp1\":\"两个黄鹂鸣翠柳\",\n	\"descp2\":\"一行白鹭上青天\",\n	\"descp3\":\"三人行必有我师\",\n	\"descp4\":\"四面边声连角起，千嶂里，长烟落日孤城闭\",\n}', '0', '23554140'), ('3', '二. 乘法口诀1', '1', '5', '11', '', '0', '23554278'), ('4', '小测验', '1', '4', '13', '{\"content\":[{\"type\":10,\"title\":\"\\u5355\\u9009\\u9898\\uff0c\\u517110\\u9898\\uff0c20\\u5206\"},{\"type\":11,\"title\":\"G000005\",\"qcode\":\"G000005\",\"content\":\"G000005\",\"score\":\"10\"},{\"type\":10,\"title\":\"AA\"},{\"type\":10,\"title\":\"BB\"}],\"count\":5,\"score\":100}', '0', '23562382'), ('5', '四. 分一分与除法', '1', '8', null, '', '0', null), ('6', '整理与复习1', '1', '9', null, '', '0', null), ('7', '总复习', '1', '101', null, '', '0', null), ('8', '节日广场', '1', '7', null, '', '0', null), ('9', '五. 方向与位置', '1', '10', null, '', '0', null), ('10', '二. 小数', '2', '1', '9', '', '0', null), ('11', '三. 观察物体', '1', '6', null, '', '0', null), ('12', '一. 数一数与乘法', '2', '1', null, '第一章', '0', null), ('13', '七. 乘法口诀2', '1', '13', null, '', '0', null), ('14', '六. 时、分、秒', '1', '11', null, '', '0', null), ('15', '月球旅行', '1', '12', null, '', '0', null), ('18', '整理与复习2', '1', '85', '0', '', '0', null), ('19', '八. 除法', '1', '86', '0', '', '0', null), ('20', '九. 统计与猜测', '1', '87', '0', '', '0', null), ('21', '趣味运动会', '1', '88', '0', '', '0', null), ('22', '期末考试', '1', '102', '13', '', '0', null), ('23', '一、声母', '3', '1', '9', '', '0', null), ('24', '一. 现代完成时', '4', '1', '9', '', '0', null), ('25', '简介', '7', '1', '10', null, '0', null), ('26', '小作业', '1', '3', '14', '{\n\"content\":\n[\n{\n\"id\":1,\"type\":0,\"title\":\"材料阅读\",\"content\":\"材料....\"\n},\n{\n\"id\":2,\"type\":1,\"title\":\"参考文件-讲义\",\"content\":\"jy.ppt\"\n},\n{\n\"id\":3,\"type\":1,\"title\":\"参考链接-Wiki条目\",\"content\":\"http://zh.wikipedia.org/wiki/Wikipedia\"\n}\n]\n}', '0', null);
+INSERT INTO `cmodules` VALUES ('1', '课程说明', '1', '1', '10', '共9个课时，5个自学模块，4个测验，5个作业\n9月10日作业\n阅读课本P15~55\n9月12日作业\n搜索网络相关资料\n', '0', '23554489'), ('2', '一. 数一数与乘法', '1', '2', '11', '{\n	\"ctype\":\"jpg_txt\",\n	\"total\":4,\n	\"descp1\":\"两个黄鹂鸣翠柳\",\n	\"descp2\":\"一行白鹭上青天\",\n	\"descp3\":\"三人行必有我师\",\n	\"descp4\":\"四面边声连角起，千嶂里，长烟落日孤城闭\",\n}', '0', '23554140'), ('3', '二. 乘法口诀1', '1', '5', '11', '', '0', '23554278'), ('4', '小测验', '1', '4', '13', '{\"count\":4,\"score\":43,\"content\":[{\"qorder\":\"1\",\"qtype\":\"10\",\"content\":\"\\u6d4b\\u8bd5\\u8bf4\\u660e\"},{\"qorder\":\"2\",\"qtype\":\"10\",\"content\":\"\\u5355\\u9009\\u9898 \\u51715\\u9898 10\\u5206\"},{\"qorder\":\"3\",\"qtype\":\"11\",\"content\":\"\\u4e09\\u89d2\\u5f62\\u7684\\u5185\\u89d2\\u4e4b\\u548c\\u4e3a:\",\"qoption\":\"90\\u5ea6\\n#180\\u5ea6\\n270\\u5ea6\\n360\\u5ea6\",\"score\":\"8\"},{\"qorder\":\"8\",\"qtype\":\"10\",\"content\":\"\\u591a\\u9009\\u9898 \\u51716\\u9898 20\\u5206\"},{\"qorder\":\"9\",\"qtype\":\"12\",\"content\":\"\\u4e0b\\u5217\\u90a3\\u4e9b\\u56fd\\u5bb6\\u662f\\u6b27\\u6d32\\u56fd\\u5bb6\",\"qoption\":\"\\u6469\\u6d1b\\u54e5\\n#\\u571f\\u8033\\u5176\\n\\u4f0a\\u6717\\n#\\u4e4c\\u514b\\u5170\",\"score\":\"10\"},{\"qorder\":\"10\",\"qtype\":\"10\",\"content\":\"\\u586b\\u7a7a\\u9898 \\u51712\\u9898 10\\u5206\"},{\"qorder\":\"11\",\"qtype\":\"13\",\"content\":\"\\u4e2d\\u56fd\\u7684\\u82f1\\u6587\\u7b80\\u79f0\\u4e3a__A__\\uff0c\\u7f8e\\u56fd\\u7684\\u82f1\\u6587\\u7b80\\u79f0\\u4e3a__B__\\u3002\",\"qoption\":\"CN,CHN\\nUS,USA\",\"score\":\"5\"},{\"qorder\":\"12\",\"qtype\":\"10\",\"content\":\"\\u7b80\\u7b54\\u9898\"},{\"qorder\":\"14\",\"qtype\":\"21\",\"content\":\"\\u7b80\\u8981\\u6982\\u8ff0\\u56db\\u5ddd\\u4e3b\\u8981\\u65c5\\u6e38\\u666f\\u70b9\",\"qoption\":\"\",\"score\":\"20\"},{\"qorder\":\"19\",\"qtype\":\"10\",\"content\":\"\\u7ed3\\u675f\"}]}', '1', '23563205'), ('5', '四. 分一分与除法', '1', '8', null, '', '0', null), ('6', '整理与复习1', '1', '9', null, '', '0', null), ('7', '总复习', '1', '101', null, '', '0', null), ('8', '节日广场', '1', '7', null, '', '0', null), ('9', '五. 方向与位置', '1', '10', null, '', '0', null), ('10', '二. 小数', '2', '1', '9', '', '0', null), ('11', '三. 观察物体', '1', '6', null, '', '0', null), ('12', '一. 数一数与乘法', '2', '1', null, '第一章', '0', null), ('13', '七. 乘法口诀2', '1', '13', null, '', '0', null), ('14', '六. 时、分、秒', '1', '11', null, '', '0', null), ('15', '月球旅行', '1', '12', null, '', '0', null), ('18', '整理与复习2', '1', '85', '0', '', '0', null), ('19', '八. 除法', '1', '86', '0', '', '0', null), ('20', '九. 统计与猜测', '1', '87', '0', '', '0', null), ('21', '趣味运动会', '1', '88', '0', '', '0', null), ('22', '期末考试', '1', '102', '13', '', '0', null), ('23', '一、声母', '3', '1', '9', '', '0', null), ('24', '一. 现代完成时', '4', '1', '9', '', '0', null), ('25', '简介', '7', '1', '10', null, '0', null), ('26', '小作业', '1', '3', '14', '{\n\"content\":\n[\n{\n\"id\":1,\"type\":0,\"title\":\"材料阅读\",\"content\":\"材料....\"\n},\n{\n\"id\":2,\"type\":1,\"title\":\"参考文件-讲义\",\"content\":\"jy.ppt\"\n},\n{\n\"id\":3,\"type\":1,\"title\":\"参考链接-Wiki条目\",\"content\":\"http://zh.wikipedia.org/wiki/Wikipedia\"\n}\n]\n}', '0', null);
 COMMIT;
 
 -- ----------------------------
@@ -356,7 +356,7 @@ CREATE TABLE `lessons` (
 --  Records of `lessons`
 -- ----------------------------
 BEGIN;
-INSERT INTO `lessons` VALUES ('2', 'P201501-T01', null, '4', '3', '2', '23544060', '23544120', '0', '23562382'), ('3', null, null, '4', '4', '1', '23551260', '23551320', '0', '23562382'), ('4', null, null, '24', '3', '1', '23534187', '23534247', '0', '0'), ('5', '序言', null, '1', '3', '3', '23505120', '23623394', '0', '0'), ('6', '一. 数一数与乘法', null, '2', '3', '5', '23554311', '23554371', '0', '0'), ('7', '小作业', null, '26', '3', '4', '23535596', '23563260', '0', '0'), ('8', '序言', null, '1', '4', '2', '23535612', '23535672', '0', '0');
+INSERT INTO `lessons` VALUES ('2', 'P201501-T01', null, '4', '3', '2', '23544060', '23544120', '0', '23563264'), ('3', null, null, '4', '4', '1', '23551260', '23551320', '0', '23563264'), ('4', null, null, '24', '3', '1', '23534187', '23534247', '0', '0'), ('5', '序言', null, '1', '3', '3', '23505120', '23623394', '0', '0'), ('6', '一. 数一数与乘法', null, '2', '3', '5', '23554311', '23554371', '0', '0'), ('7', '小作业', null, '26', '3', '4', '23535596', '23563260', '0', '0'), ('8', '序言', null, '1', '4', '2', '23535612', '23535672', '0', '0');
 COMMIT;
 
 -- ----------------------------
@@ -378,6 +378,26 @@ CREATE TABLE `links` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `links` VALUES ('1', '10', '陶莉', '1', '川A-BQ498', null), ('1', '10', '陶莉', '2', '川A-A1574', null), ('1', '11', '', '6', null, null), ('1', '11', '', '23', 'CA-1668H', null), ('2', '1', '', '4', '更换轮胎', null), ('2', '1', '', '5', '常规检查', null), ('2', '1', '', '8', 'A0级日常保养', null), ('2', '2', '', '3', '更换发动机油滤', null), ('2', '2', '', '6', '高级检查', null), ('2', '3', '', '3', '更换发动机油滤', null), ('2', '3', '', '4', '更换轮胎', null), ('2', '3', '', '7', '更换空气滤清器', null), ('2', '5', '', '1', '洗车-小型', null), ('2', '5', '', '4', '更换轮胎', null), ('10', '1', '', '60', '主食', null), ('10', '1', '', '61', '配餐', null), ('10', '4', '', '61', '配餐', null), ('10', '5', '套餐配汤', '61', '配餐', null), ('10', '8', '', '58', '热炒', null), ('10', '15', '', '64', '面食', null), ('11', '3', '', '1', '麦辣鸡腿堡套餐', null), ('11', '3', '', '10', '双层吉士堡套餐', null), ('11', '5', '套餐配汤', '7', '辣子鸡丁套餐', null), ('11', '6', '', '7', '辣子鸡丁套餐', null), ('11', '6', '', '9', '回锅肉套餐', null), ('11', '8', '', '7', '辣子鸡丁套餐', null);
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `moduleitems`
+-- ----------------------------
+DROP TABLE IF EXISTS `moduleitems`;
+CREATE TABLE `moduleitems` (
+  `module` int(11) DEFAULT NULL,
+  `qtype` int(11) DEFAULT NULL,
+  `question` int(11) DEFAULT NULL,
+  `qorder` int(11) DEFAULT '0',
+  `score` int(11) DEFAULT NULL,
+  `content` varchar(40) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `moduleitems`
+-- ----------------------------
+BEGIN;
+INSERT INTO `moduleitems` VALUES ('4', '10', '0', '8', null, '多选题 共6题 20分'), ('4', '11', '1', '3', '8', '三角形的内角之和'), ('4', '10', '0', '10', null, '填空题 共2题 10分'), ('4', '13', '4', '11', '5', '中国的英文简称为'), ('4', '12', '3', '9', '10', '下列那些国家是欧'), ('4', '21', '5', '13', '20', '简要概述四川主要'), ('4', '10', '0', '12', null, '简答题'), ('4', '10', '0', '2', null, '单选题 共5题 10分'), ('4', '10', '0', '1', null, '测试说明'), ('4', '10', '0', '20', null, '结束说明');
 COMMIT;
 
 -- ----------------------------
@@ -410,14 +430,15 @@ CREATE TABLE `questions` (
   `status` int(11) DEFAULT NULL,
   `edit_at` int(11) DEFAULT NULL COMMENT '编辑时间',
   `tag` varchar(200) DEFAULT NULL,
+  `favflag` smallint(6) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `questions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `questions` VALUES ('1', 'M00001', 0x4d, '11', null, '三角形的内角之和为:', '90度\n#180度\n270度\n360度', '6', '5', null, '23560932', null), ('2', 'G000003', 0x47, '13', null, '美国首都是', '华盛顿\n纽约\n洛杉矶\n芝加哥', '8', '5', null, '23560942', null), ('3', 'G000004', 0x47, '12', null, '下列那些国家是欧洲国家', '摩洛哥\n#土耳其\n伊朗\n#乌克兰', '9', '5', null, '23560945', null), ('4', 'G000005', 0x47, '13', null, '中国的英文简称为__A__，美国的英文简称为__B__。', 'CN,CHN\nUS,USA', '1', '5', null, '23560948', null);
+INSERT INTO `questions` VALUES ('1', 'M00001', 0x4d, '11', null, '三角形的内角之和为:', '90度\n#180度\n270度\n360度', '6', '5', null, '23560932', null, '0'), ('2', 'G000003', 0x47, '11', null, '美国首都是', '华盛顿\n纽约\n洛杉矶\n芝加哥', '8', '5', null, '23562917', null, '0'), ('3', 'G000004', 0x47, '12', null, '下列那些国家是欧洲国家', '摩洛哥\n#土耳其\n伊朗\n#乌克兰', '9', '5', null, '23562791', null, '1'), ('4', 'G000005', 0x47, '13', null, '中国的英文简称为__A__，美国的英文简称为__B__。', 'CN,CHN\nUS,USA', '1', '5', null, '23560948', null, '0'), ('5', 'G000009', 0x47, '21', null, '简要概述四川主要旅游景点', '', '1', '5', null, '23563136', null, '0');
 COMMIT;
 
 -- ----------------------------
@@ -671,5 +692,19 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- ----------------------------
 DROP VIEW IF EXISTS `v_sclasses`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_sclasses` AS select `c1`.`id` AS `id`,`c1`.`scode` AS `scode`,`c1`.`name` AS `name`,`c1`.`address` AS `address`,`c1`.`gyear` AS `gyear`,`c1`.`pid` AS `pid`,`c2`.`name` AS `sname` from (`sclasses` `c1` left join `sclasses` `c2` on((`c1`.`pid` = `c2`.`id`))) where (`c1`.`utype` = 2) order by `c1`.`pid`;
+
+-- ----------------------------
+--  Procedure structure for `p_mitem_order`
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `p_mitem_order`;
+delimiter ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `p_mitem_order`(in_mid int, in_qorder int)
+IF (select count(*)>0  from moduleitems where module=in_mid and qorder=in_qorder limit 1) THEN
+
+update moduleitems set qorder=qorder+1 where module=in_mid and qorder>=in_qorder;
+
+END IF
+ ;;
+delimiter ;
 
 SET FOREIGN_KEY_CHECKS = 1;

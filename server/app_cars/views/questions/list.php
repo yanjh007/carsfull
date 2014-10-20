@@ -13,7 +13,7 @@
 	      
 			<!-- Table -->
 			<table class="table">
-				<?php echo zm_table_header("#,代 码,科 目,内 容,级 别,难 度","操 作") ?>
+				<?php echo zm_table_header("#,代 码,科 目,内 容,级 别,难 度,暂 存","操 作") ?>
 
 				<tbody>  
 				<?php foreach ($list as $item): ?>
@@ -21,13 +21,13 @@
 					<td><?php echo $item["id"]; ?></td>
 					<td><?php echo $item["qcode"]; ?></td>
 					<td><?php echo $item['subject']; ?></td>
-					<td><?php echo $item['content']; ?>...</td>
+					<td><?php echo $item['scontent']; ?>...</td>
 					<td><?php echo $item['grade']; ?></td>
 					<td><?php echo $item['difficulty'];  ?></td>
-					<td></td>
+					<td><?php echo $item['favflag'];  ?></td>
 					<td align=right>
-					  <?php link_to_edit($MODULE_PATH.$item["id"]."/edit"); ?> |
-					  
+					  <?php echo anchor($MODULE_PATH.$item["id"]."/fav?flag=".(($item["favflag"]>0)?0:1),($item["favflag"]>0)?"取消暂存":"暂存"); ?> |
+					  <?php echo anchor($MODULE_PATH.$item["id"]."/edit","编辑"); ?>
 					</td>
 				  </tr>
 				<?php endforeach ?>
@@ -41,8 +41,9 @@
 	    <div class="panel panel-default">
 		<div class="panel-heading">分类筛选</div>				
 		<div class="panel-body">
-
-	    </div>
+			<?php echo anchor($MODULE_PATH,"全部"); ?> | 
+			<?php echo anchor($MODULE_PATH."?filter=1","暂存"); ?>
+	    </div></div>
 	    <div class="panel panel-default">
 		<div class="panel-heading">增加题目</div>				
 		<div class="panel-body">				
@@ -61,7 +62,6 @@
 			?></form>
 		</div>
 	    </div>
-
 	</div>
     </div>
 	

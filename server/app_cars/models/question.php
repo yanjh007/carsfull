@@ -1,7 +1,8 @@
 <?php
 Class Question extends CI_Model {
   const TABLE_NAME = 'questions';
-  const STD_SQL_QUERY  = "SELECT id,qcode,subject,qtype,title,substring(content,1,8) content,qoption,grade,difficulty,status,edit_at FROM questions ";
+  const STD_SQL_QUERY  = "SELECT id,qcode,subject,qtype,title,substring(content,1,8) scontent,qoption,grade,difficulty,status,favflag,edit_at FROM questions ";
+  const STD_SQL_QUERY1 = "SELECT id,qcode,subject,qtype,title,content,qoption,grade,difficulty,status,favflag,edit_at FROM questions ";
   
   public function __construct() {
     $this->load->database();
@@ -13,20 +14,20 @@ Class Question extends CI_Model {
 	  if ($keyword) {
 		$sql=$sql." where name like '%".$keyword."%' ";
 	  }	  
-	} else if ($stype==1) { //科目
-	  
-	} else if ($stype==2) {
+	} else if ($stype==1) { //暂存
+		$sql=$sql." where favflag=1 ";
+	} else if ($stype==2) { //科目
 	  
 	}
 	
-    $sql= $sql." order by edit_at desc";
+    $sql= $sql." order by edit_at desc limit 30";
 
     $query = $this->db->query($sql);
     return $query->result_array();
   }
 
   public function get_one($id){
-    $query = $this->db->query(self::STD_SQL_QUERY." where id=?",$id);
+    $query = $this->db->query(self::STD_SQL_QUERY1." where id=?",$id);
     return $query->row_array();
   }
   
@@ -35,7 +36,7 @@ Class Question extends CI_Model {
            'qcode'     => $item["qcode"],
            'qtype'     => $item["qtype"],
            'subject'   => $item["subject"],
-           'title'      => $item["title"],
+           //'title'      => $item["title"],
            'content' => $item["content"],
            'qoption' => $item["qoption"],
            'grade'  => $item["grade"],
@@ -52,6 +53,18 @@ Class Question extends CI_Model {
 		$nid=$id;
 	}
     return $id;
+  }
+  
+  public function fav($id,$flag) {
+	$data = array(
+           'favflag'   => $flag,
+           'edit_at'   => time()/60
+		   );
+	
+	$this->db->where('id', $id);
+	$this->db->update(self::TABLE_NAME, $data);
+	
+    return TRUE;
   }
   
   public function remove($id) {

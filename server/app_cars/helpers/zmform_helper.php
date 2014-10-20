@@ -131,6 +131,17 @@ function zm_btn_input($title,$onclick,$option="")
    echo "<button type='button' class='btn btn-danger' onclick='".$onclick."' >".$title."</button>&nbsp&nbsp";
 }
 
+function zm_btn_click($title,$onclick,$option="")
+{
+   echo "<button type='button' class='btn btn-primary' onclick='".$onclick."' >".$title."</button>&nbsp&nbsp";
+}
+
+function zm_btn_link($title,$link,$option="")
+{
+   echo "<a href=".base_url($link)." class='btn btn-primary active' role='button'>".$title."</a>";
+}
+
+
 function zm_dlg_input($form_data)
 {
    $CI=&get_instance();

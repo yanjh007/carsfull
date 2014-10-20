@@ -12,9 +12,14 @@ class Questions extends CI_Controller {
 
   public function index(){
 	$this->load->helper(array('form','zmform'));
-	if ($this->input->get("search")) {
-	  $keyword=$this->input->get("search");
-	  $data['list'] = $this->question->search(0,$keyword);
+	if ($this->input->get("filter")) {
+	  $filter=$this->input->get("filter");
+	  if ($filter==1) { //暂存
+		$data['list'] = $this->question->search(1);
+	  } else { //科目
+		$keyword=$this->input->get("keyword");
+		$data['list'] = $this->question->search(2,$keyword);
+	  }	  
 	} else {
 	  $data['list'] = $this->question->search(0);
 	}
@@ -61,6 +66,11 @@ class Questions extends CI_Controller {
   
   public function save($id) {
 	$this->question->save($id,$this->input->post());
+	redirect(self::MODULE_NAME);
+  }
+  
+  public function fav($id) {
+	$this->question->fav($id,$this->input->get("flag"));
 	redirect(self::MODULE_NAME);
   }
   
