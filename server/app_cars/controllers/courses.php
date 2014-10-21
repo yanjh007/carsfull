@@ -174,13 +174,23 @@ class Courses extends CI_Controller {
     redirect(self::MODULE_NAME."/".$id."/content");
   }
   
-  public function add_content($id) { //id 为 moduleid
-    $this->course->add_content($id);
+  public function add_lib($id) { //从题库添加 id 为 moduleid
+    $this->course->add_lib($id);
     redirect(self::MODULE_NAME."/".$id."/edit_plan");
   }
 
-  public function add_section($id) { //id 为 moduleid
+  public function add_section($id) {  //测试分隔 id 为 moduleid
     $this->course->add_section($id);
+    redirect(self::MODULE_NAME."/".$id."/edit_plan");
+  }
+
+  public function add_content($id) { //常规内容 id 为 moduleid
+    $this->course->add_content($id);
+    redirect(self::MODULE_NAME."/".$id."/edit_plan");
+  }
+  
+  public function add_question($id) { //题目 id 为 moduleid
+    $this->course->add_question($id);
     redirect(self::MODULE_NAME."/".$id."/edit_plan");
   }
 

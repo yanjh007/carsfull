@@ -160,3 +160,15 @@ function zm_table_header($header,$ritem=NULL)
 }
 
 
+function zm_tabs($active,$name,$items)
+{
+   $list=explode(",",$items);
+   $count=count($list);
+   echo "<ul class='nav nav-tabs'>";
+   for ($i=0;$i<$count;$i++) {
+      if ($list[$i]!="") echo "<li".($active==$i?" class='active'":"")."><a href='".$name."_".$i."' data-toggle='tab'>".$list[$i]."</a></li>";
+   }
+   echo "</ul>"; 
+}
+
+

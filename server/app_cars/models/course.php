@@ -226,36 +226,39 @@ class Course extends CI_Model {
 
 	$contentlist=array();
 	$count=0;$score=0;
-	if ($query->num_rows() > 0) foreach ($query->result_array() as $row){
+	if ($query->num_rows() > 0) {
+	  foreach ($query->result_array() as $row){
 		$qtype=$row["qtype"];
 		$data=array(
 					"qorder"=>$row["qorder"],
 					"qtype" =>$qtype
 					);
-	  
-		if ($qtype==10 || $qtype=="") { //题目
+		$question=$row["question"];
+		if ($question==0) { //题目
 		  $data["content"]=$row["scontent"];
 		} else {
-		  $count++;
-		  $score+=$row["score"];
-		  
 		  $data["content"]=$row["content"];
 		  $data["qoption"]=$row["qoption"];
-		  $data["score"]  =$row["score"];
 		}
 		
+		if ($qtype>10) {
+		  $count++;
+		  $score+=$row["score"];
+		}  
+	    
 		$contentlist[]=$data;
-		$jsonstr=json_encode(array("count"=>$count,"score"=>$score,"content"=>$contentlist));
-		$data = array(
-			'content' => $jsonstr,
-			'status'  => 1,
-			'edit_at' => time()/60
-			);
+	  }
+	  $jsonstr=json_encode(array("count"=>$count,"score"=>$score,"content"=>$contentlist));
+	  $data = array(
+		  'content' => $jsonstr,
+		  'status'  => 1,
+		  'edit_at' => time()/60
+		  );
     } else {
-		$data = array(
-			'content' => "",
-			'edit_at' => time()/60
-			);
+	  $data = array(
+		  'content' => "",
+		  'edit_at' => time()/60
+		  );
     }
 
     $this->db->where('id', $id);
@@ -288,8 +291,27 @@ class Course extends CI_Model {
 	$this->db->insert($table, $data);
   }
   
-  // 数据库增加模块条目
   public function add_content($id) {
+    $table="moduleitems";
+    $item = $this->input->post();
+	$qorder=$item["qorder"];
+	
+	//更新次序	
+	$this->_reorder($id,$qorder);
+	  
+	$data = array(
+		"module"   => $id,
+		"qtype"    => $item["qtype"],
+		"question" => 0,
+		"qorder"   => $qorder,
+		"content"  => $item["content"],
+	);
+
+	$this->db->insert($table, $data);
+  }
+  
+  // 数据库增加模块条目
+  public function add_lib($id) {
     $table="moduleitems";
     $item   = $this->input->post();
 	
@@ -326,6 +348,42 @@ class Course extends CI_Model {
 	//$sql="update lessons set update_at=".(time()/60)." where module=".$id;
 	//$this->db->query($sql);
 	
+    return TRUE;
+  }  
+  
+  // 数据库增加模块条目
+  public function add_question($id) { //添加问题
+    $table="moduleitems";
+    $item   = $this->input->post();
+	
+	if ($item["qcode"]=="") {
+	  $qid =0;
+	  $content= $item["content"];
+	} else {
+	  // 增加问题
+	  $this->load->model("question");
+	  $qid = $this->question->save(0,$item);
+	  $content= $item["content"];
+	}
+	
+	//更新次序
+	$qorder=$item["qorder"];
+	$this->_reorder($id,$qorder);
+
+	$data = array(
+	  "module"   => $id,
+	  "question" => $qid,
+	  "qorder"   => $qorder,
+	  "qtype"    => $item["qtype"],
+	  "score"    => (isset($item["score"]) && $item["score"]!="")?$item["score"]:0,
+	  "content"  => $content,
+	);
+
+	$this->db->insert($table, $data);	  
+
+	// 更新相关课堂
+	//$sql="update lessons set update_at=".(time()/60)." where module=".$id;
+	//$this->db->query($sql);
 	
     return TRUE;
   }  
@@ -346,6 +404,7 @@ class Course extends CI_Model {
   }
   
   private function _reorder($id,$qorder) {
+	if ($qorder==0 || $qorder=="") return;
 	  $sql= "update moduleitems set qorder=qorder+1 where module=".$id." and qorder >= ".$qorder." and (select TRUE from (select 1 from moduleitems where  module=".$id." and qorder=".$qorder." limit 1) as t)";
 	  $this->db->query($sql);
 	  

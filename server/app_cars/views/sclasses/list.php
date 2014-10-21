@@ -77,34 +77,40 @@
         <div class="col-md-4">
 	    <div class="panel panel-default">
 		<!-- Default panel contents -->
-		<div class="panel-heading">增加学校</div>				
+		<div class="panel-heading">增加项目</div>				
 		<div class="panel-body">
-			<?php
-			    zm_form_open(1,$MODULE_PATH."0/save_school");
-			    zm_form_input(1,"代 码","scode");
-			    zm_form_input(1,"名 称","name");
-			    zm_form_input(1,"联系方式","contact");
-			    zm_form_textarea(1,"地 址","address");
-			    zm_btn_submit("增加学校");
-			?>
-			</form>
-		</div>
-	    </div>
-	    <div class="panel panel-default">
-		<!-- Default panel contents -->
-		<div class="panel-heading">增加班级</div>				
-		<div class="panel-body">
-			<?php
-			    zm_form_open(1,$MODULE_PATH."0/save");
-			    zm_form_select(1,"学 校","school",$school_list,0);
-			    zm_form_input(1,"代 码","scode");
-			    zm_form_input(1,"名 称","name");
-			    zm_form_input(1,"毕业年份","gyear");
-			    zm_form_input(1,"联系方式","contact");
-			    zm_form_textarea(1,"地 址","address");
-			    zm_btn_submit("增加班级");
-			?>
-			</form>
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#content1" data-toggle="tab">班级</a></li>
+				<li><a href="#content2" data-toggle="tab">学校</a></li>
+			</ul>
+			<br>
+			<div id="myTabContent" class="tab-content">
+				<div class="tab-pane active in" id="content1">
+					<?php
+						zm_form_open(1,$MODULE_PATH."0/save");
+						zm_form_select(1,"学 校","school",$school_list,0);
+						zm_form_input(1,"代 码","scode");
+						zm_form_input(1,"名 称","name");
+						zm_form_input(1,"毕业年份","gyear");
+						zm_form_input(1,"联系方式","contact");
+						zm_form_textarea(1,"地 址","address");
+						zm_btn_submit("增加班级");
+					?>
+					</form>
+				</div>
+				<div class="tab-pane fade" id="content2">
+					<?php
+						zm_form_open(1,$MODULE_PATH."0/save_school");
+						zm_form_input(1,"代 码","scode");
+						zm_form_input(1,"名 称","name");
+						zm_form_input(1,"联系方式","contact");
+						zm_form_textarea(1,"地 址","address");
+						zm_btn_submit("增加学校");
+					?>
+					</form>
+				</div>
+			</div>
+			
 		</div>
 	    </div>
 	</div>
