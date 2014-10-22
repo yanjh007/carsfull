@@ -1,5 +1,6 @@
 <?php
 class Dics extends CI_Controller {
+  const MODULE_NAME="dics";
 
   public function __construct()
   {
@@ -11,52 +12,27 @@ class Dics extends CI_Controller {
   public function index(){
 	$this->load->helper(array('form',"zmform"));
 	
+	// 字典列表
 	$data['dic_list'] = $this->dic->get_list();
-	//var_dump($data);
-    $this->load->view('_common/header');
-    
-    show_nav(11);
-
-    $this->load->view('dics/list', $data);
-
-    $this->load->view('_common/footer');
+	
+	// 字典类型列表
+	$data['type_list'] = $this->dic->get_select_list(0,0);
+	
+	show_view(self::MODULE_NAME."/list",$data); 	
   }
 
-  public function detail($cid){
-	if ($this->input->server('REQUEST_METHOD')==="DELETE") {
-	  $this->client->remove($cid);
+  public function save($id) {	
+	$this->dic->save($id,$this->input->post());
+	redirect(self::MODULE_NAME);
+  }
+  
+  public function delete($id){
+	if ($this->input->server('REQUEST_METHOD')==="DELETE") { // AJAX
+	  log_message('error', 'ajax delete:'.$id);
+	  $this->dic->remove($id);
+	  
 	  echo "OK";
 	  return;
 	}
-	
-	if ($this->input->get("method") === "delete") {
-	  	$this->client->remove($cid);
-		redirect('clients'); 		  
-	} else if ($this->input->get("method") === "edit") {
-	  $data['client'] = $this->client->get_client($cid);
-	  if (empty($data['client'])) show_404();
-
-	  $this->load->helper('form');
-	
-	  $this->load->view('_common/header');
-	  show_nav(11);
-	  
-	  $this->load->view('clients/edit', $data);
-	  $this->load->view('_common/footer');	  
-	} else {
-	  $data['client'] = $this->client->get_client($cid);
-	  if (empty($data['client'])) show_404();
-
-	  $this->load->view('_common/header');
-	  show_nav(11);
-	  
-	  $this->load->view('clients/detail', $data);
-	  $this->load->view('_common/footer');	  
-	}
   }
-
-  public function save() {	
-	$this->client->save($this->input->post());
-	redirect('clients');
-  }  
 }

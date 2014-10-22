@@ -49,11 +49,11 @@
 			
 		    <?php $i=$item["pid"]; endif ?>
 		    <tr>
-			  <td><?php echo  $item["id"]; ?></td>
-			  <td><?php echo  $item['scode']; ?></td>
-			  <td><?php echo  $item["name"]; ?></td>
-			  <td><?php echo  $item['gyear']; ?></td>
-			  <td><?php echo  $item['address']; ?></td>
+			  <td class="col-md-1"><?php echo  $item["id"]; ?></td>
+			  <td class="col-md-2"><?php echo  $item['scode']; ?></td>
+			  <td class="col-md-2"><?php echo  $item["name"]; ?></td>
+			  <td class="col-md-2"><?php echo  $item['gyear']; ?></td>
+			  <td class="col-md-3"><?php echo  $item['address']; ?></td>
 			  <td align=right>
 			  <?php
 				$url_link=$MODULE_PATH.$item["id"];

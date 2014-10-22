@@ -22,8 +22,7 @@ class Courses extends CI_Controller {
     
     // 科目列表
     $this->load->model("dic");
-    $data["ccata_list"]=$this->dic->get_select_list(Dic::DIC_COURSE_CATA);
-    
+    $data["subj_list"]=$this->dic->get_select_list(1,Dic::DIC_COURSE_CATA);
     show_view(self::MODULE_NAME."/list",$data); 
   }
 

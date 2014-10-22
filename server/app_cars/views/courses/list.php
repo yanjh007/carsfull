@@ -42,7 +42,7 @@
 		<div class="panel-body">
 			<?php
 			    zm_form_open(1,$MODULE_PATH."0/save");
-			    zm_form_select(1,"科 目","ccata",$ccata_list,0);
+			    zm_form_select(1,"科 目","ccata",$subj_list,0);
 			    zm_form_input(1,"代 码","ccode");
 			    zm_form_input(1,"名 称","name");
 			    zm_btn_submit("增加课程");
