@@ -5,13 +5,17 @@ class Dic extends CI_Model {
   const DIC_COURSE_CATA     = 9; //课程科目
   const DIC_TYPE_COURSE		= 10; //课程类型
   const DIC_LESSON_STATUS	= 11; //课堂状态
+  
+  const DIC_TYPE_QUESTION	= 12; //课堂状态
+  const DIC_TYPE_CONTENT	= 13; //课程类型
 
   const DIC_NUMBER_START	= 0;
   const DIC_NUMBER_END    	= 1000;
   
   const TABLE_NAME = 'zm_dic';
   const STD_SQL_QUERY  = 'SELECT id,dtype,did,dcode,name,descp FROM ';
-  const SQL_RANGE  = ' and did>0 and did<1000';
+  const SQL_RANGE  = ' and did>0 and did<1000 ';
+  const SQL_IN    = ' dtype in (9,10,11,12,13) ';
   
   public function __construct() {
     $this->load->database();
@@ -20,7 +24,7 @@ class Dic extends CI_Model {
   public function get_list($dtype=self::DIC_TYPE_ALL) {
     $sql=self::STD_SQL_QUERY.self::TABLE_NAME;
     if($dtype==self::DIC_TYPE_ALL) {
-      $sql .= " order by dtype,did " ;	  
+      $sql .= " where ".self::SQL_IN." order by dtype,did " ;	  
     } else {
       $sql .= " where dtype=".$dtype.self::SQL_RANGE." order by did " ;
     }
@@ -28,29 +32,33 @@ class Dic extends CI_Model {
     return $query->result_array();
   }
   
-  
-  public function get_select_list($gtype,$dtype) { //gtype获取方式 0-idname 1-codename dtype字典类型
+  public function get_slist($gtype,$dtype) { //gtype获取方式 0-idname 1-codename dtype字典类型
 	$ary=array();
 	if ($dtype==0) {
-	  $sql="select dtype,name from ".self::TABLE_NAME." where did=0 order by id ";
+	  $sql="select dtype,name from ".self::TABLE_NAME." where  ".self::SQL_IN." and did=0 order by did ";
 	  $query = $this->db->query($sql);
 	  
 	  if ($query->num_rows()>0) foreach ($query->result() as $row) {
 		$ary[$row->dtype]=$row->name;
+		//array_push($ary,$row->dtype);
+		//array_push($ary,$row->name);
 	  }
 	} else {
-	  $sql="select did,dcode,name from ".self::TABLE_NAME." where dtype=".$dtype.self::SQL_RANGE." order by id ";
+	  $sql="select did,dcode,name from ".self::TABLE_NAME." where dtype=".$dtype.self::SQL_RANGE." order by did ";
 	  $query = $this->db->query($sql);
 
 	  if ($query->num_rows()>0) foreach ($query->result() as $row) {
 		if ($gtype==0) { //didname
-		  $ary[$row->did]=$row->name;  
+		  //$ary[]=$row->did;
+		  $ary[$row->did] = $row->name;
 		} else { // codename
-		  $ary[$row->dcode]=$row->name;
+		  //$ary[]=$row->dcode;
+		  $ary[$row->dcode] = $row->name;
 		}
+		//$ary[]=$row->name;
 	  }
 	}
-	
+
     return $ary;
   }
   

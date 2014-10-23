@@ -28,7 +28,8 @@
 	<div class="panel-body">
 	    <?php
 		zm_form_open(0,$MODULE_PATH."2/save");
-		zm_form_input(0,"地址","mvalue",$resource_path);
+		zm_form_input(0,"网络地址","add_net",$resource_path);
+		zm_form_input(0,"本地地址","add_local",$resource_path);
 	    ?>
 	    <div class="form-group"><div class="col-sm-offset-1 col-sm-6">
 		<?php zm_btn_submit("修改"); ?>

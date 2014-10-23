@@ -20,7 +20,7 @@
 			    <tr>
 				  <td><?php echo  $item["id"]; ?></td>
 				  <td><?php echo  $item['ccode']; ?></td>
-				  <td><?php if (isset($ccata_list[$item["ccata"]])) echo $ccata_list[$item["ccata"]]; ?></td>
+				  <td><?php echo  $item["subject"]; ?></td>
 				  <td><?php echo  $item["name"]; ?></td>
 				  <td align=right>
 				  <?php echo anchor($MODULE_PATH.$item["id"]."/sclass","班级<span class='badge'>".(isset($countlist[$item["id"]])?$countlist[$item["id"]]:0)."</span>"); ?> |

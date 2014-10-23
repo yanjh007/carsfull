@@ -57,6 +57,6 @@
     <?php endif ?>
 
     <?php
-        zm_btn_back($MODULE_PATH.$course_id."/content");
+        zm_btn_back($MODULE_PATH.$course_id."/plan");
     ?>
 </div>

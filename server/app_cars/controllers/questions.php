@@ -24,34 +24,12 @@ class Questions extends CI_Controller {
 	  $data['list'] = $this->question->search(0);
 	}
 
+	// 科目列表和题型列表
+	$this->load->model("dic");
+    $data["subject_list"] =$this->dic->get_slist(1,Dic::DIC_COURSE_CATA);
+    $data["qtype_list"] =$this->dic->get_slist(0,Dic::DIC_TYPE_QUESTION);
+
     show_view(self::MODULE_NAME."/list",$data); 
-  }
-
-  public function view($tid){
-	if ($this->input->server('REQUEST_METHOD')==="DELETE") { // AJAX
-	  log_message('error', 'ajax delete:'.$tid);
-	  $this->tasktype->remove($tid);
-	  
-	  echo "OK";
-	  return;
-	}
-	
-	if ($this->input->get("method") === "delete") {
-	  	$this->tasktype->remove($tid);
-		redirect('tasktypes'); 		  
-	} else { //详情页面 基本信息 车辆信息
-	  $data['tasktype'] = $this->tasktype->get_one($tid);
-	  if (empty($data['tasktype'])) show_404();
-
-	  $this->load->helper(array('form','zmform'));
-	  $this->load->view('_common/header');
-	  show_nav(11);
-	  
-	  $data['cars'] = $this->tasktype->get_one($tid);
-	  $this->load->view('tasktypes/detail', $data);
-	  
-	  $this->load->view('_common/footer');	  
-	}
   }
 
   public function edit($id) {	
@@ -60,6 +38,12 @@ class Questions extends CI_Controller {
 		show_404();
 	  } else {
 		$this->load->helper(array('form','zmform'));
+
+		// 科目列表和题型列表
+		$this->load->model("dic");
+		$data["subject_list"] =$this->dic->get_slist(1,Dic::DIC_COURSE_CATA);
+		$data["qtype_list"] =$this->dic->get_slist(0,Dic::DIC_TYPE_QUESTION);
+
 		show_view(self::MODULE_NAME."/edit",$data);   		
 	  }
   }

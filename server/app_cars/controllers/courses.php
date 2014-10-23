@@ -22,7 +22,7 @@ class Courses extends CI_Controller {
     
     // 科目列表
     $this->load->model("dic");
-    $data["subj_list"]=$this->dic->get_select_list(1,Dic::DIC_COURSE_CATA);
+    $data["subj_list"]=$this->dic->get_slist(1,Dic::DIC_COURSE_CATA);
     show_view(self::MODULE_NAME."/list",$data); 
   }
 
@@ -61,7 +61,7 @@ class Courses extends CI_Controller {
     } else {
       // 科目列表
       $this->load->model("dic");
-      $data["ccata_list"]=$this->dic->get_select_list(Dic::DIC_COURSE_CATA);
+      $data["ccata_list"]=$this->dic->get_slist(1,Dic::DIC_COURSE_CATA);
 
       show_view(self::MODULE_NAME."/edit",$data); 
     }
@@ -114,8 +114,8 @@ class Courses extends CI_Controller {
       
       // 模块类型
       $this->load->model("dic");
-      $data["mtype_list"] =$this->dic->get_select_list(Dic::DIC_TYPE_COURSE);
-
+      
+      $data["mtype_list"] =$this->dic->get_slist(0,Dic::DIC_TYPE_COURSE);
       show_view(self::MODULE_NAME."/plan",$data); 
     }
   }
@@ -132,7 +132,7 @@ class Courses extends CI_Controller {
 
       // 状态列表
       $this->load->model("dic");
-      $data["status_list"]=$this->dic->get_select_list(Dic::DIC_LESSON_STATUS);
+      $data["status_list"]=$this->dic->get_slist(0,Dic::DIC_LESSON_STATUS);
 
       // 班级列表
       $this->load->model("slink");
@@ -160,7 +160,15 @@ class Courses extends CI_Controller {
       show_404();
     } else {
       $this->load->model("dic");
-      $data["mtype_list"] =$this->dic->get_select_list(Dic::DIC_TYPE_COURSE);
+      
+      // 内容类型列表
+      $data["ctype_list"] =$this->dic->get_slist(0,Dic::DIC_TYPE_CONTENT);
+      
+      // 科目列表
+      $data["subject_list"] =$this->dic->get_slist(1,Dic::DIC_COURSE_CATA);
+
+      // 考试类型列表
+      $data["qtype_list"] =$this->dic->get_slist(0,Dic::DIC_TYPE_QUESTION);
       
       //内容项目列表      
       $data["contentlist"] = $this->course->get_content($id,3);
@@ -170,7 +178,7 @@ class Courses extends CI_Controller {
   
   public function save_module($id) {
     $this->course->save_module($id);
-    redirect(self::MODULE_NAME."/".$id."/content");
+    redirect(self::MODULE_NAME."/".$id."/plan");
   }
   
   public function add_lib($id) { //从题库添加 id 为 moduleid

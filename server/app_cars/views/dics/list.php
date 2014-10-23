@@ -1,6 +1,7 @@
 <?php
 	$MODULE_PATH="dics/";
 	$END_NUMBER=1000;
+	//var_dump($type_list);
 ?>
 
 <div class="container">
@@ -13,7 +14,7 @@
 			<?php foreach ($dic_list as $item): ?>
 				<?php if ($item["did"]==0): ?>
 					<div class="panel panel-default">
-					<div class="panel-heading" ><?php echo $item["name"]." (".$item["dtype"].")"; ?></div>
+					<div class="panel-heading" ><?php echo $item["dtype"].". ".$item["name"]; ?></div>
 					<table class="table"><tbody>
 					<?php echo zm_table_header("序号,代码,名称,说明","操作") ?>
 

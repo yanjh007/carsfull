@@ -71,12 +71,14 @@
     
     for (NSDictionary *item in ary_content) {
         lv=[[LessonItem alloc] initWithData:item andWidth:self.sv_content.frame.size.width-20];
-        [lv setTag:itag];
         [self.sv_content addSubview:lv];
 
         [lv moveToX:10 andY:y];
         
-        itag++;
+        if ([item[@"qtype"]intValue]!=10) {
+            [lv setTag:itag];
+            itag++;
+        }
         y+=lv.frame.size.height+10;
     }
     
@@ -395,6 +397,7 @@
     if (self) {
         self.mData=data;
         self.mWidth=width;
+        
         self.vanswer=@"";
         [self setViews];
     }
@@ -403,8 +406,8 @@
 
 -(void) setViews
 {
-    self.vtype =[self.mData[@"type"] intValue];
-    self.vcount =[self.mData[@"type"] intValue];
+    self.vtype =[self.mData[@"qtype"] intValue];
+    //self.vcount =[self.mData[@"type"] intValue];
     
     int y=5;
     // 标题
@@ -414,7 +417,7 @@
     y+= [self setContent:y];
 
     // 选项 附件、链接、单选、多选
-    y+= [self setOption:y];
+    //y+= [self setOption:y];
     
     // 响应区域
     y+= [self setFeedBack:y];
@@ -466,7 +469,10 @@
 
 -(int)  setFeedBack:(float) y // 标题
 {
-    if (self.vtype == 11 || self.vtype == 12 || self.vtype == 13 || self.vtype == 14) {
+    if (self.vtype == QTYPE_SINGLE_SELECT
+        || self.vtype == QTYPE_MULTI_SELECT
+        || self.vtype == QTYPE_FILL_BLANK
+        || self.vtype == QTYPE_SIMPLE_ANSWER) {
         ExamGroup *fv=[[ExamGroup alloc] initWithConfig:@{
                                                           @"lid"  :self.mData[@"lid"]?self.mData[@"lid"]:@(0),
                                                           @"vid"  :self.mData[@"id"]?self.mData[@"id"]:@(0),
@@ -488,94 +494,87 @@
     }
 }
 
--(float) setOption:(float) y
-{
-    UILabel *lb;
-    float height=0;
-    NSArray *oplist;
-    if  (self.mData[@"option"]) {
-        NSString *clist=@"ABCDEFGH",*c,*str;
-        NSMutableString *answer=[NSMutableString stringWithString:@""];
-        if (self.vtype==11 || self.vtype==12 ) { //单选多选 填空
-            oplist = [self.mData[@"option"] componentsSeparatedByString:@",,"];
-            self.vcount=oplist.count;
-            for (int i=0; i<self.vcount; i++) {
-                c=[clist substringWithRange:NSMakeRange(i, 1)];
-                str =oplist[i];
-                if ([[str substringToIndex:1] isEqualToString:@"#"]) {
-                    [answer appendString:c];
-                    str = [str substringFromIndex:1];
-                }
-                
-                str = [NSString stringWithFormat:@"%@. %@",c,str];
-                
-                lb = [self textLabel:str width:self.mWidth-10];
-                [lb setFrame:CGRectMake(5, y+height, lb.frame.size.width, lb.frame.size.height)];
-                
-                [self addSubview:lb];
-                
-                height+=lb.frame.size.height+2;
-            }
-            
-            self.vanswer=[answer copy];
-            
-        } else if (self.vtype==13) {
-            oplist = [self.mData[@"option"] componentsSeparatedByString:@"#"];
-            self.vanswer = self.mData[@"option"];
-            self.vcount=oplist.count;
-            
-        } else if (self.vtype==14) {
-            self.vcount=1;
-        } else if (self.vtype==1) {
-
-        } else if (self.vtype==2) { //链接按钮
-            //        content = [content stringByReplacingOccurrencesOfString:TRI_SPACE withString:@""];
-            //        NSArray *list=[content componentsSeparatedByString:@","];
-            //        for (int i=0,count=list.count; i<count; i++) {
-            //            NSString *text=list[i];
-            //            NSString *link=list[i+1];
-            //
-            //            bt=[[UIButton alloc] initWithFrame:CGRectMake(5, y, 200, 40)];
-            //            [bt setTitle:text forState:UIControlStateNormal];
-            //            [bt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            //            [bt setBackgroundColor:[UIColor blueColor]];
-            //
-            //            [bt setTag:i];
-            //            [bt setObjectTag:link];
-            //
-            //            [bt addTarget:self
-            //                   action:@selector(do_link:)
-            //         forControlEvents:UIControlEventTouchUpInside];
-            //         
-            //            [self addSubview:bt];
-            //            
-            //            y+=45;
-            //            i++;
-            //        }
-        }
-    }
-    return height;
-}
-
 -(float)  setContent:(float) y
 {
     if (self.mData[@"content"]) {
-        NSString *content=self.mData[@"content"];
-        content = [content stringByReplacingOccurrencesOfString:TRI_SPACE withString:@"\n"];
-        CGSize strSize = [content sizeWithFont:FONT_STD_CONTENT constrainedToSize:CGSizeMake(self.mWidth-10,400)];
+        float h=0; UILabel *lb;
+        NSString *c=self.mData[@"content"];
+        NSArray *clist=[c componentsSeparatedByString:QSPLIT_OPTION];
+        if (clist.count>0 && clist[0]) { //内容
+            NSString *content=clist[0];
+            content = [content stringByReplacingOccurrencesOfString:TRI_SPACE withString:@"\n"];
+            
+            lb = [self textLabel:content width:self.mWidth-10];
+            [self addSubview:lb];
+            
+            h=lb.frame.size.height+5;
+        }
         
-        UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(5, y, self.mWidth-10,strSize.height)];
-        
-        [lb setBackgroundColor:[UIColor clearColor]];
-        [lb setFont:FONT_STD_CONTENT];
-        [lb setTextColor:[UIColor blueColor]];
-        [lb setNumberOfLines:0];
-        [lb setLineBreakMode:NSLineBreakByWordWrapping];
-        [lb setText:content];
-        
-        [self addSubview:lb];
-        
-        return lb.frame.size.height+5;
+        if (clist.count>1 && clist[1]) { //选项
+            NSString *option=clist[1],*c1,*str;
+            NSArray *ary_char=@[@"A. ",@"B. ",@"C. ",@"D. ",@"E. ",@"F. ",@"G. ",@"H. "],*oplist;
+            
+            NSMutableString *answer=[NSMutableString stringWithString:@""];
+            if (self.vtype==QTYPE_SINGLE_SELECT || self.vtype==QTYPE_MULTI_SELECT) { //单选多选 填空
+                oplist = [option componentsSeparatedByString:QSPLIT_OPTION_CONTENT];
+                self.vcount=oplist.count;
+                for (int i=0; i<self.vcount; i++) {
+//                    str=oplist[i];
+//                    c1=[str substringWithRange:NSMakeRange(i, 1)];
+                    str =oplist[i];
+                    if ([[str substringToIndex:1] isEqualToString:ANSWER_MARKER_RIGHT]) {
+                        [answer appendString:ary_char[i]];
+                        str = [str substringFromIndex:1];
+                    }
+                    
+                    str = [NSString stringWithFormat:@"%@%@",ary_char[i],str];
+                    
+                    lb = [self textLabel:str width:self.mWidth-10];
+                    [lb setFrame:CGRectMake(5, y+h, lb.frame.size.width, lb.frame.size.height)];
+                    
+                    [self addSubview:lb];
+                    
+                    h+=lb.frame.size.height+2;
+                }
+                
+                self.vanswer=[answer copy];
+                
+            } else if (self.vtype== QTYPE_FILL_BLANK) { //填空
+                oplist = [option componentsSeparatedByString:QSPLIT_OPTION_CONTENT];
+                self.vanswer = option;
+                self.vcount=oplist.count;
+                
+            } else if (self.vtype== QTYPE_SIMPLE_ANSWER) { //
+                self.vcount=1;
+            } else if (self.vtype==1) {
+                
+            } else if (self.vtype==2) { //链接按钮
+                //        content = [content stringByReplacingOccurrencesOfString:TRI_SPACE withString:@""];
+                //        NSArray *list=[content componentsSeparatedByString:@","];
+                //        for (int i=0,count=list.count; i<count; i++) {
+                //            NSString *text=list[i];
+                //            NSString *link=list[i+1];
+                //
+                //            bt=[[UIButton alloc] initWithFrame:CGRectMake(5, y, 200, 40)];
+                //            [bt setTitle:text forState:UIControlStateNormal];
+                //            [bt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                //            [bt setBackgroundColor:[UIColor blueColor]];
+                //
+                //            [bt setTag:i];
+                //            [bt setObjectTag:link];
+                //
+                //            [bt addTarget:self
+                //                   action:@selector(do_link:)
+                //         forControlEvents:UIControlEventTouchUpInside];
+                //         
+                //            [self addSubview:bt];
+                //            
+                //            y+=45;
+                //            i++;
+                //        }
+            }
+        }
+        return h ;
     } else {
         return 0;
     }
@@ -650,9 +649,8 @@
         float w1= 50; // w/self.vcount;
         self.vhight=30;
         
-        if (self.vtype <=12) {
-            
-            if (self.vtype==11) {  //单选
+        if (self.vtype ==QTYPE_MULTI_SELECT || self.vtype ==QTYPE_SINGLE_SELECT) {
+            if (self.vtype==QTYPE_SINGLE_SELECT) {  //单选
                 iname1=@"r1"; iname2=@"r2";
             } else if (self.vtype==12) {
                 iname1=@"c1"; iname2=@"c2";
@@ -681,7 +679,7 @@
                 
             }
             
-        } else if (self.vtype==13) {
+        } else if (self.vtype==QTYPE_FILL_BLANK) {
             for (int i=0;i<self.vcount;i++) {
                 // 标题
                 lb=[[UILabel alloc]  initWithFrame:CGRectMake(4,self.vhight*i+2,20,self.vhight-4)];
@@ -699,7 +697,7 @@
             }
             
             self.vhight=self.vhight*self.vcount;
-        } else if (self.vtype==14) {
+        } else if (self.vtype==QTYPE_SIMPLE_ANSWER) {
             tv=[[UITextView alloc] initWithFrame:CGRectMake(0, 0, w, 80)];
             [tv setBackgroundColor:[UIColor lightGrayColor]];
             [tv setTag:100];
@@ -718,10 +716,10 @@
 
 -(void) do_toggle:(UIButton*)sender
 {
-    if (self.vtype==12) {
+    if (self.vtype==QTYPE_MULTI_SELECT) { //多选
         [sender setSelected:!sender.isSelected];
         [(UIImageView*)[sender viewWithTag:20] setHighlighted:sender.isSelected];
-    } else if (self.vtype==11) { //单选
+    } else if (self.vtype==QTYPE_SINGLE_SELECT) { //单选
         if (sender.isSelected) return; //已选择
         if (self.curItem) {
             [self.curItem setSelected:NO];
@@ -750,28 +748,28 @@
     
     // 客户答案
     NSMutableString *str=[NSMutableString stringWithString:@""];
-    NSArray *alist=[self.vanswer componentsSeparatedByString:@"#"],*l; //填空题答案列表
+    NSArray *alist=[self.vanswer componentsSeparatedByString:QSPLIT_OPTION_CONTENT],*l; //填空题答案列表
     int j=0; //正确累计
-    if (self.vtype==14) {
+    if (self.vtype==QTYPE_SIMPLE_ANSWER) {
         dic[keya] =[(UITextView*)[self viewWithTag:100] text];
     } else {
         for (int i=0; i<self.vcount; i++) {
-            if (self.vtype==11) { //单选
+            if (self.vtype==QTYPE_SINGLE_SELECT) { //单选
                 if ([((UIButton*)[self viewWithTag:100+i]) isSelected]) {
                     [str appendString:self.lheaders[i]];
                     break;
                 }
-            } else if (self.vtype==12) { //多选
+            } else if (self.vtype==QTYPE_MULTI_SELECT) { //多选
                 if ([((UIButton*)[self viewWithTag:100+i]) isSelected]) {
                     [str appendString:self.lheaders[i]];
                 }
-            } else if (self.vtype==13) {
+            } else if (self.vtype==QTYPE_FILL_BLANK) {
                 if (i>0) [str appendString:@"#"];
                 if ([self viewWithTag:100+i]) {
                     NSString *r=[(UITextField*)[self viewWithTag:100+i] text];
                     if (alist[i]) {
                         NSString *a=alist[i];
-                        l= [a componentsSeparatedByString:@",,"];
+                        l= [a componentsSeparatedByString:QSPLIT_MULTI_ANSWER];
                         for (NSString *item in l) {
                             if ([item isEqualToString:r ]) {
                                 j++;

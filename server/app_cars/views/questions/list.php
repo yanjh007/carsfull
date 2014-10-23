@@ -51,13 +51,13 @@
 			    zm_form_open(1,$MODULE_PATH.'0/save');
 			    //zm_form_radio(1,"","dtype",array("0:菜品","1:套餐"),0);
 			    zm_form_input(1,"编 码","qcode");
-			    zm_form_input(1,"科 目","subject");
+			    zm_form_select(1,"科 目","subject",$subject_list);
 			    zm_form_input(1,"级 别","grade",1);
 			    zm_form_input(1,"难 度","difficulty",5);
 
-			    zm_form_input(1,"类 型","qtype");
+			    zm_form_select(1,"类 型","qtype",$qtype_list);
 			    zm_form_textarea(1,"内 容","content");
-			    zm_form_textarea(1,"选 项","qoption");
+			    zm_form_textarea(1,"选 项  ✓ ✗","qoption");
 			    zm_btn_submit("增 加");
 			?></form>
 		</div>

@@ -1,7 +1,7 @@
 <?php
 class Course extends CI_Model {
   const TABLE_NAME = "courses";
-  const STD_SQL_QUERY  = "SELECT id,ccode,name,ccata,descp FROM courses";
+  const STD_SQL_QUERY  = "SELECT id,ccode,name,ccata,subject,descp FROM v_courses ";
   
   public function __construct() {
     $this->load->database();
@@ -220,7 +220,7 @@ class Course extends CI_Model {
   public function pub_content($id) {
     $table="cmodules";
 	
-    $sql = "select qorder,m.qtype,question,q.qcode,q.content,m.content scontent,q.qoption,m.score from moduleitems m  left join questions q on m.question=q.id where module=".$id." order by qorder";
+    $sql = "select qorder,m.qtype,question,q.qcode,q.content,m.content scontent,m.score from moduleitems m  left join questions q on m.question=q.id where module=".$id." order by qorder";
 	
 	$query = $this->db->query($sql);
 
@@ -238,7 +238,6 @@ class Course extends CI_Model {
 		  $data["content"]=$row["scontent"];
 		} else {
 		  $data["content"]=$row["content"];
-		  $data["qoption"]=$row["qoption"];
 		}
 		
 		if ($qtype>10) {
@@ -323,7 +322,6 @@ class Course extends CI_Model {
 	  $qid   =$row["id"];
 	  $qorder=$item["qorder"];
 	  
-	
 	  //更新次序
 	  $this->_reorder($id,$qorder);
 
@@ -356,20 +354,19 @@ class Course extends CI_Model {
     $table="moduleitems";
     $item   = $this->input->post();
 	
-	if ($item["qcode"]=="") {
+	$content= $item["content"]."\n\n\n".$item["qoption"];
+	if ($item["qcode"]=="") { //不添加到库
 	  $qid =0;
-	  $content= $item["content"];
-	} else {
-	  // 增加问题
+	} else { // 增加问题到库	  
 	  $this->load->model("question");
 	  $qid = $this->question->save(0,$item);
-	  $content= $item["content"];
 	}
 	
 	//更新次序
 	$qorder=$item["qorder"];
 	$this->_reorder($id,$qorder);
 
+	//保存内容条目
 	$data = array(
 	  "module"   => $id,
 	  "question" => $qid,

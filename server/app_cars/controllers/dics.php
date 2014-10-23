@@ -16,7 +16,7 @@ class Dics extends CI_Controller {
 	$data['dic_list'] = $this->dic->get_list();
 	
 	// 字典类型列表
-	$data['type_list'] = $this->dic->get_select_list(0,0);
+	$data['type_list'] = $this->dic->get_slist(0,0);
 	
 	show_view(self::MODULE_NAME."/list",$data); 	
   }

@@ -3,6 +3,8 @@
     $course_id=$item["course"];
     $course_name = "";
 	$mtype=$item["mtype"]; //13-测试和考试 14-作业 10-课程说明 11-互动课堂
+	$type_list=$ctype_list+$qtype_list;
+	$type_list[10]="分隔";
 ?>
 <div class="container">
     <div class="page-header">
@@ -28,7 +30,6 @@
                     zm_form_delete(1,$MODULE_PATH.$item["id"]."/delete",$MODULE_PATH);
                     zm_btn_back($MODULE_PATH.$course_id."/plan");
                 ?>
-
               </div>
             </div>
           </form>
@@ -36,21 +37,20 @@
     </div>
     <div class="panel panel-default">
         <!-- Default panel contents -->
-        <div class="panel-heading">模块内容(未发布)</div>
+        <div class="panel-heading">模块内容 (<?php echo $item["status"]==0?"未发布":"已发布"; ?> )</div>
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-8">
                 <table class="table">
 				<?php
 					echo zm_table_header(($mtype==13)?"次 序,类 型,代码-内容,分值":"次 序,类 型,内 容","操 作") ?>
-
 		        <tbody>
 
 			    <?php $i=1; $count=0; $score=0; $qorder=1;
 					foreach ($contentlist as $item1): ?>
 					<tr>
 						<td><?php echo $item1["qorder"]; ?></td>
-						<td><?php echo $item1["qtype"]; ?></td>
+						<td><?php echo $type_list[$item1["qtype"]]; ?></td>
 						<td><?php
 						if ($item1["qcode"]>0) {
 							echo "[".$item1["qcode"]."]-".$item1['content']."...";
@@ -103,23 +103,20 @@
 								<?php
 								zm_form_open(1,$MODULE_PATH.$item["id"]."/add_section");
 								zm_form_hidden("qtype",10);
-								zm_form_input(1,"次 序",$qorder);
+								zm_form_input(1,"次 序","qorder",$qorder);
 								zm_form_input(1,"标 题","title");
 								zm_btn_submit("增 加");
-								?>								
+								?></form>
 							</div>
 							
 							<div class="tab-pane fade" id="citem_add_1">
 								<?php
 								zm_form_open(1,$MODULE_PATH.$item["id"]."/add_lib");
 								zm_form_input(1,"次 序","qorder",$qorder);
-								zm_form_input(1,"分 值","score");
+								zm_form_input(1,"分 值","score",5);
 								zm_form_input(1,"题库代码","qcode");
 								zm_btn_submit("增 加");
-								zm_btn_click("更 新","#");
-								?>
-								</form>
-								
+								?></form>
 							</div>
 							
 							<?php } else if($mtype==14) { ?>
@@ -127,12 +124,11 @@
 								<?php
 								zm_form_open(1,$MODULE_PATH.$item["id"]."/add_content");
 								zm_form_input(1,"次 序","qorder",$qorder);
-								zm_form_input(1,"类 型","qtype",10);
+								zm_form_select(1,"类 型","qtype",$ctype_list);
 								zm_form_textarea(1,"内 容","content");
 								zm_btn_submit("增 加");
 								zm_btn_click("更 新","#");
-								?>
-								</form>
+								?></form>
 							</div>		
 							<?php } ?>
 							
@@ -141,28 +137,24 @@
 								zm_form_open(1,$MODULE_PATH.$item["id"]."/add_question");
 								zm_form_input(1,"次 序","qorder",$qorder);
 
-								if ($mtype==13) zm_form_input(1,"分 值","score"); //考试
+								if ($mtype==13) zm_form_input(1,"分 值","score",5); //考试
 																
-								zm_form_input(1,"编 码","qcode");
-								zm_form_input(1,"科 目","subject");
-								zm_form_input(1,"类 型","qtype");
-								zm_form_input(1,"级 别","grade");
-								zm_form_input(1,"难 度","difficulty");
+								zm_form_input(1,"编 码 (填写将加入题库)","qcode");
+								
+								zm_form_select(1,"科 目","subject",$subject_list);
+								zm_form_select(1,"题 型","qtype",$qtype_list);
+								zm_form_input(1,"级 别","grade",5);
+								zm_form_input(1,"难 度","difficulty",5);
 								
 								zm_form_textarea(1,"内 容","content");
-								zm_form_textarea(1,"选 项","qoption");
+								zm_form_textarea(1,"选 项 ✓ ✗","qoption");
 								
 								zm_btn_submit("增 加");
 								zm_btn_click("更 新","#");
-								?>
-								</form>
-								
+								?></form>
 							</div>
 						</div>
-						
-						</form>
 					</div></div>
-
 				</div>                
             </div>                
         </div>
