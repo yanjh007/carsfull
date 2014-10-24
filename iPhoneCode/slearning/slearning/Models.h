@@ -18,18 +18,24 @@ static NSString *const ANSWER_MARKER_RIGHT = @"✓"; //正确答案标记
 static NSString *const QSPLIT_OPTION = @"\n\n\n"; //内容和选项分隔符号
 static NSString *const QSPLIT_OPTION_CONTENT = @"\n"; //答案选项分隔副
 static NSString *const QSPLIT_MULTI_ANSWER = @","; //填空正确多答案
+static NSString *const QSPLIT_MULTI_BLANK = @",,"; //填空正确多答案
 
 @interface JY_Lesson : NSObject
 
-@property (assign) int cid,lid,mtype,stime,etime,status;
-@property (strong,nonatomic) NSString *content,*name,*course_name;
+@property (assign) int lid,mid,mtype,stime,etime,status,lstatus;
+@property (strong,nonatomic) NSString *content,*name,*course_name,*answer;
 //@property (assign) int carid,status,year;
 //@property (strong,nonatomic) NSArray *colorList,*cfgList,*engineList,*transList,*yearList;
 
 +(void) save:(NSDictionary*)dic;
 +(void) saveList:(NSArray*)ary;
-+(void ) saveFeedback:(NSDictionary*)feedback forLesson:(int)lid;
-
 +(NSArray*) getLessons;
-+(NSArray*) getFeedback:(int)lesson id:(int)sid;
+
+-(NSDictionary*) getAnswer;
+-(void) saveFeedback:(NSArray*)feedback ;
+
+// 提交课程答案
++(void) submit:(int)stype
+    completion:(void (^)(int status))completion;
+
 @end

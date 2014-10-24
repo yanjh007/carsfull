@@ -231,8 +231,16 @@ class Course extends CI_Model {
 		$qtype=$row["qtype"];
 		$data=array(
 					"qorder"=>$row["qorder"],
-					"qtype" =>$qtype
+					"qtype" =>$qtype,
 					);
+		//题目分值
+		if ($qtype>10) {
+		  $count++;
+		  $score+=$row["score"];
+		  $data["score"]=$row["score"];
+		}
+
+		//题目内容
 		$question=$row["question"];
 		if ($question==0) { //题目
 		  $data["content"]=$row["scontent"];
@@ -240,11 +248,6 @@ class Course extends CI_Model {
 		  $data["content"]=$row["content"];
 		}
 		
-		if ($qtype>10) {
-		  $count++;
-		  $score+=$row["score"];
-		}  
-	    
 		$contentlist[]=$data;
 	  }
 	  $jsonstr=json_encode(array("count"=>$count,"score"=>$score,"content"=>$contentlist));

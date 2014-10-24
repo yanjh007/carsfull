@@ -64,6 +64,11 @@ class _Service extends CI_Controller {
 	      $this->load->model('course');
 	      $data = $this->course->if_slessons();	      
 	      break;
+	  case "sreport": //提交学生报告
+	      //if (!$this->_tokenCheck()) return;　//Token验证
+	      $this->load->model('sreport');
+	      $data = $this->sreport->if_commit();	      
+	      break;
 	  default:
 	      $data["result"] = "FALSE";
 	      $data["content"] = json_encode(array("status"=>404,"error"=>"Request Not Found"));

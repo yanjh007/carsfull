@@ -66,13 +66,8 @@
 
     JY_Lesson *item=self.ary_lesson[indexPath.row];
     
-    [self.tv_content setText:item.content];
-    self.cur_lesson= item;
-}
-
-- (IBAction)do_go_lesson:(UIButton *)sender {
-    //UIViewController *vc=[[ContentVC alloc] init];
-    //[self.navigationController pushViewController:vc animated:YES];
+    [self.tv_content setText:[NSString stringWithFormat:@"%@\n%@",item.content,item.answer]];
+    self.cur_lesson = item;
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender
@@ -134,10 +129,19 @@
     if (self.cur_lesson) {
         if (self.cur_lesson.mtype==11) { //同步课程
             [self performSegueWithIdentifier:SGI_HOME_LESSON_PAGE  sender:nil];
-        } else {
+        } else { //普通课程，作业，资源
             [self performSegueWithIdentifier:SGI_HOME_LESSON  sender:nil];
         }
     }
+}
+
+- (IBAction)do_submit:(UIButton *)sender {
+    [JY_Lesson submit:0
+           completion:^(int status) {
+               if (status==200) {
+                   NSLog(@"submit lessons ok!");
+               }
+           }];
     
 }
 

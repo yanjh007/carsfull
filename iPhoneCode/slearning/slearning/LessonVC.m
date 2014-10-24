@@ -46,14 +46,21 @@
 }
 
 - (IBAction)do_save:(UIButton *)sender {
-    UIView *v; NSDictionary *feedback;
+    UIView *v;
+    NSMutableArray *feedback=[NSMutableArray new];
+    NSDictionary *item;
+    
     for (int i=501;i<600;i++) {
         v=[self.sv_content viewWithTag:i];
         if (!v) break;
         if ([v isKindOfClass:[LessonItem class]]) {
-            feedback=[(LessonItem*)v getResult];
-            [JY_Lesson saveFeedback:feedback forLesson:self.mLesson.lid];
+            item=[(LessonItem*)v getResult];
+            if (item)[feedback addObject:item];
         }
+    }
+   
+    if (feedback.count>0) {
+        [self.mLesson saveFeedback:[feedback copy]];
     }
     
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -65,20 +72,36 @@
 
     NSDictionary *dic_content=[self.mLesson.content jsonObject];
     NSArray *ary_content=dic_content[@"content"];
-    LessonItem *lv;
+    
+    NSArray *ary_answer=[self.mLesson.answer jsonArray];
     
     int y=10,itag=501;
-    
+    LessonItem *lv; NSString* sanswer;
     for (NSDictionary *item in ary_content) {
-        lv=[[LessonItem alloc] initWithData:item andWidth:self.sv_content.frame.size.width-20];
-        [self.sv_content addSubview:lv];
-
-        [lv moveToX:10 andY:y];
         
+        for (NSDictionary *aitem in ary_answer){
+            sanswer=@"";
+            if ([aitem[@"qorder"] intValue]==[item[@"qorder"] intValue]) {
+                sanswer=aitem[@"answer"];
+                break;
+            }
+        }
+        
+        lv=[[LessonItem alloc] initWithData:
+                @{@"content":item,
+                  @"answer":sanswer,
+                  @"width":@(self.sv_content.frame.size.width-20)
+                  }];
+ 
         if ([item[@"qtype"]intValue]!=10) {
             [lv setTag:itag];
             itag++;
         }
+        
+        [self.sv_content addSubview:lv];
+
+        [lv moveToX:10 andY:y];
+        
         y+=lv.frame.size.height+10;
     }
     
@@ -384,21 +407,22 @@
 #pragma mark - 普通内容面板
 
 @interface LessonItem()
-@property (retain,nonatomic) NSDictionary* mData;
-@property (retain,nonatomic) NSString *vanswer; //答案
-@property (assign) int mWidth,mHeight,vtype,vcount;
+@property (retain,nonatomic) AnswerPanel* mAnswerPanel;
+@property (retain,nonatomic) NSDictionary* mQuestion;
+@property (retain,nonatomic) NSString *mAnswer,*rAnswer; //答案和参考
+@property (assign) int mWidth,mHeight,qtype,qcount,qid; //视图宽度，高度，类型，选项数量，问题id(order)
 
 @end
 @implementation LessonItem
 
--(instancetype) initWithData:(NSDictionary*) data andWidth:(float)width;
+-(instancetype) initWithData:(NSDictionary*)data
 {
     self= [super initWithFrame:CGRectZero];
     if (self) {
-        self.mData=data;
-        self.mWidth=width;
+        self.mQuestion =data[@"content"];
+        self.mAnswer   =data[@"answer"];
+        self.mWidth    =[data[@"width"]floatValue];
         
-        self.vanswer=@"";
         [self setViews];
     }
     return self;
@@ -406,26 +430,27 @@
 
 -(void) setViews
 {
-    self.vtype =[self.mData[@"qtype"] intValue];
-    //self.vcount =[self.mData[@"type"] intValue];
+    self.qid    =[self.mQuestion[@"qorder"] intValue];
+    self.qtype  =[self.mQuestion[@"qtype"]  intValue];
     
     int y=5;
     // 标题
     y+= [self setTitle:y];
     
-    // 内容
+    // 内容区域
     y+= [self setContent:y];
 
     // 选项 附件、链接、单选、多选
     //y+= [self setOption:y];
     
-    // 响应区域
-    y+= [self setFeedBack:y];
+    // 答题区域
+    y+= [self setAnswerPanel:y];
 
     // 视图设置
     [self setFrame:CGRectMake(0, 0, self.mWidth, y)];
     [self setBackgroundColor:[UIColor yellowColor]];
-    [self setTag:[self.mData[@"id"] intValue]];
+    [self setTag:[self.mQuestion[@"id"] intValue]];
+    
     self.mHeight = y+10;
 }
 
@@ -447,10 +472,11 @@
 
 }
 
+// 标题区域
 -(int)  setTitle:(float) y // 标题
 {
-    if (self.mData[@"title"]) {
-        NSString *title=self.mData[@"title"];
+    if (self.mQuestion[@"title"]) {
+        NSString *title=self.mQuestion[@"title"];
         
         UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(5, y, self.mWidth-10, 36)];
         [lb setBackgroundColor:[UIColor clearColor]];
@@ -467,38 +493,16 @@
 
 }
 
--(int)  setFeedBack:(float) y // 标题
-{
-    if (self.vtype == QTYPE_SINGLE_SELECT
-        || self.vtype == QTYPE_MULTI_SELECT
-        || self.vtype == QTYPE_FILL_BLANK
-        || self.vtype == QTYPE_SIMPLE_ANSWER) {
-        ExamGroup *fv=[[ExamGroup alloc] initWithConfig:@{
-                                                          @"lid"  :self.mData[@"lid"]?self.mData[@"lid"]:@(0),
-                                                          @"vid"  :self.mData[@"id"]?self.mData[@"id"]:@(0),
-                                                          @"width"  :@(self.mWidth-10),
-                                                          @"type"   :@(self.vtype),
-                                                          @"answer" :self.vanswer,
-                                                          @"score"  :self.mData[@"score"]?self.mData[@"score"]:@(1),
-                                                          @"count"  :@(self.vcount)
-                                                          }];
-        
-        [fv setFrame:CGRectMake(5, y, fv.frame.size.width, fv.frame.size.height)];
-        [fv setTag:600];
-        
-        [self addSubview:fv];
-        return fv.frame.size.height+5;
-        
-    } else {
-        return 0;
-    }
-}
+// 内容区域
 
 -(float)  setContent:(float) y
 {
-    if (self.mData[@"content"]) {
+    if (self.mQuestion[@"content"]) {
         float h=0; UILabel *lb;
-        NSString *c=self.mData[@"content"];
+        self.rAnswer=@"";
+        
+        NSString *c=self.mQuestion[@"content"];
+        
         NSArray *clist=[c componentsSeparatedByString:QSPLIT_OPTION];
         if (clist.count>0 && clist[0]) { //内容
             NSString *content=clist[0];
@@ -512,13 +516,14 @@
         
         if (clist.count>1 && clist[1]) { //选项
             NSString *option=clist[1],*c1,*str;
-            NSArray *ary_char=@[@"A. ",@"B. ",@"C. ",@"D. ",@"E. ",@"F. ",@"G. ",@"H. "],*oplist;
+            NSArray *ary_char=@[@"A",@"B",@"C",@"D",@"E",@"F",@"G",@"H"],*oplist;
             
             NSMutableString *answer=[NSMutableString stringWithString:@""];
-            if (self.vtype==QTYPE_SINGLE_SELECT || self.vtype==QTYPE_MULTI_SELECT) { //单选多选 填空
+            if (self.qtype==QTYPE_SINGLE_SELECT || self.qtype==QTYPE_MULTI_SELECT) { //单选多选 填空
                 oplist = [option componentsSeparatedByString:QSPLIT_OPTION_CONTENT];
-                self.vcount=oplist.count;
-                for (int i=0; i<self.vcount; i++) {
+                self.qcount=oplist.count;
+
+                for (int i=0; i<self.qcount; i++) {
 //                    str=oplist[i];
 //                    c1=[str substringWithRange:NSMakeRange(i, 1)];
                     str =oplist[i];
@@ -527,7 +532,7 @@
                         str = [str substringFromIndex:1];
                     }
                     
-                    str = [NSString stringWithFormat:@"%@%@",ary_char[i],str];
+                    str = [NSString stringWithFormat:@"%@. %@",ary_char[i],str];
                     
                     lb = [self textLabel:str width:self.mWidth-10];
                     [lb setFrame:CGRectMake(5, y+h, lb.frame.size.width, lb.frame.size.height)];
@@ -537,18 +542,18 @@
                     h+=lb.frame.size.height+2;
                 }
                 
-                self.vanswer=[answer copy];
+                self.rAnswer=[answer copy];
                 
-            } else if (self.vtype== QTYPE_FILL_BLANK) { //填空
+            } else if (self.qtype== QTYPE_FILL_BLANK) { //填空
                 oplist = [option componentsSeparatedByString:QSPLIT_OPTION_CONTENT];
-                self.vanswer = option;
-                self.vcount=oplist.count;
+                self.rAnswer = option;
+                self.qcount=oplist.count;
                 
-            } else if (self.vtype== QTYPE_SIMPLE_ANSWER) { //
-                self.vcount=1;
-            } else if (self.vtype==1) {
+            } else if (self.qtype== QTYPE_SIMPLE_ANSWER) { //
+                self.qcount=1;
+            } else if (self.qtype==1) {
                 
-            } else if (self.vtype==2) { //链接按钮
+            } else if (self.qtype==2) { //链接按钮
                 //        content = [content stringByReplacingOccurrencesOfString:TRI_SPACE withString:@""];
                 //        NSArray *list=[content componentsSeparatedByString:@","];
                 //        for (int i=0,count=list.count; i<count; i++) {
@@ -580,6 +585,35 @@
     }
     
 }
+
+// 答题区域
+-(int)  setAnswerPanel:(float) y // 标题
+{
+    if (self.qtype == QTYPE_SINGLE_SELECT
+        || self.qtype == QTYPE_MULTI_SELECT
+        || self.qtype == QTYPE_FILL_BLANK
+        || self.qtype == QTYPE_SIMPLE_ANSWER) {
+        AnswerPanel *fv=[[AnswerPanel alloc] initWithConfig:@{
+                                                          @"vid"     :@(self.qid),
+                                                          @"width"   :@(self.mWidth-10),
+                                                          @"type"    :@(self.qtype),
+                                                          @"answer"  :self.rAnswer,
+                                                          @"uanswer" :self.mAnswer,
+                                                          @"score"   :self.mQuestion[@"score"]?self.mQuestion[@"score"]:@(1),
+                                                          @"count"   :@(self.qcount)
+                                                          }];
+        
+        [fv setFrame:CGRectMake(5, y, fv.frame.size.width, fv.frame.size.height)];
+        self.mAnswerPanel=fv;
+        
+        [self addSubview:fv];
+        return fv.frame.size.height+5;
+        
+    } else {
+        return 0;
+    }
+}
+
 -(UILabel*) textLabel:(NSString*)content width:(float)width
 {
     content = [content stringByReplacingOccurrencesOfString:TRI_SPACE withString:@"\n"]; //换行
@@ -599,9 +633,8 @@
 
 -(NSDictionary*) getResult;
 {
-    if ([self viewWithTag:600]) {
-        ExamGroup *g=(ExamGroup*)[self viewWithTag:600];
-        return [g getResult];
+    if (self.mAnswerPanel) {
+        return [self.mAnswerPanel getResult];
     } else {
         return nil;
     }
@@ -609,17 +642,17 @@
 
 @end
 
-#pragma mark - 普通测试选项组
-@interface ExamGroup()
+#pragma mark - 普通测试选项面板
+@interface AnswerPanel()
 @property (retain,nonatomic) NSDictionary* mConfig;
 @property (retain,nonatomic) NSArray  *lheaders;
-@property (retain,nonatomic) NSString *vlabel,*vanswer;
+@property (retain,nonatomic) NSString *vlabel,*vanswer,*uanswer;
 @property (assign) int vid,vtype,vcount,vscore,vhight;
 @property (retain,nonatomic) UIButton *curItem;
 
 @end
 
-@implementation ExamGroup
+@implementation AnswerPanel
 
 -(instancetype) initWithConfig:(NSDictionary*)cfg
 {
@@ -630,10 +663,11 @@
         self.mConfig = cfg;
 //        [self setBackgroundColor:[UIColor redColor]];
         
-        self.vid  = cfg[@"vid"]     ?[cfg[@"vid"] intValue]:0;
+        self.vid  = cfg[@"vid"]     ?[cfg[@"vid"] intValue]:0;
         self.vtype   = cfg[@"type"]     ?[cfg[@"type"] intValue]:11;
         self.vlabel  = cfg[@"label"]    ? cfg[@"label"] :@"A,B,C,D";
-        self.vanswer = cfg[@"answer"]   ? cfg[@"answer"] :@""; //参考答案
+        self.vanswer = cfg[@"answer"]   ? cfg[@"answer"]  :@""; //参考答案
+        self.uanswer = cfg[@"uanswer"]  ? cfg[@"uanswer"] :@""; //用户答案
         self.vcount  = cfg[@"count"]    ?[cfg[@"count"] intValue]:1;
         self.vscore  = cfg[@"score"]    ?[cfg[@"score"] intValue]:1;
         
@@ -675,11 +709,21 @@
                 
                 [bt addTarget:self action:@selector(do_toggle:) forControlEvents:UIControlEventTouchUpInside];
                 [bt setTag:100+i];
+                
                 [self addSubview:bt];
                 
+                if ([self.uanswer rangeOfString:self.lheaders[i]].length>0) {
+                    [bt setSelected:YES];
+                    [iv setHighlighted:YES];
+                    if (self.vtype==QTYPE_SINGLE_SELECT) {
+                        self.curItem=bt;
+                    }
+                }
             }
             
         } else if (self.vtype==QTYPE_FILL_BLANK) {
+            NSArray *alist=[self.uanswer componentsSeparatedByString:QSPLIT_MULTI_BLANK];
+            
             for (int i=0;i<self.vcount;i++) {
                 // 标题
                 lb=[[UILabel alloc]  initWithFrame:CGRectMake(4,self.vhight*i+2,20,self.vhight-4)];
@@ -693,6 +737,8 @@
                 [tf setBorderStyle:UITextBorderStyleLine];
                 [tf setTag:100+i];
                 
+                if ([alist count]>i) [tf setText:alist[i]];
+                
                 [self addSubview:tf];
             }
             
@@ -703,6 +749,8 @@
             [tv setTag:100];
             
             [self addSubview:tv];
+            
+            [tv setText:self.uanswer];
             
             self.vhight=80;
         }
@@ -740,11 +788,11 @@
     *keyr=@"result", //当前结果 0-未完成 1-错 2-对 3-待批复 4-批复
     *keys=@"score"; // 当前得分
 
-    NSMutableDictionary *dic=[[NSMutableDictionary alloc]initWithDictionary:@{
-                                                                              @"vid" :@(self.vid),
-                                                                              @"type":@(self.vtype),
-                                                                              keyr:@(0),
-                                                                              keys:@(0)}];
+    NSMutableDictionary *dic=[@{
+                               @"qorder":@(self.vid),
+                               @"type":@(self.vtype),
+                               keyr:@(0),
+                               keys:@(0)} mutableCopy];
     
     // 客户答案
     NSMutableString *str=[NSMutableString stringWithString:@""];
@@ -763,8 +811,8 @@
                 if ([((UIButton*)[self viewWithTag:100+i]) isSelected]) {
                     [str appendString:self.lheaders[i]];
                 }
-            } else if (self.vtype==QTYPE_FILL_BLANK) {
-                if (i>0) [str appendString:@"#"];
+            } else if (self.vtype==QTYPE_FILL_BLANK) { //填空
+                if (i>0) [str appendString: QSPLIT_MULTI_BLANK];
                 if ([self viewWithTag:100+i]) {
                     NSString *r=[(UITextField*)[self viewWithTag:100+i] text];
                     if (alist[i]) {
@@ -786,20 +834,21 @@
     }
 
     // 得分判断
-    if (self.vtype==12 || self.vtype==11) { //多选答案验证
+    if (self.vtype==QTYPE_SINGLE_SELECT || self.vtype==QTYPE_MULTI_SELECT) { //多选答案验证
         if ([str isEqualToString:self.vanswer]) {
             dic[keyr]= @(2);
             dic[keys]= @(self.vscore);
         } else {
             dic[keyr]= @(1);
         }
-    } else if (self.vtype==13) { //填空题
+    } else if (self.vtype==QTYPE_FILL_BLANK) { //填空题
         if (j==self.vcount) {
+            dic[keys]= @(self.vscore);
             dic[keyr]= @(2);
         } else {
             dic[keyr]= @(1);
         }
-    } else if (self.vtype==14) {
+    } else if (self.vtype==QTYPE_SIMPLE_ANSWER) {
         dic[keyr]= @(3);
     }
     
