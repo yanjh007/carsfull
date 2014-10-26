@@ -3,15 +3,15 @@
 
  Source Server         : localdb
  Source Server Type    : MySQL
- Source Server Version : 50620
+ Source Server Version : 50538
  Source Host           : localhost
  Source Database       : cidb
 
  Target Server Type    : MySQL
- Target Server Version : 50620
+ Target Server Version : 50538
  File Encoding         : utf-8
 
- Date: 10/24/2014 16:57:39 PM
+ Date: 10/27/2014 02:41:46 AM
 */
 
 SET NAMES utf8;
@@ -187,7 +187,7 @@ CREATE TABLE `ci_sessions` (
 --  Records of `ci_sessions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `ci_sessions` VALUES ('2c353a6dceca4e15ee73dfd6e476ae7b', '127.0.0.1', 'slearning/1 CFNetwork/711.1.12 Darwin/14.0.0', '1414130055', ''), ('47c5a83a30d7e094991f7096b9a85dac', '127.0.0.1', 'slearning/1 CFNetwork/711.1.12 Darwin/14.0.0', '1414130495', ''), ('4ad4a33716aa931c3e0f5c369686480f', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.25 (KHTML, like Gecko) Version/8.0 Safari/600.1.25', '1414120923', 'a:2:{s:9:\"user_data\";s:0:\"\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}'), ('6cf6464d1e078f75803fa76dad72028b', '127.0.0.1', 'slearning/1 CFNetwork/711.1.12 Darwin/14.0.0', '1414121032', '');
+INSERT INTO `ci_sessions` VALUES ('fb35b1c8e2121f028809672e2076fb53', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/600.1.17 (KHTML, like Gecko) Version/7.1 Safari/537.85.10', '1414343994', 'a:2:{s:9:\"user_data\";s:0:\"\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}');
 COMMIT;
 
 -- ----------------------------
@@ -497,12 +497,19 @@ DROP TABLE IF EXISTS `sreports`;
 CREATE TABLE `sreports` (
   `uid` int(11) DEFAULT NULL COMMENT '用户',
   `mid` int(11) DEFAULT NULL COMMENT '内容模块',
-  `order` int(11) DEFAULT NULL COMMENT '题目',
+  `qorder` int(11) DEFAULT NULL COMMENT '题目',
   `answer` varchar(600) DEFAULT NULL COMMENT '用户答案',
   `score` smallint(6) DEFAULT NULL COMMENT '得分',
   `status` smallint(6) DEFAULT NULL COMMENT '状态，0-未答 1-错 2-对 3-待审核 4-已批覆',
   `rnote` varchar(100) DEFAULT NULL COMMENT '批覆注解，用户可见'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `sreports`
+-- ----------------------------
+BEGIN;
+INSERT INTO `sreports` VALUES ('8', '4', '3', 'B', '5', '2', null), ('8', '4', '5', 'BC', '0', '1', null), ('8', '4', '7', 'CHN,,US', '5', '2', null), ('8', '4', '9', 'djy', '0', '3', null), ('9', '4', '3', 'B', '5', '2', null), ('9', '4', '5', 'BD', '4', '2', null), ('9', '4', '7', 'CHS,,USA', '0', '1', null), ('9', '4', '9', 'djy', '0', '3', null);
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `susers`

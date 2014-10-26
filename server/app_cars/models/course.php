@@ -109,6 +109,10 @@ class Course extends CI_Model {
 	  $sql="select question,qorder,q.qcode,m.content,m.qtype,m.score from moduleitems m  left join questions q on q.id=m.question where module= ".$id." order by qorder";
 	  $query = $this->db->query($sql);
 	  return $query->result_array();   
+	} else if ($ctype==4) { //课堂对应的模块题目列表,id为课堂id
+	  $sql="select question,qorder,q.qcode,m.content,m.qtype qtype,m.score from moduleitems m  left join questions q on q.id=m.question where module= ".$id." and m.qtype>10 and m.qtype<20 order by qorder";
+	  $query = $this->db->query($sql);
+	  return $query->result_array();   
 	}
   }
   

@@ -233,16 +233,44 @@ class Courses extends CI_Controller {
   /*
    * 课堂报表
    */
-  public function report($id) { //课堂报告 id为课堂id
+  public function report($id) { //课堂报告 id为内容模块id
     $this->load->helper(array('form','zmform'));
     $data['item'] = $this->course->get_content($id,1);
     if (empty($data['item'])) {
       show_404();
     } else {
-      $this->load->model("dic");
-      $data["mtype_list"] =$this->dic->get_select_list(Dic::DIC_TYPE_COURSE);
+      // 班级
+      $sclass_id=$this->input->get("sclass");
+      $data["sclass_id"]=$sclass_id;
+      
+      //课程课堂
+      $data["lesson_id"]=$id;
+      
+      
+      // 题目列表
+      $data["contentlist"] = $this->course->get_content($id,4);
+      
+      // 学生列表
+      $this->load->model("sclass");
+      $data["studentlist"] = $this->sclass->get_members($sclass_id,1);
 
-      show_view(self::MODULE_NAME."/edit_module",$data); 
+      // 得分数组
+      $score_ary=array();
+      $status_ary=array();
+      $this->load->model("sreport");
+      $ary_score=$this->sreport->get_score_ary($sclass_id,$id);
+
+      foreach ($ary_score as $item) {
+        $score_ary [$item["uid"]][$item["qorder"]]=$item["score"];
+        $status_ary[$item["uid"]][$item["qorder"]]=$item["status"];
+      }
+      
+      $data["score_ary"]=$score_ary;
+      $data["status_ary"]=$status_ary;
+      
+      var_dump($score_ary);
+      
+      show_view(self::MODULE_NAME."/report",$data); 
     }
   }
   

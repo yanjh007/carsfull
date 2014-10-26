@@ -45,17 +45,17 @@
                                         }
 
                                         if ($i>0) echo "<br>";
-                                        echo anchor ($MODULE_PATH.$row["lid"]."/report?sclass=".$row["sclass"]."&course=".$course_id,$row["class_name"]);
+                                        echo anchor ($MODULE_PATH.$lesson_id."/report?sclass=".$row["sclass"]."&course=".$course_id,$row["class_name"]);
                                         echo $status."&nbsp";
-                                        echo anchor($MODULE_PATH.$row["lid"]."/log?sclass=".$row["sclass"]."&course=".$course_id."&class_name=".$row["class_name"]."&lesson_name=".$item["name"],"(日志)");
+                                        echo anchor($MODULE_PATH.$lesson_id."/log?sclass=".$row["sclass"]."&course=".$course_id."&class_name=".$row["class_name"]."&lesson_name=".$item["name"],"(日志)");
                                         $i++;
                                     }
                                   }
                         ?></td>
 
                         <td align=right>
-                        <?php echo anchor($MODULE_PATH.$item["id"]."/lesson","状态"); ?> |
-                        <?php echo anchor($MODULE_PATH.$item["id"]."/edit_plan","编辑"); ?>
+                        <?php echo anchor($MODULE_PATH.$lesson_id."/lesson","状态"); ?> |
+                        <?php echo anchor($MODULE_PATH.$lesson_id."/edit_plan","编辑"); ?>
                         </td>
                         </tr>
 		    <?php endforeach ?>

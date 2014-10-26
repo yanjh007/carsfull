@@ -76,11 +76,11 @@
     NSArray *ary_answer=[self.mLesson.answer jsonArray];
     
     int y=10,itag=501;
-    LessonItem *lv; NSString* sanswer;
+    LessonItem *lv;
+    NSString* sanswer;
     for (NSDictionary *item in ary_content) {
-        
+        sanswer=@"";
         for (NSDictionary *aitem in ary_answer){
-            sanswer=@"";
             if ([aitem[@"qorder"] intValue]==[item[@"qorder"] intValue]) {
                 sanswer=aitem[@"answer"];
                 break;
@@ -663,7 +663,7 @@
         self.mConfig = cfg;
 //        [self setBackgroundColor:[UIColor redColor]];
         
-        self.vid  = cfg[@"vid"]     ?[cfg[@"vid"] intValue]:0;
+        self.vid  = cfg[@"vid"]?[cfg[@"vid"] intValue]:0;
         self.vtype   = cfg[@"type"]     ?[cfg[@"type"] intValue]:11;
         self.vlabel  = cfg[@"label"]    ? cfg[@"label"] :@"A,B,C,D";
         self.vanswer = cfg[@"answer"]   ? cfg[@"answer"]  :@""; //参考答案

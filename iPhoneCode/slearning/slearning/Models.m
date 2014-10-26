@@ -152,10 +152,10 @@
     NSString *answer=[ary jsonString];
     
     [JY_Request post:@{
-                       MKEY_USER:@"8",
+                       MKEY_USER:@"9",
                        MKEY_TOKEN :@"hello",
                        MKEY_METHOD:@"sreport",
-                       @"answers":answer
+                       @"content":answer
                        }
              withURL:URL_BASE_SERVICE
           completion:^(int status,NSString* result) {
