@@ -1,14 +1,17 @@
 <?php
     $MODULE_PATH="courses/";
+	$course_id=$item["course"];
+	
 	$str_list1="";
 	$str_list2="";
 	$icount=0;
-	foreach ($contentlist as $item1) {
-		$str_list1.=",".$item1["qorder"];
-		$str_list2.=anchor($MODULE_PATH.$module_id."/report?order=".$item1["qorder"],"<li>".$item1["qorder"]."-".$item1['content']."</li>");
-		$list_order[$icount]= $item1["qorder"];
+	foreach ($contentlist as $citem) {
+		$str_list1.=",".$citem["qorder"];
+		$str_list2.=anchor($MODULE_PATH.$module_id."/report?order=".$citem["qorder"],"<li>".$citem["qorder"]."-".$citem['content']."</li>");
+		$list_order[$icount]= $citem["qorder"];
 		$icount++;
 	}
+	
 	
 	$score_style_list=array(0=>"danger",1=>"warning",2=>"success",3=>"primary",4=>"success");
 	
@@ -30,14 +33,13 @@
 		    <tbody>
 		    <?php
 			$path=$MODULE_PATH.$module_id."/review?sclass=".$sclass_id."&module=".$module_id;
-			foreach ($studentlist as $item) {
-				
+			foreach ($studentlist as $item) { //学生列表
 				$uid= $item["id"];
 				$tscore=0;
 				echo "<tr><td>".$item["snumber"]."-".$item["name"]."</td>";
-				for ($i=0;$i<$icount;$i++) {
+				for ($i=0;$i<$icount;$i++) { // 学生答题列表
 					$order=$list_order[$i];
-					$score =isset($score_ary[$uid][$order]) ?$score_ary[$uid][$order] :0;
+					$score =isset( $score_ary[$uid][$order])?$score_ary[$uid][$order] :0;
 					$status=isset($status_ary[$uid][$order])?$status_ary[$uid][$order]:0;
 					
 					echo "<td><span class='label label-".$score_style_list[$status]."'>";
@@ -50,7 +52,7 @@
 		</tbody>
 	      </table>
 	    </div>
-            <?php zm_btn_back($MODULE_PATH) ?>
+            <?php zm_btn_back($MODULE_PATH.$course_id."/plan") ?>
         </div>
         
         <div class="col-md-4">

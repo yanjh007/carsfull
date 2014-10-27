@@ -119,8 +119,7 @@ class Course extends CI_Model {
 	  
 	  $qorder=$this->input->get("order");
 	  
-	  $sql="select mid,qorder,snumber,name,content,answer,score,status,rnote from v_reviews where uid=".$uid." and qorder=".$qorder." and mid=".$mid;
-	  echo $sql;
+	  $sql="select uid,mid,qorder,snumber,name,content,answer,score,status,rnote from v_reviews where uid=".$uid." and qorder=".$qorder." and mid=".$mid;
 	  $query = $this->db->query($sql);
 	  if ($query->num_rows() > 0) {
 		return $query->row_array();
@@ -491,7 +490,32 @@ class Course extends CI_Model {
     return TRUE;
   }
   
-    // 保存日志
+  // 保存Review
+  public function save_review($id) { //模块id    
+    $table="sreports";
+	
+	$CI=&get_instance();
+	$user = $CI->session->userdata('logged_in'); 
+	$rnote=$this->input->post("descp")."\n(".$user["name"].",".date("YmdHi").")";
+	$score=$this->input->post("score");
+	
+	$data=array("status"=>4,
+				"score"=>$score,
+				"rnote"=>$rnote
+				);
+	
+	$where=array('uid' 	  =>  $this->input->post("uid"),
+				 'qorder' =>  $this->input->post("qorder"),
+				 'mid' 	  =>  $this->input->post("mid"),
+				 );
+
+	var_dump($where);
+	$this->db->where($where);
+    $this->db->update($table,$data); 
+
+    return TRUE;
+  }
+      // 保存日志
   public function save_log($log) { //模块id    
     $table="clogs";
     $this->db->insert($table, $log); 

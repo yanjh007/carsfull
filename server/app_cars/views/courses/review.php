@@ -3,35 +3,57 @@
 ?>
 <div class="container">
     <div class="page-header">
-      <h1>答题批覆 <small><?php  ?></small></h1>
+      <h1>答题批覆 <small></small></h1>
     </div>
+    
+    <div class="row">
+    <div class="col-md-8">
     <div class="panel panel-default">
-        <!-- Default panel contents -->
-        <div class="panel-heading">信息</div>
-        <div class="panel-body">
-            <?php
-            $qorder=$item["qorder"];
+        <?php
+            $uid    = $item["uid"];
+            $qorder = $item["qorder"];
+            $mid    = $item["mid"];
+            
             $content=$item["content"];
             $json=json_decode($content,true);
             
             $content=$json["content"];
             $qtype=0;
-            var_dump($content);
+
             foreach ($content as $citem) {
                 if ($qorder== $citem["qorder"]) {
                     $qtype=$citem["qtype"];
                     $str=$citem["content"];
-                    var_dump($citem);
                     break;
                 }
             }
+            $list=explode("\n\n\n",$str);
+        ?>
+        <!-- Default panel contents -->
+        <div class="panel-heading">题目信息 (<?php echo $qtype ?>)</div>
+        <div class="panel-body">
+            <?php
+            echo $list[0]."<br>";
             
-            $list=explode($str,"\n\n\n");
-            
-            echo "题目类型: ".$qtype."<br>";
-            echo "题目内容: ".$list[0]."<br>";
-            echo "选项: ".$list[1]."<br>";
-            
+            if (isset($list[1]) && strlen($list[1])>0) {
+                $olist=explode("\n",$list[1]);
+                //echo "选项: <br>";
+                $clist=array("A","B","C","D","E","F","G","H","I");
+                $i=0;
+                $astr="";
+                foreach ($olist as $oitem) {
+                    $postion1 = strpos($oitem, "✓");
+                    if ($postion1!==FALSE) {
+                        $oitem = substr($oitem, $postion1+strlen("✓"));
+                        $astr.=$clist[$i];
+                    }
+                    echo $clist[$i].". ".$oitem."<br>";
+                    $i++;
+                }
+                
+                echo "参考答案: ".$astr;
+            }
+            echo "<hr>";            
             echo "学员代码: ".$item["snumber"]."<br>";
             echo "学员姓名: ".$item["name"]."<br>";
             echo "学员答案: ".$item["answer"]."<br>";
@@ -39,30 +61,37 @@
             echo "得分: ".$item["score"]."<br>";
             ?>
         </div>
+        
+    </div>
+    <?php echo zm_btn_back($MODULE_PATH.$module_id."/report?sclass=".$sclass_id); ?>
     </div>
     
+    <div class="col-md-4">
     <div class="panel panel-default">
         <!-- Default panel contents -->
         <div class="panel-heading">批复</div>
         <div class="panel-body">
             <?php
-                zm_form_open (0,$MODULE_PATH."/save_review");
-                zm_form_input(0,"修正得分","score",   $item["score"]);
-                zm_form_textarea(0,"批复说明","descp",   $item["rnote"]);
+                zm_form_open (1,$MODULE_PATH.$module_id."/save_review");
+                zm_form_hidden("sclass",$sclass_id);
+                zm_form_hidden("uid",$uid);
+                zm_form_hidden("qorder",$qorder);
+                zm_form_hidden("mid",$mid);
+                zm_form_input(1,"修正得分","score",   $item["score"]);
+                
+                $rnote=explode("\n",$item["rnote"]);
+                zm_form_textarea(1,"批复说明","descp", $rnote[0]);
             ?>
             
             <div class="form-group">
-              <div class="col-sm-offset-1 col-sm-6">
                 <?php
                     zm_btn_submit("保存");
-                    zm_btn_submit("保存到下一题");
-                    zm_btn_back($MODULE_PATH)
+                    zm_btn_submit("保存->下一题");
                 ?>
                
-              </div>
             </div>
           </form>
         </div>
-    </div>
+    </div></div></div>
 
 </div>

@@ -246,7 +246,6 @@ class Courses extends CI_Controller {
       //课程课堂
       $data["module_id"]=$id;
       
-      
       // 题目列表
       $data["contentlist"] = $this->course->get_content($id,4);
       
@@ -268,6 +267,7 @@ class Courses extends CI_Controller {
       $data["score_ary"]=$score_ary;
       $data["status_ary"]=$status_ary;
       
+      
       show_view(self::MODULE_NAME."/report",$data); 
     }
   }
@@ -281,9 +281,21 @@ class Courses extends CI_Controller {
     if (empty($data['item'])) {
       show_404();
     } else {
+      $data["module_id"] = $id;
+      $data["sclass_id"] = $this->input->get("sclass") ;
       $this->load->helper(array('form','zmform'));
       show_view(self::MODULE_NAME."/review",$data); 
     }
+  }
+  
+  // 保存评分和Review
+  public function save_review($id) { //课堂报告 id为内容模块id
+    $sclass=$this->input->post("sclass");
+    
+    $this->course->save_review($id);
+    
+    //重定向
+    redirect(self::MODULE_NAME."/".$id."/report?sclass=".$sclass);
   }
   
     /*

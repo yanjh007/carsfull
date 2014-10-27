@@ -45,7 +45,7 @@
                                         }
 
                                         if ($i>0) echo "<br>";
-                                        echo anchor ($MODULE_PATH.$lesson_id."/report?sclass=".$row["sclass"]."&course=".$course_id,$row["class_name"]);
+                                        echo anchor ($MODULE_PATH.$lesson_id."/report?sclass=".$row["sclass"],$row["class_name"]);
                                         echo $status."&nbsp";
                                         echo anchor($MODULE_PATH.$lesson_id."/log?sclass=".$row["sclass"]."&course=".$course_id."&class_name=".$row["class_name"]."&lesson_name=".$item["name"],"(日志)");
                                         $i++;
