@@ -105,24 +105,13 @@
 }
 
 - (IBAction)do_refresh:(id)sender {
-    [JY_Request post:@{
-                       MKEY_USER:@"8",
-                       MKEY_TOKEN :@"hello",
-                       MKEY_METHOD:@"slesson"
-                    }
-             withURL:URL_BASE_SERVICE
-          completion:^(int status,NSString* result) {
-              NSDictionary *dic=[result jsonObject];
-              if (dic && [JVAL_RESULT_OK isEqualToString:dic[JKEY_RESULT]]) {
-                  [JY_Lesson saveList:dic[JKEY_CONTENT]];
-                  
-                  self.ary_lesson=[JY_Lesson getLessons];
-                  [self.tb_lessons reloadData];
-              }
-              
-              NSLog(@"result:%@",result);
-          }];
-    
+    [JY_Lesson fetchLessons:^(int status) {
+        if (status==200) {
+            
+        } else {
+            
+        }
+    } ];
 }
 
 - (IBAction)do_lesson:(UIButton *)sender {

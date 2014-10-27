@@ -3,15 +3,15 @@
 
  Source Server         : localdb
  Source Server Type    : MySQL
- Source Server Version : 50538
+ Source Server Version : 50620
  Source Host           : localhost
  Source Database       : cidb
 
  Target Server Type    : MySQL
- Target Server Version : 50538
+ Target Server Version : 50620
  File Encoding         : utf-8
 
- Date: 10/27/2014 02:41:46 AM
+ Date: 10/27/2014 17:08:37 PM
 */
 
 SET NAMES utf8;
@@ -187,7 +187,7 @@ CREATE TABLE `ci_sessions` (
 --  Records of `ci_sessions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `ci_sessions` VALUES ('fb35b1c8e2121f028809672e2076fb53', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/600.1.17 (KHTML, like Gecko) Version/7.1 Safari/537.85.10', '1414343994', 'a:2:{s:9:\"user_data\";s:0:\"\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}');
+INSERT INTO `ci_sessions` VALUES ('c641429f529f8f07c744648308cf035d', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.25 (KHTML, like Gecko) Version/8.0 Safari/600.1.25', '1414395475', ''), ('ee919a0cf6b5f2248ce598cec0d0a02c', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.25 (KHTML, like Gecko) Version/8.0 Safari/600.1.25', '1414399112', 'a:2:{s:9:\"user_data\";s:0:\"\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}');
 COMMIT;
 
 -- ----------------------------
@@ -714,6 +714,12 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- ----------------------------
 DROP VIEW IF EXISTS `v_lessons`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_lessons` AS select `m`.`name` AS `name`,`l`.`module` AS `module`,`l`.`sclass` AS `sclass`,`l`.`status` AS `status`,`l`.`stime` AS `stime`,`l`.`etime` AS `etime`,`s`.`name` AS `class_name`,`m`.`mtype` AS `mtype`,`l`.`id` AS `lesson_id`,`m`.`content` AS `content`,`m`.`morder` AS `morder`,`c`.`name` AS `cname`,`l`.`update_at` AS `update_at`,`l`.`cur_pos` AS `cur_pos` from (((`lessons` `l` left join `cmodules` `m` on((`m`.`id` = `l`.`module`))) left join `sclasses` `s` on((`s`.`id` = `l`.`sclass`))) left join `courses` `c` on((`c`.`id` = `m`.`course`))) order by `m`.`course`,`m`.`morder`;
+
+-- ----------------------------
+--  View structure for `v_reviews`
+-- ----------------------------
+DROP VIEW IF EXISTS `v_reviews`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_reviews` AS select `r`.`uid` AS `uid`,`u`.`snumber` AS `snumber`,`u`.`name` AS `name`,`r`.`qorder` AS `qorder`,`r`.`mid` AS `mid`,`m`.`mtype` AS `mtype`,`m`.`content` AS `content`,`r`.`answer` AS `answer`,`r`.`score` AS `score`,`r`.`status` AS `status`,`r`.`rnote` AS `rnote` from ((`sreports` `r` left join `cmodules` `m` on((`m`.`id` = `r`.`mid`))) left join `susers` `u` on((`u`.`id` = `r`.`uid`)));
 
 -- ----------------------------
 --  View structure for `v_sclasses`

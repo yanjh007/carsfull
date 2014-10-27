@@ -11,8 +11,7 @@
 
 @interface User()
 @property (assign) BOOL isLogin;
-@property (assign) int uid;
-@property (retain,nonatomic) NSString *uname,*upwd,*token;
+@property (retain,nonatomic) NSString *upwd;
 @end
 
 @implementation User
@@ -43,7 +42,7 @@ static User *instance;
     
     if ([user isEqualToString:@"yanjh"] && [passwd isEqualToString:@"hello"]) {
         instance.uid   = 1;
-        instance.uname = @"yanjh";
+        instance.name = @"yanjh";
         instance.token = @"token";
         
         [JY_Default save:instance forKey:DKEY_USER];

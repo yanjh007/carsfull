@@ -9,6 +9,7 @@
 #import "Models.h"
 #import "JY_DBHelper.h"
 #import "JY_Request.h"
+#import "User.h"
 
 @implementation JY_Lesson
 
@@ -30,49 +31,6 @@
     return self;
 }
 
-
-// 保存从后台获取的数据到客户端数据库
-+(void) saveList:(NSArray*)ary;
-{
-    NSString
-    *sqlDel = @"delete from lessons ",
-    *sqlInsert  = @"insert into lessons (id,name,mtype,module,content,lstatus,stime,etime,status,update_at) values (?,?,?,?,?,?,?,?,?,?)",
-    *sqlUpdate  = @"insert into lessons (id,name,mtype,module,content,lstatus,stime,etime,status,update_at) values (?,?,?,?,?,?,?,?,?,?)";
-    
-    //        sql=@"insert into lessons (id,course_id,course_name,name,content,status,stime,etime) values (?,?,?,?,?)";
-    
-    
-    FMDatabase *db=[JY_DBHelper openDB];
-    [db executeUpdate:sqlDel];
-    
-    int update_at=0;
-    for (NSDictionary *item in ary) {
-        if (update_at<[item[@"update_at"] intValue]) {
-            update_at=[item[@"update_at"] intValue];
-        }
-        [db executeUpdate:sqlInsert
-     withArgumentsInArray:@[item[@"lesson_id"],
-                            item[@"name"],
-                            item[@"mtype"],
-                            item[@"module"], //模块编号
-                            item[@"content"],
-                            item[@"status"], //课程状态
-                            item[@"stime"],
-                            item[@"etime"],
-                            @(0), //本地状态，插入
-                            @([[NSDate new] timeIntervalSince1970]/60)
-                            ]];
-    }
-    
-    if (update_at>0) {
-        [JY_DBHelper setMeta:DBMKEY_LESSON_VERSION
-                       value:[NSString stringWithFormat:@"%i",update_at]];
-    }
-    
-    [db close];
-}
-
-
 +(NSArray*) getLessons;
 {
     NSString *sql=@"select id,name,mtype,module,content,answer,status,lstatus,stime,etime,update_at from lessons order by course, morder";
@@ -88,25 +46,6 @@
     
     [db close];
     return [ary copy];
-}
-
-//获取用户答题记录
--(NSDictionary*) getAnswer;
-{
-    NSString *sql=@"select id,content,status,update_at from lesson_data where id=?";
-    FMDatabase *db=[JY_DBHelper openDB];
-    
-    NSDictionary* result=nil;
-    FMResultSet *s = [db executeQuery:sql,@(self.lid)];
-    if (s && [s next]) {
-        return result=@{@"lid":@(self.lid),
-                        @"content":[s stringForColumn:@"content"],
-                        @"status":@([s intForColumn:@"status"])
-                        };
-    }
-    
-    [db close];
-    return result;
 }
 
 // 答题完成，保存到数据库
@@ -167,6 +106,60 @@
               NSLog(@"result:%@",result);
           }];
     
+}
+
++(void) fetchLessons:(void (^)(int status))completion;
+{
+    [JY_Request post:@{
+                       MKEY_USER:@([User shared].uid),
+                       MKEY_TOKEN :[User shared].token,
+                       MKEY_METHOD:@"slesson"
+                       }
+             withURL:URL_BASE_SERVICE
+          completion:^(int status,NSString* result) {
+              NSDictionary *dic=[result jsonObject];
+              if (dic && [JVAL_RESULT_OK isEqualToString:dic[JKEY_RESULT]]) {
+                  NSArray *ary=dic[JKEY_CONTENT];
+                  NSString
+                  *sqlDel = @"delete from lessons ",
+                  *sqlInsert  = @"insert into lessons (id,name,mtype,module,content,lstatus,stime,etime,status,update_at) values (?,?,?,?,?,?,?,?,?,?)",
+                  *sqlUpdate  = @"insert into lessons (id,name,mtype,module,content,lstatus,stime,etime,status,update_at) values (?,?,?,?,?,?,?,?,?,?)";
+                  
+                  FMDatabase *db=[JY_DBHelper openDB];
+                  [db executeUpdate:sqlDel];
+                  
+                  // 更新时间
+                  int update_at=0;
+                  for (NSDictionary *item in ary) {
+                      if (update_at<[item[@"update_at"] intValue]) {
+                          update_at=[item[@"update_at"] intValue];
+                      }
+                      [db executeUpdate:sqlInsert
+                   withArgumentsInArray:@[item[@"lesson_id"],
+                                          item[@"name"],
+                                          item[@"mtype"],
+                                          item[@"module"], //模块编号
+                                          item[@"content"],
+                                          item[@"status"], //课程状态
+                                          item[@"stime"],
+                                          item[@"etime"],
+                                          @(0), //本地状态，插入
+                                          @([[NSDate new] timeIntervalSince1970]/60)
+                                          ]];
+                  }
+                  
+                  if (update_at>0) {
+                      [JY_DBHelper setMeta:DBMKEY_LESSON_VERSION
+                                     value:[NSString stringWithFormat:@"%i",update_at]];
+                  }
+                  
+                  [db close];
+                  
+                  completion(200);
+                  return;
+              }
+              completion(0);
+          }];
 }
 
 @end

@@ -25,17 +25,18 @@ static NSString *const QSPLIT_MULTI_BLANK = @",,"; //填空正确多答案
 @property (assign) int lid,mid,mtype,stime,etime,status,lstatus;
 @property (strong,nonatomic) NSString *content,*name,*course_name,*answer;
 //@property (assign) int carid,status,year;
-//@property (strong,nonatomic) NSArray *colorList,*cfgList,*engineList,*transList,*yearList;
 
-+(void) save:(NSDictionary*)dic;
-+(void) saveList:(NSArray*)ary;
 +(NSArray*) getLessons;
 
 -(NSDictionary*) getAnswer;
 -(void) saveFeedback:(NSArray*)feedback ;
 
+// 从后台获取课程信息
++(void) fetchLessons:(void (^)(int status))completion;
+
 // 提交课程答案
 +(void) submit:(int)stype
     completion:(void (^)(int status))completion;
+
 
 @end

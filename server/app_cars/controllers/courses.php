@@ -244,7 +244,7 @@ class Courses extends CI_Controller {
       $data["sclass_id"]=$sclass_id;
       
       //课程课堂
-      $data["lesson_id"]=$id;
+      $data["module_id"]=$id;
       
       
       // 题目列表
@@ -268,9 +268,21 @@ class Courses extends CI_Controller {
       $data["score_ary"]=$score_ary;
       $data["status_ary"]=$status_ary;
       
-      var_dump($score_ary);
-      
       show_view(self::MODULE_NAME."/report",$data); 
+    }
+  }
+  
+    /*
+   * 课堂报表
+   */
+  public function review($id) { //课堂报告 id为内容模块id
+    $this->load->helper(array('form','zmform'));
+    $data['item'] = $this->course->get_content($id,5);
+    if (empty($data['item'])) {
+      show_404();
+    } else {
+      $this->load->helper(array('form','zmform'));
+      show_view(self::MODULE_NAME."/review",$data); 
     }
   }
   

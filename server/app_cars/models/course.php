@@ -113,6 +113,20 @@ class Course extends CI_Model {
 	  $sql="select question,qorder,q.qcode,m.content,m.qtype qtype,m.score from moduleitems m  left join questions q on q.id=m.question where module= ".$id." and m.qtype>10 and m.qtype<20 order by qorder";
 	  $query = $this->db->query($sql);
 	  return $query->result_array();   
+	} else if ($ctype==5) {//批覆内容
+	  $uid=$this->input->get("uid");
+	  $mid=$this->input->get("module");
+	  
+	  $qorder=$this->input->get("order");
+	  
+	  $sql="select mid,qorder,snumber,name,content,answer,score,status,rnote from v_reviews where uid=".$uid." and qorder=".$qorder." and mid=".$mid;
+	  echo $sql;
+	  $query = $this->db->query($sql);
+	  if ($query->num_rows() > 0) {
+		return $query->row_array();
+      }
+	  return NULL;
+	  
 	}
   }
   

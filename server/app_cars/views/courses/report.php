@@ -5,15 +5,17 @@
 	$icount=0;
 	foreach ($contentlist as $item1) {
 		$str_list1.=",".$item1["qorder"];
-		$str_list2.=anchor($MODULE_PATH.$lesson_id."/report?order=".$item1["qorder"],"<li>".$item1["qorder"]."-".$item1['content']."</li>");
+		$str_list2.=anchor($MODULE_PATH.$module_id."/report?order=".$item1["qorder"],"<li>".$item1["qorder"]."-".$item1['content']."</li>");
 		$list_order[$icount]= $item1["qorder"];
 		$icount++;
-	} 
+	}
+	
+	$score_style_list=array(0=>"danger",1=>"warning",2=>"success",3=>"primary",4=>"success");
 	
 ?>
 <div class="container">
     <div class="page-header">
-      <h1>课程报告 <small><?php echo $sclass_id."-".$lesson_id ?></small></h1>
+      <h1>课程报告 <small><?php echo $sclass_id."-".$module_id ?></small></h1>
     </div>
 
     <div class="row">
@@ -26,7 +28,9 @@
 		<table class="table">
 		    <?php echo zm_table_header("学号-姓名".$str_list1,"总计") ?>
 		    <tbody>
-		    <?php foreach ($studentlist as $item) {
+		    <?php
+			$path=$MODULE_PATH.$module_id."/review?sclass=".$sclass_id."&module=".$module_id;
+			foreach ($studentlist as $item) {
 				
 				$uid= $item["id"];
 				$tscore=0;
@@ -35,7 +39,10 @@
 					$order=$list_order[$i];
 					$score =isset($score_ary[$uid][$order]) ?$score_ary[$uid][$order] :0;
 					$status=isset($status_ary[$uid][$order])?$status_ary[$uid][$order]:0;
-					echo "<td>".$score."</td>";
+					
+					echo "<td><span class='label label-".$score_style_list[$status]."'>";
+					echo anchor($path."&order=".$order."&uid=".$uid,$score);
+					echo "</span></td>";
 					$tscore+=$score;
 				}
 				echo "<td align=right>".$tscore."</td></tr>";

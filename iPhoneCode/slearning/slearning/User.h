@@ -15,8 +15,10 @@ static int const USER_STATUS_LOGIN_ERROR   = 4;
 static int const USER_STATUS_NETWORK   = 5;
 
 @interface User : NSObject
-+(instancetype) shared;
+@property (assign) int uid;
+@property (retain,nonatomic) NSString *name,*token;
 
++(instancetype) shared;
 +(BOOL) isLogin;
 +(void) login:(NSString*) user
  withPassword:(NSString*) passwd
