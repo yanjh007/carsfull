@@ -73,10 +73,11 @@
         <div class="panel-body">
             <?php
                 zm_form_open (1,$MODULE_PATH.$module_id."/save_review");
+                zm_form_hidden("gonext",0);
                 zm_form_hidden("sclass",$sclass_id);
                 zm_form_hidden("uid",$uid);
                 zm_form_hidden("qorder",$qorder);
-                zm_form_hidden("mid",$mid);
+                zm_form_hidden("mid",$module_id);
                 zm_form_input(1,"修正得分","score",   $item["score"]);
                 
                 $rnote=explode("\n",$item["rnote"]);
@@ -86,12 +87,19 @@
             <div class="form-group">
                 <?php
                     zm_btn_submit("保存");
-                    zm_btn_submit("保存->下一题");
+                    zm_btn_click("保存->下一题","submit_next()");
                 ?>
                
             </div>
           </form>
+          <script  type="text/javascript">
+            function submit_next(){
+                $('input[name="gonext"]').val("1");
+                //alert($('input[name="gonext"]').val());
+                $("form").submit();
+            }
+          </script>
+          
         </div>
     </div></div></div>
-
 </div>

@@ -277,15 +277,22 @@ class Courses extends CI_Controller {
    */
   public function review($id) { //课堂报告 id为内容模块id
     $this->load->helper(array('form','zmform'));
-    $data['item'] = $this->course->get_content($id,5);
-    if (empty($data['item'])) {
-      show_404();
-    } else {
-      $data["module_id"] = $id;
-      $data["sclass_id"] = $this->input->get("sclass") ;
-      $this->load->helper(array('form','zmform'));
+    
+    $data["sclass_id"] = $this->input->get("sclass") ;
+    $data["module_id"] = $id;
+    $data["module"] = $this->course->get_content($id,1); //课堂内容
+    $data["qorder"] = $this->input->get("order") ;
+    
+    $data["uid"] = $this->input->get("uid") ;
+        
+    $this->load->helper(array('form','zmform'));
+    if ($data["uid"]==0) { //显示所有学生答题
+      $data['list'] = $this->course->get_content($id,5);
+      show_view(self::MODULE_NAME."/review0",$data); 
+    } else { //显示特定学生答案
+      $data['item'] = $this->course->get_content($id,5);
       show_view(self::MODULE_NAME."/review",$data); 
-    }
+    }    
   }
   
   // 保存评分和Review

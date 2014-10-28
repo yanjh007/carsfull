@@ -116,16 +116,26 @@ class Course extends CI_Model {
 	} else if ($ctype==5) {//批覆内容
 	  $uid=$this->input->get("uid");
 	  $mid=$this->input->get("module");
-	  
+	  $sclass=$this->input->get("sclass");
 	  $qorder=$this->input->get("order");
 	  
-	  $sql="select uid,mid,qorder,snumber,name,content,answer,score,status,rnote from v_reviews where uid=".$uid." and qorder=".$qorder." and mid=".$mid;
+	  $sql="select uid,mid,qorder,snumber,name,content,answer,score,status,rnote from v_reviews where qorder=".$qorder." and mid=".$mid;
+	   
+	  if ($uid==0) {
+		$sql.=" and uid in (select id from susers where sclass=".$sclass.") order by uid";
+	  } else {
+		$sql.=" and uid=".$uid;
+	  }
+	  
 	  $query = $this->db->query($sql);
 	  if ($query->num_rows() > 0) {
-		return $query->row_array();
+		if ($uid==0) {
+		  return $query->result_array();
+		} else {
+		  return $query->row_array();  
+		}
       }
 	  return NULL;
-	  
 	}
   }
   
@@ -492,26 +502,57 @@ class Course extends CI_Model {
   
   // 保存Review
   public function save_review($id) { //模块id    
-    $table="sreports";
-	
+    $table = "sreports";
+	$uid   = $this->input->post("uid");
+	$order = $this->input->post("qorder");
 	$CI=&get_instance();
-	$user = $CI->session->userdata('logged_in'); 
-	$rnote=$this->input->post("descp")."\n(".$user["name"].",".date("YmdHi").")";
-	$score=$this->input->post("score");
+	$user = $CI->session->userdata('logged_in');
+	$username="\n(".$user["name"].",".date("YmdHi").")";
 	
-	$data=array("status"=>4,
-				"score"=>$score,
-				"rnote"=>$rnote
-				);
-	
-	$where=array('uid' 	  =>  $this->input->post("uid"),
-				 'qorder' =>  $this->input->post("qorder"),
-				 'mid' 	  =>  $this->input->post("mid"),
-				 );
-
-	var_dump($where);
-	$this->db->where($where);
-    $this->db->update($table,$data); 
+	if ($uid>0) {
+	  $rnote=$this->input->post("descp")."\n(".$user["name"].",".date("YmdHi").")";
+	  $score=$this->input->post("score");
+	  
+	  $data=array("status"=>4,
+				  "score"=>$score,
+				  "rnote"=>$rnote
+				  );
+	  
+	  $where=array('uid' 	  =>  $uid,
+				   'qorder'   =>  $order,
+				   'mid' 	  =>  $id,
+				   );
+  
+	  $this->db->where($where);
+	  $this->db->update($table,$data); 
+	  
+	} else {
+	  
+	  $sclass=  $this->input->post("sclass");
+	  $sql="select id from susers where sclass=".$sclass;
+	  $query=$this->db->query($sql);
+	  if ($query->num_rows()>0) foreach ($query->result_array() as $row){
+		$cuid=$row["id"];
+		$key="score_".$cuid;
+		
+		if (null!== $this->input->post($key)) {
+		  $score=$this->input->post($key);
+		  $rnote=$this->input->post("descp_".$cuid).$username;
+		  
+		  $data=array("status"=>4,
+					  "score"=>$score,
+					  "rnote"=>$rnote
+					  );
+		  
+		  $where=array('uid' 	 => $cuid,
+					   'qorder' =>  $order,
+					   'mid' 	=>  $id,
+					   );
+		  $this->db->where($where);
+		  $this->db->update($table,$data); 	  
+		}
+	  }
+	}
 
     return TRUE;
   }

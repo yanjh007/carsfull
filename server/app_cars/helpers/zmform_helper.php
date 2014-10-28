@@ -109,6 +109,26 @@ function zm_btn_menu($ftype,$title,$list) //带菜单的按钮 类型－标题-�
    $CI->load->view('_form/btn_menu',array("ftype"=>$ftype,"title"=>$title,"list"=>$list));
 }
 
+function zm_btn_input($title,$onclick,$option="")
+{
+   echo "<button type='button' class='btn btn-danger' onclick='".$onclick."' >".$title."</button>&nbsp&nbsp";
+}
+
+function zm_btn_click($title,$onclick,$option="primary")
+{
+   echo "<button type='button' class='btn btn-".$option."' onclick='".$onclick."' >".$title."</button>&nbsp&nbsp";
+}
+
+function zm_btn_link($title,$link,$option="")
+{
+   echo "<a href=".base_url($link)." class='btn btn-primary active' role='button'>".$title."</a>";
+}
+
+function zm_button($title,$btn_id,$option="primary")
+{
+   echo "<button type='button' class='btn btn-".$option."' id='".$btn_id."'>".$title."</button>&nbsp&nbsp";
+}
+
 function zm_form_delete($ftype,$path_delete,$path)
 {
    $CI=&get_instance();
@@ -124,21 +144,6 @@ function zm_dlg_delete($form_data)
 {
    $CI=&get_instance();
    $CI->load->view('_form/dlg_delete',$form_data);  
-}
-
-function zm_btn_input($title,$onclick,$option="")
-{
-   echo "<button type='button' class='btn btn-danger' onclick='".$onclick."' >".$title."</button>&nbsp&nbsp";
-}
-
-function zm_btn_click($title,$onclick,$option="")
-{
-   echo "<button type='button' class='btn btn-primary' onclick='".$onclick."' >".$title."</button>&nbsp&nbsp";
-}
-
-function zm_btn_link($title,$link,$option="")
-{
-   echo "<a href=".base_url($link)." class='btn btn-primary active' role='button'>".$title."</a>";
 }
 
 
