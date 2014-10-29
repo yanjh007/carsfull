@@ -38,7 +38,7 @@ function check_session()
 function show_view($viewname,$data,$navid=0) // 转成16进制字符串  
 {
    $CI=&get_instance();
-      
+   
    $CI->load->view('_common/header');
    show_nav($navid);
    
@@ -70,8 +70,7 @@ function date_to_int($dif,$strdate="") // 转成16进制字符串
       
    } else {
       
-   }
-   
+   }   
 }
 
 

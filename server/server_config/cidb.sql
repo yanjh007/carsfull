@@ -11,7 +11,7 @@
  Target Server Version : 50620
  File Encoding         : utf-8
 
- Date: 10/27/2014 17:08:37 PM
+ Date: 10/29/2014 17:00:04 PM
 */
 
 SET NAMES utf8;
@@ -187,7 +187,7 @@ CREATE TABLE `ci_sessions` (
 --  Records of `ci_sessions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `ci_sessions` VALUES ('c641429f529f8f07c744648308cf035d', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.25 (KHTML, like Gecko) Version/8.0 Safari/600.1.25', '1414395475', ''), ('ee919a0cf6b5f2248ce598cec0d0a02c', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.25 (KHTML, like Gecko) Version/8.0 Safari/600.1.25', '1414399112', 'a:2:{s:9:\"user_data\";s:0:\"\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}');
+INSERT INTO `ci_sessions` VALUES ('c2ee07921976a44309026bbd0273236f', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.25 (KHTML, like Gecko) Version/8.0 Safari/600.1.25', '1414572270', 'a:4:{s:8:\"itv_user\";s:11:\"13808077242\";s:12:\"itv_username\";s:9:\"颜建华\";s:8:\"itv_type\";s:2:\"11\";s:9:\"logged_in\";a:4:{s:2:\"id\";s:1:\"1\";s:5:\"login\";s:5:\"yanjh\";s:4:\"role\";s:3:\"100\";s:4:\"name\";s:9:\"颜建华\";}}'), ('db1abac49a1025a0c6441cad25f4d0cf', '192.168.0.124', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.34 Safari/534.24', '1414571363', 'a:4:{s:9:\"user_data\";s:0:\"\";s:8:\"itv_user\";s:11:\"13800138000\";s:12:\"itv_username\";s:6:\"我好\";s:8:\"itv_type\";s:2:\"11\";}');
 COMMIT;
 
 -- ----------------------------
@@ -310,6 +310,68 @@ CREATE TABLE `dishes` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `dishes` VALUES ('1', 'S0011', '1', '麦辣鸡腿堡套餐', null, '18', '麦辣鸡腿堡，中可乐，中薯条'), ('2', 'W0011', '0', '麦辣鸡腿堡', null, '10', ''), ('3', 'D0004', '0', '中可乐', null, '6', '500ml'), ('4', 'A0003', '0', '中薯条', null, '6', '100g'), ('5', 'S1002', '0', '套餐配汤', null, '3', ''), ('6', 'S1001', '0', '套餐米饭', null, '1', ''), ('7', 'S1021', '1', '辣子鸡丁套餐', null, '16', ''), ('8', null, '0', '辣子鸡丁', null, '14', null), ('9', 'S1022', '1', '回锅肉套餐', null, '16', ''), ('10', 'S0012', '1', '双层吉士堡套餐', null, '18', ''), ('15', 'N0011', '0', '牛肉拉面(大)', null, '9', '');
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `itvanswers`
+-- ----------------------------
+DROP TABLE IF EXISTS `itvanswers`;
+CREATE TABLE `itvanswers` (
+  `contact` varchar(20) DEFAULT NULL,
+  `exam` int(11) DEFAULT NULL,
+  `eorder` int(11) DEFAULT NULL,
+  `answer` varchar(500) DEFAULT NULL,
+  `score` tinyint(4) DEFAULT NULL,
+  `review` varchar(50) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `itvanswers`
+-- ----------------------------
+BEGIN;
+INSERT INTO `itvanswers` VALUES ('13808077242', '11', '3', '编译平台、硬件限制、部分特殊API', null, null, null), ('13808077242', '11', '9', 'M-模型，V-视图，C-控制器，解耦，模块化。', null, null, null), ('13808077242', '11', '7', '自动引用计数，减少程序员手工管理内存造成的工作量和出错概率。\n需要对响应的文件指定不使用ARC的编译标记。', null, null, null), ('13808077242', '11', '1', 'Mac OS X, Xcode，Simulator，Organizer...', null, null, null), ('13808077242', '11', '2', '语言(Ojb-C vs HTML5)，开发、测试和运行环境', null, null, null), ('13808077242', '11', '6', '错误调用类方法，如NSArray, NSDirectionay..\nNull Delegate\nSQL 语法错误', null, null, null), ('13800138000', '11', '3', '区别不大', null, null, null), ('13800138000', '11', '11', '网络访问，数据库操作', null, null, null);
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `itvquestions`
+-- ----------------------------
+DROP TABLE IF EXISTS `itvquestions`;
+CREATE TABLE `itvquestions` (
+  `exam` int(11) NOT NULL DEFAULT '0',
+  `eorder` int(11) NOT NULL DEFAULT '0',
+  `content` varchar(300) DEFAULT NULL,
+  `flag` int(11) DEFAULT '0',
+  `score` int(11) DEFAULT '0',
+  PRIMARY KEY (`exam`,`eorder`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `itvquestions`
+-- ----------------------------
+BEGIN;
+INSERT INTO `itvquestions` VALUES ('11', '1', '请简述iOS开发环境组成和相关工具', null, '10'), ('11', '2', 'iOS原⽣应⽤和Web应⽤在开发方⾯的主要区别在那⾥?', null, '10'), ('11', '3', '模拟器和真机在开发上的主要区别在什么地⽅', null, '10'), ('11', '4', '请简述iOS应⽤用开发如何⽀支持多种屏幕和分辨率的?如iPhone4/5和iPad', null, '10'), ('11', '5', '你觉得Objective-C语⾔言的主要优点和缺陷(和C或JAVA相⽐比)是什么?', null, '10'), ('11', '6', '请列举出一两个你在iOS开发中经常遇到的错误?', null, '10'), ('11', '7', '何为ARC?为什么要引入ARC?在ARC项目中，如何兼容原有非ARC代码', null, '10'), ('11', '8', '试两个常用的Cocoa Touch组件，并说明它们的主要功能特性。', null, '10'), ('11', '9', '何为MVC？其优缺点如何？在iOS开发中通常如何运用？', null, '10'), ('11', '10', '在iOS开发中通常如何实现网络连接和访问。', null, '10'), ('11', '11', '请举出在iOS开发中需要实现异步操作的场景，以及如何具体实现。', null, '10'), ('11', '13', '简要说明如何在TableCell中实现事件响应(如按钮和检查框)', null, '10'), ('11', '14', '何为委托Delegate，试举一个使用委托的场景', null, '10'), ('11', '15', '何为观察者(Observer)，其实现和应用流程通常是怎样的?', null, '10'), ('11', '16', '在iOS应用开发中，通常如何管理和使用结构化数据', null, '10'), ('11', '17', '假设有一个新闻数据库的表，表中包括新闻内容和发布时间等属性，请尝试编写一个SQL，来执行一个清理操作，以保留最近发布的20条记录', null, '10'), ('11', '18', 'HTTP协议中,GET和POST方法的区别如何，它们的应用场景如何？\n', null, '10'), ('11', '19', '试举几个常用的HTTP通讯状态码以及它们的含义', null, '10'), ('11', '20', '请尝试设计和说明在iOS应⽤开发中如何实现一个安全的网络登录和应用过程', null, '10'), ('11', '21', '何为JSON，其基本结构和格式是怎样的?iOS开发中通常如何处理JSON?', null, '10'), ('11', '22', '在iOS开发中，如何实现单元测试', null, '10'), ('11', '23', '简要说明iOS应用开发的提交和审核流程？', null, '10'), ('11', '24', '请简要说明在iOS开发和测试阶段，如何简化内部测试和发布流程', null, '10'), ('11', '25', '简述iOS IAP的原理和实现方式，以及如何防范IAP破解', null, '10'), ('11', '26', '以新浪微博、支付宝或其他应用为例，简单阐述如何在iOS程序中实现第三方应用集成', null, '10'), ('12', '12', '请例举在iOS开发中实现TableView的要点和过程', null, '10');
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `itvusers`
+-- ----------------------------
+DROP TABLE IF EXISTS `itvusers`;
+CREATE TABLE `itvusers` (
+  `contact` varchar(20) NOT NULL DEFAULT '0',
+  `name` varchar(20) NOT NULL DEFAULT '0',
+  `answer` varchar(255) DEFAULT NULL,
+  `flag` int(11) DEFAULT '0',
+  `passwd` varchar(80) NOT NULL,
+  `itype` int(11) DEFAULT NULL,
+  `itime` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `itvusers`
+-- ----------------------------
+BEGIN;
+INSERT INTO `itvusers` VALUES ('13808077242', '颜建华', '', '1', '8db1b26f628cddbccb4df5f4530bf853fdca99ea', '11', '23576079'), ('13800138000', '我好', '', '0', 'aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d', '11', '23576191');
 COMMIT;
 
 -- ----------------------------
@@ -501,14 +563,15 @@ CREATE TABLE `sreports` (
   `answer` varchar(600) DEFAULT NULL COMMENT '用户答案',
   `score` smallint(6) DEFAULT NULL COMMENT '得分',
   `status` smallint(6) DEFAULT NULL COMMENT '状态，0-未答 1-错 2-对 3-待审核 4-已批覆',
-  `rnote` varchar(100) DEFAULT NULL COMMENT '批覆注解，用户可见'
+  `rnote` varchar(100) DEFAULT NULL COMMENT '批覆注解，用户可见，批复人',
+  `rtime` int(11) DEFAULT '0' COMMENT '批复时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `sreports`
 -- ----------------------------
 BEGIN;
-INSERT INTO `sreports` VALUES ('8', '4', '3', 'B', '5', '2', null), ('8', '4', '5', 'BC', '0', '1', null), ('8', '4', '7', 'CHN,,US', '5', '2', null), ('8', '4', '9', 'djy', '0', '3', null), ('9', '4', '3', 'B', '5', '2', null), ('9', '4', '5', 'BD', '4', '2', null), ('9', '4', '7', 'CHS,,USA', '0', '1', null), ('9', '4', '9', 'djy', '0', '3', null);
+INSERT INTO `sreports` VALUES ('8', '4', '3', 'B', '5', '2', null, '0'), ('8', '4', '5', 'BC', '0', '1', null, '0'), ('8', '4', '7', 'CHN,,US', '5', '2', null, '0'), ('8', '4', '9', 'djy', '9', '4', 'OK,Greate\n(颜建华,201410281617)', '0'), ('9', '4', '3', 'B', '5', '2', null, '0'), ('9', '4', '5', 'BD', '4', '2', null, '0'), ('9', '4', '7', 'CHS,,USA', '0', '1', null, '0'), ('9', '4', '9', 'djy', '10', '4', 'Good\n(颜建华,201410281617)', '0');
 COMMIT;
 
 -- ----------------------------
