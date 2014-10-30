@@ -24,7 +24,7 @@ class Interview extends CI_Model {
 	$itype  =$this->input->post('itype');
 	$passwd =$this->input->post('passwd');
 	
-	$sql="select contact,name,answer,passwd,itype,itime from itvusers where contact='".$contact."' and itype=".$itype." limit 1";
+	$sql="select contact,name,answer,passwd,itype,itime,flag from itvusers where contact='".$contact."' and itype=".$itype." limit 1";
     $query = $this->db->query($sql);
     if ($query->num_rows()>0) { //有记录，验证密码
 	  $row=$query->row_array();

@@ -21,6 +21,7 @@ class Interviews extends CI_Controller {
 
 	$data["userrole"] = 0;
 	$data["username"] ="<未登录>";
+	$data["status"]=$this->input->get("status");
 	
 	// 自定义标题头	
 	$this->load->view('_common/header');   

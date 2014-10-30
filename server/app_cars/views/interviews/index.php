@@ -2,9 +2,19 @@
     <div class="page-header"> <h1>面试测试 <small>成都抓米信息技术有限公司</small></h1> </div>
     <div class="row">
         <div class="col-md-8">
+		<?php
+			if(isset($status) && $status==1) echo "<div class='alert alert-info' role='alert'>联系方式和前期设置的密码不匹配，请重试或联系管理员</div>";	
+		?>
+
 		<div class="panel panel-default">
 			<!-- Default panel contents -->
-			<div class="panel-heading" >说明<br>联系方式请填写手机号。<br>登录系统不需要密码，此处设置的密码是作为测试完成后，以联系方式作为用户标识，用于查询测试结果和反馈的。</div>
+			<div class="panel-heading" >
+				说明
+			<br>-联系方式请填写手机号，作为后续联系和查询用户标识
+			<br>-使用系统不需要密码，此处设置密码是在测试完成后，用于查询测试结果和反馈的。
+			<br>-测试时间为60分钟
+			<br>-测试题目均为简答题，请抓住重点，简要回答
+			</div>
 			<div class="panel-body">				
 				<?php
 					zm_form_open(1,'interviews/0/view');
