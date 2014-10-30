@@ -1,6 +1,6 @@
 <?php
 class Interview extends CI_Model {
-  const STD_SQL_QUERY  = 'SELECT exam,eorder,content FROM itvquestions';
+  const STD_SQL_QUERY  = 'SELECT exam,eorder,content,score FROM itvquestions';
   const TABLE_NAME = 'interviews';
   
   public function __construct() {
@@ -24,7 +24,7 @@ class Interview extends CI_Model {
 	$itype  =$this->input->post('itype');
 	$passwd =$this->input->post('passwd');
 	
-	$sql="select contact,name,answer,passwd,itype,itime,flag from itvusers where contact='".$contact."' and itype=".$itype." limit 1";
+	$sql="select contact,name,answer,passwd,itype,itime,flag,score from itvusers where contact='".$contact."' and itype=".$itype." limit 1";
     $query = $this->db->query($sql);
     if ($query->num_rows()>0) { //有记录，验证密码
 	  $row=$query->row_array();
@@ -51,7 +51,7 @@ class Interview extends CI_Model {
   
   public function get_question($id,$exam){
 	if ($id==0) {
-	  $sql= self::STD_SQL_QUERY." order by eorder";
+	  $sql= self::STD_SQL_QUERY." where exam=".$exam." order by eorder";
 	  $query = $this->db->query($sql);
 	  return $query->result_array();	  
 	} else {
@@ -62,7 +62,7 @@ class Interview extends CI_Model {
   }
   
   public function get_answer($id,$exam,$user){
-	$sql="select eorder,answer from itvanswers ";
+	$sql="select eorder,answer,score from itvanswers ";
 	if ($id==0) {
 	  $sql .= "where exam=".$exam." and contact='".$user."' order by eorder";
 	  $query = $this->db->query($sql);
@@ -75,9 +75,25 @@ class Interview extends CI_Model {
 	}
   }
   
+  
+  // 审核
+  public function get_review($exam,$user){
+	if ($exam==0) { //review列表
+	  $sql = "select contact,name,itype,itime,flag,score from itvusers where flag>=1 order by itime desc";
+	  $query = $this->db->query($sql);
+	  return $query->result_array();	  
+	} else {
+	  $itype=$this->input->get("itype");
+	  $sql = "select eorder,answer from itvanswers where exam=".$exam." and eorder=".$id." and contact='".$user."'";
+	  $query = $this->db->query($sql);
+	  return $query->row_array();	  
+	}
+  }
+  
   public function save($id,$exdata) { //id为eorder	
 	$contact=$exdata["user"];
 	$itype	=$exdata["itype"];
+	$next	=$exdata["next"];
 	
 	$sql="delete from itvanswers where contact='".$contact."' and exam=".$itype." and eorder=".$id;
 	$this->db->query($sql); 
@@ -91,7 +107,14 @@ class Interview extends CI_Model {
 	
 	$this->db->insert("itvanswers", $data);
 	
-    return TRUE;
+	if ($next==1) {
+	  $sql="select eorder from itvquestions where eorder not in(select eorder from itvanswers where exam=".$itype." and contact='".$contact."') and  exam=".$itype." limit 1";
+	  $query = $this->db->query($sql);
+	  if ($query->num_rows()>0) return $query->row()->eorder;  
+	}
+	
+	return 0;
+	
   }
   
   public function commit($id,$exdata) {
@@ -105,12 +128,34 @@ class Interview extends CI_Model {
 
     return TRUE;
   }
-  
-  // 选择用列表
-  public function select_list() {
-    $sql="select id,scode,name from shops order by scode";
-    $query = $this->db->query($sql);
-    return $query->result_array();
+
+  public function review_commit($id) {
+	$post=$this->input->post();
+	$contact=$post["contact"];
+	
+	$sql="select eorder from itvanswers where exam=".$id." and contact='".$contact."'";
+	$query = $this->db->query($sql);
+  	$sum=0;
+	if ($query->num_rows()>0) foreach($query->result_array() as $item){
+	  $eorder=$item["eorder"];
+	  $key="score_".$eorder;
+	  if (isset($post[$key])) {
+		$score=$post[$key];
+		$this->db->where(array("contact"=>$contact,"eorder"=>$eorder));
+		$this->db->update("itvanswers",array("score"=>$score)); 	  
+		$sum+=$score;
+	  }
+	}
+	
+
+	$data=array("flag"=>2,
+				"score"=>$sum,
+				);
+	
+	$this->db->where(array("contact"=>$contact,"itype"=>$id));
+	$this->db->update("itvusers",$data); 	  
+
+    return TRUE;
   }
   
  
