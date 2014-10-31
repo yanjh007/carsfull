@@ -1,5 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+define('ZM_URL_SPLIT_CHAR', ':');
+
 /*
 |--------------------------------------------------------------------------
 | File and Directory Modes
