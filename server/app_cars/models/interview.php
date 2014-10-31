@@ -39,7 +39,7 @@ class Interview extends CI_Model {
 	  $data=array("passwd"	=>$passwd,
 				  "contact" =>$contact,
 				  "name"	=>$uname,
-				  "flag"	=>0,
+				  "flag"	=>1,
 				  "itype"	=>$itype,
 				  "itime"	=>time()/60,
 				  "answer"	=>"",
@@ -75,11 +75,10 @@ class Interview extends CI_Model {
 	}
   }
   
-  
   // 审核
   public function get_review($exam,$user){
 	if ($exam==0) { //review列表
-	  $sql = "select contact,name,itype,itime,flag,score from itvusers where flag>=1 order by itime desc";
+	  $sql = "select contact,name,itype,itime,flag,score from itvusers where flag>=2 order by flag,itime desc";
 	  $query = $this->db->query($sql);
 	  return $query->result_array();	  
 	} else {
@@ -90,18 +89,26 @@ class Interview extends CI_Model {
 	}
   }
   
-  public function save($id,$exdata) { //id为eorder	
+  // 审核
+  public function get_status($exam,$user){
+	  $sql = "select flag,itime,score,answer from itvusers where itype=".$exam." and contact='".$user."'";
+	  $query = $this->db->query($sql);
+	  return $query->row_array();	  
+  }
+  
+  public function save($exdata) { //id为eorder	
 	$contact=$exdata["user"];
 	$itype	=$exdata["itype"];
 	$next	=$exdata["next"];
+	$eorder =$this->input->post("eorder");
 	
-	$sql="delete from itvanswers where contact='".$contact."' and exam=".$itype." and eorder=".$id;
+	$sql="delete from itvanswers where contact='".$contact."' and exam=".$itype." and eorder=".$eorder;
 	$this->db->query($sql); 
 	
     $data = array(
 		  'contact' => $contact,
 		  'exam'    => $itype,
-		  'eorder' 	=> $id,
+		  'eorder' 	=> $eorder,
 		  'answer' 	=> $this->input->post("answer"),
 		   );
 	
@@ -117,11 +124,11 @@ class Interview extends CI_Model {
 	
   }
   
-  public function commit($id,$exdata) {
+  public function commit($exdata) {
 	$contact=$exdata["user"];
 	$itype	=$exdata["itype"];
 
-	$data=array("flag"=>1);
+	$data=array("flag"=>2); //提交审核
 	
     $this->db->where(array("contact"=>$contact,"itype"=>$itype));
     $this->db->update("itvusers",$data); 
@@ -129,11 +136,14 @@ class Interview extends CI_Model {
     return TRUE;
   }
 
-  public function review_commit($id) {
+  public function review_commit() {
 	$post=$this->input->post();
-	$contact=$post["contact"];
 	
-	$sql="select eorder from itvanswers where exam=".$id." and contact='".$contact."'";
+	$contact=$post["contact"];
+	$itype  =$post["itype"];
+	$rnote  =$post["rnote"];
+	
+	$sql="select eorder from itvanswers where exam=".$itype." and contact='".$contact."'";
 	$query = $this->db->query($sql);
   	$sum=0;
 	if ($query->num_rows()>0) foreach($query->result_array() as $item){
@@ -146,17 +156,16 @@ class Interview extends CI_Model {
 		$sum+=$score;
 	  }
 	}
-	
 
-	$data=array("flag"=>2,
+	$data=array("flag"=>3, //已批复
 				"score"=>$sum,
+				"answer"=>$rnote,
 				);
 	
-	$this->db->where(array("contact"=>$contact,"itype"=>$id));
+	$this->db->where(array("contact"=>$contact,"itype"=>$itype));
 	$this->db->update("itvusers",$data); 	  
 
     return TRUE;
-  }
-  
+  } 
  
 }

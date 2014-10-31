@@ -30,7 +30,7 @@
 					
 					?></td>
 					<td align=right width=50>
-					  <?php echo anchor("interviews/".$item["eorder"]."/view",">>"); ?>
+					  <?php echo anchor("interviews/answer/".$item["eorder"],"答题"); ?>
 					</td>
 				  </tr>
 				<?php $i++; } ?>
@@ -41,26 +41,9 @@
 	</div>
 	
 	<?php
-		zm_btn_click("提交","submit()");
+		zm_btn_click("提交","do_submit()");
 	?>
-	
-	<script>
-		function submit() {
-			$.ajax({
-				type: "POST",
-				url:  "<?php echo base_url("interviews/0/commit"); ?>",
-				data:{},
-			})
-			.done(function( msg ) {
-				if (msg == "OK"){
-					document.location.href = "<?php echo base_url("interviews/") ?>";
-				} else {
-					alert( "处理错误:" + msg );
-				}
-			});
-		}
-		
-	</script>
+
 
 </div>
 

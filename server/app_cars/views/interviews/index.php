@@ -3,7 +3,11 @@
     <div class="row">
         <div class="col-md-8">
 		<?php
-			if(isset($status) && $status==1) echo "<div class='alert alert-info' role='alert'>联系方式和前期设置的密码不匹配，请重试或联系管理员</div>";	
+			if(isset($status)) {
+				if($status==0) echo "<div class='alert alert-info' role='alert'>已成功注销，请使用前面设定的联系方式和密码登录</div>";
+				if($status==1) echo "<div class='alert alert-info' role='alert'>联系方式和前期设置的密码不匹配，请重试或联系管理员</div>";
+				if($status==2) echo "<div class='alert alert-info' role='alert'>会话已过期，请重新登录</div>";
+			}
 		?>
 
 		<div class="panel panel-default">
@@ -17,11 +21,12 @@
 			</div>
 			<div class="panel-body">				
 				<?php
-					zm_form_open(1,'interviews/0/view');
+					zm_form_open(1,'');
+					zm_form_hidden("passwd","");
 					zm_form_select(1,"测试类别","itype",$itvlist);
 					zm_form_input(1,"姓 名","uname");
 					zm_form_input(1,"联系方式","contact");
-					zm_form_input(1,"密 码","passwd");
+					zm_form_input(1,"密 码","password","","password");
 					zm_btn_click("开 始","do_submit()");
 				?></form>
 			</div>	      
@@ -34,7 +39,7 @@
 <script  type="text/javascript">
   function do_submit(){
 	   var uname  =  $("input[name='uname']").val();
-	   var passwd =  $("input[name='passwd']").val();
+	   var passwd =  $("input[name='password']").val();
 	   var contact = $("input[name='contact']").val();
 
 	   //checking for blank fields
