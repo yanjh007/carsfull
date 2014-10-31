@@ -7,7 +7,8 @@
         <div class="panel-heading"><?php echo $item["content"] ?></div>
         <div class="panel-body">
             <?php
-                zm_form_open(0,"interviews/".$item["eorder"]."/save");
+                zm_form_open(0,"interviews/save");
+                zm_form_hidden("eorder",$item["eorder"]);
                 zm_form_hidden("gonext",0);
                 zm_form_textarea(0,"简 答","answer",isset($answer["answer"])?$answer["answer"]:"");
             ?>
@@ -17,7 +18,7 @@
                 <?php
                     zm_btn_submit("保 存");
                     zm_btn_click("保存->下一题","submit_next()");
-                    zm_btn_back("interviews/0/view");
+                    zm_btn_back("interviews/");
                 ?>
               </div>
             </div>

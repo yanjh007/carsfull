@@ -56,13 +56,14 @@ function zm_form_check($ftype,$title,$name,$list,$value="")
    $CI->load->view('_form/check',$form_data);   
 }
 
-function zm_form_input($ftype,$title,$name,$value="")
+function zm_form_input($ftype,$title,$name,$value="",$itype="text")
 {  
    $CI=&get_instance();
    $form_data["ftype"]    = $ftype;
    $form_data["title"] = $title;
    $form_data["name"]  = $name;
    $form_data["value"] = $value;
+   $form_data["itype"] = $itype;
 
    $CI->load->view('_form/input',$form_data);   
 }

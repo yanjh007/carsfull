@@ -16,7 +16,7 @@
       <ul class="nav navbar-nav">
         <?php
           if ($userrole>0) {
-            nav_menu(array("测试操作","主目录","sclasses","结果和反馈","smembers")); 
+            //nav_menu(array("测试操作","主目录","sclasses","结果和反馈","smembers")); 
           }
         ?> 
 
@@ -28,9 +28,9 @@
                            "","任务类型","tasktypes","任务组管理","taskgroups",
                            "","车系管理","carseries","型号管理","carmodels",
                            "","字典管理","dics","系统设置","settings"));
-                } else if ($userrole>=10) {
+                } else if ($userrole>=1) {
                   echo "<li class='dropdown'><a><div id='timer'></div></a></li>";
-                  nav_menu(array("当前用户:".$username,"用户设置","usersettings","通知信息","notifys","","注销","logout"));
+                  nav_menu(array("当前用户:".$username,"注销","interviews/logout"));
                 }
           ?>
       </ul>
@@ -38,7 +38,7 @@
   </div><!-- /.container-fluid -->
   </nav>
 
-<?php if ($userrole==10) { ?>  
+<?php if ($userrole==1) { ?>  
 <script>  
   function timer(time,update,complete) {
     var start = new Date().getTime();
@@ -52,15 +52,36 @@
     },100); // the smaller this number, the more accurate the timer will be
   }
   
-  timer(
-    600000, // milliseconds
+  timer(<?php echo $timeleft*60000; ?>, // milliseconds
     function(timeleft) { // called every step to update the visible countdown
-        document.getElementById('timer').innerHTML = "剩余时间: "+ Math.round(timeleft/60)+" 分";
+      var str = "剩余时间: ";
+      if (timeleft<120) {
+        str= str +timeleft+" 秒";
+      } else {
+        str = str + Math.round(timeleft/60)+" 分";        
+      }
+      document.getElementById('timer').innerHTML = str;
     },
     function() { // what to do after
         alert("时间到!!");
+        do_submit();
     }
   );
+  
+  function do_submit() {
+      $.ajax({
+          type: "POST",
+          url:  "<?php echo base_url("interviews/commit"); ?>",
+          data:{},
+      })
+      .done(function( msg ) {
+          if (msg == "OK"){
+              document.location.href = "<?php echo base_url("interviews/") ?>";
+          } else {
+              alert( "处理错误:" + msg );
+          }
+      });
+  }
 
 </script>
 

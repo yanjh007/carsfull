@@ -17,7 +17,8 @@ $route['404_override'] = '';
 $route['([a-z]+s)'] = '$1';
 $route['([a-z]+s)/(:num)/([a-z_0-9]+)'] = '$1/$3/$2'; 
 $route['([a-z]+s)/(:num)'] = '$1/view/$2';
-$route['([a-z]+s)/(([a-z]+s))'] = '$1/$2'; //save，link, action
+$route['([a-z]+s)/([a-z])'] = '$1/$2'; //controller/action
+$route['([a-z]+s)/([a-z])/([a-z])'] = '$1/$2/$3'; // controller/action/params
 
 /*
 | -------------------------------------------------------------------------

@@ -11,7 +11,7 @@
  Target Server Version : 50620
  File Encoding         : utf-8
 
- Date: 10/30/2014 16:47:48 PM
+ Date: 10/31/2014 17:04:18 PM
 */
 
 SET NAMES utf8;
@@ -187,7 +187,7 @@ CREATE TABLE `ci_sessions` (
 --  Records of `ci_sessions`
 -- ----------------------------
 BEGIN;
-INSERT INTO `ci_sessions` VALUES ('de161ba833e2d710491db8439c1ea5c2', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.25 (KHTML, like Gecko) Version/8.0 Safari/600.1.25', '1414653454', 'a:5:{s:9:\"user_data\";s:0:\"\";s:8:\"itv_user\";s:11:\"13808077242\";s:12:\"itv_username\";s:9:\"颜建华\";s:8:\"itv_type\";s:2:\"11\";s:12:\"itv_userrole\";i:100;}');
+INSERT INTO `ci_sessions` VALUES ('10d2ba0f44a5a555241459b61a2e19e0', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.25 (KHTML, like Gecko) Version/8.0 Safari/600.1.25', '1414735850', 'a:5:{s:9:\"user_data\";s:0:\"\";s:12:\"itv_username\";s:9:\"颜建华\";s:12:\"itv_userrole\";i:100;s:8:\"itv_type\";s:2:\"11\";s:12:\"itv_timeleft\";d:-2620;}'), ('9bcbd51de15cc568b69d54f9c1fcc325', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:23.0) Gecko/20100101 Firefox/23.0', '1414739911', 'a:6:{s:9:\"user_data\";s:0:\"\";s:12:\"itv_username\";s:6:\"萧峰\";s:12:\"itv_userrole\";i:2;s:8:\"itv_type\";s:2:\"11\";s:12:\"itv_timeleft\";d:48;s:8:\"itv_user\";s:3:\"138\";}');
 COMMIT;
 
 -- ----------------------------
@@ -330,7 +330,7 @@ CREATE TABLE `itvanswers` (
 --  Records of `itvanswers`
 -- ----------------------------
 BEGIN;
-INSERT INTO `itvanswers` VALUES ('13808077242', '11', '3', '编译平台、硬件限制、部分特殊API', '8', null, null), ('13808077242', '11', '9', 'M-模型，V-视图，C-控制器，解耦，模块化。', '8', null, null), ('13808077242', '11', '7', '自动引用计数，减少程序员手工管理内存造成的工作量和出错概率。\n需要对响应的文件指定不使用ARC的编译标记。', '7', null, null), ('13808077242', '11', '1', 'Mac OS X, Xcode，Simulator，Organizer...', '10', null, null), ('13808077242', '11', '2', '语言(Ojb-C vs HTML5)，开发、测试和运行环境', '8', null, null), ('13808077242', '11', '6', '错误调用类方法，如NSArray, NSDirectionay..\nNull Delegate\nSQL 语法错误', '0', null, null), ('13800138000', '11', '3', '区别不大', null, null, null), ('13800138000', '11', '11', '网络访问，数据库操作', null, null, null), ('13880735908', '11', '9', 'M-模型，V-视图', null, null, null), ('13880735908', '11', '1', 'Mac OS X, Xcode, Safari', null, null, null);
+INSERT INTO `itvanswers` VALUES ('13808077242', '11', '3', '编译平台、硬件限制、部分特殊API', '8', null, null), ('13808077242', '11', '9', 'M-模型，V-视图，C-控制器，解耦，模块化。', '8', null, null), ('13808077242', '11', '7', '自动引用计数，减少程序员手工管理内存造成的工作量和出错概率。\n需要对响应的文件指定不使用ARC的编译标记。', '7', null, null), ('13808077242', '11', '1', 'Mac OS X, Xcode，Simulator，Organizer...', '6', null, null), ('13808077242', '11', '2', '语言(Ojb-C vs HTML5)，开发、测试和运行环境', '8', null, null), ('13808077242', '11', '6', '错误调用类方法，如NSArray, NSDirectionay..\nNull Delegate\nSQL 语法错误', '0', null, null), ('13800138000', '11', '3', '区别不大', null, null, null), ('13800138000', '11', '11', '网络访问，数据库操作', '0', null, null), ('13880735908', '11', '9', 'M-模型，V-视图', null, null, null), ('13880735908', '11', '1', 'Mac OS X, Xcode, Safari', null, null, null), ('13800138000', '12', '11', '客户端和服务器都保存摘要密码，传输可变密码编码', '0', null, null), ('13800138000', '12', '2', '基本机制和语法还是使用Java，也使用Java的开发工具，Delvik虚拟机，部分框架和类库，增加Android相关类库\n', '6', null, null), ('13800138000', '12', '5', 'Relative Layout,根据不同的屏幕加载不同的布局文件。', '10', null, null), ('13800138000', '12', '21', '华为P7，Android4.4，2G ,海思处理器', '0', null, null), ('138', '11', '18', 'URL中和RequestBody，长度限制不同，重复提交处理不同', '0', null, null), ('138', '11', '1', 'Mac OS X,Xcode,git,simulator', '0', null, null), ('138', '11', '10', 'NSConnection,', '0', null, null);
 COMMIT;
 
 -- ----------------------------
@@ -361,18 +361,18 @@ CREATE TABLE `itvusers` (
   `contact` varchar(20) NOT NULL DEFAULT '0',
   `name` varchar(20) NOT NULL DEFAULT '0',
   `answer` varchar(255) DEFAULT NULL,
-  `flag` int(11) DEFAULT '0',
+  `flag` int(11) DEFAULT '1' COMMENT '0 未登录 1-答题中 2-已提交 3-已批复 100-管理员',
   `passwd` varchar(80) NOT NULL,
   `itype` int(11) DEFAULT NULL,
   `itime` int(11) DEFAULT NULL,
-  `score` int(11) DEFAULT NULL
+  `score` int(11) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `itvusers`
 -- ----------------------------
 BEGIN;
-INSERT INTO `itvusers` VALUES ('13808077242', '颜建华', '', '2', '8db1b26f628cddbccb4df5f4530bf853fdca99ea', '11', '23576079', '41'), ('13800138000', '我好', '', '0', 'aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d', '11', '23576191', null), ('13880735908', '周琪', '', '0', 'b36f65522800e2a1bf080d588d79db4c85dc9a62', '11', '23577180', null);
+INSERT INTO `itvusers` VALUES ('13808077242', '颜建华', '', '3', '8db1b26f628cddbccb4df5f4530bf853fdca99ea', '11', '23576079', '37'), ('13800138000', '古定超', '很不错', '2', '75e0ed0ae9bc5a3c3c710495a0308691bf37c9c5', '12', '23578666', '16'), ('138', '萧峰', '', '2', 'ce4f5a7fcafe7ef514b5f60a44e9e32a398429be', '11', '23578920', '0');
 COMMIT;
 
 -- ----------------------------
